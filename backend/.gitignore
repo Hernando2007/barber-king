@@ -1,7 +1,17 @@
-node_modules/
+# Node.js
+backend/node_modules/
+backend/.env
 
-.env
+# Flutter
+frontend/.dart_tool/
+frontend/build/
+frontend/.packages
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
 
-uploads/
+# VS Code
+.vscode/
 
-package-lock.json
+# Archivos del sistema
+.DS_Store
+Thumbs.db
