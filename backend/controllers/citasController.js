@@ -6,9 +6,6 @@ import {
     borrarCita
 } from "../services/citasService.js";
 
-/* ===========================================
-   CREAR CITA
-=========================================== */
 
 export const crearCita = async (req, res, next) => {
 
@@ -28,9 +25,6 @@ export const crearCita = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   LISTAR TODAS
-=========================================== */
 
 export const obtenerTodas = async (req, res, next) => {
 
@@ -50,9 +44,6 @@ export const obtenerTodas = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   OBTENER POR ID
-=========================================== */
 
 export const obtenerPorId = async (req, res, next) => {
 
@@ -71,9 +62,6 @@ export const obtenerPorId = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR
-=========================================== */
 
 export const actualizar = async (req, res, next) => {
 
@@ -96,9 +84,6 @@ export const actualizar = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   ELIMINAR
-=========================================== */
 
 export const eliminar = async (req, res, next) => {
 

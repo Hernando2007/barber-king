@@ -8,9 +8,6 @@ import {
     eliminarCita
 } from "../models/citasModel.js";
 
-/* ===========================================
-   REGISTRAR CITA
-=========================================== */
 
 export const registrarCita = async (datos) => {
 
@@ -91,9 +88,6 @@ export const registrarCita = async (datos) => {
 
 };
 
-/* ===========================================
-   LISTAR TODAS LAS CITAS
-=========================================== */
 
 export const obtenerTodasLasCitas = async () => {
 
@@ -107,9 +101,6 @@ export const obtenerTodasLasCitas = async () => {
 
 };
 
-/* ===========================================
-   OBTENER CITA POR ID
-=========================================== */
 
 export const obtenerUnaCita = async (id) => {
 
@@ -123,9 +114,6 @@ export const obtenerUnaCita = async (id) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR CITA
-=========================================== */
 
 export const editarCita = async (id, datos) => {
 
@@ -139,9 +127,6 @@ export const editarCita = async (id, datos) => {
 
 };
 
-/* ===========================================
-   ELIMINAR CITA
-=========================================== */
 
 export const borrarCita = async (id) => {
 

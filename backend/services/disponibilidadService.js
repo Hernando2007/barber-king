@@ -14,9 +14,6 @@ export const obtenerDisponibilidad = async (
     fecha
 ) => {
 
-    // ==========================================
-    // Obtener día de la semana correctamente
-    // ==========================================
 
     const [anio, mes, dia] = fecha.split("-").map(Number);
 
@@ -29,9 +26,6 @@ export const obtenerDisponibilidad = async (
     console.log("Día:", diaSemana);
     console.log("=================================");
 
-    // ==========================================
-    // Horario del barbero
-    // ==========================================
 
     const { data: horario, error: errorHorario } =
         await obtenerHorarioBarbero(barberoId, diaSemana);
@@ -44,9 +38,6 @@ export const obtenerDisponibilidad = async (
         throw new Error("El barbero no trabaja ese día.");
     }
 
-    // ==========================================
-    // Servicio
-    // ==========================================
 
     const { data: servicio, error: errorServicio } =
         await obtenerServicio(servicioId);
@@ -59,9 +50,6 @@ export const obtenerDisponibilidad = async (
         throw new Error("Servicio no encontrado.");
     }
 
-    // ==========================================
-    // Citas del día
-    // ==========================================
 
     const { data: citas, error: errorCitas } =
         await obtenerCitas(barberoId, fecha);
@@ -70,19 +58,12 @@ export const obtenerDisponibilidad = async (
         throw new Error(errorCitas.message);
     }
 
-    // ==========================================
-    // Generar bloques de tiempo
-    // ==========================================
-
     let bloques = generarBloques(
         horario.hora_inicio,
         horario.hora_fin,
         servicio.duracion
     );
 
-    // ==========================================
-    // Eliminar horas ocupadas
-    // ==========================================
 
     if (citas && citas.length > 0) {
 

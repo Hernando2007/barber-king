@@ -1,8 +1,6 @@
 import supabase from "../config/supabase.js";
 
-/* ===========================================
-   LISTAR BARBEROS
-=========================================== */
+
 
 export const obtenerBarberos = async () => {
 
@@ -23,9 +21,6 @@ export const obtenerBarberos = async () => {
 
 };
 
-/* ===========================================
-   OBTENER POR ID
-=========================================== */
 
 export const obtenerBarberoPorId = async (id) => {
 
@@ -47,9 +42,6 @@ export const obtenerBarberoPorId = async (id) => {
 
 };
 
-/* ===========================================
-   CREAR
-=========================================== */
 
 export const crearBarbero = async (datos) => {
 
@@ -61,9 +53,6 @@ export const crearBarbero = async (datos) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR
-=========================================== */
 
 export const actualizarBarbero = async (id, datos) => {
 
@@ -76,9 +65,6 @@ export const actualizarBarbero = async (id, datos) => {
 
 };
 
-/* ===========================================
-   ELIMINAR
-=========================================== */
 
 export const eliminarBarbero = async (id) => {
 

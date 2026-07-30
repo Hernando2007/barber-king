@@ -1,8 +1,5 @@
 import supabase from "../config/supabase.js";
 
-/* ===============================
-HORARIOS
-=============================== */
 
 export const obtenerHorarioBarbero = async (barberoId, diaSemana) => {
 
@@ -15,9 +12,6 @@ export const obtenerHorarioBarbero = async (barberoId, diaSemana) => {
 
 };
 
-/* ===============================
-SERVICIO
-=============================== */
 
 export const obtenerServicio = async (servicioId) => {
 
@@ -29,9 +23,6 @@ export const obtenerServicio = async (servicioId) => {
 
 };
 
-/* ===============================
-CITAS
-=============================== */
 
 export const obtenerCitas = async (barberoId, fecha) => {
 
@@ -69,9 +60,6 @@ export const buscarCitaExistente = async (
 
 };
 
-/* ===============================
-CRUD
-=============================== */
 
 export const listarCitas = async () => {
 

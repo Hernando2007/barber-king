@@ -10,9 +10,6 @@ import {
 
 const router = express.Router();
 
-/* ===========================================
-   CRUD BARBEROS
-=========================================== */
 
 router.get("/", obtenerTodos);
 

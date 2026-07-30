@@ -12,9 +12,7 @@ class BarberKingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-
       debugShowCheckedModeBanner: false,
 
       title: "Barber King",
@@ -24,9 +22,6 @@ class BarberKingApp extends StatelessWidget {
       initialRoute: AppRoutes.splash,
 
       routes: AppRoutes.routes,
-
     );
-
   }
-
 }

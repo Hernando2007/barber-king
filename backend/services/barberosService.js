@@ -6,9 +6,6 @@ import {
     eliminarBarbero
 } from "../models/barberosModel.js";
 
-/* ===========================================
-   LISTAR TODOS
-=========================================== */
 
 export const listarBarberos = async () => {
 
@@ -22,9 +19,6 @@ export const listarBarberos = async () => {
 
 };
 
-/* ===========================================
-   OBTENER POR ID
-=========================================== */
 
 export const obtenerUno = async (id) => {
 
@@ -38,9 +32,6 @@ export const obtenerUno = async (id) => {
 
 };
 
-/* ===========================================
-   CREAR
-=========================================== */
 
 export const registrarBarbero = async (datos) => {
 
@@ -74,9 +65,6 @@ export const registrarBarbero = async (datos) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR
-=========================================== */
 
 export const editarBarbero = async (id, datos) => {
 
@@ -90,9 +78,6 @@ export const editarBarbero = async (id, datos) => {
 
 };
 
-/* ===========================================
-   ELIMINAR
-=========================================== */
 
 export const borrarBarbero = async (id) => {
 

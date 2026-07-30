@@ -6,9 +6,6 @@ import {
     borrarBarbero
 } from "../services/barberosService.js";
 
-/* ===========================================
-   LISTAR BARBEROS
-=========================================== */
 
 export const obtenerTodos = async (req, res, next) => {
 
@@ -28,9 +25,6 @@ export const obtenerTodos = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   OBTENER BARBERO POR ID
-=========================================== */
 
 export const obtenerPorId = async (req, res, next) => {
 
@@ -49,9 +43,6 @@ export const obtenerPorId = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   CREAR BARBERO
-=========================================== */
 
 export const crear = async (req, res, next) => {
 
@@ -71,9 +62,6 @@ export const crear = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR BARBERO
-=========================================== */
 
 export const actualizar = async (req, res, next) => {
 
@@ -96,9 +84,6 @@ export const actualizar = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   ELIMINAR BARBERO
-=========================================== */
 
 export const eliminar = async (req, res, next) => {
 

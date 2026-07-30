@@ -6,9 +6,6 @@ import {
     borrarServicio
 } from "../services/serviciosService.js";
 
-/* ===========================================
-   LISTAR SERVICIOS
-=========================================== */
 
 export const obtenerTodos = async (req, res, next) => {
 
@@ -28,9 +25,6 @@ export const obtenerTodos = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   OBTENER SERVICIO POR ID
-=========================================== */
 
 export const obtenerPorId = async (req, res, next) => {
 
@@ -49,9 +43,6 @@ export const obtenerPorId = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   CREAR SERVICIO
-=========================================== */
 
 export const crear = async (req, res, next) => {
 
@@ -71,9 +62,6 @@ export const crear = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR SERVICIO
-=========================================== */
 
 export const actualizar = async (req, res, next) => {
 
@@ -96,9 +84,6 @@ export const actualizar = async (req, res, next) => {
 
 };
 
-/* ===========================================
-   ELIMINAR SERVICIO
-=========================================== */
 
 export const eliminar = async (req, res, next) => {
 

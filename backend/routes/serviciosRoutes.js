@@ -13,17 +13,12 @@ import { verificarRol } from "../middlewares/roleMiddleware.js";
 
 const router = express.Router();
 
-/* ===========================================
-   RUTAS PÚBLICAS
-=========================================== */
+
 
 router.get("/", obtenerTodos);
 
 router.get("/:id", obtenerPorId);
 
-/* ===========================================
-   SOLO ADMINISTRADOR
-=========================================== */
 
 router.post(
     "/",

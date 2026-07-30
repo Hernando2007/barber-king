@@ -1,8 +1,6 @@
 import supabase from "../config/supabase.js";
 
-/* ===========================================
-   LISTAR SERVICIOS
-=========================================== */
+
 
 export const obtenerServicios = async () => {
 
@@ -13,9 +11,6 @@ export const obtenerServicios = async () => {
 
 };
 
-/* ===========================================
-   OBTENER POR ID
-=========================================== */
 
 export const obtenerServicioPorId = async (id) => {
 
@@ -27,9 +22,6 @@ export const obtenerServicioPorId = async (id) => {
 
 };
 
-/* ===========================================
-   CREAR
-=========================================== */
 
 export const crearServicio = async (datos) => {
 
@@ -41,9 +33,6 @@ export const crearServicio = async (datos) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR
-=========================================== */
 
 export const actualizarServicio = async (id, datos) => {
 
@@ -56,9 +45,6 @@ export const actualizarServicio = async (id, datos) => {
 
 };
 
-/* ===========================================
-   ELIMINAR
-=========================================== */
 
 export const eliminarServicio = async (id) => {
 

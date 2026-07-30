@@ -10,9 +10,6 @@ import {
 
 const router = express.Router();
 
-/* ===========================================
-   CRUD DE CITAS
-=========================================== */
 
 // Crear
 router.post("/", crearCita);

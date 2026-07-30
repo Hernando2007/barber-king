@@ -6,9 +6,6 @@ import {
     eliminarServicio
 } from "../models/serviciosModel.js";
 
-/* ===========================================
-   LISTAR
-=========================================== */
 
 export const listarServicios = async () => {
 
@@ -20,9 +17,6 @@ export const listarServicios = async () => {
 
 };
 
-/* ===========================================
-   OBTENER UNO
-=========================================== */
 
 export const obtenerUno = async (id) => {
 
@@ -33,10 +27,6 @@ export const obtenerUno = async (id) => {
     return data;
 
 };
-
-/* ===========================================
-   CREAR
-=========================================== */
 
 export const registrarServicio = async (datos) => {
 
@@ -72,9 +62,6 @@ export const registrarServicio = async (datos) => {
 
 };
 
-/* ===========================================
-   ACTUALIZAR
-=========================================== */
 
 export const editarServicio = async (id, datos) => {
 
@@ -87,9 +74,6 @@ export const editarServicio = async (id, datos) => {
 
 };
 
-/* ===========================================
-   ELIMINAR
-=========================================== */
 
 export const borrarServicio = async (id) => {
 

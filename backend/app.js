@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import helmet from "helmet";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
 
 // Swagger
 import swaggerUi from "swagger-ui-express";
@@ -18,25 +21,38 @@ import citasRoutes from "./routes/citasRoutes.js";
 import barberosRoutes from "./routes/barberosRoutes.js";
 import serviciosRoutes from "./routes/serviciosRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import resenasRoutes from "./routes/resenasRoutes.js";
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/* ===========================================
-   MIDDLEWARES
-=========================================== */
 
 app.use(cors());
 
+// Seguridad HTTP
+app.use(helmet());
+
+// Logs de las peticiones
+app.use(morgan("dev"));
+
+// Límite de peticiones
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100,
+    message: {
+        success: false,
+        message: "Demasiadas peticiones. Inténtalo nuevamente en unos minutos."
+    }
+}));
+
+// Lectura de JSON
 app.use(express.json());
 
+// Lectura de formularios
 app.use(express.urlencoded({ extended: true }));
 
-/* ===========================================
-   RUTA PRINCIPAL
-=========================================== */
 
 app.get("/", (req, res) => {
 
@@ -49,9 +65,6 @@ app.get("/", (req, res) => {
 
 });
 
-/* ===========================================
-   SWAGGER
-=========================================== */
 
 app.use(
     "/api-docs",
@@ -59,9 +72,6 @@ app.use(
     swaggerUi.setup(swaggerSpec)
 );
 
-/* ===========================================
-   RUTAS
-=========================================== */
 
 // Auth
 app.use("/api/auth", authRoutes);
@@ -85,9 +95,16 @@ app.use("/api/servicios", serviciosRoutes);
 
 app.use("/api/uploads", uploadRoutes);
 
-/* ===========================================
-   RUTA NO ENCONTRADA
-=========================================== */
+// Reseñas
+app.use("/api/resenas", resenasRoutes);
+
+// Swagger
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec)
+);
+
 
 app.use(
     "/uploads",
@@ -103,9 +120,6 @@ app.use((req, res) => {
 
 });
 
-/* ===========================================
-   MANEJO DE ERRORES
-=========================================== */
 
 app.use(errorHandler);
 
