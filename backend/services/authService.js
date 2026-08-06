@@ -8,17 +8,14 @@ import {
 
 export const registrarUsuario = async (usuario) => {
 
-    // Verificar si el correo ya existe
     const { data: existe } = await buscarPorCorreo(usuario.correo);
 
     if (existe) {
         throw new Error("El correo ya está registrado.");
     }
 
-    // Encriptar contraseña
     usuario.password = await bcrypt.hash(usuario.password, 10);
 
-    // Crear usuario
     const { data, error } = await crearUsuario(usuario);
 
     if (error) {
@@ -29,18 +26,33 @@ export const registrarUsuario = async (usuario) => {
 
 };
 
-export const iniciarSesion = async ({ correo, password }) => {
+export const iniciarSesion = async (datos) => {
+
+    const correo = datos.correo;
+    const password = datos.password || datos.contrasena;
+
+    console.log("=================================");
+    console.log("Correo recibido:", correo);
+    console.log("Password recibida:", password);
 
     const { data: usuario, error } = await buscarPorCorreo(correo);
+
+    console.log("Usuario encontrado:", usuario);
+    console.log("Error Supabase:", error);
 
     if (error || !usuario) {
         throw new Error("Correo o contraseña incorrectos.");
     }
 
+    console.log("Password BD:", usuario.password);
+
     const coincide = await bcrypt.compare(
         password,
         usuario.password
     );
+
+    console.log("¿Coincide?:", coincide);
+    console.log("=================================");
 
     if (!coincide) {
         throw new Error("Correo o contraseña incorrectos.");
@@ -61,5 +73,4 @@ export const iniciarSesion = async ({ correo, password }) => {
         token,
         usuario
     };
-
 };

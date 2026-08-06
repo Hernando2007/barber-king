@@ -32,10 +32,11 @@ export const login = async (req, res) => {
 
         const resultado = await iniciarSesion(req.body);
 
-        res.json({
+        res.status(200).json({
             success: true,
             message: "Inicio de sesión exitoso.",
-            data: resultado
+            token: resultado.token,
+            usuario: resultado.usuario
         });
 
     } catch (error) {

@@ -1,59 +1,72 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'api_service.dart';
 
 class AuthService {
+  final ApiService _api = ApiService();
 
-  final ApiService api = ApiService();
-
-  final FlutterSecureStorage storage =
+  final FlutterSecureStorage _storage =
       const FlutterSecureStorage();
 
-  Future<bool> login(
-
-      String correo,
-      String password
-
-      ) async {
-
+  Future<Map<String, dynamic>> login({
+    required String correo,
+    required String contrasena,
+  }) async {
     try {
-
-      final response = await api.dio.post(
-
+      final response = await _api.dio.post(
         "/auth/login",
-
         data: {
-
           "correo": correo,
-
-          "password": password
-
+          "password": contrasena,
         },
-
       );
 
-      if (response.data["success"] == true) {
+      final data = response.data;
 
-        await storage.write(
-
+      if (data["success"] == true) {
+        await _storage.write(
           key: "token",
-
-          value: response.data["token"],
-
+          value: data["token"],
         );
 
-        return true;
-
+        await _storage.write(
+          key: "usuario",
+          value: jsonEncode(data["usuario"]),
+        );
       }
 
-      return false;
-
+      return data;
+    } on DioException catch (e) {
+      return {
+        "success": false,
+        "message":
+            e.response?.data["message"] ??
+            "Error de conexión con el servidor.",
+      };
     } catch (e) {
-
-      return false;
-
+      return {
+        "success": false,
+        "message": e.toString(),
+      };
     }
-
   }
 
+  Future<Map<String, dynamic>?> obtenerUsuario() async {
+    final usuario = await _storage.read(key: "usuario");
+
+    if (usuario == null) return null;
+
+    return jsonDecode(usuario);
+  }
+
+  Future<String?> obtenerToken() async {
+    return await _storage.read(key: "token");
+  }
+
+  Future<void> cerrarSesion() async {
+    await _storage.deleteAll();
+  }
 }
