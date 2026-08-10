@@ -2,26 +2,76 @@ import 'package:flutter/material.dart';
 
 import 'core/theme.dart';
 import 'routes/app_routes.dart';
+import 'services/deep_link_service.dart';
 
 void main() {
-  runApp(const BarberKingApp());
+  runApp(
+    const BarberKingApp(),
+  );
 }
 
-class BarberKingApp extends StatelessWidget {
-  const BarberKingApp({super.key});
+class BarberKingApp extends StatefulWidget {
+  const BarberKingApp({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  State<BarberKingApp> createState() =>
+      _BarberKingAppState();
+}
+
+class _BarberKingAppState
+    extends State<BarberKingApp> {
+
+  final DeepLinkService deepLinkService =
+      DeepLinkService();
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    WidgetsBinding.instance
+        .addPostFrameCallback(
+      (_) {
+
+        deepLinkService.iniciar(
+          context,
+        );
+
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+
+    deepLinkService.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
 
-      title: "Barber King",
+      debugShowCheckedModeBanner:
+          false,
 
-      theme: AppTheme.darkTheme,
+      title:
+          "Barber King",
 
-      initialRoute: AppRoutes.splash,
+      theme:
+          AppTheme.darkTheme,
 
-      routes: AppRoutes.routes,
+      initialRoute:
+          AppRoutes.splash,
+
+      routes:
+          AppRoutes.routes,
     );
   }
 }

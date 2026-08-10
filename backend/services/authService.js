@@ -144,7 +144,7 @@ export const solicitarRecuperacion = async (
 
     // Enlace que llegará al correo
     const enlace =
-        `http://192.168.100.165:3000/api/auth/reset-password?token=${token}`;
+    `barberking://reset-password?token=${token}`;
 
     // Enviar correo
     await enviarCorreoRecuperacion(
