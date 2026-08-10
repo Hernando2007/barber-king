@@ -1,12 +1,65 @@
 import express from "express";
+
 import {
     registrar,
-    login
+    login,
+    forgotPassword,
+    resetPassword,
+    mostrarResetPassword
 } from "../controllers/authController.js";
 
-const router = express.Router();
+const router =
+    express.Router();
 
-router.post("/registro", registrar);
-router.post("/login", login);
+
+ 
+// REGISTRO
+ 
+
+router.post(
+    "/registro",
+    registrar
+);
+
+
+ 
+// LOGIN
+ 
+
+router.post(
+    "/login",
+    login
+);
+
+
+ 
+// SOLICITAR RECUPERACIÓN
+ 
+
+router.post(
+    "/forgot-password",
+    forgotPassword
+);
+
+
+ 
+// MOSTRAR FORMULARIO DE RECUPERACIÓN
+ 
+
+router.get(
+    "/reset-password",
+    mostrarResetPassword
+);
+
+
+ 
+// CAMBIAR CONTRASEÑA
+ 
+
+router.post(
+    "/reset-password",
+    resetPassword
+);
+
 
 export default router;

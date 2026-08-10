@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../services/auth_service.dart';
 import '../home/home_screen.dart';
+import '../auth/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,11 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController correoController =
-      TextEditingController();
+  final TextEditingController correoController = TextEditingController();
 
-  final TextEditingController passwordController =
-      TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   final AuthService authService = AuthService();
 
@@ -24,41 +23,29 @@ class _LoginScreenState extends State<LoginScreen> {
   bool cargando = false;
 
   Future<void> iniciarSesion() async {
-
-  final respuesta = await authService.login(
-    correo: correoController.text.trim(),
-    contrasena: passwordController.text.trim(),
-  );
-
-  print(respuesta);
-
-  if (!mounted) return;
-
-  if (respuesta["success"] == true) {
-
-    print("LOGIN CORRECTO");
-
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const HomeScreen(),
-      ),
+    final respuesta = await authService.login(
+      correo: correoController.text.trim(),
+      contrasena: passwordController.text.trim(),
     );
 
-    print("VOLVÍ DEL HOME");
+    print(respuesta);
 
-  } else {
+    if (!mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          respuesta["message"],
-        ),
-      ),
-    );
+    if (respuesta["success"] == true) {
+      print("LOGIN CORRECTO");
 
+      await Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const HomeScreen()));
+
+      print("VOLVÍ DEL HOME");
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(respuesta["message"])));
+    }
   }
-
-}
 
   @override
   void dispose() {
@@ -69,28 +56,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor: AppColors.background,
 
       body: SafeArea(
-
         child: SingleChildScrollView(
-
           padding: const EdgeInsets.all(25),
 
           child: Column(
-
             children: [
-
               const SizedBox(height: 40),
 
-              const Icon(
-                Icons.content_cut,
-                color: AppColors.primary,
-                size: 90,
-              ),
+              const Icon(Icons.content_cut, color: AppColors.primary, size: 90),
 
               const SizedBox(height: 25),
 
@@ -108,9 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const Text(
                 "Bienvenido nuevamente",
-                style: TextStyle(
-                  color: Colors.white70,
-                ),
+                style: TextStyle(color: Colors.white70),
               ),
 
               const SizedBox(height: 45),
@@ -134,9 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      ocultarPassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                      ocultarPassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
                       setState(() {
@@ -153,19 +126,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: cargando
-                      ? null
-                      : iniciarSesion,
+                  onPressed: cargando ? null : iniciarSesion,
                   child: cargando
-                      ? const CircularProgressIndicator(
-                          color: Colors.black,
-                        )
+                      ? const CircularProgressIndicator(color: Colors.black)
                       : const Text(
                           "INICIAR SESIÓN",
                           style: TextStyle(
                             fontSize: 18,
-                            fontWeight:
-                                FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                 ),
@@ -174,25 +142,22 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
 
               TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "¿No tienes cuenta? Regístrate",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                  ),
-                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+
+                    MaterialPageRoute(
+                      builder: (_) => const ForgotPasswordScreen(),
+                    ),
+                  );
+                },
+
+                child: const Text("¿Olvidaste tu contraseña?"),
               ),
-
             ],
-
           ),
-
         ),
-
       ),
-
     );
-
   }
-
 }

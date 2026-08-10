@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!mounted) return;
 
     setState(() {
-      usuario = data;
+      usuario = data as Map<String, dynamic>?;
     });
   }
 
