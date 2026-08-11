@@ -143,5 +143,7 @@ class AuthService {
     return "Error de conexión con el servidor.";
   }
 
-  Future<Object?> obtenerUsuario() async {}
+  Future<Object?> obtenerUsuario() async {
+    return null;
+  }
 }
