@@ -44,11 +44,7 @@ class _ResetPasswordScreenState
 
     super.dispose();
   }
-
-  // =========================================================
   // CAMBIAR CONTRASEÑA
-  // =========================================================
-
   Future<void> cambiarPassword() async {
 
     final password =

@@ -11,18 +11,12 @@ class DeepLinkService {
 
   StreamSubscription<Uri>? _subscription;
 
-  // =========================================================
   // INICIAR
-  // =========================================================
 
   Future<void> iniciar(
     BuildContext context,
   ) async {
-
-    // -------------------------------------------------------
     // ENLACE CUANDO LA APP ESTÁ CERRADA
-    // -------------------------------------------------------
-
     try {
 
       final Uri? uri =
@@ -43,11 +37,7 @@ class DeepLinkService {
       );
     }
 
-
-    // -------------------------------------------------------
     // ENLACE CUANDO LA APP YA ESTÁ ABIERTA
-    // -------------------------------------------------------
-
     _subscription =
         _appLinks.uriLinkStream.listen(
       (Uri uri) {
@@ -69,9 +59,7 @@ class DeepLinkService {
   }
 
 
-  // =========================================================
   // PROCESAR ENLACE
-  // =========================================================
 
   void _procesarEnlace(
     BuildContext context,
@@ -150,9 +138,7 @@ class DeepLinkService {
   }
 
 
-  // =========================================================
   // CERRAR
-  // =========================================================
 
   void dispose() {
 

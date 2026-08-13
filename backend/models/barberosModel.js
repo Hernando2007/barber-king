@@ -1,7 +1,5 @@
 import supabase from "../config/supabase.js";
 
-
-
 export const obtenerBarberos = async () => {
 
     return await supabase

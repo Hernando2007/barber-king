@@ -14,9 +14,7 @@ import {
 import { enviarCorreoRecuperacion } from "./emailService.js";
 
 
-// =====================================================
 // REGISTRO
-// =====================================================
 
 export const registrarUsuario = async (usuario) => {
 
@@ -45,10 +43,7 @@ export const registrarUsuario = async (usuario) => {
     return data;
 };
 
-
-// =====================================================
 // LOGIN
-// =====================================================
 
 export const iniciarSesion = async ({
     correo,
@@ -97,9 +92,7 @@ export const iniciarSesion = async ({
 };
 
 
-// =====================================================
 // SOLICITAR RECUPERACIÓN
-// =====================================================
 
 export const solicitarRecuperacion = async (
     correo
@@ -156,9 +149,7 @@ export const solicitarRecuperacion = async (
 };
 
 
-// =====================================================
 // CAMBIAR CONTRASEÑA
-// =====================================================
 
 export const cambiarPassword = async (
     token,

@@ -1,6 +1,5 @@
 import supabase from "../config/supabase.js";
 
-
 export const obtenerHorarioBarbero = async (barberoId, diaSemana) => {
 
     return await supabase

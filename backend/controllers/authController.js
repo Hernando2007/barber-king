@@ -5,10 +5,7 @@ import {
     cambiarPassword
 } from "../services/authService.js";
 
-
-
 // REGISTRO
-
 
 export const registrar = async (
     req,
@@ -39,10 +36,7 @@ export const registrar = async (
     }
 };
 
-
-
 // LOGIN
-
 
 export const login = async (
     req,
@@ -74,10 +68,7 @@ export const login = async (
     }
 };
 
-
-
 // SOLICITAR RECUPERACIÓN
-
 
 export const forgotPassword = async (
     req,
@@ -119,10 +110,7 @@ export const forgotPassword = async (
     }
 };
 
-
-
 // MOSTRAR PÁGINA DE CAMBIO DE CONTRASEÑA
-
 
 export const mostrarResetPassword = async (
     req,

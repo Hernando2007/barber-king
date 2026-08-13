@@ -29,11 +29,7 @@ class _ForgotPasswordScreenState
     correoController.dispose();
     super.dispose();
   }
-
-  // =========================================================
   // ENVIAR CORREO
-  // =========================================================
-
   Future<void> enviar() async {
 
     final correo =
