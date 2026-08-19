@@ -20,7 +20,7 @@ CREATE TABLE servicios (
     duracion INTEGER NOT NULL,
 
     imagen TEXT,
-
+    
     estado BOOLEAN DEFAULT TRUE,
 
     created_at TIMESTAMP DEFAULT NOW(),
