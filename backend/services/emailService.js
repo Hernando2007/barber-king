@@ -1,21 +1,29 @@
 import nodemailer from "nodemailer";
 
+// Configuración del servicio de correo
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+// Envía el enlace para recuperar la contraseña
 export const enviarCorreoRecuperacion = async (
     correo,
-    enlace
+    token
 ) => {
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
+    // Enlace que recibirá el usuario
+    const enlace =
+        `https://barberking.app/reset-password?token=${token}`;
 
     await transporter.sendMail({
 
-        from: `"Barber King" <${process.env.EMAIL_USER}>`,
+        from:
+            `"Barber King" <${process.env.EMAIL_USER}>`,
 
         to: correo,
 
@@ -23,53 +31,27 @@ export const enviarCorreoRecuperacion = async (
             "Recuperación de contraseña - Barber King",
 
         html: `
-            <div
-                style="
-                    font-family: Arial, sans-serif;
-                    max-width: 600px;
-                    margin: auto;
-                    padding: 20px;
-                "
-            >
+            <div style="font-family: Arial, sans-serif;">
 
                 <h2>
                     Recuperación de contraseña
                 </h2>
 
                 <p>
-                    Hola.
-                </p>
-
-                <p>
                     Recibimos una solicitud para
-                    restablecer tu contraseña de
-                    Barber King.
+                    restablecer tu contraseña.
                 </p>
 
                 <p>
-                    Haz clic en el siguiente enlace
-                    para crear una nueva contraseña:
+                    Haz clic en el siguiente enlace:
                 </p>
 
-                <p>
-                    <a
-                        href="${enlace}"
-                        style="
-                            background-color: #d4af37;
-                            color: black;
-                            padding: 12px 20px;
-                            text-decoration: none;
-                            border-radius: 5px;
-                            display: inline-block;
-                        "
-                    >
-                        Restablecer contraseña
-                    </a>
-                </p>
+                <a href="${enlace}">
+                    Restablecer contraseña
+                </a>
 
                 <p>
-                    Este enlace tiene un tiempo
-                    limitado de validez.
+                    Este enlace es temporal.
                 </p>
 
                 <p>
@@ -86,5 +68,4 @@ export const enviarCorreoRecuperacion = async (
             </div>
         `
     });
-
 };
