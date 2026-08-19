@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 import {
     obtenerUsuarioPorCorreo,
@@ -7,18 +8,24 @@ import {
     actualizarContrasena
 } from "../models/usuariosModel.js";
 
-import { enviarCorreoRecuperacion } from "./emailService.js";
+import {
+    enviarCorreoRecuperacion
+} from "./emailService.js";
 
-import bcrypt from "bcrypt";
+// Solicitar recuperación de contraseña
+export const solicitarRecuperacion = async (
+    correo
+) => {
 
-// Solicita la recuperación de contraseña
-export const solicitarRecuperacion = async (correo) => {
-
-    // Buscamos el usuario por su correo
-    const usuario =
+    // Buscamos al usuario por su correo
+    const { data: usuario, error } =
         await obtenerUsuarioPorCorreo(correo);
 
-    // Por seguridad no revelamos si el correo existe
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    // No revelamos si el correo existe o no
     if (!usuario) {
         return true;
     }
@@ -27,16 +34,25 @@ export const solicitarRecuperacion = async (correo) => {
     const token =
         crypto.randomBytes(32).toString("hex");
 
-    // El token tendrá una duración limitada
+    // El token será válido durante 15 minutos
     const expiracion =
-        new Date(Date.now() + 15 * 60 * 1000);
+        new Date(
+            Date.now() + 15 * 60 * 1000
+        );
 
-    // Guardamos el token y su fecha de expiración
-    await guardarTokenRecuperacion(
-        usuario.id,
-        token,
-        expiracion
-    );
+    // Guardamos el token en la base de datos
+    const resultado =
+        await guardarTokenRecuperacion(
+            usuario.id,
+            token,
+            expiracion
+        );
+
+    if (resultado.error) {
+        throw new Error(
+            resultado.error.message
+        );
+    }
 
     // Enviamos el correo
     await enviarCorreoRecuperacion(
@@ -47,13 +63,13 @@ export const solicitarRecuperacion = async (correo) => {
     return true;
 };
 
-// Cambia la contraseña utilizando el token
+// Restablecer contraseña
 export const restablecerContrasena = async (
     token,
     nuevaContrasena
 ) => {
 
-    // Buscamos el usuario relacionado con el token
+    // Buscamos el usuario mediante el token
     const usuario =
         await obtenerUsuarioPorToken(token);
 
@@ -65,20 +81,37 @@ export const restablecerContrasena = async (
 
     // Encriptamos la nueva contraseña
     const hash =
-        await bcrypt.hash(nuevaContrasena, 10);
+        await bcrypt.hash(
+            nuevaContrasena,
+            10
+        );
 
     // Actualizamos la contraseña
-    await actualizarContrasena(
-        usuario.id,
-        hash
-    );
+    const resultado =
+        await actualizarContrasena(
+            usuario.id,
+            hash
+        );
 
-    // Eliminamos el token para impedir reutilizarlo
-    await guardarTokenRecuperacion(
-        usuario.id,
-        null,
-        null
-    );
+    if (resultado.error) {
+        throw new Error(
+            resultado.error.message
+        );
+    }
+
+    // Eliminamos el token después de utilizarlo
+    const limpiarToken =
+        await guardarTokenRecuperacion(
+            usuario.id,
+            null,
+            null
+        );
+
+    if (limpiarToken.error) {
+        throw new Error(
+            limpiarToken.error.message
+        );
+    }
 
     return true;
 };
