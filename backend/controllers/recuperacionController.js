@@ -10,7 +10,7 @@ export const forgotPassword = async (
     next
 ) => {
 
-    try {
+    try {  
 
         const { correo } = req.body;
 
