@@ -65,8 +65,8 @@ export const guardarTokenRecuperacion = async (
     return await supabase
         .from("usuarios")
         .update({
-            reset_token: token,
-            reset_token_expira: expiracion
+            token_recuperacion: token,
+            token_expiracion: expiracion
         })
         .eq("id", id)
         .select()
@@ -82,10 +82,10 @@ export const obtenerUsuarioPorToken = async (token) => {
         .select(`
             id,
             correo,
-            reset_token,
-            reset_token_expira
+            token_recuperacion,
+            token_recuperacion_expira
         `)
-        .eq("reset_token", token)
+        .eq("token_recuperacion", token)
         .maybeSingle();
 
     if (error) {
@@ -98,8 +98,8 @@ export const obtenerUsuarioPorToken = async (token) => {
 
     // Comprobamos que el token no haya expirado
     if (
-        !data.reset_token_expira ||
-        new Date(data.reset_token_expira) < new Date()
+        !data.token_recuperacion_expira ||
+        new Date(data.token_recuperacion_expira) < new Date()
     ) {
         return null;
     }
@@ -117,7 +117,7 @@ export const actualizarContrasena = async (
     return await supabase
         .from("usuarios")
         .update({
-            contrasena: contrasena
+            password: contrasena
         })
         .eq("id", id)
         .select()

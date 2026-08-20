@@ -1,12 +1,6 @@
 import express from "express";
-
-import {
-    registrar,
-    login,
-    forgotPassword,
-    resetPassword,
-    mostrarResetPassword
-} from "../controllers/authController.js";
+import { registrar, login } from "../controllers/authController.js";
+import { forgotPassword, resetPassword } from "../controllers/recuperacionController.js"
 
 const router =
     express.Router();
@@ -27,11 +21,9 @@ router.post(
     forgotPassword
 );
 // MOSTRAR FORMULARIO DE RECUPERACIÓN
- 
-
 router.get(
     "/reset-password",
-    mostrarResetPassword
+    resetPassword
 );
 // CAMBIAR CONTRASEÑA
 router.post(
