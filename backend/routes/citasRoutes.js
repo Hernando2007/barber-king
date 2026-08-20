@@ -12,18 +12,18 @@ const router = express.Router();
 
 
 // Crear
-router.post("/", crearCita);
+router.post("/crear", crearCita);
 
 // Listar
-router.get("/", obtenerTodas);
+router.get("/obtenerTodas", obtenerTodas);
 
 // Buscar por ID
-router.get("/:id", obtenerPorId);
+router.get("/obtenerPorId/:id", obtenerPorId);
 
 // Actualizar
-router.put("/:id", actualizar);
+router.put("/actualizar/:id", actualizar);
 
 // Eliminar
-router.delete("/:id", eliminar);
+router.delete("/delete/:id", eliminar);
 
 export default router;

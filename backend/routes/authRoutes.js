@@ -11,38 +11,21 @@ import {
 const router =
     express.Router();
 
-
- 
 // REGISTRO
- 
-
 router.post(
     "/registro",
     registrar
 );
-
-
- 
 // LOGIN
- 
-
 router.post(
     "/login",
     login
 );
-
-
- 
 // SOLICITAR RECUPERACIÓN
- 
-
 router.post(
     "/forgot-password",
     forgotPassword
 );
-
-
- 
 // MOSTRAR FORMULARIO DE RECUPERACIÓN
  
 
@@ -50,16 +33,10 @@ router.get(
     "/reset-password",
     mostrarResetPassword
 );
-
-
- 
 // CAMBIAR CONTRASEÑA
- 
-
 router.post(
     "/reset-password",
     resetPassword
 );
-
 
 export default router;

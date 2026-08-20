@@ -6,6 +6,6 @@ import {
 
 const router = express.Router();
 
-router.get("/", consultarDisponibilidad);
+router.get("/consultarDisponibilidad", consultarDisponibilidad);
 
 export default router;

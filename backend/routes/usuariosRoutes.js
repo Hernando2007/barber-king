@@ -8,9 +8,9 @@ import {
 const router = express.Router();
 
 // Obtener todos
-router.get("/", getUsuarios);
+router.get("/obtenerTodos", getUsuarios);
 
 // Obtener uno
-router.get("/:id", getUsuario);
+router.get("/obtenerUno/:id", getUsuario);
 
 export default router;

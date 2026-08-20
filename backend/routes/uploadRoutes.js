@@ -5,7 +5,7 @@ import { subirImagen } from "../controllers/uploadController.js";
 const router = express.Router();
 
 router.post(
-    "/",
+    "/subirImagen",
     upload.single("imagen"),
     subirImagen
 );
