@@ -3,18 +3,18 @@ import {
     restablecerContrasena
 } from "../services/recuperacionService.js";
 
-// Solicita el envío del correo de recuperación
+// Solicitar recuperación de contraseña
 export const forgotPassword = async (
     req,
     res,
     next
 ) => {
 
-    try {  
+    try {
 
         const { correo } = req.body;
 
-        // Validamos que se haya enviado el correo
+        // Verificamos que se haya enviado el correo
         if (!correo) {
 
             return res.status(400).json({
@@ -24,9 +24,12 @@ export const forgotPassword = async (
             });
         }
 
+        // Ejecutamos la recuperación
         await solicitarRecuperacion(correo);
 
-        res.status(200).json({
+        // Por seguridad usamos el mismo mensaje
+        // aunque el correo no exista
+        return res.status(200).json({
             success: true,
             message:
                 "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."
@@ -38,7 +41,7 @@ export const forgotPassword = async (
     }
 };
 
-// Restablece la contraseña
+// Restablecer contraseña
 export const resetPassword = async (
     req,
     res,
@@ -62,7 +65,7 @@ export const resetPassword = async (
             });
         }
 
-        // Validamos una longitud mínima
+        // Validamos la longitud de la contraseña
         if (nuevaContrasena.length < 6) {
 
             return res.status(400).json({
@@ -72,12 +75,13 @@ export const resetPassword = async (
             });
         }
 
+        // Cambiamos la contraseña
         await restablecerContrasena(
             token,
             nuevaContrasena
         );
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message:
                 "Contraseña actualizada correctamente."
