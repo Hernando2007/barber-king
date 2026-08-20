@@ -10,7 +10,6 @@ import {
 
 const router = express.Router();
 
-
 router.get("/obtenerTodos", obtenerTodos);
 
 router.get("/barberos/:id", obtenerPorId);
