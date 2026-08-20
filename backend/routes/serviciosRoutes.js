@@ -15,9 +15,9 @@ const router = express.Router();
 
 
 
-router.get("/", obtenerTodos);
+router.get("/obtenerTodos", obtenerTodos);
 
-router.get("/:id", obtenerPorId);
+router.get("/obtenerPorId/:id", obtenerPorId);
 
 
 router.post(

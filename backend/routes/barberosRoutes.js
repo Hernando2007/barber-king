@@ -11,14 +11,14 @@ import {
 const router = express.Router();
 
 
-router.get("/", obtenerTodos);
+router.get("/obtenerTodos", obtenerTodos);
 
-router.get("/:id", obtenerPorId);
+router.get("/barberos/:id", obtenerPorId);
 
-router.post("/", crear);
+router.post("/crear", crear);
 
-router.put("/:id", actualizar);
+router.put("/actualizar/:id", actualizar);
 
-router.delete("/:id", eliminar);
+router.delete("/delete/:id", eliminar);
 
 export default router;
