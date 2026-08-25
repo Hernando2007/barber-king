@@ -22,6 +22,7 @@ import barberosRoutes from "./routes/barberosRoutes.js";
 import serviciosRoutes from "./routes/serviciosRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import resenasRoutes from "./routes/resenasRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 const app = express();
 
@@ -98,13 +99,8 @@ app.use("/api/uploads", uploadRoutes);
 // Reseñas
 app.use("/api/resenas", resenasRoutes);
 
-
-// Swagger
-app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec)
-);
+// Dashboard
+app.use("/api/dashboard", dashboardRoutes);
 
 
 app.use(
