@@ -1,5 +1,6 @@
 import supabase from "../config/supabase.js";
 
+// Obtener todos los barberos
 export const obtenerBarberos = async () => {
 
     return await supabase
@@ -15,11 +16,11 @@ export const obtenerBarberos = async () => {
                 foto
             )
         `)
-        .order("id");
+        .order("id", { ascending: true });
 
 };
 
-
+// Obtener un barbero por ID
 export const obtenerBarberoPorId = async (id) => {
 
     return await supabase
@@ -40,7 +41,7 @@ export const obtenerBarberoPorId = async (id) => {
 
 };
 
-
+// Crear un barbero
 export const crearBarbero = async (datos) => {
 
     return await supabase
@@ -51,7 +52,7 @@ export const crearBarbero = async (datos) => {
 
 };
 
-
+// Actualizar un barbero
 export const actualizarBarbero = async (id, datos) => {
 
     return await supabase
@@ -63,7 +64,7 @@ export const actualizarBarbero = async (id, datos) => {
 
 };
 
-
+// Eliminar un barbero
 export const eliminarBarbero = async (id) => {
 
     return await supabase

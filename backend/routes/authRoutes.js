@@ -5,27 +5,25 @@ import { forgotPassword, resetPassword } from "../controllers/recuperacionContro
 const router =
     express.Router();
 
-// REGISTRO
+// Registro
 router.post(
     "/registro",
     registrar
 );
-// LOGIN
+
+// Inicio de sesión
 router.post(
     "/login",
     login
 );
-// SOLICITAR RECUPERACIÓN
+
+// Solicitar recuperación de contraseña
 router.post(
     "/forgot-password",
     forgotPassword
 );
-// MOSTRAR FORMULARIO DE RECUPERACIÓN
-router.get(
-    "/reset-password",
-    resetPassword
-);
-// CAMBIAR CONTRASEÑA
+
+// Cambiar contraseña usando el token
 router.post(
     "/reset-password",
     resetPassword
