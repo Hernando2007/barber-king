@@ -1,17 +1,16 @@
 import supabase from "../config/supabase.js";
 
-
-
+// Obtener todos los servicios
 export const obtenerServicios = async () => {
 
     return await supabase
         .from("servicios")
         .select("*")
-        .order("id");
+        .order("id", { ascending: true });
 
 };
 
-
+// Obtener un servicio por ID
 export const obtenerServicioPorId = async (id) => {
 
     return await supabase
@@ -22,7 +21,7 @@ export const obtenerServicioPorId = async (id) => {
 
 };
 
-
+// Crear un servicio
 export const crearServicio = async (datos) => {
 
     return await supabase
@@ -33,7 +32,7 @@ export const crearServicio = async (datos) => {
 
 };
 
-
+// Actualizar un servicio
 export const actualizarServicio = async (id, datos) => {
 
     return await supabase
@@ -45,7 +44,7 @@ export const actualizarServicio = async (id, datos) => {
 
 };
 
-
+// Eliminar un servicio
 export const eliminarServicio = async (id) => {
 
     return await supabase

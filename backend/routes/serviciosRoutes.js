@@ -9,33 +9,44 @@ import {
 } from "../controllers/serviciosController.js";
 
 import { verificarToken } from "../middlewares/authMiddleware.js";
-import { verificarRol } from "../middlewares/roleMiddleware.js";
+import { verificarRol } from "../middlewares/rolMiddleware.js"
 
 const router = express.Router();
 
+// Obtener todos los servicios
+router.get(
+    "/obtener",
+    obtenerTodos
+);
 
+// Obtener un servicio por ID
+router.get(
+    "/obtener/:id",
+    obtenerPorId
+);
 
-router.get("/obtenerTodos", obtenerTodos);
-
-router.get("/obtenerPorId/:id", obtenerPorId);
-
-
+// Crear servicio
+// Solo administradores
 router.post(
-    "/",
+    "/crear",
     verificarToken,
     verificarRol("Administrador"),
     crear
 );
 
+// Actualizar servicio
+// Solo administradores
 router.put(
-    "/:id",
+    "/actualizar/:id",
     verificarToken,
     verificarRol("Administrador"),
     actualizar
 );
 
+// Eliminar servicio
+// Solo administradores
 router.delete(
-    "/:id",
+    "/eliminar/:id",
     verificarToken,
     verificarRol("Administrador"),
     eliminar

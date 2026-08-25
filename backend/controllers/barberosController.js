@@ -6,12 +6,17 @@ import {
     borrarBarbero
 } from "../services/barberosService.js";
 
-
-export const obtenerTodos = async (req, res, next) => {
+// Obtener todos los barberos
+export const obtenerTodos = async (
+    req,
+    res,
+    next
+) => {
 
     try {
 
-        const barberos = await listarBarberos();
+        const barberos =
+            await listarBarberos();
 
         res.status(200).json({
             success: true,
@@ -20,17 +25,25 @@ export const obtenerTodos = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 
 };
 
-
-export const obtenerPorId = async (req, res, next) => {
+// Obtener un barbero por ID
+export const obtenerPorId = async (
+    req,
+    res,
+    next
+) => {
 
     try {
 
-        const barbero = await obtenerUno(req.params.id);
+        const barbero =
+            await obtenerUno(
+                req.params.id
+            );
 
         res.status(200).json({
             success: true,
@@ -38,65 +51,90 @@ export const obtenerPorId = async (req, res, next) => {
         });
 
     } catch (error) {
+
         next(error);
     }
 
 };
 
-
-export const crear = async (req, res, next) => {
+// Crear un barbero
+export const crear = async (
+    req,
+    res,
+    next
+) => {
 
     try {
 
-        const barbero = await registrarBarbero(req.body);
+        const barbero =
+            await registrarBarbero(
+                req.body
+            );
 
         res.status(201).json({
             success: true,
-            message: "Barbero creado correctamente.",
+            message:
+                "Barbero creado correctamente.",
             data: barbero
         });
 
     } catch (error) {
+
         next(error);
     }
 
 };
 
-
-export const actualizar = async (req, res, next) => {
+// Actualizar un barbero
+export const actualizar = async (
+    req,
+    res,
+    next
+) => {
 
     try {
 
-        const barbero = await editarBarbero(
-            req.params.id,
-            req.body
+        const barbero =
+            await editarBarbero(
+                req.params.id,
+                req.body
+            );
+
+        res.status(200).json({
+            success: true,
+            message:
+                "Barbero actualizado correctamente.",
+            data: barbero
+        });
+
+    } catch (error) {
+
+        next(error);
+    }
+
+};
+
+// Eliminar un barbero
+export const eliminar = async (
+    req,
+    res,
+    next
+) => {
+
+    try {
+
+        await borrarBarbero(
+            req.params.id
         );
 
         res.status(200).json({
             success: true,
-            message: "Barbero actualizado correctamente.",
-            data: barbero
+            message:
+                "Barbero eliminado correctamente."
         });
 
     } catch (error) {
-        next(error);
-    }
 
-};
-
-
-export const eliminar = async (req, res, next) => {
-
-    try {
-
-        await borrarBarbero(req.params.id);
-
-        res.status(200).json({
-            success: true,
-            message: "Barbero eliminado correctamente."
-        });
-
-    } catch (error) {
         next(error);
     }
 

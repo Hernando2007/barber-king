@@ -9,7 +9,6 @@ import {
 
 } from "../services/resenasService.js";
 
-
 export const obtenerTodas = async (req, res, next) => {
 
     try {
@@ -28,7 +27,6 @@ export const obtenerTodas = async (req, res, next) => {
 
 };
 
-
 export const obtenerPorId = async (req, res, next) => {
 
     try {
@@ -45,8 +43,6 @@ export const obtenerPorId = async (req, res, next) => {
     }
 
 };
-
-
 
 export const obtenerPorBarbero = async (req, res, next) => {
 
@@ -66,7 +62,6 @@ export const obtenerPorBarbero = async (req, res, next) => {
 
 };
 
-
 export const crear = async (req, res, next) => {
 
     try {
@@ -84,8 +79,6 @@ export const crear = async (req, res, next) => {
     }
 
 };
-
-
 
 export const actualizar = async (req, res, next) => {
 
@@ -107,8 +100,6 @@ export const actualizar = async (req, res, next) => {
     }
 
 };
-
-
 
 export const eliminar = async (req, res, next) => {
 

@@ -6,10 +6,11 @@ import {
     eliminarBarbero
 } from "../models/barberosModel.js";
 
-
+// Listar todos los barberos
 export const listarBarberos = async () => {
 
-    const { data, error } = await obtenerBarberos();
+    const { data, error } =
+        await obtenerBarberos();
 
     if (error) {
         throw new Error(error.message);
@@ -19,10 +20,11 @@ export const listarBarberos = async () => {
 
 };
 
-
+// Obtener un barbero
 export const obtenerUno = async (id) => {
 
-    const { data, error } = await obtenerBarberoPorId(id);
+    const { data, error } =
+        await obtenerBarberoPorId(id);
 
     if (error) {
         throw new Error(error.message);
@@ -32,30 +34,18 @@ export const obtenerUno = async (id) => {
 
 };
 
-
+// Registrar un barbero
 export const registrarBarbero = async (datos) => {
 
-    const {
-        usuario_id,
-        especialidad,
-        experiencia,
-        descripcion,
-        foto_trabajo,
-        disponible
-    } = datos;
-
-    if (!usuario_id) {
-        throw new Error("Debe seleccionar un usuario.");
+    // Validamos los datos recibidos
+    if (!datos.usuario_id) {
+        throw new Error(
+            "El usuario es obligatorio."
+        );
     }
 
-    const { data, error } = await crearBarbero({
-        usuario_id,
-        especialidad,
-        experiencia,
-        descripcion,
-        foto_trabajo,
-        disponible
-    });
+    const { data, error } =
+        await crearBarbero(datos);
 
     if (error) {
         throw new Error(error.message);
@@ -65,10 +55,23 @@ export const registrarBarbero = async (datos) => {
 
 };
 
+// Editar un barbero
+export const editarBarbero = async (
+    id,
+    datos
+) => {
 
-export const editarBarbero = async (id, datos) => {
+    if (!id) {
+        throw new Error(
+            "El ID del barbero es obligatorio."
+        );
+    }
 
-    const { data, error } = await actualizarBarbero(id, datos);
+    const { data, error } =
+        await actualizarBarbero(
+            id,
+            datos
+        );
 
     if (error) {
         throw new Error(error.message);
@@ -78,10 +81,17 @@ export const editarBarbero = async (id, datos) => {
 
 };
 
-
+// Eliminar un barbero
 export const borrarBarbero = async (id) => {
 
-    const { error } = await eliminarBarbero(id);
+    if (!id) {
+        throw new Error(
+            "El ID del barbero es obligatorio."
+        );
+    }
+
+    const { error } =
+        await eliminarBarbero(id);
 
     if (error) {
         throw new Error(error.message);

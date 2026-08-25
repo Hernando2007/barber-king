@@ -8,16 +8,45 @@ import {
     eliminar
 } from "../controllers/barberosController.js";
 
+import { verificarToken } from "../middlewares/authMiddleware.js";
+import { verificarRol } from "../middlewares/rolMiddleware.js";
+
 const router = express.Router();
 
-router.get("/obtenerTodos", obtenerTodos);
+// Obtener todos los barberos
+router.get(
+    "/obtener",
+    obtenerTodos
+);
 
-router.get("/barberos/:id", obtenerPorId);
+// Obtener un barbero por ID
+router.get(
+    "/obtener/:id",
+    obtenerPorId
+);
 
-router.post("/crear", crear);
+// Crear barbero
+router.post(
+    "/crear",
+    verificarToken,
+    verificarRol("Administrador"),
+    crear
+);
 
-router.put("/actualizar/:id", actualizar);
+// Actualizar barbero
+router.put(
+    "/actualizar/:id",
+    verificarToken,
+    verificarRol("Administrador"),
+    actualizar
+);
 
-router.delete("/delete/:id", eliminar);
+// Eliminar barbero
+router.delete(
+    "/eliminar/:id",
+    verificarToken,
+    verificarRol("Administrador"),
+    eliminar
+);
 
 export default router;
