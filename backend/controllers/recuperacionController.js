@@ -14,7 +14,6 @@ export const forgotPassword = async (
 
         const { correo } = req.body;
 
-        // Verificamos que se haya enviado el correo
         if (!correo) {
 
             return res.status(400).json({
@@ -22,13 +21,17 @@ export const forgotPassword = async (
                 message:
                     "El correo es obligatorio."
             });
+
         }
 
-        // Ejecutamos la recuperación
-        await solicitarRecuperacion(correo);
+        const correoNormalizado = correo
+            .trim()
+            .toLowerCase();
 
-        // Por seguridad usamos el mismo mensaje
-        // aunque el correo no exista
+        await solicitarRecuperacion(
+            correoNormalizado
+        );
+
         return res.status(200).json({
             success: true,
             message:
@@ -38,7 +41,9 @@ export const forgotPassword = async (
     } catch (error) {
 
         next(error);
+
     }
+
 };
 
 // Restablecer contraseña
@@ -55,7 +60,6 @@ export const resetPassword = async (
             nuevaContrasena
         } = req.body;
 
-        // Validamos los datos
         if (!token || !nuevaContrasena) {
 
             return res.status(400).json({
@@ -63,9 +67,21 @@ export const resetPassword = async (
                 message:
                     "El token y la nueva contraseña son obligatorios."
             });
+
         }
 
-        // Validamos la longitud de la contraseña
+        if (
+            typeof nuevaContrasena !== "string"
+        ) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "La contraseña no es válida."
+            });
+
+        }
+
         if (nuevaContrasena.length < 6) {
 
             return res.status(400).json({
@@ -73,11 +89,11 @@ export const resetPassword = async (
                 message:
                     "La contraseña debe tener mínimo 6 caracteres."
             });
+
         }
 
-        // Cambiamos la contraseña
         await restablecerContrasena(
-            token,
+            token.trim(),
             nuevaContrasena
         );
 
@@ -90,5 +106,7 @@ export const resetPassword = async (
     } catch (error) {
 
         next(error);
+
     }
+
 };
