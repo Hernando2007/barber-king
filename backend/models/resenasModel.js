@@ -1,39 +1,83 @@
 import supabase from "../config/supabase.js";
 
-
 export const obtenerResenas = async () => {
 
     return await supabase
         .from("resenas")
-        .select("*")
-        .order("id");
+        .select(`
+            *,
+            usuarios!cliente_id(
+                id,
+                nombres,
+                apellidos
+            ),
+            barberos(
+                id,
+                especialidad
+            )
+        `)
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
 };
 
-
-export const obtenerResenaPorId = async (id) => {
+export const obtenerResenaPorId = async (
+    id
+) => {
 
     return await supabase
         .from("resenas")
-        .select("*")
+        .select(`
+            *,
+            usuarios!cliente_id(
+                id,
+                nombres,
+                apellidos
+            ),
+            barberos(
+                id,
+                especialidad
+            )
+        `)
         .eq("id", id)
         .single();
 
 };
 
-
-export const obtenerResenasPorBarbero = async (barberoId) => {
+export const obtenerResenasPorBarbero = async (
+    barberoId
+) => {
 
     return await supabase
         .from("resenas")
-        .select("*")
-        .eq("barbero_id", barberoId)
-        .order("created_at", { ascending: false });
+        .select(`
+            *,
+            usuarios!cliente_id(
+                id,
+                nombres,
+                apellidos
+            )
+        `)
+        .eq(
+            "barbero_id",
+            barberoId
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
 };
 
-
-export const crearResena = async (datos) => {
+export const crearResena = async (
+    datos
+) => {
 
     return await supabase
         .from("resenas")
@@ -43,8 +87,10 @@ export const crearResena = async (datos) => {
 
 };
 
-
-export const actualizarResena = async (id, datos) => {
+export const actualizarResena = async (
+    id,
+    datos
+) => {
 
     return await supabase
         .from("resenas")
@@ -55,8 +101,9 @@ export const actualizarResena = async (id, datos) => {
 
 };
 
-
-export const eliminarResena = async (id) => {
+export const eliminarResena = async (
+    id
+) => {
 
     return await supabase
         .from("resenas")

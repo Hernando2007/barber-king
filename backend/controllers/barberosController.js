@@ -6,7 +6,6 @@ import {
     borrarBarbero
 } from "../services/barberosService.js";
 
-// Obtener todos los barberos
 export const obtenerTodos = async (
     req,
     res,
@@ -18,7 +17,7 @@ export const obtenerTodos = async (
         const barberos =
             await listarBarberos();
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             total: barberos.length,
             data: barberos
@@ -27,11 +26,11 @@ export const obtenerTodos = async (
     } catch (error) {
 
         next(error);
+
     }
 
 };
 
-// Obtener un barbero por ID
 export const obtenerPorId = async (
     req,
     res,
@@ -45,7 +44,7 @@ export const obtenerPorId = async (
                 req.params.id
             );
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             data: barbero
         });
@@ -53,11 +52,11 @@ export const obtenerPorId = async (
     } catch (error) {
 
         next(error);
+
     }
 
 };
 
-// Crear un barbero
 export const crear = async (
     req,
     res,
@@ -71,7 +70,7 @@ export const crear = async (
                 req.body
             );
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message:
                 "Barbero creado correctamente.",
@@ -81,11 +80,11 @@ export const crear = async (
     } catch (error) {
 
         next(error);
+
     }
 
 };
 
-// Actualizar un barbero
 export const actualizar = async (
     req,
     res,
@@ -100,7 +99,7 @@ export const actualizar = async (
                 req.body
             );
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message:
                 "Barbero actualizado correctamente.",
@@ -110,11 +109,11 @@ export const actualizar = async (
     } catch (error) {
 
         next(error);
+
     }
 
 };
 
-// Eliminar un barbero
 export const eliminar = async (
     req,
     res,
@@ -127,7 +126,7 @@ export const eliminar = async (
             req.params.id
         );
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message:
                 "Barbero eliminado correctamente."
@@ -136,6 +135,7 @@ export const eliminar = async (
     } catch (error) {
 
         next(error);
+
     }
 
 };

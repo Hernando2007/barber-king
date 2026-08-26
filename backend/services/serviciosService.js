@@ -6,36 +6,64 @@ import {
     eliminarServicio
 } from "../models/serviciosModel.js";
 
-// Obtener todos los servicios
 export const listarServicios = async () => {
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await obtenerServicios();
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return data;
 
 };
 
-// Obtener un servicio por ID
-export const obtenerUno = async (id) => {
+export const obtenerUno = async (
+    id
+) => {
 
-    const { data, error } =
-        await obtenerServicioPorId(id);
+    if (!id) {
 
-    if (error) {
-        throw new Error(error.message);
+        throw new Error(
+            "El ID del servicio es obligatorio."
+        );
+
+    }
+
+    const {
+        data,
+        error
+    } =
+        await obtenerServicioPorId(
+            id
+        );
+
+    if (
+        error ||
+        !data
+    ) {
+
+        throw new Error(
+            "Servicio no encontrado."
+        );
+
     }
 
     return data;
 
 };
 
-// Crear un servicio
-export const registrarServicio = async (datos) => {
+export const registrarServicio = async (
+    datos
+) => {
 
     const {
         nombre,
@@ -47,15 +75,42 @@ export const registrarServicio = async (datos) => {
         estado
     } = datos;
 
-    // Validamos los campos principales
-    if (!nombre || precio === undefined || !duracion) {
+    if (
+        !nombre ||
+        precio === undefined ||
+        !duracion
+    ) {
 
         throw new Error(
             "Nombre, precio y duración son obligatorios."
         );
+
     }
 
-    const { data, error } =
+    if (
+        Number(precio) <= 0
+    ) {
+
+        throw new Error(
+            "El precio debe ser mayor que cero."
+        );
+
+    }
+
+    if (
+        Number(duracion) <= 0
+    ) {
+
+        throw new Error(
+            "La duración debe ser mayor que cero."
+        );
+
+    }
+
+    const {
+        data,
+        error
+    } =
         await crearServicio({
             nombre,
             descripcion,
@@ -67,53 +122,106 @@ export const registrarServicio = async (datos) => {
         });
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return data;
 
 };
 
-// Actualizar un servicio
 export const editarServicio = async (
     id,
     datos
 ) => {
 
     if (!id) {
+
         throw new Error(
             "El ID del servicio es obligatorio."
         );
+
     }
 
-    const { data, error } =
+    const {
+        data: existe
+    } =
+        await obtenerServicioPorId(
+            id
+        );
+
+    if (!existe) {
+
+        throw new Error(
+            "Servicio no encontrado."
+        );
+
+    }
+
+    const {
+        data,
+        error
+    } =
         await actualizarServicio(
             id,
             datos
         );
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return data;
 
 };
 
-// Eliminar un servicio
-export const borrarServicio = async (id) => {
+export const borrarServicio = async (
+    id
+) => {
 
     if (!id) {
+
         throw new Error(
             "El ID del servicio es obligatorio."
         );
+
     }
 
-    const { error } =
-        await eliminarServicio(id);
+    const {
+        data: existe
+    } =
+        await obtenerServicioPorId(
+            id
+        );
+
+    if (!existe) {
+
+        throw new Error(
+            "Servicio no encontrado."
+        );
+
+    }
+
+    const {
+        error
+    } =
+        await eliminarServicio(
+            id
+        );
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return true;

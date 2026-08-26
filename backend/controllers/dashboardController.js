@@ -1,30 +1,24 @@
-import { dashboardGeneral } from "../services/dashboardService.js";
-
-import { successResponse } from "../utils/response.js";
+import {
+    dashboardGeneral
+} from "../services/dashboardService.js";
 
 export const obtenerDashboardAdmin = async (
-
     req,
-
     res,
-
     next
-
 ) => {
 
     try {
 
-        const dashboard = await dashboardGeneral();
+        const dashboard =
+            await dashboardGeneral();
 
-        return successResponse(
-
-            res,
-
-            "Dashboard obtenido correctamente.",
-
-            dashboard.data
-
-        );
+        return res.status(200).json({
+            success: true,
+            message:
+                "Dashboard obtenido correctamente.",
+            data: dashboard
+        });
 
     } catch (error) {
 

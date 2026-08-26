@@ -1,6 +1,5 @@
 import supabase from "../config/supabase.js";
 
-// Obtener todos los barberos
 export const obtenerBarberos = async () => {
 
     return await supabase
@@ -16,12 +15,18 @@ export const obtenerBarberos = async () => {
                 foto
             )
         `)
-        .order("id", { ascending: true });
+        .order(
+            "id",
+            {
+                ascending: true
+            }
+        );
 
 };
 
-// Obtener un barbero por ID
-export const obtenerBarberoPorId = async (id) => {
+export const obtenerBarberoPorId = async (
+    id
+) => {
 
     return await supabase
         .from("barberos")
@@ -37,12 +42,28 @@ export const obtenerBarberoPorId = async (id) => {
             )
         `)
         .eq("id", id)
-        .single();
+        .maybeSingle();
 
 };
 
-// Crear un barbero
-export const crearBarbero = async (datos) => {
+export const obtenerBarberoPorUsuario = async (
+    usuarioId
+) => {
+
+    return await supabase
+        .from("barberos")
+        .select("*")
+        .eq(
+            "usuario_id",
+            usuarioId
+        )
+        .maybeSingle();
+
+};
+
+export const crearBarbero = async (
+    datos
+) => {
 
     return await supabase
         .from("barberos")
@@ -52,8 +73,10 @@ export const crearBarbero = async (datos) => {
 
 };
 
-// Actualizar un barbero
-export const actualizarBarbero = async (id, datos) => {
+export const actualizarBarbero = async (
+    id,
+    datos
+) => {
 
     return await supabase
         .from("barberos")
@@ -64,8 +87,9 @@ export const actualizarBarbero = async (id, datos) => {
 
 };
 
-// Eliminar un barbero
-export const eliminarBarbero = async (id) => {
+export const eliminarBarbero = async (
+    id
+) => {
 
     return await supabase
         .from("barberos")

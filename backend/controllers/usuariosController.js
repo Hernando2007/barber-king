@@ -3,34 +3,82 @@ import {
     buscarUsuario
 } from "../services/usuariosService.js";
 
-// Obtener todos
-export const getUsuarios = async (req, res) => {
+export const getUsuarios = async (
+    req,
+    res,
+    next
+) => {
 
-    const { data, error } = await listarUsuarios();
+    try {
 
-    if (error) {
+        const {
+            data,
+            error
+        } =
+            await listarUsuarios();
 
-        return res.status(500).json(error);
+        if (error) {
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    error.message
+            });
+
+        }
+
+        return res.status(200).json({
+            success: true,
+            data
+        });
+
+    } catch (error) {
+
+        next(error);
 
     }
-
-    res.json(data);
 
 };
 
-// Obtener uno
-export const getUsuario = async (req, res) => {
+export const getUsuario = async (
+    req,
+    res,
+    next
+) => {
 
-    const { id } = req.params;
+    try {
 
-    const { data, error } = await buscarUsuario(id);
+        const { id } =
+            req.params;
 
-    if (error) {
+        const {
+            data,
+            error
+        } =
+            await buscarUsuario(id);
 
-        return res.status(404).json(error);
+        if (
+            error ||
+            !data
+        ) {
+
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Usuario no encontrado."
+            });
+
+        }
+
+        return res.status(200).json({
+            success: true,
+            data
+        });
+
+    } catch (error) {
+
+        next(error);
 
     }
-
-    res.json(data);
 
 };

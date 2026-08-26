@@ -1,29 +1,45 @@
 import jwt from "jsonwebtoken";
 import supabase from "../config/supabase.js";
 
-export const verificarToken = async (req, res, next) => {
+export const verificarToken = async (
+    req,
+    res,
+    next
+) => {
 
     try {
 
-        const authHeader = req.headers.authorization;
+        const authHeader =
+            req.headers.authorization;
 
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        if (
+            !authHeader ||
+            !authHeader.startsWith(
+                "Bearer "
+            )
+        ) {
 
             return res.status(401).json({
                 success: false,
-                message: "Token no proporcionado."
+                message:
+                    "Token no proporcionado."
             });
 
         }
 
-        const token = authHeader.split(" ")[1];
+        const token =
+            authHeader.split(" ")[1];
 
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
+        const decoded =
+            jwt.verify(
+                token,
+                process.env.JWT_SECRET
+            );
 
-        const { data: usuario, error } = await supabase
+        const {
+            data: usuario,
+            error
+        } = await supabase
             .from("usuarios")
             .select(`
                 id,
@@ -33,31 +49,55 @@ export const verificarToken = async (req, res, next) => {
                 roles(nombre)
             `)
             .eq("id", decoded.id)
-            .single();
+            .maybeSingle();
 
-        if (error || !usuario) {
+        if (
+            error ||
+            !usuario
+        ) {
 
             return res.status(401).json({
                 success: false,
-                message: "Usuario no encontrado."
+                message:
+                    "Usuario no encontrado."
             });
 
         }
 
         req.usuario = {
             id: usuario.id,
-            nombres: usuario.nombres,
-            correo: usuario.correo,
-            rol: usuario.roles.nombre
+            nombres:
+                usuario.nombres,
+            correo:
+                usuario.correo,
+            rol:
+                usuario.roles?.nombre ??
+                null,
+            rol_id:
+                usuario.rol_id
         };
 
         next();
 
     } catch (error) {
 
+        if (
+            error.name ===
+            "TokenExpiredError"
+        ) {
+
+            return res.status(401).json({
+                success: false,
+                message:
+                    "La sesión ha expirado."
+            });
+
+        }
+
         return res.status(401).json({
             success: false,
-            message: "Token inválido."
+            message:
+                "Token inválido."
         });
 
     }

@@ -5,12 +5,23 @@ import {
     getUsuario
 } from "../controllers/usuariosController.js";
 
-const router = express.Router();
+import {
+    verificarToken
+} from "../middlewares/authMiddleware.js";
 
-// Obtener todos
-router.get("/obtenerTodos", getUsuarios);
+const router =
+    express.Router();
 
-// Obtener uno
-router.get("/obtenerUno/:id", getUsuario);
+router.get(
+    "/",
+    verificarToken,
+    getUsuarios
+);
+
+router.get(
+    "/:id",
+    verificarToken,
+    getUsuario
+);
 
 export default router;

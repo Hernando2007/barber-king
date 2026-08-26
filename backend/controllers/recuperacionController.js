@@ -3,11 +3,9 @@ import {
     restablecerContrasena
 } from "../services/recuperacionService.js";
 
-// Solicitar recuperación de contraseña
 export const forgotPassword = async (
     req,
-    res,
-    next
+    res
 ) => {
 
     try {
@@ -24,65 +22,56 @@ export const forgotPassword = async (
 
         }
 
-        const correoNormalizado = correo
-            .trim()
-            .toLowerCase();
-
         await solicitarRecuperacion(
-            correoNormalizado
+            correo.trim().toLowerCase()
         );
 
         return res.status(200).json({
             success: true,
             message:
-                "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."
+                "Si el correo existe, recibirás un código de recuperación."
         });
 
     } catch (error) {
 
-        next(error);
+        return res.status(500).json({
+            success: false,
+            message:
+                error.message
+        });
 
     }
 
 };
 
-// Restablecer contraseña
 export const resetPassword = async (
     req,
-    res,
-    next
+    res
 ) => {
 
     try {
 
         const {
-            token,
-            nuevaContrasena
+            correo,
+            codigo,
+            password
         } = req.body;
 
-        if (!token || !nuevaContrasena) {
-
-            return res.status(400).json({
-                success: false,
-                message:
-                    "El token y la nueva contraseña son obligatorios."
-            });
-
-        }
-
         if (
-            typeof nuevaContrasena !== "string"
+            !correo ||
+            !codigo ||
+            !password
         ) {
 
             return res.status(400).json({
                 success: false,
                 message:
-                    "La contraseña no es válida."
+                    "Correo, código y contraseña son obligatorios."
             });
 
         }
 
-        if (nuevaContrasena.length < 6) {
+        if (password.length < 6) {
 
             return res.status(400).json({
                 success: false,
@@ -93,8 +82,9 @@ export const resetPassword = async (
         }
 
         await restablecerContrasena(
-            token.trim(),
-            nuevaContrasena
+            correo,
+            codigo,
+            password
         );
 
         return res.status(200).json({
@@ -105,7 +95,11 @@ export const resetPassword = async (
 
     } catch (error) {
 
-        next(error);
+        return res.status(400).json({
+            success: false,
+            message:
+                error.message
+        });
 
     }
 
