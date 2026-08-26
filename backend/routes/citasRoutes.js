@@ -8,22 +8,45 @@ import {
     eliminar
 } from "../controllers/citasController.js";
 
+import {
+    verificarToken
+} from "../middlewares/authMiddleware.js";
+
 const router = express.Router();
 
+// Crear cita
+router.post(
+    "/crear",
+    verificarToken,
+    crearCita
+);
 
-// Crear
-router.post("/crear", crearCita);
+// Obtener todas
+router.get(
+    "/obtenerTodas",
+    verificarToken,
+    obtenerTodas
+);
 
-// Listar
-router.get("/obtenerTodas", obtenerTodas);
-
-// Buscar por ID
-router.get("/obtenerPorId/:id", obtenerPorId);
+// Obtener una
+router.get(
+    "/obtenerPorId/:id",
+    verificarToken,
+    obtenerPorId
+);
 
 // Actualizar
-router.put("/actualizar/:id", actualizar);
+router.put(
+    "/actualizar/:id",
+    verificarToken,
+    actualizar
+);
 
 // Eliminar
-router.delete("/delete/:id", eliminar);
+router.delete(
+    "/delete/:id",
+    verificarToken,
+    eliminar
+);
 
 export default router;

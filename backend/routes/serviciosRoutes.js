@@ -8,25 +8,26 @@ import {
     eliminar
 } from "../controllers/serviciosController.js";
 
-import { verificarToken } from "../middlewares/authMiddleware.js";
-import { verificarRol } from "../middlewares/rolMiddleware.js"
+import {
+    verificarToken
+} from "../middlewares/authMiddleware.js";
+
+import {
+    verificarRol
+} from "../middlewares/rolMiddleware.js";
 
 const router = express.Router();
 
-// Obtener todos los servicios
 router.get(
     "/obtener",
     obtenerTodos
 );
 
-// Obtener un servicio por ID
 router.get(
     "/obtener/:id",
     obtenerPorId
 );
 
-// Crear servicio
-// Solo administradores
 router.post(
     "/crear",
     verificarToken,
@@ -34,8 +35,6 @@ router.post(
     crear
 );
 
-// Actualizar servicio
-// Solo administradores
 router.put(
     "/actualizar/:id",
     verificarToken,
@@ -43,8 +42,6 @@ router.put(
     actualizar
 );
 
-// Eliminar servicio
-// Solo administradores
 router.delete(
     "/eliminar/:id",
     verificarToken,

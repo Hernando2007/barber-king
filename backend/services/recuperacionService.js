@@ -1,94 +1,127 @@
-import crypto from "crypto";
 import bcrypt from "bcrypt";
 
 import {
     obtenerUsuarioPorCorreo,
     guardarTokenRecuperacion,
-    obtenerUsuarioPorToken,
     actualizarContrasena
 } from "../models/usuariosModel.js";
 
 import {
-    enviarCorreoRecuperacion
+    enviarCodigoRecuperacion
 } from "./emailService.js";
 
-// Solicitar recuperación de contraseña
 export const solicitarRecuperacion = async (
     correo
 ) => {
 
-    const { data: usuario, error } =
-        await obtenerUsuarioPorCorreo(correo);
+    const {
+        data: usuario,
+        error
+    } =
+        await obtenerUsuarioPorCorreo(
+            correo
+        );
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
-    // No revelar si el usuario existe
     if (!usuario) {
+
         return true;
+
     }
 
-    // Token que recibirá el usuario
-    const tokenPlano =
-        crypto.randomBytes(32).toString("hex");
+    const codigo =
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        ).toString();
 
-    // Hash que se almacenará en BD
-    const tokenHash = crypto
-        .createHash("sha256")
-        .update(tokenPlano)
-        .digest("hex");
-
-    const expiracion = new Date(
-        Date.now() + 15 * 60 * 1000
-    ).toISOString();
+    const expiracion =
+        new Date(
+            Date.now() +
+            15 * 60 * 1000
+        ).toISOString();
 
     const resultado =
         await guardarTokenRecuperacion(
             usuario.id,
-            tokenHash,
+            codigo,
             expiracion
         );
 
     if (resultado.error) {
+
         throw new Error(
             resultado.error.message
         );
+
     }
 
-    // Se envía el token plano
-    await enviarCorreoRecuperacion(
+    await enviarCodigoRecuperacion(
         usuario.correo,
-        tokenPlano
+        codigo
     );
 
     return true;
+
 };
 
-// Restablecer contraseña
 export const restablecerContrasena = async (
-    token,
+    correo,
+    codigo,
     nuevaContrasena
 ) => {
 
-    // Convertimos el token recibido a hash
-    const tokenHash = crypto
-        .createHash("sha256")
-        .update(token)
-        .digest("hex");
-
-    const usuario =
-        await obtenerUsuarioPorToken(
-            tokenHash
+    const {
+        data: usuario,
+        error
+    } =
+        await obtenerUsuarioPorCorreo(
+            correo
         );
 
-    if (!usuario) {
+    if (
+        error ||
+        !usuario
+    ) {
+
         throw new Error(
-            "El enlace de recuperación es inválido o ha expirado."
+            "Código inválido."
         );
+
     }
 
-    const hash =
+    if (
+        usuario.token_recuperacion !==
+        codigo
+    ) {
+
+        throw new Error(
+            "Código inválido."
+        );
+
+    }
+
+    if (
+        !usuario.token_expiracion ||
+        new Date(
+            usuario.token_expiracion
+        ) < new Date()
+    ) {
+
+        throw new Error(
+            "El código ha expirado."
+        );
+
+    }
+
+    const passwordHash =
         await bcrypt.hash(
             nuevaContrasena,
             10
@@ -97,27 +130,23 @@ export const restablecerContrasena = async (
     const resultado =
         await actualizarContrasena(
             usuario.id,
-            hash
+            passwordHash
         );
 
     if (resultado.error) {
+
         throw new Error(
             resultado.error.message
         );
+
     }
 
-    const limpiarToken =
-        await guardarTokenRecuperacion(
-            usuario.id,
-            null,
-            null
-        );
-
-    if (limpiarToken.error) {
-        throw new Error(
-            limpiarToken.error.message
-        );
-    }
+    await guardarTokenRecuperacion(
+        usuario.id,
+        null,
+        null
+    );
 
     return true;
+
 };

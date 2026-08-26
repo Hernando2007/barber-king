@@ -1,19 +1,54 @@
 export const verificarRol = (...rolesPermitidos) => {
 
-    return (req, res, next) => {
+    return (
+        req,
+        res,
+        next
+    ) => {
 
         if (!req.usuario) {
+
             return res.status(401).json({
+
                 success: false,
-                message: "Usuario no autenticado."
+
+                message:
+                    "Usuario no autenticado."
+
             });
+
         }
 
-        if (!rolesPermitidos.includes(req.usuario.rol)) {
+        if (!req.usuario.rol) {
+
             return res.status(403).json({
+
                 success: false,
-                message: "No tienes permisos para realizar esta acción."
+
+                message:
+                    "El usuario no tiene un rol asignado."
+
             });
+
+        }
+
+        if (
+
+            !rolesPermitidos.includes(
+                req.usuario.rol
+            )
+
+        ) {
+
+            return res.status(403).json({
+
+                success: false,
+
+                message:
+                    "No tienes permisos para realizar esta acción."
+
+            });
+
         }
 
         next();

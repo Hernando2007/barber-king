@@ -4,61 +4,123 @@ import fs from "fs";
 
 // Crear carpeta uploads si no existe
 if (!fs.existsSync("uploads")) {
-    fs.mkdirSync("uploads");
+
+    fs.mkdirSync(
+        "uploads",
+        {
+            recursive: true
+        }
+    );
+
 }
 
 const storage = multer.diskStorage({
 
-    destination(req, file, cb) {
+    destination(
+        req,
+        file,
+        cb
+    ) {
 
-        cb(null, "uploads");
+        cb(
+            null,
+            "uploads"
+        );
 
     },
 
-    filename(req, file, cb) {
+    filename(
+        req,
+        file,
+        cb
+    ) {
 
         const nombre =
+
             Date.now() +
             "-" +
-            Math.round(Math.random() * 1E9);
+            Math.round(
+                Math.random() * 1e9
+            );
 
         cb(
             null,
             nombre +
-            path.extname(file.originalname)
+            path.extname(
+                file.originalname
+            )
         );
 
     }
 
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (
+    req,
+    file,
+    cb
+) => {
 
-    const permitidos = /jpg|jpeg|png|webp/;
+    const tiposPermitidos = [
 
-    const extension = permitidos.test(
-        path.extname(file.originalname).toLowerCase()
-    );
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp"
 
-    const mime = permitidos.test(file.mimetype);
+    ];
 
-    if (extension && mime) {
+    const extensionPermitida = [
 
-        return cb(null, true);
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".webp"
+
+    ];
+
+    const extension =
+        path.extname(
+            file.originalname
+        ).toLowerCase();
+
+    if (
+
+        tiposPermitidos.includes(
+            file.mimetype
+        ) &&
+
+        extensionPermitida.includes(
+            extension
+        )
+
+    ) {
+
+        return cb(
+            null,
+            true
+        );
 
     }
 
-    cb(new Error("Solo se permiten imágenes."));
+    cb(
+        new Error(
+            "Solo se permiten imágenes JPG, JPEG, PNG o WEBP."
+        )
+    );
 
 };
 
 const upload = multer({
 
     storage,
+
     fileFilter,
+
     limits: {
 
-        fileSize: 5 * 1024 * 1024
+        fileSize:
+            5 * 1024 * 1024
 
     }
 

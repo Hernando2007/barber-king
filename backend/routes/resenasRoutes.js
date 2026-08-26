@@ -3,14 +3,12 @@ import { Router } from "express";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 
 import {
-
     obtenerTodas,
     obtenerPorId,
     obtenerPorBarbero,
     crear,
     actualizar,
     eliminar
-
 } from "../controllers/resenasController.js";
 
 const router = Router();

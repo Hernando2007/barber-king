@@ -9,8 +9,12 @@ export const listarUsuarios = async () => {
 
 };
 
-export const buscarUsuario = async (id) => {
+export const buscarUsuario = async (
+    id
+) => {
 
-    return await obtenerUsuarioPorId(id);
+    return await obtenerUsuarioPorId(
+        id
+    );
 
 };
