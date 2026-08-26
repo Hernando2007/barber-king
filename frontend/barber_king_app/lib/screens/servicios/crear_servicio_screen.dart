@@ -3,27 +3,39 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../services/servicios_service.dart';
 
-class CrearServicioScreen extends StatefulWidget {
-  const CrearServicioScreen({super.key});
+class CrearServicioScreen
+    extends StatefulWidget {
+
+  const CrearServicioScreen({
+    super.key,
+  });
 
   @override
-  State<CrearServicioScreen> createState() =>
-      _CrearServicioScreenState();
+  State<CrearServicioScreen>
+      createState() =>
+          _CrearServicioScreenState();
 }
 
 class _CrearServicioScreenState
     extends State<CrearServicioScreen> {
 
-  final ServiciosService service = ServiciosService();
+  final nombreController =
+      TextEditingController();
 
-  final nombreController = TextEditingController();
   final descripcionController =
       TextEditingController();
-  final precioController = TextEditingController();
+
+  final precioController =
+      TextEditingController();
+
   final duracionController =
       TextEditingController();
+
   final descansoController =
       TextEditingController();
+
+  final ServicioService service =
+      ServicioService();
 
   bool cargando = false;
 
@@ -33,7 +45,8 @@ class _CrearServicioScreenState
         precioController.text.isEmpty ||
         duracionController.text.isEmpty) {
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
         const SnackBar(
           content: Text(
             "Complete los campos obligatorios.",
@@ -42,45 +55,50 @@ class _CrearServicioScreenState
       );
 
       return;
-
     }
 
     setState(() {
       cargando = true;
     });
 
-    final ok = await service.crearServicio(
-      nombre: nombreController.text,
-      descripcion: descripcionController.text,
-      precio: double.parse(precioController.text),
-      duracion: int.parse(duracionController.text),
-      tiempoDescanso: descansoController.text.isEmpty
-          ? 0
-          : int.parse(descansoController.text),
+    final respuesta =
+        await service.crearServicio(
+      nombre:
+          nombreController.text.trim(),
+      descripcion:
+          descripcionController.text.trim(),
+      precio: double.parse(
+        precioController.text,
+      ),
+      duracion: int.parse(
+        duracionController.text,
+      ),
+      tiempoDescanso:
+          descansoController.text.isEmpty
+              ? 0
+              : int.parse(
+                  descansoController.text,
+                ),
     );
+
+    if (!mounted) return;
 
     setState(() {
       cargando = false;
     });
 
-    if (!mounted) return;
-
-    if (ok) {
-
-      Navigator.pop(context, true);
-
-    } else {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            "No fue posible guardar.",
-          ),
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      SnackBar(
+        content: Text(
+          respuesta["message"],
         ),
-      );
+      ),
+    );
 
+    if (respuesta["success"] == true) {
+      Navigator.pop(context);
     }
-
   }
 
   @override
@@ -88,23 +106,28 @@ class _CrearServicioScreenState
 
     return Scaffold(
 
-      backgroundColor: AppColors.background,
+      backgroundColor:
+          AppColors.background,
 
       appBar: AppBar(
-        title: const Text("Nuevo Servicio"),
+        title: const Text(
+          "Crear Servicio",
+        ),
       ),
 
       body: SingleChildScrollView(
 
-        padding: const EdgeInsets.all(20),
+        padding:
+            const EdgeInsets.all(20),
 
         child: Column(
-
           children: [
 
             TextField(
-              controller: nombreController,
-              decoration: const InputDecoration(
+              controller:
+                  nombreController,
+              decoration:
+                  const InputDecoration(
                 labelText: "Nombre",
               ),
             ),
@@ -112,19 +135,24 @@ class _CrearServicioScreenState
             const SizedBox(height: 15),
 
             TextField(
-              controller: descripcionController,
-              decoration: const InputDecoration(
-                labelText: "Descripción",
+              controller:
+                  descripcionController,
+              decoration:
+                  const InputDecoration(
+                labelText:
+                    "Descripción",
               ),
             ),
 
             const SizedBox(height: 15),
 
             TextField(
-              controller: precioController,
+              controller:
+                  precioController,
               keyboardType:
                   TextInputType.number,
-              decoration: const InputDecoration(
+              decoration:
+                  const InputDecoration(
                 labelText: "Precio",
               ),
             ),
@@ -132,61 +160,52 @@ class _CrearServicioScreenState
             const SizedBox(height: 15),
 
             TextField(
-              controller: duracionController,
+              controller:
+                  duracionController,
               keyboardType:
                   TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Duración (min)",
+              decoration:
+                  const InputDecoration(
+                labelText:
+                    "Duración (min)",
               ),
             ),
 
             const SizedBox(height: 15),
 
             TextField(
-              controller: descansoController,
+              controller:
+                  descansoController,
               keyboardType:
                   TextInputType.number,
-              decoration: const InputDecoration(
+              decoration:
+                  const InputDecoration(
                 labelText:
                     "Tiempo descanso",
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: 30),
 
             SizedBox(
-
-              width: double.infinity,
-
-              height: 55,
-
+              width:
+                  double.infinity,
+              height: 50,
               child: ElevatedButton(
-
                 onPressed:
-                    cargando ? null : guardar,
-
+                    cargando
+                        ? null
+                        : guardar,
                 child: cargando
-
-                    ? const CircularProgressIndicator(
-                        color: Colors.black,
-                      )
-
+                    ? const CircularProgressIndicator()
                     : const Text(
-                        "GUARDAR",
+                        "Guardar Servicio",
                       ),
-
               ),
-
             ),
-
           ],
-
         ),
-
       ),
-
     );
-
   }
-
 }

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../services/auth_service.dart';
 import '../../core/colors.dart';
+import '../../services/auth_service.dart';
+import 'reset_password_screen.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen
+    extends StatefulWidget {
   const ForgotPasswordScreen({
     super.key,
   });
 
   @override
-  State<ForgotPasswordScreen> createState() =>
-      _ForgotPasswordScreenState();
+  State<ForgotPasswordScreen>
+      createState() =>
+          _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState
     extends State<ForgotPasswordScreen> {
-
-  final TextEditingController correoController =
+  final correoController =
       TextEditingController();
 
   final AuthService authService =
@@ -29,14 +31,12 @@ class _ForgotPasswordScreenState
     correoController.dispose();
     super.dispose();
   }
-  // ENVIAR CORREO
-  Future<void> enviar() async {
 
+  Future<void> enviar() async {
     final correo =
         correoController.text.trim();
 
     if (correo.isEmpty) {
-
       ScaffoldMessenger.of(context)
           .showSnackBar(
         const SnackBar(
@@ -45,7 +45,6 @@ class _ForgotPasswordScreenState
           ),
         ),
       );
-
       return;
     }
 
@@ -54,7 +53,8 @@ class _ForgotPasswordScreenState
     });
 
     final respuesta =
-        await authService.recuperarPassword(
+        await authService
+            .recuperarPassword(
       correo,
     );
 
@@ -75,17 +75,23 @@ class _ForgotPasswordScreenState
     );
 
     if (respuesta["success"] == true) {
-
       correoController.clear();
 
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) =>
+              const ResetPasswordScreen(),
+        ),
+      );
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
-
       backgroundColor:
           AppColors.background,
 
@@ -96,21 +102,17 @@ class _ForgotPasswordScreenState
       ),
 
       body: Padding(
-
         padding:
             const EdgeInsets.all(24),
-
         child: Column(
-
           mainAxisAlignment:
               MainAxisAlignment.center,
-
           children: [
-
             const Icon(
               Icons.lock_reset,
               size: 80,
-              color: AppColors.primary,
+              color:
+                  AppColors.primary,
             ),
 
             const SizedBox(
@@ -118,10 +120,12 @@ class _ForgotPasswordScreenState
             ),
 
             const Text(
-              "¿Olvidaste tu contraseña?",
-              textAlign: TextAlign.center,
+              "Recuperar contraseña",
+              textAlign:
+                  TextAlign.center,
               style: TextStyle(
-                color: AppColors.white,
+                color:
+                    AppColors.white,
                 fontSize: 24,
                 fontWeight:
                     FontWeight.bold,
@@ -133,11 +137,12 @@ class _ForgotPasswordScreenState
             ),
 
             const Text(
-              "Escribe tu correo y te enviaremos "
-              "un enlace para recuperar tu cuenta.",
-              textAlign: TextAlign.center,
+              "Ingresa tu correo electrónico y recibirás un código OTP de 6 dígitos para restablecer tu contraseña.",
+              textAlign:
+                  TextAlign.center,
               style: TextStyle(
-                color: Colors.white70,
+                color:
+                    Colors.white70,
                 fontSize: 15,
               ),
             ),
@@ -147,40 +152,24 @@ class _ForgotPasswordScreenState
             ),
 
             TextField(
-
               controller:
                   correoController,
-
               keyboardType:
-                  TextInputType.emailAddress,
-
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-
+                  TextInputType
+                      .emailAddress,
               decoration:
                   InputDecoration(
-
                 labelText:
                     "Correo electrónico",
-
-                labelStyle:
-                    const TextStyle(
-                  color: Colors.white70,
-                ),
-
                 prefixIcon:
                     const Icon(
                   Icons.email,
                   color:
                       AppColors.primary,
                 ),
-
                 filled: true,
-
                 fillColor:
                     AppColors.surface,
-
                 border:
                     OutlineInputBorder(
                   borderRadius:
@@ -196,34 +185,23 @@ class _ForgotPasswordScreenState
             ),
 
             SizedBox(
-
               width:
                   double.infinity,
-
               height: 50,
-
-              child: ElevatedButton(
-
+              child:
+                  ElevatedButton(
                 onPressed:
                     cargando
                         ? null
                         : enviar,
-
-                child: cargando
-
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child:
-                            CircularProgressIndicator(),
-                      )
-
-                    : const Text(
-                        "Enviar correo",
-                      ),
+                child:
+                    cargando
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            "Enviar código",
+                          ),
               ),
             ),
-
           ],
         ),
       ),

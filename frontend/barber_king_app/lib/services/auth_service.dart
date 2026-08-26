@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -10,7 +12,6 @@ class AuthService {
       const FlutterSecureStorage();
 
   // LOGIN
-
   Future<Map<String, dynamic>> login({
     required String correo,
     required String contrasena,
@@ -19,12 +20,15 @@ class AuthService {
       final response = await _api.dio.post(
         "/auth/login",
         data: {
-          "correo": correo,
+          "correo": correo.trim(),
           "password": contrasena,
         },
       );
 
-      final data = response.data;
+      final data =
+          Map<String, dynamic>.from(
+        response.data,
+      );
 
       if (data["success"] == true) {
         await _storage.write(
@@ -34,7 +38,9 @@ class AuthService {
 
         await _storage.write(
           key: "usuario",
-          value: data["usuario"].toString(),
+          value: jsonEncode(
+            data["usuario"],
+          ),
         );
       }
 
@@ -42,7 +48,8 @@ class AuthService {
     } on DioException catch (e) {
       return {
         "success": false,
-        "message": _obtenerMensajeError(e),
+        "message":
+            _obtenerMensajeError(e),
       };
     } catch (e) {
       return {
@@ -52,16 +59,16 @@ class AuthService {
     }
   }
 
-  // RECUPERAR CONTRASEÑA
-
-  Future<Map<String, dynamic>> recuperarPassword(
+  // RECUPERAR CONTRASEÑA (ENVÍA OTP)
+  Future<Map<String, dynamic>>
+      recuperarPassword(
     String correo,
   ) async {
     try {
       final response = await _api.dio.post(
         "/auth/forgot-password",
         data: {
-          "correo": correo,
+          "correo": correo.trim(),
         },
       );
 
@@ -71,7 +78,8 @@ class AuthService {
     } on DioException catch (e) {
       return {
         "success": false,
-        "message": _obtenerMensajeError(e),
+        "message":
+            _obtenerMensajeError(e),
       };
     } catch (e) {
       return {
@@ -81,17 +89,19 @@ class AuthService {
     }
   }
 
-  // CAMBIAR CONTRASEÑA
-
-  Future<Map<String, dynamic>> cambiarPassword({
-    required String token,
+  // RESTABLECER CONTRASEÑA CON OTP
+  Future<Map<String, dynamic>>
+      restablecerPassword({
+    required String correo,
+    required String codigo,
     required String password,
   }) async {
     try {
       final response = await _api.dio.post(
         "/auth/reset-password",
         data: {
-          "token": token,
+          "correo": correo.trim(),
+          "codigo": codigo.trim(),
           "password": password,
         },
       );
@@ -102,7 +112,8 @@ class AuthService {
     } on DioException catch (e) {
       return {
         "success": false,
-        "message": _obtenerMensajeError(e),
+        "message":
+            _obtenerMensajeError(e),
       };
     } catch (e) {
       return {
@@ -113,37 +124,58 @@ class AuthService {
   }
 
   // OBTENER TOKEN
-
   Future<String?> obtenerToken() async {
     return await _storage.read(
       key: "token",
     );
   }
 
-  // CERRAR SESIÓN
+  // OBTENER USUARIO
+  Future<Map<String, dynamic>?>
+      obtenerUsuario() async {
+    final usuario =
+        await _storage.read(
+      key: "usuario",
+    );
 
+    if (usuario == null) {
+      return null;
+    }
+
+    return Map<String, dynamic>.from(
+      jsonDecode(usuario),
+    );
+  }
+
+  // VALIDAR SESIÓN
+  Future<bool>
+      estaAutenticado() async {
+    final token =
+        await obtenerToken();
+
+    return token != null &&
+        token.isNotEmpty;
+  }
+
+  // CERRAR SESIÓN
   Future<void> cerrarSesion() async {
     await _storage.deleteAll();
   }
-
-  // MANEJO DE ERRORES
 
   String _obtenerMensajeError(
     DioException error,
   ) {
     try {
-      final data = error.response?.data;
+      final data =
+          error.response?.data;
 
       if (data is Map &&
           data["message"] != null) {
-        return data["message"].toString();
+        return data["message"]
+            .toString();
       }
     } catch (_) {}
 
     return "Error de conexión con el servidor.";
-  }
-
-  Future<Object?> obtenerUsuario() async {
-    return null;
   }
 }

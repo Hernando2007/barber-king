@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../services/auth_service.dart';
 import '../../core/colors.dart';
+import '../../services/auth_service.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-
-  final String token;
-
   const ResetPasswordScreen({
     super.key,
-    required this.token,
   });
 
   @override
@@ -19,33 +15,40 @@ class ResetPasswordScreen extends StatefulWidget {
 
 class _ResetPasswordScreenState
     extends State<ResetPasswordScreen> {
-
-  final TextEditingController passwordController =
+  final correoController =
       TextEditingController();
 
-  final TextEditingController confirmarController =
+  final codigoController =
+      TextEditingController();
+
+  final passwordController =
+      TextEditingController();
+
+  final confirmarController =
       TextEditingController();
 
   final AuthService authService =
       AuthService();
 
   bool cargando = false;
-
   bool ocultarPassword = true;
-
   bool ocultarConfirmar = true;
 
   @override
   void dispose() {
-
+    correoController.dispose();
+    codigoController.dispose();
     passwordController.dispose();
-
     confirmarController.dispose();
-
     super.dispose();
   }
-  // CAMBIAR CONTRASEÑA
+
   Future<void> cambiarPassword() async {
+    final correo =
+        correoController.text.trim();
+
+    final codigo =
+        codigoController.text.trim();
 
     final password =
         passwordController.text.trim();
@@ -53,9 +56,10 @@ class _ResetPasswordScreenState
     final confirmar =
         confirmarController.text.trim();
 
-    if (password.isEmpty ||
+    if (correo.isEmpty ||
+        codigo.isEmpty ||
+        password.isEmpty ||
         confirmar.isEmpty) {
-
       ScaffoldMessenger.of(context)
           .showSnackBar(
         const SnackBar(
@@ -64,12 +68,22 @@ class _ResetPasswordScreenState
           ),
         ),
       );
+      return;
+    }
 
+    if (codigo.length != 6) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
+        const SnackBar(
+          content: Text(
+            "El código OTP debe tener 6 dígitos.",
+          ),
+        ),
+      );
       return;
     }
 
     if (password.length < 6) {
-
       ScaffoldMessenger.of(context)
           .showSnackBar(
         const SnackBar(
@@ -78,12 +92,10 @@ class _ResetPasswordScreenState
           ),
         ),
       );
-
       return;
     }
 
     if (password != confirmar) {
-
       ScaffoldMessenger.of(context)
           .showSnackBar(
         const SnackBar(
@@ -92,7 +104,6 @@ class _ResetPasswordScreenState
           ),
         ),
       );
-
       return;
     }
 
@@ -101,8 +112,10 @@ class _ResetPasswordScreenState
     });
 
     final respuesta =
-        await authService.cambiarPassword(
-      token: widget.token,
+        await authService
+            .restablecerPassword(
+      correo: correo,
+      codigo: codigo,
       password: password,
     );
 
@@ -112,59 +125,41 @@ class _ResetPasswordScreenState
       cargando = false;
     });
 
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      SnackBar(
+        content: Text(
+          respuesta["message"] ??
+              "Solicitud procesada.",
+        ),
+      ),
+    );
+
     if (respuesta["success"] == true) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        SnackBar(
-          content: Text(
-            respuesta["message"] ??
-                "Contraseña actualizada correctamente.",
-          ),
-        ),
-      );
-
       Navigator.pop(context);
-
-    } else {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        SnackBar(
-          content: Text(
-            respuesta["message"] ??
-                "No se pudo cambiar la contraseña.",
-          ),
-        ),
-      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor:
           AppColors.background,
 
       appBar: AppBar(
         title: const Text(
-          "Nueva contraseña",
+          "Restablecer contraseña",
         ),
       ),
 
-      body: Padding(
-
+      body: SingleChildScrollView(
         padding:
             const EdgeInsets.all(24),
-
         child: Column(
-
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-
           children: [
+            const SizedBox(
+              height: 30,
+            ),
 
             const Icon(
               Icons.lock_reset,
@@ -177,87 +172,16 @@ class _ResetPasswordScreenState
               height: 25,
             ),
 
-            const Text(
-              "Crear nueva contraseña",
-              textAlign:
-                  TextAlign.center,
-              style: TextStyle(
-                color:
-                    AppColors.white,
-                fontSize: 24,
-                fontWeight:
-                    FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(
-              height: 30,
-            ),
-
             TextField(
-
               controller:
-                  passwordController,
-
-              obscureText:
-                  ocultarPassword,
-
-              style:
-                  const TextStyle(
-                color: Colors.white,
-              ),
-
+                  correoController,
               decoration:
-                  InputDecoration(
-
+                  const InputDecoration(
                 labelText:
-                    "Nueva contraseña",
-
-                labelStyle:
-                    const TextStyle(
-                  color:
-                      Colors.white70,
-                ),
-
+                    "Correo",
                 prefixIcon:
-                    const Icon(
-                  Icons.lock,
-                  color:
-                      AppColors.primary,
-                ),
-
-                suffixIcon:
-                    IconButton(
-
-                  icon: Icon(
-                    ocultarPassword
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color:
-                        Colors.white70,
-                  ),
-
-                  onPressed: () {
-
-                    setState(() {
-                      ocultarPassword =
-                          !ocultarPassword;
-                    });
-
-                  },
-                ),
-
-                filled: true,
-
-                fillColor:
-                    AppColors.surface,
-
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
+                    Icon(
+                  Icons.email,
                 ),
               ),
             ),
@@ -267,104 +191,109 @@ class _ResetPasswordScreenState
             ),
 
             TextField(
-
               controller:
-                  confirmarController,
-
-              obscureText:
-                  ocultarConfirmar,
-
-              style:
-                  const TextStyle(
-                color: Colors.white,
-              ),
-
+                  codigoController,
+              keyboardType:
+                  TextInputType.number,
               decoration:
-                  InputDecoration(
-
+                  const InputDecoration(
                 labelText:
-                    "Confirmar contraseña",
-
-                labelStyle:
-                    const TextStyle(
-                  color:
-                      Colors.white70,
-                ),
-
+                    "Código OTP",
                 prefixIcon:
-                    const Icon(
-                  Icons.lock_outline,
-                  color:
-                      AppColors.primary,
-                ),
-
-                suffixIcon:
-                    IconButton(
-
-                  icon: Icon(
-                    ocultarConfirmar
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color:
-                        Colors.white70,
-                  ),
-
-                  onPressed: () {
-
-                    setState(() {
-                      ocultarConfirmar =
-                          !ocultarConfirmar;
-                    });
-
-                  },
-                ),
-
-                filled: true,
-
-                fillColor:
-                    AppColors.surface,
-
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
+                    Icon(
+                  Icons.pin,
                 ),
               ),
             ),
 
             const SizedBox(
-              height: 25,
+              height: 15,
+            ),
+
+            TextField(
+              controller:
+                  passwordController,
+              obscureText:
+                  ocultarPassword,
+              decoration:
+                  InputDecoration(
+                labelText:
+                    "Nueva contraseña",
+                prefixIcon:
+                    const Icon(
+                  Icons.lock,
+                ),
+                suffixIcon:
+                    IconButton(
+                  icon: Icon(
+                    ocultarPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      ocultarPassword =
+                          !ocultarPassword;
+                    });
+                  },
+                ),
+              ),
+            ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            TextField(
+              controller:
+                  confirmarController,
+              obscureText:
+                  ocultarConfirmar,
+              decoration:
+                  InputDecoration(
+                labelText:
+                    "Confirmar contraseña",
+                prefixIcon:
+                    const Icon(
+                  Icons.lock_outline,
+                ),
+                suffixIcon:
+                    IconButton(
+                  icon: Icon(
+                    ocultarConfirmar
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      ocultarConfirmar =
+                          !ocultarConfirmar;
+                    });
+                  },
+                ),
+              ),
+            ),
+
+            const SizedBox(
+              height: 30,
             ),
 
             SizedBox(
-
               width:
                   double.infinity,
-
               height: 50,
-
               child:
                   ElevatedButton(
-
                 onPressed:
                     cargando
                         ? null
                         : cambiarPassword,
-
-                child: cargando
-
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child:
-                            CircularProgressIndicator(),
-                      )
-
-                    : const Text(
-                        "Cambiar contraseña",
-                      ),
+                child:
+                    cargando
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            "Cambiar contraseña",
+                          ),
               ),
             ),
           ],

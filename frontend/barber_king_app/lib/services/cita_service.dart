@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 
 import 'api_service.dart';
 
-class ServicioService {
+class CitaService {
   final ApiService _api = ApiService();
 
-  Future<List<dynamic>> obtenerServicios() async {
+  Future<List<dynamic>> obtenerCitas() async {
     try {
       final response = await _api.dio.get(
-        "/servicios/obtener",
+        "/citas/obtenerTodas",
       );
 
       return response.data["data"] ?? [];
@@ -17,12 +17,12 @@ class ServicioService {
     }
   }
 
-  Future<Map<String, dynamic>?> obtenerServicio(
+  Future<Map<String, dynamic>?> obtenerCita(
     int id,
   ) async {
     try {
       final response = await _api.dio.get(
-        "/servicios/obtener/$id",
+        "/citas/obtenerPorId/$id",
       );
 
       return Map<String, dynamic>.from(
@@ -33,26 +33,26 @@ class ServicioService {
     }
   }
 
-  Future<Map<String, dynamic>> crearServicio({
-    required String nombre,
-    required String descripcion,
-    required double precio,
-    required int duracion,
-    int tiempoDescanso = 0,
-    String? imagen,
-    bool estado = true,
+  Future<Map<String, dynamic>> crearCita({
+    required int clienteId,
+    required int barberoId,
+    required int servicioId,
+    required String fecha,
+    required String hora,
+    String estado = "Pendiente",
+    String? observaciones,
   }) async {
     try {
       final response = await _api.dio.post(
-        "/servicios/crear",
+        "/citas/crear",
         data: {
-          "nombre": nombre,
-          "descripcion": descripcion,
-          "precio": precio,
-          "duracion": duracion,
-          "tiempo_descanso": tiempoDescanso,
-          "imagen": imagen,
+          "cliente_id": clienteId,
+          "barbero_id": barberoId,
+          "servicio_id": servicioId,
+          "fecha": fecha,
+          "hora": hora,
           "estado": estado,
+          "observaciones": observaciones,
         },
       );
 
@@ -64,18 +64,18 @@ class ServicioService {
         "success": false,
         "message":
             e.response?.data["message"] ??
-            "Error al crear servicio."
+            "Error al crear la cita.",
       };
     }
   }
 
-  Future<Map<String, dynamic>> actualizarServicio({
+  Future<Map<String, dynamic>> actualizarCita({
     required int id,
     required Map<String, dynamic> datos,
   }) async {
     try {
       final response = await _api.dio.put(
-        "/servicios/actualizar/$id",
+        "/citas/actualizar/$id",
         data: datos,
       );
 
@@ -87,17 +87,17 @@ class ServicioService {
         "success": false,
         "message":
             e.response?.data["message"] ??
-            "Error al actualizar."
+            "Error al actualizar.",
       };
     }
   }
 
-  Future<Map<String, dynamic>> eliminarServicio(
+  Future<Map<String, dynamic>> eliminarCita(
     int id,
   ) async {
     try {
       final response = await _api.dio.delete(
-        "/servicios/eliminar/$id",
+        "/citas/delete/$id",
       );
 
       return Map<String, dynamic>.from(
@@ -108,7 +108,7 @@ class ServicioService {
         "success": false,
         "message":
             e.response?.data["message"] ??
-            "Error al eliminar."
+            "Error al eliminar.",
       };
     }
   }

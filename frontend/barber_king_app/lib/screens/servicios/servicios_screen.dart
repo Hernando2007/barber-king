@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
-import '../../models/servicio.dart';
 import '../../services/servicios_service.dart';
-import '../../widgets/servicios/buscador_servicios.dart';
-import '../../widgets/servicios/servicio_card.dart';
-import '../../routes/app_routes.dart';
+import 'crear_servicio_screen.dart';
 
 class ServiciosScreen extends StatefulWidget {
-  const ServiciosScreen({super.key});
+  const ServiciosScreen({
+    super.key,
+  });
 
   @override
-  State<ServiciosScreen> createState() => _ServiciosScreenState();
+  State<ServiciosScreen> createState() =>
+      _ServiciosScreenState();
 }
 
-class _ServiciosScreenState extends State<ServiciosScreen> {
+class _ServiciosScreenState
+    extends State<ServiciosScreen> {
 
-  final ServiciosService service = ServiciosService();
+  final ServicioService service =
+      ServicioService();
 
-  final TextEditingController buscarController =
-      TextEditingController();
-
-  List<Servicio> servicios = [];
-  List<Servicio> filtrados = [];
+  List<dynamic> servicios = [];
 
   bool cargando = true;
 
@@ -33,49 +31,42 @@ class _ServiciosScreenState extends State<ServiciosScreen> {
   }
 
   Future<void> cargarServicios() async {
-
     setState(() {
       cargando = true;
     });
 
-    try {
-
-      servicios = await service.obtenerServicios();
-
-      filtrados = List.from(servicios);
-
-    } catch (e) {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
-
-    }
+    final data =
+        await service.obtenerServicios();
 
     if (!mounted) return;
 
     setState(() {
+      servicios = data;
       cargando = false;
     });
-
   }
 
-  void buscar(String texto) {
+  Future<void> eliminar(
+    int id,
+  ) async {
 
-    setState(() {
+    final respuesta =
+        await service.eliminarServicio(id);
 
-      filtrados = servicios.where((servicio) {
+    if (!mounted) return;
 
-        return servicio.nombre
-            .toLowerCase()
-            .contains(texto.toLowerCase());
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      SnackBar(
+        content: Text(
+          respuesta["message"],
+        ),
+      ),
+    );
 
-      }).toList();
-
-    });
-
+    if (respuesta["success"] == true) {
+      cargarServicios();
+    }
   }
 
   @override
@@ -83,145 +74,133 @@ class _ServiciosScreenState extends State<ServiciosScreen> {
 
     return Scaffold(
 
-      backgroundColor: AppColors.background,
+      backgroundColor:
+          AppColors.background,
 
       appBar: AppBar(
-        title: const Text("Servicios"),
-        centerTitle: true,
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        onPressed: () async {
-
-  final actualizado =
-      await Navigator.pushNamed(
-    context,
-    AppRoutes.crearServicio,
-  );
-
-  if (actualizado == true) {
-    cargarServicios();
-  }
-
-},
-        child: const Icon(
-          Icons.add,
-          color: Colors.black,
+        title: const Text(
+          "Servicios",
         ),
       ),
 
-      body: RefreshIndicator(
+      floatingActionButton:
+          FloatingActionButton(
+        onPressed: () async {
 
-        onRefresh: cargarServicios,
-
-        child: Column(
-
-          children: [
-
-            Padding(
-
-              padding: const EdgeInsets.all(15),
-
-              child: BuscadorServicios(
-
-                controller: buscarController,
-
-                onChanged: buscar,
-
-              ),
-
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) =>
+                  const CrearServicioScreen(),
             ),
+          );
 
-            Expanded(
+          cargarServicios();
+        },
+        child: const Icon(Icons.add),
+      ),
 
-              child: cargando
+      body: cargando
 
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
+          ? const Center(
+              child:
+                  CircularProgressIndicator(),
+            )
 
-                  : filtrados.isEmpty
+          : RefreshIndicator(
+              onRefresh:
+                  cargarServicios,
 
-                      ? const Center(
+              child: ListView.builder(
+                itemCount:
+                    servicios.length,
 
-                          child: Text(
-                            "No hay servicios.",
-                            style: TextStyle(
-                              color: Colors.white70,
+                itemBuilder:
+                    (context, index) {
+
+                  final servicio =
+                      servicios[index];
+
+                  return Card(
+                    color:
+                        AppColors.surface,
+
+                    margin:
+                        const EdgeInsets.all(
+                      10,
+                    ),
+
+                    child: ListTile(
+
+                      title: Text(
+                        servicio["nombre"],
+                        style:
+                            const TextStyle(
+                          color:
+                              Colors.white,
+                          fontWeight:
+                              FontWeight.bold,
+                        ),
+                      ),
+
+                      subtitle: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment
+                                .start,
+                        children: [
+
+                          Text(
+                            servicio["descripcion"] ??
+                                "",
+                            style:
+                                const TextStyle(
+                              color: Colors
+                                  .white70,
                             ),
                           ),
 
-                        )
-
-                      : ListView.builder(
-
-                          padding:
-                              const EdgeInsets.symmetric(
-                            horizontal: 15,
+                          const SizedBox(
+                            height: 5,
                           ),
 
-                          itemCount: filtrados.length,
+                          Text(
+                            "\$${servicio["precio"]}",
+                            style:
+                                const TextStyle(
+                              color:
+                                  AppColors.primary,
+                              fontWeight:
+                                  FontWeight.bold,
+                            ),
+                          ),
 
-                          itemBuilder: (context, index) {
+                          Text(
+                            "${servicio["duracion"]} min",
+                            style:
+                                const TextStyle(
+                              color:
+                                  Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
 
-                            final servicio =
-                                filtrados[index];
-
-                            return ServicioCard(
-
-                              servicio: servicio,
-
-                              onEditar: () {
-
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(
-
-                                  SnackBar(
-
-                                    content: Text(
-                                      "Editar ${servicio.nombre}",
-                                    ),
-
-                                  ),
-
-                                );
-
-                              },
-
-                              onEliminar: () {
-
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(
-
-                                  SnackBar(
-
-                                    content: Text(
-                                      "Eliminar ${servicio.nombre}",
-                                    ),
-
-                                  ),
-
-                                );
-
-                              },
-
-                            );
-
-                          },
-
+                      trailing:
+                          IconButton(
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
                         ),
-
+                        onPressed: () =>
+                            eliminar(
+                          servicio["id"],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-
-          ],
-
-        ),
-
-      ),
-
     );
-
   }
-
 }
