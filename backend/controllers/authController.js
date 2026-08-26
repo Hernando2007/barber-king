@@ -107,8 +107,7 @@ export const forgotPassword = async (
 
 export const resetPassword = async (
     req,
-    res,
-    next
+    res
 ) => {
 
     try {
@@ -119,6 +118,30 @@ export const resetPassword = async (
             password
         } = req.body;
 
+        if (
+            !correo ||
+            !codigo ||
+            !password
+        ) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Correo, código y contraseña son obligatorios."
+            });
+
+        }
+
+        if (password.length < 6) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "La contraseña debe tener mínimo 6 caracteres."
+            });
+
+        }
+
         await cambiarPassword(
             correo,
             codigo,
@@ -126,16 +149,17 @@ export const resetPassword = async (
         );
 
         return res.status(200).json({
-
             success: true,
             message:
                 "Contraseña actualizada correctamente."
-
         });
 
     } catch (error) {
 
-        next(error);
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        });
 
     }
 

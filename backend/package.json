@@ -6,14 +6,24 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "prod": "NODE_ENV=production node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "barberia",
+    "api",
+    "express",
+    "supabase"
+  ],
+  "author": "Fernando Hernández",
   "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

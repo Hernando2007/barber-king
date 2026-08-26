@@ -75,7 +75,7 @@ export const solicitarRecuperacion = async (
 export const restablecerContrasena = async (
     correo,
     codigo,
-    nuevaContrasena
+    password
 ) => {
 
     const {
@@ -123,7 +123,7 @@ export const restablecerContrasena = async (
 
     const passwordHash =
         await bcrypt.hash(
-            nuevaContrasena,
+            password,
             10
         );
 

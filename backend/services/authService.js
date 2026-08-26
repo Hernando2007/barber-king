@@ -218,13 +218,13 @@ export const solicitarRecuperacion = async (
 export const cambiarPassword = async (
     correo,
     codigo,
-    nuevaPassword
+    password
 ) => {
 
     if (
         !correo ||
         !codigo ||
-        !nuevaPassword
+        !password
     ) {
 
         throw new Error(
@@ -273,7 +273,7 @@ export const cambiarPassword = async (
 
     const passwordHash =
         await bcrypt.hash(
-            nuevaPassword,
+            password,
             10
         );
 
