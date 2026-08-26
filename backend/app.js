@@ -6,14 +6,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 
-// Swagger
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./docs/swagger.js";
 
-// Middlewares
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
-// Rutas
 import authRoutes from "./routes/authRoutes.js";
 import usuariosRoutes from "./routes/usuariosRoutes.js";
 import disponibilidadRoutes from "./routes/disponibilidadRoutes.js";
@@ -24,63 +21,141 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import resenasRoutes from "./routes/resenasRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 
-import { verificarEmailService } from "./services/emailService.js";
+import {
+    verificarEmailService
+} from "./services/emailService.js";
 
-await verificarEmailService();
+try {
+
+    await verificarEmailService();
+
+    console.log(
+        "✅ Servicio de correo conectado."
+    );
+
+} catch (error) {
+
+    console.error(
+        "⚠️ Error SMTP:",
+        error.message
+    );
+
+}
 
 const app = express();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+app.disable("x-powered-by");
+
+const __filename =
+    fileURLToPath(import.meta.url);
+
+const __dirname =
+    path.dirname(__filename);
+
+const allowedOrigins = [
+    process.env.FRONTEND_URL
+];
 
 app.use(cors({
-    origin: true,
+
+    origin(origin, callback) {
+
+        if (!origin) {
+            return callback(null, true);
+        }
+
+        if (
+            allowedOrigins.includes(origin)
+        ) {
+
+            return callback(null, true);
+
+        }
+
+        callback(
+            new Error(
+                "Origen no permitido"
+            )
+        );
+
+    },
+
     credentials: true
+
 }));
 
-// Seguridad HTTP
 app.use(
     helmet({
-        crossOriginEmbedderPolicy: false
+        crossOriginEmbedderPolicy:
+            false
     })
 );
 
-// Logs de las peticiones
-app.use(morgan("dev"));
+if (
+    process.env.NODE_ENV !==
+    "production"
+) {
 
-// Límite de peticiones
+    app.use(morgan("dev"));
+
+}
+
 app.use(rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 100,
+
+    windowMs:
+        15 * 60 * 1000,
+
+    max:
+        process.env.NODE_ENV ===
+        "production"
+            ? 300
+            : 100,
+
+    standardHeaders: true,
+
+    legacyHeaders: false,
+
     message: {
+
         success: false,
-        message: "Demasiadas peticiones. Inténtalo nuevamente en unos minutos."
+
+        message:
+            "Demasiadas peticiones."
+
     }
+
 }));
 
-// Lectura de JSON
 app.use(express.json({
     limit: "10mb"
 }));
 
-// Lectura de formularios
 app.use(express.urlencoded({
     extended: true,
     limit: "10mb"
 }));
 
-
 app.get("/health", (req, res) => {
 
     res.status(200).json({
+
         success: true,
-        proyecto: "💈 Barber King API",
-        version: "1.0.0",
-        estado: "Activo"
+
+        proyecto:
+            "Barber King API",
+
+        version:
+            "1.0.0",
+
+        estado:
+            "Activo",
+
+        uptime:
+            process.uptime()
+
     });
 
 });
-
 
 if (
     process.env.NODE_ENV !==
@@ -95,48 +170,42 @@ if (
 
 }
 
-// Auth
 app.use("/api/auth", authRoutes);
-
-// Usuarios
 app.use("/api/usuarios", usuariosRoutes);
-
-// Disponibilidad
 app.use("/api/disponibilidad", disponibilidadRoutes);
-
-// Citas
 app.use("/api/citas", citasRoutes);
-
-// Barberos
 app.use("/api/barberos", barberosRoutes);
-
-// Servicios
 app.use("/api/servicios", serviciosRoutes);
-
-// Uploads
 app.use("/api/uploads", uploadRoutes);
-
-// Reseñas
 app.use("/api/resenas", resenasRoutes);
-
-// Dashboard
 app.use("/api/dashboard", dashboardRoutes);
-
 
 app.use(
     "/uploads",
-    express.static(path.join(__dirname, "uploads"))
+    express.static(
+        path.join(
+            __dirname,
+            "uploads"
+        ),
+        {
+            maxAge: "7d",
+            etag: true
+        }
+    )
 );
 
 app.use((req, res) => {
 
     res.status(404).json({
+
         success: false,
-        message: "Ruta no encontrada."
+
+        message:
+            "Ruta no encontrada."
+
     });
 
 });
-
 
 app.use(errorHandler);
 
