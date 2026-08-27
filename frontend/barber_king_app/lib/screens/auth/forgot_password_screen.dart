@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../services/auth_service.dart';
 import '../../core/colors.dart';
+import '../../services/auth_service.dart';
+import 'reset_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({
-    super.key,
-  });
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() =>
-      _ForgotPasswordScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState
-    extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final correoController = TextEditingController();
 
-  final TextEditingController correoController =
-      TextEditingController();
-
-  final AuthService authService =
-      AuthService();
+  final AuthService authService = AuthService();
 
   bool cargando = false;
 
@@ -29,23 +23,14 @@ class _ForgotPasswordScreenState
     correoController.dispose();
     super.dispose();
   }
-  // ENVIAR CORREO
-  Future<void> enviar() async {
 
-    final correo =
-        correoController.text.trim();
+  Future<void> enviar() async {
+    final correo = correoController.text.trim();
 
     if (correo.isEmpty) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Ingrese su correo electrónico.",
-          ),
-        ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Ingrese su correo electrónico.")),
       );
-
       return;
     }
 
@@ -53,10 +38,7 @@ class _ForgotPasswordScreenState
       cargando = true;
     });
 
-    final respuesta =
-        await authService.recuperarPassword(
-      correo,
-    );
+    final respuesta = await authService.recuperarPassword(correo);
 
     if (!mounted) return;
 
@@ -64,166 +46,82 @@ class _ForgotPasswordScreenState
       cargando = false;
     });
 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-      SnackBar(
-        content: Text(
-          respuesta["message"] ??
-              "Solicitud procesada.",
-        ),
-      ),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(respuesta["message"] ?? "Solicitud procesada.")),
     );
 
     if (respuesta["success"] == true) {
-
       correoController.clear();
 
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      backgroundColor: AppColors.background,
 
-      backgroundColor:
-          AppColors.background,
-
-      appBar: AppBar(
-        title: const Text(
-          "Recuperar contraseña",
-        ),
-      ),
+      appBar: AppBar(title: const Text("Recuperar contraseña")),
 
       body: Padding(
-
-        padding:
-            const EdgeInsets.all(24),
-
+        padding: const EdgeInsets.all(24),
         child: Column(
-
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Icon(Icons.lock_reset, size: 80, color: AppColors.primary),
 
-            const Icon(
-              Icons.lock_reset,
-              size: 80,
-              color: AppColors.primary,
-            ),
-
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
 
             const Text(
-              "¿Olvidaste tu contraseña?",
+              "Recuperar contraseña",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 24,
-                fontWeight:
-                    FontWeight.bold,
+                fontWeight: FontWeight.bold,
               ),
             ),
 
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
 
             const Text(
-              "Escribe tu correo y te enviaremos "
-              "un enlace para recuperar tu cuenta.",
+              "Ingresa tu correo electrónico y recibirás un código OTP de 6 dígitos para restablecer tu contraseña.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 15,
-              ),
+              style: TextStyle(color: Colors.white70, fontSize: 15),
             ),
 
-            const SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
 
             TextField(
-
-              controller:
-                  correoController,
-
-              keyboardType:
-                  TextInputType.emailAddress,
-
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-
-              decoration:
-                  InputDecoration(
-
-                labelText:
-                    "Correo electrónico",
-
-                labelStyle:
-                    const TextStyle(
-                  color: Colors.white70,
-                ),
-
-                prefixIcon:
-                    const Icon(
-                  Icons.email,
-                  color:
-                      AppColors.primary,
-                ),
-
+              controller: correoController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: "Correo electrónico",
+                prefixIcon: const Icon(Icons.email, color: AppColors.primary),
                 filled: true,
-
-                fillColor:
-                    AppColors.surface,
-
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
+                fillColor: AppColors.surface,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
 
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
 
             SizedBox(
-
-              width:
-                  double.infinity,
-
+              width: double.infinity,
               height: 50,
-
               child: ElevatedButton(
-
-                onPressed:
-                    cargando
-                        ? null
-                        : enviar,
-
+                onPressed: cargando ? null : enviar,
                 child: cargando
-
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child:
-                            CircularProgressIndicator(),
-                      )
-
-                    : const Text(
-                        "Enviar correo",
-                      ),
+                    ? const CircularProgressIndicator()
+                    : const Text("Enviar código"),
               ),
             ),
-
           ],
         ),
       ),

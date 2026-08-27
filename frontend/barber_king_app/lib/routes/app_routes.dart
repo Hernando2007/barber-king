@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../screens/splash/splash_screen.dart';
-import '../screens/login/login_screen.dart';
-import '../screens/home/home_screen.dart';
-import '../screens/servicios/servicios_screen.dart';
-import '../screens/servicios/crear_servicio_screen.dart';
-import '../screens/barberos/barberos_screen.dart';
-import '../screens/citas/citas_screen.dart';
-import '../screens/perfil/perfil_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/reset_password_screen.dart';
+import '../screens/barberos/barberos_screen.dart';
+import '../screens/citas/citas_screen.dart';
+import '../screens/home/home_screen.dart';
+import '../screens/login/login_screen.dart';
+import '../screens/perfil/perfil_screen.dart';
+import '../screens/servicios/crear_servicio_screen.dart';
+import '../screens/servicios/servicios_screen.dart';
+import '../screens/splash/splash_screen.dart';
+import '../screens/auth/register_screen.dart';
 
 class AppRoutes {
   static const splash = "/";
   static const login = "/login";
   static const home = "/home";
+  static const register = "/register";
 
   static const servicios = "/servicios";
   static const crearServicio = "/crear-servicio";
@@ -30,12 +32,13 @@ class AppRoutes {
 
     login: (context) => const LoginScreen(),
 
+    register: (context) => const RegisterScreen(),
+
     home: (context) => const HomeScreen(),
 
     servicios: (context) => const ServiciosScreen(),
 
-    crearServicio: (context) =>
-        const CrearServicioScreen(),
+    crearServicio: (context) => const CrearServicioScreen(),
 
     barberos: (context) => const BarberosScreen(),
 
@@ -43,12 +46,8 @@ class AppRoutes {
 
     perfil: (context) => const PerfilScreen(),
 
-    forgotPassword: (context) =>
-        const ForgotPasswordScreen(),
+    forgotPassword: (context) => const ForgotPasswordScreen(),
 
-    resetPassword: (context) =>
-        const ResetPasswordScreen(
-          token: "",
-        ),
+    resetPassword: (context) => const ResetPasswordScreen(),
   };
 }

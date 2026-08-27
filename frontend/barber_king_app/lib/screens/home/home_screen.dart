@@ -16,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map<String, dynamic>? usuario;
 
+  bool cargando = true;
+
   @override
   void initState() {
     super.initState();
@@ -27,43 +29,82 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (!mounted) return;
 
+    if (data == null) {
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
+
+      return;
+    }
+
     setState(() {
-      usuario = data as Map<String, dynamic>?;
+      usuario = data;
+      cargando = false;
     });
   }
 
   Future<void> cerrarSesion() async {
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Cerrar sesión"),
+
+          content: const Text("¿Desea cerrar sesión?"),
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: const Text("Cancelar"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: const Text("Salir"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmar != true) {
+      return;
+    }
+
     await authService.cerrarSesion();
 
     if (!mounted) return;
 
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.login,
-      (route) => false,
-    );
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
   }
 
   @override
   Widget build(BuildContext context) {
+    final ancho = MediaQuery.of(context).size.width;
+
+    final columnas = ancho > 900
+        ? 4
+        : ancho > 600
+        ? 3
+        : 2;
+
     return Scaffold(
       backgroundColor: AppColors.background,
 
       appBar: AppBar(
         title: const Text("Barber King"),
+
         centerTitle: true,
+
         actions: [
-          IconButton(
-            onPressed: cerrarSesion,
-            icon: const Icon(Icons.logout),
-          ),
+          IconButton(onPressed: cerrarSesion, icon: const Icon(Icons.logout)),
         ],
       ),
 
-      body: usuario == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+      body: cargando
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(20),
 
@@ -71,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-
                   Text(
                     "Hola, ${usuario!["nombres"]} 👋",
                     style: const TextStyle(
@@ -84,9 +124,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 8),
 
                   Text(
-                    usuario!["correo"],
+                    usuario!["correo"] ?? "",
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  Text(
+                    usuario!["rol"] ?? "",
                     style: const TextStyle(
-                      color: Colors.white70,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
 
@@ -94,20 +142,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Expanded(
                     child: GridView.count(
-                      crossAxisCount: 2,
+                      crossAxisCount: columnas,
+
                       crossAxisSpacing: 20,
+
                       mainAxisSpacing: 20,
 
                       children: [
-
                         MenuCard(
                           titulo: "Servicios",
                           icono: Icons.content_cut,
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.servicios,
-                            );
+                            Navigator.pushNamed(context, AppRoutes.servicios);
                           },
                         ),
 
@@ -115,10 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           titulo: "Barberos",
                           icono: Icons.people,
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.barberos,
-                            );
+                            Navigator.pushNamed(context, AppRoutes.barberos);
                           },
                         ),
 
@@ -126,10 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           titulo: "Reservar",
                           icono: Icons.calendar_month,
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.citas,
-                            );
+                            Navigator.pushNamed(context, AppRoutes.citas);
                           },
                         ),
 
@@ -137,10 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           titulo: "Mi Perfil",
                           icono: Icons.person,
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.perfil,
-                            );
+                            Navigator.pushNamed(context, AppRoutes.perfil);
                           },
                         ),
                       ],
@@ -169,22 +206,24 @@ class MenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: AppColors.surface,
+
       elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-      ),
+
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
+
         onTap: onTap,
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
-            Icon(
-              icono,
-              size: 60,
-              color: AppColors.primary,
-            ),
+            Icon(icono, size: 60, color: AppColors.primary),
+
             const SizedBox(height: 15),
+
             Text(
               titulo,
               style: const TextStyle(

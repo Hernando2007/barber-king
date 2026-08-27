@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
-import '../home/home_screen.dart';
 import '../auth/forgot_password_screen.dart';
+import '../home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,9 +14,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController correoController = TextEditingController();
+  final correoController = TextEditingController();
 
-  final TextEditingController passwordController = TextEditingController();
+  final passwordController = TextEditingController();
 
   final AuthService authService = AuthService();
 
@@ -23,28 +24,47 @@ class _LoginScreenState extends State<LoginScreen> {
   bool cargando = false;
 
   Future<void> iniciarSesion() async {
-    final respuesta = await authService.login(
-      correo: correoController.text.trim(),
-      contrasena: passwordController.text.trim(),
-    );
+    final correo = correoController.text.trim();
 
-    print(respuesta);
+    final password = passwordController.text.trim();
+
+    if (correo.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Complete todos los campos.")),
+      );
+
+      return;
+    }
+
+    setState(() {
+      cargando = true;
+    });
+
+    final respuesta = await authService.login(
+      correo: correo,
+      contrasena: password,
+    );
 
     if (!mounted) return;
 
+    setState(() {
+      cargando = false;
+    });
+
     if (respuesta["success"] == true) {
-      print("LOGIN CORRECTO");
-
-      await Navigator.of(
+      Navigator.pushReplacement(
         context,
-      ).push(MaterialPageRoute(builder: (_) => const HomeScreen()));
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
 
-      print("VOLVÍ DEL HOME");
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(respuesta["message"])));
+      return;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(respuesta["message"] ?? "Error al iniciar sesión."),
+      ),
+    );
   }
 
   @override
@@ -128,30 +148,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ElevatedButton(
                   onPressed: cargando ? null : iniciarSesion,
                   child: cargando
-                      ? const CircularProgressIndicator(color: Colors.black)
-                      : const Text(
-                          "INICIAR SESIÓN",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      ? const CircularProgressIndicator()
+                      : const Text("INICIAR SESIÓN"),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
+
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.register);
+                },
+                child: const Text("¿No tienes cuenta? Crear cuenta"),
+              ),
 
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-
                     MaterialPageRoute(
                       builder: (_) => const ForgotPasswordScreen(),
                     ),
                   );
                 },
-
                 child: const Text("¿Olvidaste tu contraseña?"),
               ),
             ],
