@@ -8,8 +8,7 @@ import 'api_service.dart';
 class AuthService {
   final ApiService _api = ApiService();
 
-  final FlutterSecureStorage _storage =
-      const FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   // LOGIN
   Future<Map<String, dynamic>> login({
@@ -19,79 +18,78 @@ class AuthService {
     try {
       final response = await _api.dio.post(
         "/auth/login",
-        data: {
-          "correo": correo.trim(),
-          "password": contrasena,
-        },
+        data: {"correo": correo.trim(), "password": contrasena},
       );
 
-      final data =
-          Map<String, dynamic>.from(
-        response.data,
-      );
+      final data = Map<String, dynamic>.from(response.data);
 
       if (data["success"] == true) {
-        await _storage.write(
-          key: "token",
-          value: data["token"],
-        );
+        await _storage.write(key: "token", value: data["token"]);
 
         await _storage.write(
           key: "usuario",
-          value: jsonEncode(
-            data["usuario"],
-          ),
+          value: jsonEncode(data["usuario"]),
         );
       }
 
       return data;
     } on DioException catch (e) {
-      return {
-        "success": false,
-        "message":
-            _obtenerMensajeError(e),
-      };
+      return {"success": false, "message": _obtenerMensajeError(e)};
     } catch (e) {
-      return {
-        "success": false,
-        "message": e.toString(),
-      };
+      return {"success": false, "message": e.toString()};
+    }
+  }
+
+  // REGISTRO
+  Future<Map<String, dynamic>> registrar({
+    required int rolId,
+    required String nombres,
+    required String apellidos,
+    required String correo,
+    required String telefono,
+    required String fechaNacimiento,
+    required String password,
+  }) async {
+    try {
+      final response = await _api.dio.post(
+        "/auth/registro",
+        data: {
+          "rol_id": rolId,
+          "nombres": nombres,
+          "apellidos": apellidos,
+          "correo": correo,
+          "telefono": telefono,
+          "fecha_nacimiento": fechaNacimiento,
+          "password": password,
+        },
+      );
+
+      return Map<String, dynamic>.from(response.data);
+    } on DioException catch (e) {
+      return {"success": false, "message": _obtenerMensajeError(e)};
+    } catch (e) {
+      return {"success": false, "message": e.toString()};
     }
   }
 
   // RECUPERAR CONTRASEÑA (ENVÍA OTP)
-  Future<Map<String, dynamic>>
-      recuperarPassword(
-    String correo,
-  ) async {
+  Future<Map<String, dynamic>> recuperarPassword(String correo) async {
     try {
       final response = await _api.dio.post(
         "/auth/forgot-password",
-        data: {
-          "correo": correo.trim(),
-        },
+        data: {"correo": correo.trim()},
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {
-        "success": false,
-        "message":
-            _obtenerMensajeError(e),
-      };
+      return {"success": false, "message": _obtenerMensajeError(e)};
     } catch (e) {
-      return {
-        "success": false,
-        "message": e.toString(),
-      };
+      return {"success": false, "message": e.toString()};
     }
   }
 
   // RESTABLECER CONTRASEÑA CON OTP
-  Future<Map<String, dynamic>>
-      restablecerPassword({
+  Future<Map<String, dynamic>> restablecerPassword({
     required String correo,
     required String codigo,
     required String password,
@@ -106,55 +104,35 @@ class AuthService {
         },
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {
-        "success": false,
-        "message":
-            _obtenerMensajeError(e),
-      };
+      return {"success": false, "message": _obtenerMensajeError(e)};
     } catch (e) {
-      return {
-        "success": false,
-        "message": e.toString(),
-      };
+      return {"success": false, "message": e.toString()};
     }
   }
 
   // OBTENER TOKEN
   Future<String?> obtenerToken() async {
-    return await _storage.read(
-      key: "token",
-    );
+    return await _storage.read(key: "token");
   }
 
   // OBTENER USUARIO
-  Future<Map<String, dynamic>?>
-      obtenerUsuario() async {
-    final usuario =
-        await _storage.read(
-      key: "usuario",
-    );
+  Future<Map<String, dynamic>?> obtenerUsuario() async {
+    final usuario = await _storage.read(key: "usuario");
 
     if (usuario == null) {
       return null;
     }
 
-    return Map<String, dynamic>.from(
-      jsonDecode(usuario),
-    );
+    return Map<String, dynamic>.from(jsonDecode(usuario));
   }
 
   // VALIDAR SESIÓN
-  Future<bool>
-      estaAutenticado() async {
-    final token =
-        await obtenerToken();
+  Future<bool> estaAutenticado() async {
+    final token = await obtenerToken();
 
-    return token != null &&
-        token.isNotEmpty;
+    return token != null && token.isNotEmpty;
   }
 
   // CERRAR SESIÓN
@@ -162,17 +140,12 @@ class AuthService {
     await _storage.deleteAll();
   }
 
-  String _obtenerMensajeError(
-    DioException error,
-  ) {
+  String _obtenerMensajeError(DioException error) {
     try {
-      final data =
-          error.response?.data;
+      final data = error.response?.data;
 
-      if (data is Map &&
-          data["message"] != null) {
-        return data["message"]
-            .toString();
+      if (data is Map && data["message"] != null) {
+        return data["message"].toString();
       }
     } catch (_) {}
 

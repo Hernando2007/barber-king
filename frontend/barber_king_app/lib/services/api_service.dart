@@ -5,110 +5,55 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../core/config/api_config.dart';
 
 class ApiService {
-
   late final Dio dio;
 
-  final FlutterSecureStorage storage =
-      const FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   ApiService() {
-
     dio = Dio(
-
       BaseOptions(
+        baseUrl: ApiConfig.baseUrl,
 
-        baseUrl:
-            ApiConfig.baseUrl,
+        connectTimeout: const Duration(seconds: 15),
 
-        connectTimeout:
-            const Duration(
-          seconds: 15,
-        ),
+        receiveTimeout: const Duration(seconds: 15),
 
-        receiveTimeout:
-            const Duration(
-          seconds: 15,
-        ),
-
-        sendTimeout:
-            const Duration(
-          seconds: 15,
-        ),
+        sendTimeout: const Duration(seconds: 15),
 
         headers: {
-          "Content-Type":
-              "application/json",
-          "Accept":
-              "application/json",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
-
       ),
     );
 
     dio.interceptors.add(
-
       InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await storage.read(key: "token");
 
-        onRequest: (
-          options,
-          handler,
-        ) async {
-
-          final token =
-              await storage.read(
-            key: "token",
-          );
-
-          if (
-              token != null &&
-              token.isNotEmpty
-          ) {
-
-            options.headers[
-                "Authorization"] =
-                "Bearer $token";
-
+          if (token != null && token.isNotEmpty) {
+            options.headers["Authorization"] = "Bearer $token";
           }
 
-          handler.next(
-            options,
-          );
+          handler.next(options);
         },
 
-        onError: (
-          error,
-          handler,
-        ) async {
+        onError: (error, handler) async {
+          if (error.response?.statusCode == 401) {
+            await storage.delete(key: "token");
 
-          if (
-              error.response?.statusCode ==
-                  401
-          ) {
-
-            await storage.delete(
-              key: "token",
-            );
-
-            await storage.delete(
-              key: "usuario",
-            );
-
+            await storage.delete(key: "usuario");
           }
 
-          handler.next(
-            error,
-          );
+          handler.next(error);
         },
-
       ),
     );
 
     if (kDebugMode) {
-
       dio.interceptors.add(
-
         LogInterceptor(
-
           request: true,
 
           requestHeader: true,
@@ -120,13 +65,8 @@ class ApiService {
           responseBody: true,
 
           error: true,
-
         ),
-
       );
-
     }
-
   }
-
 }

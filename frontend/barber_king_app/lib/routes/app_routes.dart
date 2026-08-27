@@ -10,56 +10,44 @@ import '../screens/perfil/perfil_screen.dart';
 import '../screens/servicios/crear_servicio_screen.dart';
 import '../screens/servicios/servicios_screen.dart';
 import '../screens/splash/splash_screen.dart';
+import '../screens/auth/register_screen.dart';
 
 class AppRoutes {
   static const splash = "/";
   static const login = "/login";
   static const home = "/home";
+  static const register = "/register";
 
-  static const servicios =
-      "/servicios";
-  static const crearServicio =
-      "/crear-servicio";
-  static const barberos =
-      "/barberos";
+  static const servicios = "/servicios";
+  static const crearServicio = "/crear-servicio";
+  static const barberos = "/barberos";
   static const citas = "/citas";
   static const perfil = "/perfil";
 
-  static const forgotPassword =
-      "/forgot-password";
-  static const resetPassword =
-      "/reset-password";
+  static const forgotPassword = "/forgot-password";
+  static const resetPassword = "/reset-password";
 
-  static Map<String, WidgetBuilder>
-      routes = {
-    splash: (context) =>
-        const SplashScreen(),
+  static Map<String, WidgetBuilder> routes = {
+    splash: (context) => const SplashScreen(),
 
-    login: (context) =>
-        const LoginScreen(),
+    login: (context) => const LoginScreen(),
 
-    home: (context) =>
-        const HomeScreen(),
+    register: (context) => const RegisterScreen(),
 
-    servicios: (context) =>
-        const ServiciosScreen(),
+    home: (context) => const HomeScreen(),
 
-    crearServicio: (context) =>
-        const CrearServicioScreen(),
+    servicios: (context) => const ServiciosScreen(),
 
-    barberos: (context) =>
-        const BarberosScreen(),
+    crearServicio: (context) => const CrearServicioScreen(),
 
-    citas: (context) =>
-        const CitasScreen(),
+    barberos: (context) => const BarberosScreen(),
 
-    perfil: (context) =>
-        const PerfilScreen(),
+    citas: (context) => const CitasScreen(),
 
-    forgotPassword: (context) =>
-        const ForgotPasswordScreen(),
+    perfil: (context) => const PerfilScreen(),
 
-    resetPassword: (context) =>
-        const ResetPasswordScreen(),
+    forgotPassword: (context) => const ForgotPasswordScreen(),
+
+    resetPassword: (context) => const ResetPasswordScreen(),
   };
 }

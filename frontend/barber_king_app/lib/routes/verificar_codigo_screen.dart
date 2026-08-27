@@ -6,30 +6,20 @@ import '../../services/auth_service.dart';
 class VerificarCodigoScreen extends StatefulWidget {
   final String correo;
 
-  const VerificarCodigoScreen({
-    super.key,
-    required this.correo,
-  });
+  const VerificarCodigoScreen({super.key, required this.correo});
 
   @override
-  State<VerificarCodigoScreen> createState() =>
-      _VerificarCodigoScreenState();
+  State<VerificarCodigoScreen> createState() => _VerificarCodigoScreenState();
 }
 
-class _VerificarCodigoScreenState
-    extends State<VerificarCodigoScreen> {
+class _VerificarCodigoScreenState extends State<VerificarCodigoScreen> {
+  final AuthService authService = AuthService();
 
-  final AuthService authService =
-      AuthService();
+  final codigoController = TextEditingController();
 
-  final codigoController =
-      TextEditingController();
+  final passwordController = TextEditingController();
 
-  final passwordController =
-      TextEditingController();
-
-  final confirmarController =
-      TextEditingController();
+  final confirmarController = TextEditingController();
 
   bool cargando = false;
 
@@ -39,7 +29,6 @@ class _VerificarCodigoScreenState
 
   @override
   void dispose() {
-
     codigoController.dispose();
 
     passwordController.dispose();
@@ -50,55 +39,32 @@ class _VerificarCodigoScreenState
   }
 
   Future<void> cambiarPassword() async {
+    final codigo = codigoController.text.trim();
 
-    final codigo =
-        codigoController.text.trim();
+    final password = passwordController.text.trim();
 
-    final password =
-        passwordController.text.trim();
+    final confirmar = confirmarController.text.trim();
 
-    final confirmar =
-        confirmarController.text.trim();
-
-    if (
-        codigo.isEmpty ||
-        password.isEmpty ||
-        confirmar.isEmpty) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Complete todos los campos.",
-          ),
-        ),
+    if (codigo.isEmpty || password.isEmpty || confirmar.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Complete todos los campos.")),
       );
 
       return;
     }
 
     if (codigo.length != 6) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        const SnackBar(
-          content: Text(
-            "El código debe tener 6 dígitos.",
-          ),
-        ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("El código debe tener 6 dígitos.")),
       );
 
       return;
     }
 
     if (password.length < 6) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            "La contraseña debe tener mínimo 6 caracteres.",
-          ),
+          content: Text("La contraseña debe tener mínimo 6 caracteres."),
         ),
       );
 
@@ -106,14 +72,8 @@ class _VerificarCodigoScreenState
     }
 
     if (password != confirmar) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Las contraseñas no coinciden.",
-          ),
-        ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Las contraseñas no coinciden.")),
       );
 
       return;
@@ -123,8 +83,7 @@ class _VerificarCodigoScreenState
       cargando = true;
     });
 
-    final respuesta =
-        await authService.restablecerPassword(
+    final respuesta = await authService.restablecerPassword(
       correo: widget.correo,
       codigo: codigo,
       password: password,
@@ -137,62 +96,32 @@ class _VerificarCodigoScreenState
     });
 
     if (respuesta["success"] == true) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        SnackBar(
-          content: Text(
-            respuesta["message"],
-          ),
-        ),
-      );
-
-      Navigator.popUntil(
+      ScaffoldMessenger.of(
         context,
-        (route) => route.isFirst,
-      );
+      ).showSnackBar(SnackBar(content: Text(respuesta["message"])));
 
+      Navigator.popUntil(context, (route) => route.isFirst);
     } else {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        SnackBar(
-          content: Text(
-            respuesta["message"],
-          ),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(respuesta["message"])));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      backgroundColor: AppColors.background,
 
-      backgroundColor:
-          AppColors.background,
-
-      appBar: AppBar(
-        title: const Text(
-          "Verificar código",
-        ),
-      ),
+      appBar: AppBar(title: const Text("Verificar código")),
 
       body: Padding(
-
-        padding:
-            const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
 
         child: SingleChildScrollView(
-
           child: Column(
-
             children: [
-
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
 
               const Icon(
                 Icons.mark_email_read,
@@ -200,124 +129,78 @@ class _VerificarCodigoScreenState
                 color: AppColors.primary,
               ),
 
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
 
               Text(
                 widget.correo,
-                style: const TextStyle(
-                  color: Colors.white70,
+                style: const TextStyle(color: Colors.white70),
+              ),
+
+              const SizedBox(height: 30),
+
+              TextField(
+                controller: codigoController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Código OTP",
+                  prefixIcon: Icon(Icons.pin),
                 ),
               ),
 
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 20),
 
               TextField(
-                controller:
-                    codigoController,
-                keyboardType:
-                    TextInputType.number,
-                decoration:
-                    const InputDecoration(
-                  labelText:
-                      "Código OTP",
-                  prefixIcon:
-                      Icon(Icons.pin),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-
-              TextField(
-                controller:
-                    passwordController,
-                obscureText:
-                    ocultarPassword,
-                decoration:
-                    InputDecoration(
-                  labelText:
-                      "Nueva contraseña",
-                  prefixIcon:
-                      const Icon(
-                    Icons.lock,
-                  ),
-                  suffixIcon:
-                      IconButton(
+                controller: passwordController,
+                obscureText: ocultarPassword,
+                decoration: InputDecoration(
+                  labelText: "Nueva contraseña",
+                  prefixIcon: const Icon(Icons.lock),
+                  suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
-                        ocultarPassword =
-                            !ocultarPassword;
+                        ocultarPassword = !ocultarPassword;
                       });
                     },
                     icon: Icon(
-                      ocultarPassword
-                          ? Icons.visibility
-                          : Icons
-                              .visibility_off,
+                      ocultarPassword ? Icons.visibility : Icons.visibility_off,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
 
               TextField(
-                controller:
-                    confirmarController,
-                obscureText:
-                    ocultarConfirmar,
-                decoration:
-                    InputDecoration(
-                  labelText:
-                      "Confirmar contraseña",
-                  prefixIcon:
-                      const Icon(
-                    Icons.lock_outline,
-                  ),
-                  suffixIcon:
-                      IconButton(
+                controller: confirmarController,
+                obscureText: ocultarConfirmar,
+                decoration: InputDecoration(
+                  labelText: "Confirmar contraseña",
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
-                        ocultarConfirmar =
-                            !ocultarConfirmar;
+                        ocultarConfirmar = !ocultarConfirmar;
                       });
                     },
                     icon: Icon(
                       ocultarConfirmar
                           ? Icons.visibility
-                          : Icons
-                              .visibility_off,
+                          : Icons.visibility_off,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
 
               SizedBox(
-                width:
-                    double.infinity,
+                width: double.infinity,
                 height: 55,
-                child:
-                    ElevatedButton(
-                  onPressed:
-                      cargando
-                          ? null
-                          : cambiarPassword,
+                child: ElevatedButton(
+                  onPressed: cargando ? null : cambiarPassword,
                   child: cargando
                       ? const CircularProgressIndicator()
-                      : const Text(
-                          "Cambiar contraseña",
-                        ),
+                      : const Text("Cambiar contraseña"),
                 ),
               ),
             ],
