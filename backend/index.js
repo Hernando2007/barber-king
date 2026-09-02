@@ -33,13 +33,6 @@ const server = app.listen(
             `📅 Fecha    : ${new Date().toLocaleString()}`
         );
 
-        console.log(
-            `🌎 Entorno  : ${
-                process.env.NODE_ENV ||
-                "development"
-            }`
-        );
-
         console.log("========================================");
 
     }

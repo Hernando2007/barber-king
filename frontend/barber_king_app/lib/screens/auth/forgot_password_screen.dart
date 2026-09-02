@@ -31,6 +31,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Ingrese su correo electrónico.")),
       );
+
       return;
     }
 
@@ -51,8 +52,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
 
     if (respuesta["success"] == true) {
-      correoController.clear();
-
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
@@ -67,62 +66,136 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
       appBar: AppBar(title: const Text("Recuperar contraseña")),
 
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.lock_reset, size: 80, color: AppColors.primary),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
 
-            const SizedBox(height: 25),
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
 
-            const Text(
-              "Recuperar contraseña",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+              Container(
+                width: 120,
+                height: 120,
 
-            const SizedBox(height: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.primary, width: 2),
+                ),
 
-            const Text(
-              "Ingresa tu correo electrónico y recibirás un código OTP de 6 dígitos para restablecer tu contraseña.",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70, fontSize: 15),
-            ),
-
-            const SizedBox(height: 30),
-
-            TextField(
-              controller: correoController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: "Correo electrónico",
-                prefixIcon: const Icon(Icons.email, color: AppColors.primary),
-                filled: true,
-                fillColor: AppColors.surface,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                child: const Icon(
+                  Icons.lock_reset_rounded,
+                  color: AppColors.primary,
+                  size: 60,
                 ),
               ),
-            ),
 
-            const SizedBox(height: 25),
+              const SizedBox(height: 30),
 
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: cargando ? null : enviar,
-                child: cargando
-                    ? const CircularProgressIndicator()
-                    : const Text("Enviar código"),
+              const Text(
+                "¿Olvidaste tu contraseña?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 12),
+
+              const Text(
+                "Ingresa tu correo electrónico y te enviaremos un código OTP para restablecer tu contraseña.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.subtitle,
+                  fontSize: 15,
+                  height: 1.5,
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              Container(
+                padding: const EdgeInsets.all(24),
+
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.border),
+                ),
+
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: correoController,
+
+                      keyboardType: TextInputType.emailAddress,
+
+                      style: const TextStyle(color: AppColors.white),
+
+                      decoration: const InputDecoration(
+                        labelText: "Correo electrónico",
+
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 58,
+
+                      child: ElevatedButton(
+                        onPressed: cargando ? null : enviar,
+
+                        child: cargando
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                "ENVIAR CÓDIGO",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              Container(
+                padding: const EdgeInsets.all(16),
+
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+
+                child: const Row(
+                  children: [
+                    Icon(Icons.info_outline, color: AppColors.primary),
+
+                    SizedBox(width: 12),
+
+                    Expanded(
+                      child: Text(
+                        "El código OTP tendrá una validez de 15 minutos.",
+                        style: TextStyle(color: AppColors.subtitle),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

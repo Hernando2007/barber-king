@@ -155,11 +155,17 @@ export const iniciarSesion = async ({
     delete usuario.password;
 
     return {
-
-        token,
-        usuario
-
-    };
+    token,
+    usuario: {
+        ...usuario,
+        rol_nombre:
+            usuario.rol_id === 1
+                ? "Administrador"
+                : usuario.rol_id === 2
+                    ? "Barbero"
+                    : "Cliente"
+    }
+};
 
 };
 
