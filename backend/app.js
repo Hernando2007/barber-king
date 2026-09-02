@@ -30,15 +30,15 @@ const __dirname = path.dirname(__filename);
 
 
 app.use(cors());
-
+        
 // Seguridad HTTP
-app.use(helmet());
+app.use(helmet());   
 
-// Logs de las peticiones
-app.use(morgan("dev"));
-
+// Logs de las peticiones  
+app.use(morgan("dev"));  
+   
 // Límite de peticiones
-app.use(rateLimit({
+app.use(rateLimit({ 
     windowMs: 15 * 60 * 1000, // 15 minutos
     max: 100,
     message: {
@@ -47,7 +47,7 @@ app.use(rateLimit({
     }
 }));
 
-// Lectura de JSON
+// Lectura de JSON   
 app.use(express.json());
 
 // Lectura de formularios

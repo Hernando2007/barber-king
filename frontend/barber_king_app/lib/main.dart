@@ -68,7 +68,7 @@ class _BarberKingAppState
           AppTheme.darkTheme,
 
       initialRoute:
-          AppRoutes.splash,
+          AppRoutes.perfil,
 
       routes:
           AppRoutes.routes,
