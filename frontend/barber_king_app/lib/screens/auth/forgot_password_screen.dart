@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../services/auth_service.dart';
 import '../../core/colors.dart';
+import '../../services/auth_service.dart';
+import 'reset_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({
-    super.key,
-  });
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() =>
-      _ForgotPasswordScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState
-    extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final correoController = TextEditingController();
 
-  final TextEditingController correoController =
-      TextEditingController();
-
-  final AuthService authService =
-      AuthService();
+  final AuthService authService = AuthService();
 
   bool cargando = false;
 
@@ -29,21 +23,13 @@ class _ForgotPasswordScreenState
     correoController.dispose();
     super.dispose();
   }
-  // ENVIAR CORREO
-  Future<void> enviar() async {
 
-    final correo =
-        correoController.text.trim();
+  Future<void> enviar() async {
+    final correo = correoController.text.trim();
 
     if (correo.isEmpty) {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Ingrese su correo electrónico.",
-          ),
-        ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Ingrese su correo electrónico.")),
       );
 
       return;
@@ -53,10 +39,7 @@ class _ForgotPasswordScreenState
       cargando = true;
     });
 
-    final respuesta =
-        await authService.recuperarPassword(
-      correo,
-    );
+    final respuesta = await authService.recuperarPassword(correo);
 
     if (!mounted) return;
 
@@ -64,167 +47,155 @@ class _ForgotPasswordScreenState
       cargando = false;
     });
 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-      SnackBar(
-        content: Text(
-          respuesta["message"] ??
-              "Solicitud procesada.",
-        ),
-      ),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(respuesta["message"] ?? "Solicitud procesada.")),
     );
 
     if (respuesta["success"] == true) {
-
-      correoController.clear();
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      backgroundColor: AppColors.background,
 
-      backgroundColor:
-          AppColors.background,
+      appBar: AppBar(title: const Text("Recuperar contraseña")),
 
-      appBar: AppBar(
-        title: const Text(
-          "Recuperar contraseña",
-        ),
-      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
 
-      body: Padding(
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
 
-        padding:
-            const EdgeInsets.all(24),
+              Container(
+                width: 120,
+                height: 120,
 
-        child: Column(
-
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-
-          children: [
-
-            const Icon(
-              Icons.lock_reset,
-              size: 80,
-              color: AppColors.primary,
-            ),
-
-            const SizedBox(
-              height: 25,
-            ),
-
-            const Text(
-              "¿Olvidaste tu contraseña?",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 24,
-                fontWeight:
-                    FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(
-              height: 10,
-            ),
-
-            const Text(
-              "Escribe tu correo y te enviaremos "
-              "un enlace para recuperar tu cuenta.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 15,
-              ),
-            ),
-
-            const SizedBox(
-              height: 30,
-            ),
-
-            TextField(
-
-              controller:
-                  correoController,
-
-              keyboardType:
-                  TextInputType.emailAddress,
-
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-
-              decoration:
-                  InputDecoration(
-
-                labelText:
-                    "Correo electrónico",
-
-                labelStyle:
-                    const TextStyle(
-                  color: Colors.white70,
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.primary, width: 2),
                 ),
 
-                prefixIcon:
-                    const Icon(
-                  Icons.email,
-                  color:
-                      AppColors.primary,
-                ),
-
-                filled: true,
-
-                fillColor:
-                    AppColors.surface,
-
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
+                child: const Icon(
+                  Icons.lock_reset_rounded,
+                  color: AppColors.primary,
+                  size: 60,
                 ),
               ),
-            ),
 
-            const SizedBox(
-              height: 25,
-            ),
+              const SizedBox(height: 30),
 
-            SizedBox(
+              const Text(
+                "¿Olvidaste tu contraseña?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
-              width:
-                  double.infinity,
+              const SizedBox(height: 12),
 
-              height: 50,
+              const Text(
+                "Ingresa tu correo electrónico y te enviaremos un código OTP para restablecer tu contraseña.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.subtitle,
+                  fontSize: 15,
+                  height: 1.5,
+                ),
+              ),
 
-              child: ElevatedButton(
+              const SizedBox(height: 40),
 
-                onPressed:
-                    cargando
-                        ? null
-                        : enviar,
+              Container(
+                padding: const EdgeInsets.all(24),
 
-                child: cargando
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.border),
+                ),
 
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child:
-                            CircularProgressIndicator(),
-                      )
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: correoController,
 
-                    : const Text(
-                        "Enviar correo",
+                      keyboardType: TextInputType.emailAddress,
+
+                      style: const TextStyle(color: AppColors.white),
+
+                      decoration: const InputDecoration(
+                        labelText: "Correo electrónico",
+
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: AppColors.primary,
+                        ),
                       ),
-              ),
-            ),
+                    ),
 
-          ],
+                    const SizedBox(height: 30),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 58,
+
+                      child: ElevatedButton(
+                        onPressed: cargando ? null : enviar,
+
+                        child: cargando
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                "ENVIAR CÓDIGO",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              Container(
+                padding: const EdgeInsets.all(16),
+
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+
+                child: const Row(
+                  children: [
+                    Icon(Icons.info_outline, color: AppColors.primary),
+
+                    SizedBox(width: 12),
+
+                    Expanded(
+                      child: Text(
+                        "El código OTP tendrá una validez de 15 minutos.",
+                        style: TextStyle(color: AppColors.subtitle),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

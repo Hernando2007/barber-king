@@ -1,78 +1,247 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../../services/barbero_service.dart';
 
-class BarberosScreen extends StatelessWidget {
+class BarberosScreen extends StatefulWidget {
   const BarberosScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
+  State<BarberosScreen> createState() => _BarberosScreenState();
+}
 
-      appBar: AppBar(
-        title: const Text("Barberos"),
+class _BarberosScreenState extends State<BarberosScreen> {
+  final BarberoService service = BarberoService();
+
+  List<dynamic> barberos = [];
+
+  bool cargando = true;
+
+  @override
+  void initState() {
+    super.initState();
+    cargarBarberos();
+  }
+
+  Future<void> cargarBarberos() async {
+    setState(() {
+      cargando = true;
+    });
+
+    final data = await service.obtenerBarberos();
+
+    if (!mounted) return;
+
+    setState(() {
+      barberos = data;
+      cargando = false;
+    });
+  }
+
+  Widget barberCard(
+    Map<String, dynamic> usuario,
+    Map<String, dynamic> barbero,
+  ) {
+    final nombre = "${usuario["nombres"] ?? ""} ${usuario["apellidos"] ?? ""}";
+
+    final correo = usuario["correo"] ?? "";
+
+    final especialidad = barbero["especialidad"] ?? "Barbero profesional";
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 18),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: AppColors.border),
       ),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.primary, width: 2),
+                  ),
+                  child: Center(
+                    child: Text(
+                      nombre.isNotEmpty ? nombre[0] : "B",
+                      style: const TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
 
-      body: ListView(
-        padding: const EdgeInsets.all(20),
+                const SizedBox(width: 15),
 
-        children: const [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nombre,
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
 
-          BarberoCard(
-            nombre: "Carlos Pérez",
-            especialidad: "Fade • Barba",
-          ),
+                      const SizedBox(height: 6),
 
-          BarberoCard(
-            nombre: "Juan Gómez",
-            especialidad: "Corte Clásico",
-          ),
+                      Text(
+                        correo,
+                        style: const TextStyle(color: AppColors.subtitle),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
 
-        ],
+            const SizedBox(height: 18),
+
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.workspace_premium, color: AppColors.primary),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Text(
+                      especialidad,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.calendar_month),
+                label: const Text("RESERVAR CITA"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
-}
-
-class BarberoCard extends StatelessWidget {
-
-  final String nombre;
-  final String especialidad;
-
-  const BarberoCard({
-    super.key,
-    required this.nombre,
-    required this.especialidad,
-  });
 
   @override
   Widget build(BuildContext context) {
+    if (cargando) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
-    return Card(
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: cargarBarberos,
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      color: AppColors.primary,
+                    ),
+                  ),
 
-      color: AppColors.surface,
+                  const Expanded(
+                    child: Text(
+                      "Nuestros Barberos",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
 
-      margin: const EdgeInsets.only(bottom: 15),
+                  const SizedBox(width: 48),
+                ],
+              ),
 
-      child: ListTile(
+              const SizedBox(height: 10),
 
-        leading: const CircleAvatar(
-          child: Icon(Icons.person),
+              const Text(
+                "Profesionales especializados para brindarte la mejor experiencia.",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.subtitle),
+              ),
+
+              const SizedBox(height: 30),
+
+              if (barberos.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: const Column(
+                    children: [
+                      Icon(
+                        Icons.people_alt,
+                        size: 70,
+                        color: AppColors.primary,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        "No hay barberos disponibles",
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ...barberos.map((barbero) {
+                final usuario = barbero["usuarios"];
+
+                return barberCard(usuario, barbero);
+              }),
+            ],
+          ),
         ),
-
-        title: Text(
-          nombre,
-          style: const TextStyle(color: AppColors.white),
-        ),
-
-        subtitle: Text(
-          especialidad,
-          style: const TextStyle(color: Colors.white70),
-        ),
-
       ),
-
     );
   }
 }

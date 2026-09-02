@@ -7,10 +7,48 @@ export const errorHandler = (
 
     console.error(err);
 
-    return res.status(500).json({
+    let statusCode =
+        err.statusCode || 500;
+
+    let message =
+        err.message ||
+        "Error interno del servidor.";
+
+    if (
+        err.name ===
+        "TokenExpiredError"
+    ) {
+
+        statusCode = 401;
+
+        message =
+            "La sesión ha expirado.";
+
+    }
+
+    if (
+        err.name ===
+        "JsonWebTokenError"
+    ) {
+
+        statusCode = 401;
+
+        message =
+            "Token inválido.";
+
+    }
+
+    return res.status(
+        statusCode
+    ).json({
 
         success: false,
-        message: err.message
+
+        message,
+
+        ...(process.env.NODE_ENV === "development" && {
+            stack: err.stack
+        })
 
     });
 

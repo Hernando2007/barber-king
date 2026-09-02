@@ -14,66 +14,143 @@ export const obtenerDisponibilidad = async (
     fecha
 ) => {
 
+    if (
+        !barberoId ||
+        !servicioId ||
+        !fecha
+    ) {
 
-    const [anio, mes, dia] = fecha.split("-").map(Number);
+        throw new Error(
+            "Faltan parámetros requeridos."
+        );
 
-    const fechaLocal = new Date(anio, mes - 1, dia);
+    }
 
-    const diaSemana = fechaLocal.getDay();
+    const [
+        anio,
+        mes,
+        dia
+    ] = fecha
+        .split("-")
+        .map(Number);
 
-    console.log("=================================");
-    console.log("Fecha:", fecha);
-    console.log("Día:", diaSemana);
-    console.log("=================================");
+    const fechaLocal =
+        new Date(
+            anio,
+            mes - 1,
+            dia
+        );
 
+    if (
+        Number.isNaN(
+            fechaLocal.getTime()
+        )
+    ) {
 
-    const { data: horario, error: errorHorario } =
-        await obtenerHorarioBarbero(barberoId, diaSemana);
+        throw new Error(
+            "La fecha es inválida."
+        );
+
+    }
+
+    const diaSemanaJS = fechaLocal.getDay();
+
+    const diaSemana =
+        diaSemanaJS === 0
+        ? 7
+        : diaSemanaJS;
+
+    const {
+        data: horario,
+        error: errorHorario
+    } =
+        await obtenerHorarioBarbero(
+            barberoId,
+            diaSemana
+        );
 
     if (errorHorario) {
-        throw new Error(errorHorario.message);
+
+        throw new Error(
+            errorHorario.message
+        );
+
     }
 
     if (!horario) {
-        throw new Error("El barbero no trabaja ese día.");
+
+        throw new Error(
+            "El barbero no trabaja ese día."
+        );
+
     }
 
-
-    const { data: servicio, error: errorServicio } =
-        await obtenerServicio(servicioId);
+    const {
+        data: servicio,
+        error: errorServicio
+    } =
+        await obtenerServicio(
+            servicioId
+        );
 
     if (errorServicio) {
-        throw new Error(errorServicio.message);
+
+        throw new Error(
+            errorServicio.message
+        );
+
     }
 
     if (!servicio) {
-        throw new Error("Servicio no encontrado.");
+
+        throw new Error(
+            "Servicio no encontrado."
+        );
+
     }
 
-
-    const { data: citas, error: errorCitas } =
-        await obtenerCitas(barberoId, fecha);
+    const {
+        data: citas,
+        error: errorCitas
+    } =
+        await obtenerCitas(
+            barberoId,
+            fecha
+        );
 
     if (errorCitas) {
-        throw new Error(errorCitas.message);
+
+        throw new Error(
+            errorCitas.message
+        );
+
     }
 
-    let bloques = generarBloques(
-        horario.hora_inicio,
-        horario.hora_fin,
-        servicio.duracion
-    );
+    let bloques =
+        generarBloques(
+            horario.hora_inicio,
+            horario.hora_fin,
+            servicio.duracion
+        );
 
+    if (
+        citas &&
+        citas.length > 0
+    ) {
 
-    if (citas && citas.length > 0) {
+        bloques =
+            bloques.filter(
+                hora => {
 
-        bloques = bloques.filter(hora => {
+                    return !citas.some(
+                        cita =>
+                            cita.hora
+                                .slice(0, 5) ===
+                            hora
+                    );
 
-            return !citas.some(cita =>
-                cita.hora.slice(0, 5) === hora
+                }
             );
-
-        });
 
     }
 

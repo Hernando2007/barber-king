@@ -3,18 +3,15 @@ import {
     restablecerContrasena
 } from "../services/recuperacionService.js";
 
-// Solicitar recuperación de contraseña
 export const forgotPassword = async (
     req,
-    res,
-    next
+    res
 ) => {
 
     try {
 
         const { correo } = req.body;
 
-        // Verificamos que se haya enviado el correo
         if (!correo) {
 
             return res.status(400).json({
@@ -22,63 +19,72 @@ export const forgotPassword = async (
                 message:
                     "El correo es obligatorio."
             });
+
         }
 
-        // Ejecutamos la recuperación
-        await solicitarRecuperacion(correo);
+        await solicitarRecuperacion(
+            correo.trim().toLowerCase()
+        );
 
-        // Por seguridad usamos el mismo mensaje
-        // aunque el correo no exista
         return res.status(200).json({
             success: true,
             message:
-                "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."
+                "Si el correo existe, recibirás un código de recuperación."
         });
 
     } catch (error) {
 
-        next(error);
+        return res.status(500).json({
+            success: false,
+            message:
+                error.message
+        });
+
     }
+
 };
 
-// Restablecer contraseña
 export const resetPassword = async (
     req,
-    res,
-    next
+    res
 ) => {
 
     try {
 
         const {
-            token,
-            nuevaContrasena
+            correo,
+            codigo,
+            password
         } = req.body;
 
-        // Validamos los datos
-        if (!token || !nuevaContrasena) {
+        if (
+            !correo ||
+            !codigo ||
+            !password
+        ) {
 
             return res.status(400).json({
                 success: false,
                 message:
-                    "El token y la nueva contraseña son obligatorios."
+                    "Correo, código y contraseña son obligatorios."
             });
+
         }
 
-        // Validamos la longitud de la contraseña
-        if (nuevaContrasena.length < 6) {
+        if (password.length < 6) {
 
             return res.status(400).json({
                 success: false,
                 message:
                     "La contraseña debe tener mínimo 6 caracteres."
             });
+
         }
 
-        // Cambiamos la contraseña
         await restablecerContrasena(
-            token,
-            nuevaContrasena
+            correo,
+            codigo,
+            password
         );
 
         return res.status(200).json({
@@ -89,6 +95,12 @@ export const resetPassword = async (
 
     } catch (error) {
 
-        next(error);
+        return res.status(400).json({
+            success: false,
+            message:
+                error.message
+        });
+
     }
+
 };

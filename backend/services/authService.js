@@ -1,64 +1,122 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
 
 import {
     buscarPorCorreo,
     crearUsuario,
     guardarTokenRecuperacion,
-    buscarPorToken,
     actualizarPassword,
-    limpiarToken
+    limpiarToken,
+    actualizarUltimoLogin
 } from "../models/authModel.js";
 
-import { enviarCorreoRecuperacion } from "./emailService.js";
+import {
+    enviarCodigoRecuperacion
+} from "./emailService.js";
 
+export const registrarUsuario = async (
+    usuario
+) => {
 
-// REGISTRO
+    const {
+        rol_id,
+        nombres,
+        apellidos,
+        correo,
+        password
+    } = usuario;
 
-export const registrarUsuario = async (usuario) => {
+    if (
+        !rol_id ||
+        !nombres ||
+        !apellidos ||
+        !correo ||
+        !password
+    ) {
 
-    const { data: existe } =
-        await buscarPorCorreo(usuario.correo);
+        throw new Error(
+            "Todos los campos obligatorios deben ser enviados."
+        );
+
+    }
+
+    const {
+        data: existe
+    } = await buscarPorCorreo(
+        correo
+    );
 
     if (existe) {
+
         throw new Error(
             "El correo ya está registrado."
         );
+
     }
 
-    usuario.password =
+    const passwordHash =
         await bcrypt.hash(
-            usuario.password,
+            password,
             10
         );
 
-    const { data, error } =
-        await crearUsuario(usuario);
+    const {
+        data,
+        error
+    } = await crearUsuario({
+
+        ...usuario,
+        correo:
+            correo
+                .trim()
+                .toLowerCase(),
+        password:
+            passwordHash
+
+    });
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return data;
-};
 
-// LOGIN
+};
 
 export const iniciarSesion = async ({
     correo,
     password
 }) => {
 
-    const {
-        data: usuario,
-        error
-    } = await buscarPorCorreo(correo);
+    if (
+        !correo ||
+        !password
+    ) {
 
-    if (error || !usuario) {
+        throw new Error(
+            "Correo y contraseña son obligatorios."
+        );
+
+    }
+
+    const {
+        data: usuario
+    } = await buscarPorCorreo(
+        correo
+            .trim()
+            .toLowerCase()
+    );
+
+    if (!usuario) {
+
         throw new Error(
             "Correo o contraseña incorrectos."
         );
+
     }
 
     const coincide =
@@ -68,174 +126,183 @@ export const iniciarSesion = async ({
         );
 
     if (!coincide) {
+
         throw new Error(
             "Correo o contraseña incorrectos."
         );
+
     }
+
+    await actualizarUltimoLogin(
+        usuario.id
+    );
 
     const token =
         jwt.sign(
+
             {
-                id: usuario.id,
-                rol: usuario.rol_id
+                id: usuario.id
             },
+
             process.env.JWT_SECRET,
+
             {
                 expiresIn: "8h"
             }
+
         );
 
+    delete usuario.password;
+
     return {
-        token,
-        usuario
-    };
+    token,
+    usuario: {
+        ...usuario,
+        rol_nombre:
+            usuario.rol_id === 1
+                ? "Administrador"
+                : usuario.rol_id === 2
+                    ? "Barbero"
+                    : "Cliente"
+    }
 };
 
-
-// SOLICITAR RECUPERACIÓN
+};
 
 export const solicitarRecuperacion = async (
     correo
 ) => {
 
     const {
-        data: usuario,
-        error
-    } = await buscarPorCorreo(correo);
+        data: usuario
+    } = await buscarPorCorreo(
+        correo
+    );
 
-    // Por seguridad no revelamos si el correo existe
-    if (error || !usuario) {
+    if (!usuario) {
         return true;
     }
 
-    // Generar token único
-    const token =
-        crypto.randomUUID();
+    const codigo =
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        ).toString();
 
-    // El token será válido durante 30 minutos
     const expiracion =
         new Date(
             Date.now() +
-            30 * 60 * 1000
+            15 * 60 * 1000
         );
 
-    // Guardar token en Supabase
     const {
-        error: errorToken
+        error
     } =
         await guardarTokenRecuperacion(
             correo,
-            token,
+            codigo,
             expiracion
         );
 
-    if (errorToken) {
+    if (error) {
+
         throw new Error(
-            "No se pudo guardar el token de recuperación."
+            error.message
         );
+
     }
 
-    // Enlace que llegará al correo
-    const enlace =
-    `barberking://reset-password?token=${token}`;
-
-    // Enviar correo
-    await enviarCorreoRecuperacion(
+    await enviarCodigoRecuperacion(
         correo,
-        enlace
+        codigo
     );
 
     return true;
+
 };
 
-
-// CAMBIAR CONTRASEÑA
-
 export const cambiarPassword = async (
-    token,
-    nuevaPassword
+    correo,
+    codigo,
+    password
 ) => {
 
-    if (!token) {
+    if (
+        !correo ||
+        !codigo ||
+        !password
+    ) {
+
         throw new Error(
-            "Token de recuperación requerido."
+            "Todos los campos son obligatorios."
         );
+
     }
 
-    if (!nuevaPassword) {
-        throw new Error(
-            "La nueva contraseña es obligatoria."
-        );
-    }
-
-    if (nuevaPassword.length < 6) {
-        throw new Error(
-            "La contraseña debe tener mínimo 6 caracteres."
-        );
-    }
-
-    // Buscar usuario por token
     const {
-        data: usuario,
-        error
-    } =
-        await buscarPorToken(token);
+        data: usuario
+    } = await buscarPorCorreo(
+        correo
+    );
 
-    if (error || !usuario) {
+    if (!usuario) {
+
         throw new Error(
-            "El enlace de recuperación no es válido."
+            "Código inválido."
         );
-    }
 
-    // Comprobar expiración
-    const fechaExpiracion =
-        new Date(
-            usuario.token_expiracion
-        );
+    }
 
     if (
-        fechaExpiracion < new Date()
+        usuario.token_recuperacion !==
+        codigo
     ) {
+
         throw new Error(
-            "El enlace de recuperación ha expirado."
+            "Código inválido."
         );
+
     }
 
-    // Encriptar nueva contraseña
+    if (
+        !usuario.token_expiracion ||
+        new Date(
+            usuario.token_expiracion
+        ) < new Date()
+    ) {
+
+        throw new Error(
+            "El código ha expirado."
+        );
+
+    }
+
     const passwordHash =
         await bcrypt.hash(
-            nuevaPassword,
+            password,
             10
         );
 
-    // Actualizar contraseña
     const {
-        error: errorPassword
+        error
     } =
         await actualizarPassword(
             usuario.id,
             passwordHash
         );
 
-    if (errorPassword) {
-        throw new Error(
-            errorPassword.message
-        );
-    }
+    if (error) {
 
-    // Eliminar token para que no pueda reutilizarse
-    const {
-        error: errorToken
-    } =
-        await limpiarToken(
-            usuario.id
+        throw new Error(
+            error.message
         );
 
-    if (errorToken) {
-        throw new Error(
-            errorToken.message
-        );
     }
+
+    await limpiarToken(
+        usuario.id
+    );
 
     return true;
+
 };

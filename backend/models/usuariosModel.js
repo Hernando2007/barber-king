@@ -47,15 +47,14 @@ export const obtenerUsuarioPorCorreo = async (correo) => {
             id,
             nombres,
             apellidos,
-            correo,
-            nombres
+            correo
         `)
         .eq("correo", correo)
         .maybeSingle();
 
 };
 
-// Guardar o eliminar el token de recuperación
+// Guardar o eliminar token de recuperación
 export const guardarTokenRecuperacion = async (
     id,
     token,
@@ -74,7 +73,7 @@ export const guardarTokenRecuperacion = async (
 
 };
 
-// Buscar usuario mediante el token de recuperación
+// Buscar usuario mediante token
 export const obtenerUsuarioPorToken = async (token) => {
 
     const { data, error } = await supabase
@@ -83,7 +82,7 @@ export const obtenerUsuarioPorToken = async (token) => {
             id,
             correo,
             token_recuperacion,
-            token_recuperacion_expira
+            token_expiracion
         `)
         .eq("token_recuperacion", token)
         .maybeSingle();
@@ -96,10 +95,9 @@ export const obtenerUsuarioPorToken = async (token) => {
         return null;
     }
 
-    // Comprobamos que el token no haya expirado
     if (
-        !data.token_recuperacion_expira ||
-        new Date(data.token_recuperacion_expira) < new Date()
+        !data.token_expiracion ||
+        new Date(data.token_expiracion) < new Date()
     ) {
         return null;
     }
@@ -108,7 +106,7 @@ export const obtenerUsuarioPorToken = async (token) => {
 
 };
 
-// Actualizar la contraseña del usuario
+// Actualizar contraseña
 export const actualizarContrasena = async (
     id,
     contrasena

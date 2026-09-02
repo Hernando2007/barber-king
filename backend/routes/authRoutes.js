@@ -1,29 +1,23 @@
 import express from "express";
-import { registrar, login } from "../controllers/authController.js";
-import { forgotPassword, resetPassword } from "../controllers/recuperacionController.js"
 
-const router =
-    express.Router();
+import {
+    registrar,
+    login,
+    forgotPassword,
+    resetPassword
+} from "../controllers/authController.js";
 
-// Registro
-router.post(
-    "/registro",
-    registrar
-);
+const router = express.Router();
 
-// Inicio de sesión
-router.post(
-    "/login",
-    login
-);
+router.post("/registro", registrar);
 
-// Solicitar recuperación de contraseña
+router.post("/login", login);
+
 router.post(
     "/forgot-password",
     forgotPassword
 );
 
-// Cambiar contraseña usando el token
 router.post(
     "/reset-password",
     resetPassword

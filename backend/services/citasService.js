@@ -1,15 +1,16 @@
 import {
     crearNuevaCita,
-    buscarCitaExistente,
     obtenerServicio,
+    obtenerCitas,
     listarCitas,
     obtenerCitaPorId,
     actualizarCita,
     eliminarCita
 } from "../models/citasModel.js";
 
-
-export const registrarCita = async (datos) => {
+export const registrarCita = async (
+    datos
+) => {
 
     const {
         cliente_id,
@@ -28,114 +29,284 @@ export const registrarCita = async (datos) => {
         !fecha ||
         !hora
     ) {
+
         throw new Error(
             "Todos los campos obligatorios deben ser enviados."
         );
+
     }
 
-    const {
-        data: existe,
-        error
-    } = await buscarCitaExistente(
-        barbero_id,
-        fecha,
-        hora
-    );
+    const fechaHoraNueva =
+        new Date(
+            `${fecha}T${hora}`
+        );
 
-    if (existe) {
-        throw new Error("Ese horario ya fue reservado.");
-    }
+    if (
+        fechaHoraNueva <
+        new Date()
+    ) {
 
-    if (error && error.code !== "PGRST116") {
-        throw new Error(error.message);
+        throw new Error(
+            "No se pueden registrar citas en fechas pasadas."
+        );
+
     }
 
     const {
         data: servicio,
         error: errorServicio
-    } = await obtenerServicio(servicio_id);
+    } =
+        await obtenerServicio(
+            servicio_id
+        );
 
-    if (errorServicio || !servicio) {
-        throw new Error("Servicio no encontrado.");
+    if (
+        errorServicio ||
+        !servicio
+    ) {
+
+        throw new Error(
+            "Servicio no encontrado."
+        );
+
+    }
+
+    const {
+        data: citasExistentes,
+        error: errorCitas
+    } =
+        await obtenerCitas(
+            barbero_id,
+            fecha
+        );
+
+    if (errorCitas) {
+
+        throw new Error(
+            errorCitas.message
+        );
+
+    }
+
+    const inicioNueva =
+        convertirMinutos(
+            hora
+        );
+
+    const finNueva =
+        inicioNueva +
+        servicio.duracion;
+
+    for (
+        const cita of citasExistentes
+    ) {
+
+        const inicioExistente =
+            convertirMinutos(
+                cita.hora
+            );
+
+        const finExistente =
+            inicioExistente +
+            cita.duracion_minutos;
+
+        const hayCruce =
+            inicioNueva <
+                finExistente &&
+            finNueva >
+                inicioExistente;
+
+        if (hayCruce) {
+
+            throw new Error(
+                "El barbero ya tiene una cita en ese horario."
+            );
+
+        }
+
     }
 
     const {
         data,
         error: errorCrear
-    } = await crearNuevaCita({
+    } =
+        await crearNuevaCita({
 
-        cliente_id,
-        barbero_id,
-        servicio_id,
+            cliente_id,
+            barbero_id,
+            servicio_id,
 
-        fecha,
-        hora,
+            fecha,
+            hora,
 
-        duracion_minutos: servicio.duracion,
-        precio: servicio.precio,
+            duracion_minutos:
+                servicio.duracion,
 
-        estado: estado || "Pendiente",
+            precio:
+                servicio.precio,
 
-        observaciones
+            estado:
+                estado ||
+                "Pendiente",
 
-    });
+            observaciones:
+                observaciones || null
+
+        });
 
     if (errorCrear) {
-        throw new Error(errorCrear.message);
+
+        throw new Error(
+            errorCrear.message
+        );
+
     }
 
     return data;
 
 };
-
 
 export const obtenerTodasLasCitas = async () => {
 
-    const { data, error } = await listarCitas();
+    const {
+        data,
+        error
+    } =
+        await listarCitas();
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return data;
 
 };
 
+export const obtenerUnaCita = async (
+    id
+) => {
 
-export const obtenerUnaCita = async (id) => {
+    const {
+        data,
+        error
+    } =
+        await obtenerCitaPorId(
+            id
+        );
 
-    const { data, error } = await obtenerCitaPorId(id);
+    if (
+        error ||
+        !data
+    ) {
 
-    if (error) {
-        throw new Error(error.message);
+        throw new Error(
+            "Cita no encontrada."
+        );
+
     }
 
     return data;
 
 };
 
+export const editarCita = async (
+    id,
+    datos
+) => {
 
-export const editarCita = async (id, datos) => {
+    const {
+        data: citaExistente
+    } =
+        await obtenerCitaPorId(
+            id
+        );
 
-    const { data, error } = await actualizarCita(id, datos);
+    if (!citaExistente) {
+
+        throw new Error(
+            "Cita no encontrada."
+        );
+
+    }
+
+    const {
+        data,
+        error
+    } =
+        await actualizarCita(
+            id,
+            datos
+        );
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return data;
 
 };
 
+export const borrarCita = async (
+    id
+) => {
 
-export const borrarCita = async (id) => {
+    const {
+        data: citaExistente
+    } =
+        await obtenerCitaPorId(
+            id
+        );
 
-    const { error } = await eliminarCita(id);
+    if (!citaExistente) {
+
+        throw new Error(
+            "Cita no encontrada."
+        );
+
+    }
+
+    const {
+        error
+    } =
+        await eliminarCita(
+            id
+        );
 
     if (error) {
-        throw new Error(error.message);
+
+        throw new Error(
+            error.message
+        );
+
     }
 
     return true;
+
+};
+
+const convertirMinutos = (
+    hora
+) => {
+
+    const [
+        horas,
+        minutos
+    ] =
+        hora
+            .split(":")
+            .map(Number);
+
+    return (
+        horas * 60 +
+        minutos
+    );
 
 };

@@ -1,18 +1,20 @@
 import supabase from "../config/supabase.js";
 
-// Buscar usuario por correo
-export const buscarPorCorreo = async (correo) => {
+export const buscarPorCorreo = async (
+    correo
+) => {
 
     return await supabase
         .from("usuarios")
         .select("*")
         .eq("correo", correo)
-        .single();
+        .maybeSingle();
 
 };
 
-// Crear usuario
-export const crearUsuario = async (usuario) => {
+export const crearUsuario = async (
+    usuario
+) => {
 
     return await supabase
         .from("usuarios")
@@ -22,58 +24,84 @@ export const crearUsuario = async (usuario) => {
 
 };
 
-// Guardar token de recuperación
-export const guardarTokenRecuperacion = async (
-    correo,
-    token,
-    expiracion
+export const guardarTokenRecuperacion =
+    async (
+        correo,
+        codigo,
+        expiracion
+    ) => {
+
+        return await supabase
+            .from("usuarios")
+            .update({
+
+                token_recuperacion:
+                    codigo,
+
+                token_expiracion:
+                    expiracion
+
+            })
+            .eq(
+                "correo",
+                correo
+            )
+            .select()
+            .single();
+
+    };
+
+export const actualizarPassword =
+    async (
+        id,
+        password
+    ) => {
+
+        return await supabase
+            .from("usuarios")
+            .update({
+
+                password
+
+            })
+            .eq("id", id)
+            .select()
+            .single();
+
+    };
+
+export const limpiarToken = async (
+    id
 ) => {
 
     return await supabase
         .from("usuarios")
         .update({
-            token_recuperacion: token,
-            token_expiracion: expiracion
-        })
-        .eq("correo", correo);
 
-};
+            token_recuperacion:
+                null,
 
-// Buscar usuario por token
-export const buscarPorToken = async (token) => {
+            token_expiracion:
+                null
 
-    return await supabase
-        .from("usuarios")
-        .select("*")
-        .eq("token_recuperacion", token)
-        .single();
-
-};
-
-// Actualizar contraseña
-export const actualizarPassword = async (
-    id,
-    password
-) => {
-
-    return await supabase
-        .from("usuarios")
-        .update({
-            password: password
         })
         .eq("id", id);
 
 };
 
-// Limpiar token de recuperación
-export const limpiarToken = async (id) => {
+export const actualizarUltimoLogin =
+    async (
+        id
+    ) => {
 
-    return await supabase
-        .from("usuarios")
-        .update({
-            token_recuperacion: null,
-            token_expiracion: null
-        })
-        .eq("id", id);
+        return await supabase
+            .from("usuarios")
+            .update({
 
-};
+                ultimo_login:
+                    new Date()
+
+            })
+            .eq("id", id);
+
+    };

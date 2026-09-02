@@ -1,71 +1,144 @@
 import nodemailer from "nodemailer";
 
-// Configuración del servicio de correo
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+
+    host: process.env.SMTP_HOST,
+
+    port: Number(
+        process.env.SMTP_PORT
+    ),
+
+    secure:
+        process.env.SMTP_SECURE === "true",
 
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+
+        user:
+            process.env.EMAIL_USER,
+
+        pass:
+            process.env.EMAIL_PASS
+
     }
+
 });
 
-// Envía el enlace para recuperar la contraseña
-export const enviarCorreoRecuperacion = async (
-    correo,
-    token
-) => {
+export const verificarEmailService =
+    async () => {
 
-    // Enlace que recibirá el usuario
-    const enlace =
-        `https://barberking.app/reset-password?token=${token}`;
+        try {
 
-    await transporter.sendMail({
+            await transporter.verify();
 
-        from:
-            `"Barber King" <${process.env.EMAIL_USER}>`,
+            console.log(
+                "✓ Servicio de correo conectado."
+            );
 
-        to: correo,
+        } catch (error) {
 
-        subject:
-            "Recuperación de contraseña - Barber King",
+            console.error(
+                "✗ Error SMTP:",
+                error.message
+            );
 
-        html: `
-            <div style="font-family: Arial, sans-serif;">
+        }
 
-                <h2>
-                    Recuperación de contraseña
-                </h2>
+    };
 
-                <p>
-                    Recibimos una solicitud para
-                    restablecer tu contraseña.
-                </p>
+export const enviarCodigoRecuperacion =
+    async (
+        correo,
+        codigo
+    ) => {
 
-                <p>
-                    Haz clic en el siguiente enlace:
-                </p>
+        try {
 
-                <a href="${enlace}">
-                    Restablecer contraseña
-                </a>
+            const info =
+                await transporter.sendMail({
 
-                <p>
-                    Este enlace es temporal.
-                </p>
+                    from:
+                        `"${process.env.APP_NAME}" <${process.env.EMAIL_USER}>`,
 
-                <p>
-                    Si no solicitaste este cambio,
-                    puedes ignorar este correo.
-                </p>
+                    to: correo,
 
-                <hr>
+                    subject:
+                        "Código de recuperación",
 
-                <small>
-                    Barber King ©
-                </small>
+                    text: `
+Tu código de recuperación es:
 
-            </div>
-        `
-    });
-};
+${codigo}
+
+Este código expira en 15 minutos.
+`,
+
+                    html: `
+<div style="
+font-family:Arial,sans-serif;
+max-width:600px;
+margin:auto;
+padding:20px;
+">
+
+<h2>
+Recuperación de contraseña
+</h2>
+
+<p>
+Has solicitado recuperar tu contraseña.
+</p>
+
+<p>
+Utiliza el siguiente código:
+</p>
+
+<div style="
+font-size:32px;
+font-weight:bold;
+letter-spacing:8px;
+padding:20px;
+background:#f5f5f5;
+text-align:center;
+border-radius:8px;
+">
+${codigo}
+</div>
+
+<p style="
+margin-top:20px;
+">
+Este código expira en
+<strong>15 minutos</strong>.
+</p>
+
+<p>
+Si no solicitaste este cambio,
+puedes ignorar este mensaje.
+</p>
+
+</div>
+`
+
+                });
+
+            console.log(
+                "Correo enviado:",
+                info.messageId
+            );
+
+            return true;
+
+        } catch (error) {
+
+            console.error(
+                "Error enviando correo:",
+                error.message
+            );
+
+            throw new Error(
+                "No fue posible enviar el correo de recuperación."
+            );
+
+        }
+
+    };
