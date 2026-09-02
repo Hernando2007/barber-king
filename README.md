@@ -49,6 +49,7 @@ docs/
 
 ---
 
-## Estado del proyecto
+## Colaboradores
 
-🚧 En desarrollo
+Hernando Botello Vargas
+Yonanderson Marroquin
