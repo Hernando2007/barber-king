@@ -53,36 +53,45 @@ const __dirname =
     path.dirname(__filename);
 
 const allowedOrigins = [
-    process.env.FRONTEND_URL
+    process.env.FRONTEND_URL,
+    "http://localhost:49783",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ];
 
-app.use(cors({
+app.use(
+    cors({
+        origin: (origin, callback) => {
 
-    origin(origin, callback) {
+            console.log("Origin:", origin);
 
-        if (!origin) {
+            if (!origin) {
+                return callback(null, true);
+            }
+
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            }
+
             return callback(null, true);
-        }
+        },
 
-        if (
-            allowedOrigins.includes(origin)
-        ) {
+        credentials: true,
+        methods: [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+            "OPTIONS"
+        ],
 
-            return callback(null, true);
-
-        }
-
-        callback(
-            new Error(
-                "Origen no permitido"
-            )
-        );
-
-    },
-
-    credentials: true
-
-}));
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization"
+        ]
+    })
+);
 
 app.use(
     helmet({
