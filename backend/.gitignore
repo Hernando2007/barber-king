@@ -12,7 +12,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Uploads locales (opcional)
+# Uploads locales
 backend/uploads/
 
 # =========================
