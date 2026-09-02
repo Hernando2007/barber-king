@@ -22,7 +22,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final AuthService authService = AuthService();
 
   bool cargando = false;
+
   bool ocultarPassword = true;
+
   bool ocultarConfirmar = true;
 
   @override
@@ -108,90 +110,218 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
       appBar: AppBar(title: const Text("Restablecer contraseña")),
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
 
-            const Icon(Icons.lock_reset, size: 80, color: AppColors.primary),
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
 
-            const SizedBox(height: 25),
+              Container(
+                width: 120,
+                height: 120,
 
-            TextField(
-              controller: correoController,
-              decoration: const InputDecoration(
-                labelText: "Correo",
-                prefixIcon: Icon(Icons.email),
-              ),
-            ),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.card,
+                  border: Border.all(color: AppColors.primary, width: 2),
+                ),
 
-            const SizedBox(height: 15),
-
-            TextField(
-              controller: codigoController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Código OTP",
-                prefixIcon: Icon(Icons.pin),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            TextField(
-              controller: passwordController,
-              obscureText: ocultarPassword,
-              decoration: InputDecoration(
-                labelText: "Nueva contraseña",
-                prefixIcon: const Icon(Icons.lock),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    ocultarPassword ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      ocultarPassword = !ocultarPassword;
-                    });
-                  },
+                child: const Icon(
+                  Icons.verified_user,
+                  color: AppColors.primary,
+                  size: 60,
                 ),
               ),
-            ),
 
-            const SizedBox(height: 15),
+              const SizedBox(height: 25),
 
-            TextField(
-              controller: confirmarController,
-              obscureText: ocultarConfirmar,
-              decoration: InputDecoration(
-                labelText: "Confirmar contraseña",
-                prefixIcon: const Icon(Icons.lock_outline),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    ocultarConfirmar ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      ocultarConfirmar = !ocultarConfirmar;
-                    });
-                  },
+              const Text(
+                "Nueva contraseña",
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
 
-            const SizedBox(height: 30),
+              const SizedBox(height: 10),
 
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: cargando ? null : cambiarPassword,
-                child: cargando
-                    ? const CircularProgressIndicator()
-                    : const Text("Cambiar contraseña"),
+              const Text(
+                "Ingresa el código OTP recibido y define una nueva contraseña segura.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.subtitle,
+                  fontSize: 15,
+                  height: 1.5,
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 35),
+
+              Container(
+                padding: const EdgeInsets.all(24),
+
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.border),
+                ),
+
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: correoController,
+
+                      keyboardType: TextInputType.emailAddress,
+
+                      style: const TextStyle(color: AppColors.white),
+
+                      decoration: const InputDecoration(
+                        labelText: "Correo electrónico",
+
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: codigoController,
+
+                      keyboardType: TextInputType.number,
+
+                      style: const TextStyle(color: AppColors.white),
+
+                      decoration: const InputDecoration(
+                        labelText: "Código OTP",
+
+                        prefixIcon: Icon(
+                          Icons.pin_outlined,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: passwordController,
+
+                      obscureText: ocultarPassword,
+
+                      style: const TextStyle(color: AppColors.white),
+
+                      decoration: InputDecoration(
+                        labelText: "Nueva contraseña",
+
+                        prefixIcon: const Icon(
+                          Icons.lock_outline,
+                          color: AppColors.primary,
+                        ),
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              ocultarPassword = !ocultarPassword;
+                            });
+                          },
+                          icon: Icon(
+                            ocultarPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: confirmarController,
+
+                      obscureText: ocultarConfirmar,
+
+                      style: const TextStyle(color: AppColors.white),
+
+                      decoration: InputDecoration(
+                        labelText: "Confirmar contraseña",
+
+                        prefixIcon: const Icon(
+                          Icons.lock_reset,
+                          color: AppColors.primary,
+                        ),
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              ocultarConfirmar = !ocultarConfirmar;
+                            });
+                          },
+                          icon: Icon(
+                            ocultarConfirmar
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 58,
+
+                      child: ElevatedButton(
+                        onPressed: cargando ? null : cambiarPassword,
+
+                        child: cargando
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                "ACTUALIZAR CONTRASEÑA",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              Container(
+                padding: const EdgeInsets.all(16),
+
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+
+                child: const Row(
+                  children: [
+                    Icon(Icons.security, color: AppColors.primary),
+
+                    SizedBox(width: 12),
+
+                    Expanded(
+                      child: Text(
+                        "Utiliza una contraseña fuerte con letras, números y símbolos.",
+                        style: TextStyle(color: AppColors.subtitle),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
