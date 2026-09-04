@@ -20,6 +20,7 @@ import serviciosRoutes from "./routes/serviciosRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import resenasRoutes from "./routes/resenasRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 import {
     verificarEmailService
@@ -188,6 +189,7 @@ app.use("/api/servicios", serviciosRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/resenas", resenasRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.use(
     "/uploads",
