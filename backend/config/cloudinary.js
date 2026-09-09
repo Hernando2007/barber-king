@@ -14,7 +14,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary, cloudinary,
     params: {
-        folder: 'heladeria/helados',
+        folder: 'barber-king/cortes',
         resource_type: 'auto',
         allowedFormats: ['jpg', 'png','jpeg', 'avif', 'webp', 'mp4', 'avi'],
     },
