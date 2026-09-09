@@ -1,4 +1,5 @@
 import express from "express";
+import { autenticarConGoogle } from "../controllers/googleauth.controller.js";
 
 import {
     registrar,
@@ -22,5 +23,8 @@ router.post(
     "/reset-password",
     resetPassword
 );
+
+// Endpoint: POST /api/auth/google
+router.post("/google", autenticarConGoogle);
 
 export default router;

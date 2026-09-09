@@ -10,6 +10,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./docs/swagger.js";
 
 import { errorHandler } from "./middlewares/errorMiddleware.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 import authRoutes from "./routes/authRoutes.js";
 import usuariosRoutes from "./routes/usuariosRoutes.js";

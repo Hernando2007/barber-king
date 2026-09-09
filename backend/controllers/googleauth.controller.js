@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
-import { obtenerPorEmail, crearUsuarioGoogle, actualizarUsuario } from "../models/User.js";
+import { obtenerUsuarioPorCorreo, crearUsuarioGoogle, actualizarUsuario } from "../models/usuariosModel.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -24,7 +24,7 @@ export const autenticarConGoogle = async (req, res) => {
         const { sub: googleId, email, name: nombre, picture: avatar } = payload;
 
         // 2. Comprobar si ya existe en Supabase
-        const { data: usuarioExistente } = await obtenerPorEmail(email);
+        const { data: usuarioExistente } = await obtenerUsuarioPorCorreo(email);
 
         let usuarioFinal = null;
 
@@ -79,10 +79,14 @@ export const autenticarConGoogle = async (req, res) => {
             }
         });
 
-    } catch (error) {
-        console.error('Error en autenticarConGoogle:', error);
-        return res.status(401).json({
-            error: 'Token de Google inválido o expirado'
-        });
+    }  catch (error) {
+    // Imprime el objeto de error completo para inspeccionar la causa real
+    console.error('--- DETALLE DEL ERROR DE GOOGLE ---');
+    console.error(error);
+    console.error('-----------------------------------');
+
+    return res.status(401).json({
+        error: 'Token de Google inválido o expirado'
+    });
     }
 };
