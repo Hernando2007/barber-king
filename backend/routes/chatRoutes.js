@@ -1,41 +1,24 @@
 import express from "express";
-import { chatearConBarberKing, recomendarCorteConIA, obtenerHistorialBarberKing } from "../controllers/chatController.js";
+import {
+  chatearConBarberKing,
+  recomendarCorteConIA,
+  obtenerHistorialBarberKing
+} from "../controllers/chatController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
-import upload from "../middlewares/uploadMiddleware.js";
+import { subirImagen } from "../middlewares/uploadMiddleware.js";
 
-const router =
-    express.Router();
+const router = express.Router();
 
+router.post("/chatear", verificarToken, chatearConBarberKing);
+
+// Pasa directamente subirImagen
 router.post(
-
-    "/chatear",
-
-    verificarToken,
-
-    chatearConBarberKing
-
+  "/recomendar-corte",
+  verificarToken,
+  subirImagen,
+  recomendarCorteConIA
 );
 
-router.post(
-
-    "/recomendar-corte",
-
-    verificarToken,
-
-    upload.single("imagen"),
-
-    recomendarCorteConIA
-
-);
-
-router.get(
-
-    "/historial/:sesionId",
-
-    verificarToken,
-
-    obtenerHistorialBarberKing
-
-);
+router.get("/historial/:sesionId", verificarToken, obtenerHistorialBarberKing);
 
 export default router;

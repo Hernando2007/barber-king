@@ -1,5 +1,4 @@
 import Groq from "groq-sdk";
-import fs from "fs";
 import supabase from "../config/supabase.js";
 
 const groq = new Groq({
@@ -24,20 +23,25 @@ export const enviarMensaje = async (
         ).join("\n")
         : "No hay servicios disponibles.";
 
-    const prompt = `
+    const respuesta = await groq.chat.completions.create({
+        model: "qwen/qwen3.6-27b",
+        reasoning_effort: "none",
+        messages: [
+            {
+                role: "system",
+                content: `
 Eres el asistente virtual de Barber King.
-Ayuda al usuario con servicios, precios y cortes de cabello.
+Ayuda con servicios, precios y cortes de cabello.
 Responde de forma clara y breve.
 
 SERVICIOS:
 ${catalogo}
-`;
-
-    const respuesta = await groq.chat.completions.create({
-        model: "qwen/qwen3.6-27b",
-        messages: [
-            { role: "system", content: prompt },
-            { role: "user", content: mensaje }
+`
+            },
+            {
+                role: "user",
+                content: mensaje
+            }
         ],
         temperature: 0.3,
         max_tokens: 500
@@ -70,111 +74,141 @@ ${catalogo}
     };
 };
 
-// Recomendar corte usando una imagen
+// Recomendación de corte mediante imagen
 export const recomendarCorte = async (
-    rutaImagen,
+    imagenUrl,
     usuarioId,
     sesionId
 ) => {
-    const sesion = sesionId || `sesion_ia_${Date.now()}`;
+    const sesion =
+        sesionId || `sesion_ia_${Date.now()}`;
 
-    try {
-        const imagen = fs.readFileSync(rutaImagen);
-        const base64 = imagen.toString("base64");
+    const respuesta = await groq.chat.completions.create({
+        model: "qwen/qwen3.6-27b",
+        reasoning_effort: "none",
+        response_format: {
+            type: "json_object"
+        },
+        messages: [
+            {
+                role: "system",
+                content: `
+Eres un asesor de cortes de cabello
+para Barber King.
 
-        const respuesta = await groq.chat.completions.create({
-            model: "qwen/qwen3.6-27b",
-            reasoning_effort: "none",
-            response_format: {
-                type: "json_object"
-            },
-            messages: [
-                {
-                    role: "system",
-                    content: `
-Eres un asesor de cortes de cabello de Barber King.
-
-Analiza únicamente características visibles y generales
-relacionadas con el estilo del cabello.
+Analiza únicamente características
+visibles relacionadas con el cabello
+y el estilo.
 
 No identifiques a la persona.
 No hagas diagnósticos médicos.
 No hagas comparaciones de atractivo.
 
-Devuelve SOLO JSON con esta estructura:
+Devuelve solamente JSON:
+
 {
   "corte_principal": "nombre del corte",
   "explicacion": "explicación breve",
-  "alternativas": ["corte 1", "corte 2"],
+  "alternativas": [
+    "corte 1",
+    "corte 2"
+  ],
   "recomendacion_barbero": "consejo breve"
 }
 `
-                },
-                {
-                    role: "user",
-                    content: [
-                        {
-                            type: "text",
-                            text: "Recomiéndame un corte de cabello basándote en la imagen."
-                        },
-                        {
-                            type: "image_url",
-                            image_url: {
-                                url: `data:image/jpeg;base64,${base64}`
-                            }
+            },
+            {
+                role: "user",
+                content: [
+                    {
+                        type: "text",
+                        text: "Analiza la imagen y recomienda un corte de cabello."
+                    },
+                    {
+                        type: "image_url",
+                        image_url: {
+                            url: imagenUrl
                         }
-                    ]
-                }
-            ],
-            temperature: 0.2,
-            max_tokens: 400
-        });
+                    }
+                ]
+            }
+        ],
+        temperature: 0.2,
+        max_tokens: 400
+    });
 
-        let texto =
-            respuesta.choices[0]?.message?.content || "{}";
+    let texto =
+        respuesta.choices[0]?.message?.content ||
+        "{}";
 
-        // Elimina posibles bloques Markdown
-        texto = texto
-            .replace(/```json/gi, "")
-            .replace(/```/g, "")
-            .trim();
+    texto = texto
+        .replace(/```json/gi, "")
+        .replace(/```/g, "")
+        .trim();
 
-        const recomendacion = JSON.parse(texto);
+    let recomendacion;
 
-        // Guardar solicitud y respuesta en mensajes_chat
-        await supabase.from("mensajes_chat").insert([
+    try {
+        recomendacion = JSON.parse(texto);
+    } catch (error) {
+        throw new Error(
+            "La IA devolvió una respuesta que no es JSON válido."
+        );
+    }
+
+    if (!recomendacion.corte_principal) {
+        throw new Error(
+            "La IA no devolvió una recomendación válida."
+        );
+    }
+
+    // Guardamos la solicitud y la respuesta
+    // junto con la URL de Cloudinary.
+    const { error } = await supabase
+        .from("mensajes_chat")
+        .insert([
             {
                 sesion_id: sesion,
                 usuario_id: usuarioId,
                 emisor: "user",
-                mensaje: "Solicitud de recomendación de corte mediante IA.",
-                tipo_mensaje: "recomendacion_corte",
+                mensaje:
+                    "Solicitud de recomendación de corte mediante IA.",
+                imagen_url: imagenUrl,
+                tipo_mensaje:
+                    "recomendacion_corte",
                 metadata: {
-                    tipo: "solicitud",
-                    tiene_imagen: true
+                    tipo: "solicitud"
                 }
             },
             {
                 sesion_id: sesion,
                 usuario_id: usuarioId,
                 emisor: "bot",
-                mensaje: recomendacion.corte_principal,
-                tipo_mensaje: "recomendacion_corte",
+                mensaje:
+                    recomendacion.corte_principal,
+                imagen_url: imagenUrl,
+                tipo_mensaje:
+                    "recomendacion_corte",
                 metadata: recomendacion
             }
         ]);
 
-        return {
-            sesionId: sesion,
-            recomendacion
-        };
+    if (error) {
+        console.error(
+            "Error guardando recomendación:",
+            error
+        );
 
-    } finally {
-        // Eliminar imagen temporal
-        if (fs.existsSync(rutaImagen)) {
-            fs.unlinkSync(rutaImagen);
-        }
+        throw new Error(
+            "La recomendación fue generada, pero no se pudo guardar."
+        );
     }
+
+    return {
+        sesionId: sesion,
+        imagenUrl,
+        recomendacion
+    };
 };
 
 // Obtener historial
@@ -182,24 +216,22 @@ export const obtenerHistorial = async (
     sesionId,
     usuarioId
 ) => {
-    let consulta = supabase
+    const { data, error } = await supabase
         .from("mensajes_chat")
         .select(`
             id,
             emisor,
             mensaje,
+            imagen_url,
             tipo_mensaje,
             metadata,
             created_at
         `)
         .eq("sesion_id", sesionId)
-        .order("created_at", { ascending: true });
-
-    if (usuarioId) {
-        consulta = consulta.eq("usuario_id", usuarioId);
-    }
-
-    const { data, error } = await consulta;
+        .eq("usuario_id", usuarioId)
+        .order("created_at", {
+            ascending: true
+        });
 
     if (error) {
         throw new Error(
