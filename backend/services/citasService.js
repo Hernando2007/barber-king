@@ -1,12 +1,4 @@
-import {
-    crearNuevaCita,
-    obtenerServicio,
-    obtenerCitas,
-    listarCitas,
-    obtenerCitaPorId,
-    actualizarCita,
-    eliminarCita
-} from "../models/citasModel.js";
+import { crearNuevaCita, obtenerServicio, obtenerCitas, listarCitas, obtenerCitaPorId, actualizarCita, eliminarCita } from "../models/citasModel.js";
 
 export const registrarCita = async (
     datos

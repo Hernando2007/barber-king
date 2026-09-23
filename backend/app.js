@@ -84,9 +84,7 @@ app.use(
             "GET",
             "POST",
             "PUT",
-            "DELETE",
-            "PATCH",
-            "OPTIONS"
+            "DELETE"
         ],
 
         allowedHeaders: [

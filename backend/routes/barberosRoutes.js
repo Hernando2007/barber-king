@@ -1,16 +1,8 @@
 import express from "express";
 
-import {
-    obtenerTodos,
-    obtenerPorId,
-    crear,
-    actualizar,
-    eliminar
-} from "../controllers/barberosController.js";
+import { obtenerTodos, obtenerPorId, crear, actualizar, eliminar } from "../controllers/barberosController.js";
 
-import {
-    verificarToken
-} from "../middlewares/authMiddleware.js";
+import { verificarToken } from "../middlewares/authMiddleware.js";
 
 import {
     verificarRol

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/colors.dart';
 import '../../services/auth_service.dart';
 
@@ -11,105 +10,130 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final nombresController = TextEditingController();
-  final apellidosController = TextEditingController();
-  final correoController = TextEditingController();
-  final telefonoController = TextEditingController();
-  final fechaController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmarController = TextEditingController();
+  final nombres = TextEditingController();
+  final apellidos = TextEditingController();
+  final correo = TextEditingController();
+  final telefono = TextEditingController();
+  final fecha = TextEditingController();
+  final password = TextEditingController();
+  final confirmar = TextEditingController();
 
-  final AuthService authService = AuthService();
+  final auth = AuthService();
 
   bool cargando = false;
   bool ocultarPassword = true;
-  bool ocultarConfirmacion = true;
+  bool ocultarConfirmar = true;
+  int rol = 3;
 
-  int rolSeleccionado = 3;
-
-  Future<void> registrar() async {
-    if (nombresController.text.isEmpty ||
-        apellidosController.text.isEmpty ||
-        correoController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        confirmarController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Complete todos los campos obligatorios."),
-        ),
-      );
-      return;
+  @override
+  void dispose() {
+    for (final c in [
+      nombres,
+      apellidos,
+      correo,
+      telefono,
+      fecha,
+      password,
+      confirmar,
+    ]) {
+      c.dispose();
     }
+    super.dispose();
+  }
 
-    if (passwordController.text != confirmarController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Las contraseñas no coinciden.")),
-      );
-      return;
-    }
-
-    setState(() {
-      cargando = true;
-    });
-
-    final respuesta = await authService.registrar(
-      rolId: rolSeleccionado,
-      nombres: nombresController.text.trim(),
-      apellidos: apellidosController.text.trim(),
-      correo: correoController.text.trim(),
-      telefono: telefonoController.text.trim(),
-      fechaNacimiento: fechaController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-
-    if (!mounted) return;
-
-    setState(() {
-      cargando = false;
-    });
-
-    if (respuesta["success"] == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Usuario registrado correctamente.")),
-      );
-
-      Navigator.pop(context);
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(respuesta["message"] ?? "Error al registrar.")),
-    );
+  void mensaje(String texto) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(texto)));
   }
 
   Future<void> seleccionarFecha() async {
-    final fecha = await showDatePicker(
+    final f = await showDatePicker(
       context: context,
       initialDate: DateTime(2000),
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
     );
 
-    if (fecha != null) {
-      fechaController.text =
-          "${fecha.year}-${fecha.month.toString().padLeft(2, '0')}-${fecha.day.toString().padLeft(2, '0')}";
+    if (f != null) {
+      fecha.text =
+          "${f.year}-${f.month.toString().padLeft(2, '0')}-${f.day.toString().padLeft(2, '0')}";
     }
   }
 
-  @override
-  void dispose() {
-    nombresController.dispose();
-    apellidosController.dispose();
-    correoController.dispose();
-    telefonoController.dispose();
-    fechaController.dispose();
-    passwordController.dispose();
-    confirmarController.dispose();
-    super.dispose();
+  Future<void> registrar() async {
+    final campos = [nombres, apellidos, correo, password, confirmar];
+
+    if (campos.any((c) => c.text.trim().isEmpty)) {
+      mensaje("Complete todos los campos obligatorios.");
+      return;
+    }
+
+    if (password.text != confirmar.text) {
+      mensaje("Las contraseñas no coinciden.");
+      return;
+    }
+
+    setState(() => cargando = true);
+
+    final respuesta = await auth.registrar(
+      rolId: rol,
+      nombres: nombres.text.trim(),
+      apellidos: apellidos.text.trim(),
+      correo: correo.text.trim(),
+      telefono: telefono.text.trim(),
+      fechaNacimiento: fecha.text.trim(),
+      password: password.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    setState(() => cargando = false);
+
+    if (respuesta["success"] == true) {
+      mensaje("Usuario registrado correctamente.");
+      Navigator.pop(context);
+    } else {
+      mensaje(respuesta["message"] ?? "Error al registrar.");
+    }
   }
 
-  Widget campoSeparador() {
-    return const SizedBox(height: 18);
+  Widget campo(
+    String label,
+    IconData icon,
+    TextEditingController controller, {
+    TextInputType? tipo,
+    bool lectura = false,
+    VoidCallback? tocar,
+  }) {
+    return TextField(
+      controller: controller,
+      keyboardType: tipo,
+      readOnly: lectura,
+      onTap: tocar,
+      decoration: InputDecoration(labelText: label, prefixIcon: Icon(icon)),
+    );
+  }
+
+  Widget campoPassword(
+    String label,
+    IconData icon,
+    TextEditingController controller,
+    bool ocultar,
+    VoidCallback cambiar,
+  ) {
+    return TextField(
+      controller: controller,
+      obscureText: ocultar,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        suffixIcon: IconButton(
+          onPressed: cambiar,
+          icon: Icon(
+            ocultar ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -119,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            padding: const EdgeInsets.all(24),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 550),
               child: Container(
@@ -130,9 +154,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   border: Border.all(color: AppColors.border),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.08),
+                      color: AppColors.primary.withValues(alpha: .08),
                       blurRadius: 20,
-                      spreadRadius: 1,
                     ),
                   ],
                 ),
@@ -147,17 +170,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: AppColors.primary,
                       ),
                     ),
-
                     const SizedBox(height: 10),
-
                     const Icon(
                       Icons.person_add_alt_1_rounded,
                       color: AppColors.primary,
                       size: 90,
                     ),
-
                     const SizedBox(height: 20),
-
                     const Text(
                       "CREAR CUENTA",
                       textAlign: TextAlign.center,
@@ -168,19 +187,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         letterSpacing: 2,
                       ),
                     ),
-
                     const SizedBox(height: 10),
-
                     const Text(
                       "Únete a la experiencia premium de Barber King",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: AppColors.subtitle),
                     ),
-
                     const SizedBox(height: 30),
 
                     DropdownButtonFormField<int>(
-                      value: rolSeleccionado,
+                      initialValue: rol,
                       dropdownColor: AppColors.surface,
                       decoration: const InputDecoration(
                         labelText: "Tipo de cuenta",
@@ -190,111 +206,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         DropdownMenuItem(value: 3, child: Text("Cliente")),
                         DropdownMenuItem(value: 2, child: Text("Barbero")),
                       ],
-                      onChanged: (value) {
-                        setState(() {
-                          rolSeleccionado = value ?? 3;
-                        });
-                      },
+                      onChanged: (v) => setState(() => rol = v ?? 3),
                     ),
 
-                    campoSeparador(),
+                    const SizedBox(height: 18),
 
-                    TextField(
-                      controller: nombresController,
-                      decoration: const InputDecoration(
-                        labelText: "Nombres",
-                        prefixIcon: Icon(Icons.person_outline),
-                      ),
+                    campo("Nombres", Icons.person_outline, nombres),
+                    const SizedBox(height: 18),
+
+                    campo("Apellidos", Icons.person_outline, apellidos),
+                    const SizedBox(height: 18),
+
+                    campo(
+                      "Correo electrónico",
+                      Icons.email_outlined,
+                      correo,
+                      tipo: TextInputType.emailAddress,
                     ),
+                    const SizedBox(height: 18),
 
-                    campoSeparador(),
-
-                    TextField(
-                      controller: apellidosController,
-                      decoration: const InputDecoration(
-                        labelText: "Apellidos",
-                        prefixIcon: Icon(Icons.person_outline),
-                      ),
+                    campo(
+                      "Teléfono",
+                      Icons.phone_outlined,
+                      telefono,
+                      tipo: TextInputType.phone,
                     ),
+                    const SizedBox(height: 18),
 
-                    campoSeparador(),
-
-                    TextField(
-                      controller: correoController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        labelText: "Correo electrónico",
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
+                    campo(
+                      "Fecha de nacimiento",
+                      Icons.calendar_month_outlined,
+                      fecha,
+                      lectura: true,
+                      tocar: seleccionarFecha,
                     ),
+                    const SizedBox(height: 18),
 
-                    campoSeparador(),
-
-                    TextField(
-                      controller: telefonoController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        labelText: "Teléfono",
-                        prefixIcon: Icon(Icons.phone_outlined),
-                      ),
+                    campoPassword(
+                      "Contraseña",
+                      Icons.lock_outline,
+                      password,
+                      ocultarPassword,
+                      () => setState(() => ocultarPassword = !ocultarPassword),
                     ),
+                    const SizedBox(height: 18),
 
-                    campoSeparador(),
-
-                    TextField(
-                      controller: fechaController,
-                      readOnly: true,
-                      onTap: seleccionarFecha,
-                      decoration: const InputDecoration(
-                        labelText: "Fecha de nacimiento",
-                        prefixIcon: Icon(Icons.calendar_month_outlined),
-                      ),
-                    ),
-
-                    campoSeparador(),
-
-                    TextField(
-                      controller: passwordController,
-                      obscureText: ocultarPassword,
-                      decoration: InputDecoration(
-                        labelText: "Contraseña",
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              ocultarPassword = !ocultarPassword;
-                            });
-                          },
-                          icon: Icon(
-                            ocultarPassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    campoSeparador(),
-
-                    TextField(
-                      controller: confirmarController,
-                      obscureText: ocultarConfirmacion,
-                      decoration: InputDecoration(
-                        labelText: "Confirmar contraseña",
-                        prefixIcon: const Icon(Icons.lock_reset_outlined),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              ocultarConfirmacion = !ocultarConfirmacion;
-                            });
-                          },
-                          icon: Icon(
-                            ocultarConfirmacion
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                          ),
-                        ),
-                      ),
+                    campoPassword(
+                      "Confirmar contraseña",
+                      Icons.lock_reset_outlined,
+                      confirmar,
+                      ocultarConfirmar,
+                      () =>
+                          setState(() => ocultarConfirmar = !ocultarConfirmar),
                     ),
 
                     const SizedBox(height: 30),
@@ -318,9 +281,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 20),
 
                     TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.pop(context),
                       child: const Text("Ya tengo una cuenta"),
                     ),
                   ],

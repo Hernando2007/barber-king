@@ -1,10 +1,4 @@
-import {
-    obtenerServicios,
-    obtenerServicioPorId,
-    crearServicio,
-    actualizarServicio,
-    eliminarServicio
-} from "../models/serviciosModel.js";
+import { obtenerServicios, obtenerServicioPorId, crearServicio, actualizarServicio, eliminarServicio } from "../models/serviciosModel.js";
 
 export const listarServicios = async () => {
 

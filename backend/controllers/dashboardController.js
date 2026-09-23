@@ -1,6 +1,4 @@
-import {
-    dashboardGeneral
-} from "../services/dashboardService.js";
+import { dashboardGeneral } from "../services/dashboardService.js";
 
 export const obtenerDashboardAdmin = async (
     req,

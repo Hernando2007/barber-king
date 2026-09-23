@@ -18,17 +18,6 @@ const server = app.listen(
         console.log("========================================");
         console.log(`🚀 Servidor : http://localhost:${PORT}`);
 
-        if (
-            process.env.NODE_ENV !==
-            "production"
-        ) {
-
-            console.log(
-                `📚 Swagger  : http://localhost:${PORT}/api-docs`
-            );
-
-        }
-
         console.log(
             `📅 Fecha    : ${new Date().toLocaleString()}`
         );

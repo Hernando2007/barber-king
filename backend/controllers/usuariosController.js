@@ -1,7 +1,4 @@
-import {
-    listarUsuarios,
-    buscarUsuario
-} from "../services/usuariosService.js";
+import { listarUsuarios, buscarUsuario} from "../services/usuariosService.js";
 
 export const getUsuarios = async (
     req,

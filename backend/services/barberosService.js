@@ -1,11 +1,4 @@
-import {
-    obtenerBarberos,
-    obtenerBarberoPorId,
-    obtenerBarberoPorUsuario,
-    crearBarbero,
-    actualizarBarbero,
-    eliminarBarbero
-} from "../models/barberosModel.js";
+import { obtenerBarberos, obtenerBarberoPorId, obtenerBarberoPorUsuario, crearBarbero, actualizarBarbero, eliminarBarbero } from "../models/barberosModel.js";
 
 export const listarBarberos = async () => {
 

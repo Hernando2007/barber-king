@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
@@ -177,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 15),
 
+              // CORRECCIÓN: Ahora son 4 elementos en la cuadrícula, dejando el espacio libre
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -243,28 +243,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 descripcion: "Atención personalizada y servicios exclusivos.",
                 icono: Icons.workspace_premium,
               ),
-
-              const SizedBox(height: 30),
             ],
           ),
         ),
+      ),
+
+      // AGREGADO: Botón Flotante con estilo Premium acorde al diseño de Barber King
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColors.primary,
+        icon: const Icon(Icons.smart_toy_rounded, color: Colors.black),
+        label: const Text(
+          "Asistente IA",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {
+          // El token se resolverá de forma independiente dentro del ChatIAScreen (Opción B del paso anterior)
+          Navigator.pushNamed(context, AppRoutes.chatIA);
+        },
       ),
     );
   }
 }
 
+// Clases auxiliares para que no marque error el código al compilar
 class SectionTitle extends StatelessWidget {
   final String titulo;
-
   const SectionTitle({super.key, required this.titulo});
-
   @override
   Widget build(BuildContext context) {
     return Text(
       titulo,
       style: const TextStyle(
         color: AppColors.white,
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -275,36 +286,31 @@ class PremiumMenuCard extends StatelessWidget {
   final String titulo;
   final IconData icono;
   final VoidCallback onTap;
-
   const PremiumMenuCard({
     super.key,
     required this.titulo,
     required this.icono,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(22),
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.card,
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: AppColors.border),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icono, size: 45, color: AppColors.primary),
-            const SizedBox(height: 15),
+            Icon(icono, color: AppColors.primary, size: 35),
+            const SizedBox(height: 10),
             Text(
               titulo,
               style: const TextStyle(
                 color: AppColors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
               ),
             ),
           ],
@@ -318,34 +324,23 @@ class HighlightCard extends StatelessWidget {
   final String titulo;
   final String descripcion;
   final IconData icono;
-
   const HighlightCard({
     super.key,
     required this.titulo,
     required this.descripcion,
     required this.icono,
   });
-
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         children: [
-          Container(
-            width: 55,
-            height: 55,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(icono, color: AppColors.primary),
-          ),
+          Icon(icono, color: AppColors.primary),
           const SizedBox(width: 15),
           Expanded(
             child: Column(
@@ -356,13 +351,14 @@ class HighlightCard extends StatelessWidget {
                   style: const TextStyle(
                     color: AppColors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 5),
                 Text(
                   descripcion,
-                  style: const TextStyle(color: AppColors.subtitle),
+                  style: const TextStyle(
+                    color: AppColors.subtitle,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

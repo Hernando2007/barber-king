@@ -1,9 +1,5 @@
 import express from "express";
-import {
-  chatearConBarberKing,
-  recomendarCorteConIA,
-  obtenerHistorialBarberKing
-} from "../controllers/chatController.js";
+import { chatearConBarberKing, recomendarCorteConIA, obtenerHistorialBarberKing } from "../controllers/chatController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 import { subirImagen } from "../middlewares/uploadMiddleware.js";
 

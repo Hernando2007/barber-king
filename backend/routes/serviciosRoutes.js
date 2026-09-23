@@ -1,20 +1,7 @@
 import express from "express";
-
-import {
-    obtenerTodos,
-    obtenerPorId,
-    crear,
-    actualizar,
-    eliminar
-} from "../controllers/serviciosController.js";
-
-import {
-    verificarToken
-} from "../middlewares/authMiddleware.js";
-
-import {
-    verificarRol
-} from "../middlewares/rolMiddleware.js";
+import { obtenerTodos, obtenerPorId, crear, actualizar, eliminar } from "../controllers/serviciosController.js";
+import { verificarToken } from "../middlewares/authMiddleware.js";
+import { verificarRol } from "../middlewares/rolMiddleware.js";
 
 const router = express.Router();
 

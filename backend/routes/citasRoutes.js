@@ -1,16 +1,6 @@
 import express from "express";
-
-import {
-    crearCita,
-    obtenerTodas,
-    obtenerPorId,
-    actualizar,
-    eliminar
-} from "../controllers/citasController.js";
-
-import {
-    verificarToken
-} from "../middlewares/authMiddleware.js";
+import { crearCita, obtenerTodas, obtenerPorId, actualizar, eliminar } from "../controllers/citasController.js";
+import { verificarToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
