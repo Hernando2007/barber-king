@@ -30,42 +30,31 @@ const server = app.listen(
 server.on(
     "error",
     (error) => {
-
         console.error(
             "❌ Error al iniciar el servidor:"
         );
-
         console.error(error);
-
         process.exit(1);
-
     }
 );
 
 process.on(
     "unhandledRejection",
     (error) => {
-
         console.error(
             "❌ Promesa rechazada no controlada:"
         );
-
         console.error(error);
-
     }
 );
 
 process.on(
     "uncaughtException",
     (error) => {
-
         console.error(
             "❌ Excepción no controlada:"
         );
-
         console.error(error);
-
         process.exit(1);
-
     }
 );

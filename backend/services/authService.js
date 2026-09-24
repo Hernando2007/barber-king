@@ -119,7 +119,7 @@ export const iniciarSesion = async ({
                 expiresIn: "8h"
             }
         );
-    delete usuario.password;
+        
     return {
     token,
     usuario: {
