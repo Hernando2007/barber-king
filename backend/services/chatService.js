@@ -1,0 +1,244 @@
+import Groq from "groq-sdk";
+import supabase from "../config/supabase.js";
+
+const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY
+});
+
+// Chat normal
+export const enviarMensaje = async (
+    mensaje,
+    usuarioId,
+    sesionId
+) => {
+    try {
+        const sesion = sesionId || `sesion_${Date.now()}`;
+
+        // Obtener el catálogo de servicios de Supabase para alimentar el contexto de la IA
+        const { data: servicios, error: errorServicios } = await supabase
+            .from("servicios")
+            .select("nombre, precio, descripcion");
+
+        if (errorServicios) {
+            console.error("⚠️ Error obteniendo servicios de Supabase:", errorServicios);
+        }
+
+        const catalogo = servicios?.length
+            ? servicios.map(s =>
+                `- ${s.nombre}: $${s.precio} COP - ${s.descripcion || ""}`
+            ).join("\n")
+            : "No hay servicios disponibles en este momento.";
+
+        // Petición de completado al modelo de Groq
+        const respuesta = await groq.chat.completions.create({
+            model: "openai/gpt-oss-20b",
+            reasoning_effort: "low",
+            messages: [
+                {
+                    role: "system",
+                    content: `
+Eres el asistente virtual de Barber King.
+Ayuda con servicios, precios y cortes de cabello.
+Responde de forma clara y breve.
+
+SERVICIOS:
+${catalogo}
+`
+                },
+                {
+                    role: "user",
+                    content: mensaje
+                }
+            ],
+            temperature: 0.3,
+            max_tokens: 500
+        });
+
+        const texto =
+            respuesta.choices[0]?.message?.content ||
+            "No pude generar una respuesta válida.";
+
+        // Guardar la conversación completa en la base de datos de Supabase
+        const { error: errorInsert } = await supabase.from("mensajes_chat").insert([
+            {
+                sesion_id: sesion,
+                usuario_id: usuarioId,
+                emisor: "user",
+                mensaje: mensaje.trim(),
+                tipo_mensaje: "texto"
+            },
+            {
+                sesion_id: sesion,
+                usuario_id: usuarioId,
+                emisor: "bot",
+                mensaje: texto,
+                tipo_mensaje: "texto"
+            }
+        ]);
+
+        if (errorInsert) {
+            console.error("⚠️ Error al guardar los mensajes en el historial:", errorInsert);
+        }
+
+        return {
+            respuesta: texto,
+            sesionId: sesion
+        };
+    } catch (error) {
+        console.error("❌ Error interno en enviarMensaje controller:", error);
+        throw new Error(`Error procesando el chat: ${error.message}`);
+    }
+};
+
+// Recomendación de corte mediante imagen
+export const recomendarCorte = async (
+    imagenUrl,
+    usuarioId,
+    sesionId
+) => {
+    const sesion =
+        sesionId || `sesion_ia_${Date.now()}`;
+
+    const respuesta = await groq.chat.completions.create({
+        model: "openai/gpt-oss-20b",
+        reasoning_effort: "none",
+        response_format: {
+            type: "json_object"
+        },
+        messages: [
+            {
+                role: "system",
+                content: `
+Eres un asesor de cortes de cabello para Barber King.
+
+Analiza únicamente características visibles relacionadas con el cabello y el estilo.
+
+No identifiques a la persona.
+No hagas diagnósticos médicos.
+No hagas comparaciones de atractivo.
+
+Devuelve solamente JSON válido en este formato exacto:
+{
+  "corte_principal": "nombre del corte",
+  "explicacion": "explicación breve",
+  "alternativas": [
+    "corte 1",
+    "corte 2"
+  ],
+  "recomendacion_barbero": "consejo breve"
+}
+`
+            },
+            {
+                role: "user",
+                content: [
+                    {
+                        type: "text",
+                        text: "Analiza la imagen y recomienda un corte de cabello."
+                    },
+                    {
+                        type: "image_url",
+                        image_url: {
+                            url: imagenUrl
+                        }
+                    }
+                ]
+            }
+        ],
+        temperature: 0.2,
+        max_tokens: 400
+    });
+
+    let texto =
+        respuesta.choices[0]?.message?.content ||
+        "{}";
+
+    texto = texto
+        .replace(/```json/gi, "")
+        .replace(/```/g, "")
+        .trim();
+
+    let recomendacion;
+
+    try {
+        recomendacion = JSON.parse(texto);
+    } catch (error) {
+        throw new Error(
+            "La IA devolvió una respuesta que no es JSON válido."
+        );
+    }
+
+    if (!recomendacion.corte_principal) {
+        throw new Error(
+            "La IA no devolvió una recomendación válida."
+        );
+    }
+
+    // Guardamos la solicitud y la respuesta junto con la URL de Cloudinary.
+    const { error } = await supabase
+        .from("mensajes_chat")
+        .insert([
+            {
+                sesion_id: sesion,
+                usuario_id: usuarioId,
+                emisor: "user",
+                mensaje: "Solicitud de recomendación de corte mediante IA.",
+                imagen_url: imagenUrl,
+                tipo_mensaje: "recomendacion_corte",
+                metadata: { tipo: "solicitud" }
+            },
+            {
+                sesion_id: sesion,
+                usuario_id: usuarioId,
+                emisor: "bot",
+                mensaje: recomendacion.corte_principal,
+                imagen_url: imagenUrl,
+                tipo_mensaje: "recomendacion_corte",
+                metadata: recomendacion
+            }
+        ]);
+
+    if (error) {
+        console.error("Error guardando recomendación:", error);
+        throw new Error(
+            "La recomendación fue generada, pero no se pudo guardar."
+        );
+    }
+
+    return {
+        sesionId: sesion,
+        imagenUrl,
+        recomendacion
+    };
+};
+
+// Obtener historial de chat
+export const obtenerHistorial = async (
+    sesionId,
+    usuarioId
+) => {
+    const { data, error } = await supabase
+        .from("mensajes_chat")
+        .select(`
+            id,
+            emisor,
+            mensaje,
+            imagen_url,
+            tipo_mensaje,
+            metadata,
+            created_at
+        `)
+        .eq("sesion_id", sesionId)
+        .eq("usuario_id", usuarioId)
+        .order("created_at", {
+            ascending: true
+        });
+
+    if (error) {
+        throw new Error(
+            `Error obteniendo historial: ${error.message}`
+        );
+    }
+
+    return data || [];
+};

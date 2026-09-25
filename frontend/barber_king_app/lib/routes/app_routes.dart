@@ -11,6 +11,7 @@ import '../screens/servicios/crear_servicio_screen.dart';
 import '../screens/servicios/servicios_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/auth/register_screen.dart';
+import '../screens/chat/chat_ia_screen.dart';
 
 class AppRoutes {
   static const splash = "/";
@@ -23,6 +24,7 @@ class AppRoutes {
   static const barberos = "/barberos";
   static const citas = "/citas";
   static const perfil = "/perfil";
+  static const chatIA = '/chat-ia';
 
   static const forgotPassword = "/forgot-password";
   static const resetPassword = "/reset-password";
@@ -49,5 +51,8 @@ class AppRoutes {
     forgotPassword: (context) => const ForgotPasswordScreen(),
 
     resetPassword: (context) => const ResetPasswordScreen(),
+
+    // CORRECCIÓN: Invocación limpia sin parámetros de constructor heredados del contexto
+    chatIA: (context) => const ChatIAScreen(),
   };
 }

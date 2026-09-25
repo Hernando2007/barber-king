@@ -1,14 +1,8 @@
 import bcrypt from "bcrypt";
 
-import {
-    obtenerUsuarioPorCorreo,
-    guardarTokenRecuperacion,
-    actualizarContrasena
-} from "../models/usuariosModel.js";
+import { obtenerUsuarioPorCorreo, guardarTokenRecuperacion, actualizarContrasena } from "../models/usuariosModel.js";
 
-import {
-    enviarCodigoRecuperacion
-} from "./emailService.js";
+import { enviarCodigoRecuperacion } from "./emailService.js";
 
 export const solicitarRecuperacion = async (
     correo

@@ -122,3 +122,37 @@ export const actualizarContrasena = async (
         .single();
 
 };
+
+//Función específica para los usuarios autenticados con Google
+export const crearUsuarioGoogle = async ({ nombre, email, googleId, avatar = null, rol = 'cliente' }) => {
+    const { data, error } = await supabase
+        .from('usuarios')
+        .insert({
+            nombre,
+            email,
+            password: null,              // No requiere contraseña
+            rol,
+            isVerified: true,            // Google ya validó este correo
+            googleId,
+            avatar,
+            codigoVerificacion: null,
+            codigoVerificacionExpiracion: null
+        })
+        .select('id, nombre, email, rol, avatar')
+        .single();
+
+    return { data, error };
+};
+
+//Actualizar campos de vinculación
+export const actualizarUsuario = async (id, campos) => {
+    const { data, error } = await supabase
+        .from('usuarios')
+        .update(campos)
+        .eq('id', id)
+        .select()
+        .single();
+
+    return { data, error };
+};
+

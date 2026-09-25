@@ -1,12 +1,5 @@
-import {
-    obtenerHorarioBarbero,
-    obtenerServicio,
-    obtenerCitas
-} from "../models/citasModel.js";
-
-import {
-    generarBloques
-} from "../utils/horarios.js";
+import { obtenerHorarioBarbero, obtenerServicio, obtenerCitas } from "../models/citasModel.js";
+import { generarBloques } from "../utils/horarios.js";
 
 export const obtenerDisponibilidad = async (
     barberoId,

@@ -1,84 +1,56 @@
-import {
-    listarResenas,
-    obtenerUnaResena,
-    listarResenasPorBarbero,
-    registrarResena,
-    editarResena,
-    borrarResena
-} from "../services/resenasService.js";
+import { listarResenas, obtenerUnaResena, listarResenasPorBarbero, registrarResena, editarResena, borrarResena } from "../services/resenasService.js";
 
 export const obtenerTodas = async (
     req,
     res,
     next
 ) => {
-
     try {
-
         const resenas =
             await listarResenas();
-
         res.status(200).json({
             success: true,
             total: resenas.length,
             data: resenas
         });
-
     } catch (error) {
-
         next(error);
-
     }
-
 };
-
 export const obtenerPorId = async (
     req,
     res,
     next
 ) => {
-
     try {
-
         const resena =
             await obtenerUnaResena(
                 req.params.id
             );
-
         res.status(200).json({
             success: true,
             data: resena
         });
-
     } catch (error) {
-
         next(error);
-
     }
-
 };
-
 export const obtenerPorBarbero = async (
     req,
     res,
     next
 ) => {
-
     try {
-
         const resenas =
             await listarResenasPorBarbero(
                 req.params.barbero_id
             );
-
         res.status(200).json({
             success: true,
             total: resenas.length,
             data: resenas
         });
-
     } catch (error) {
-
         next(error);
 
     }

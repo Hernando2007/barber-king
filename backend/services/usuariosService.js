@@ -1,7 +1,4 @@
-import {
-    obtenerUsuarios,
-    obtenerUsuarioPorId
-} from "../models/usuariosModel.js";
+import { obtenerUsuarios, obtenerUsuarioPorId } from "../models/usuariosModel.js";
 
 export const listarUsuarios = async () => {
 

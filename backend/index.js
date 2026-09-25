@@ -18,17 +18,6 @@ const server = app.listen(
         console.log("========================================");
         console.log(`🚀 Servidor : http://localhost:${PORT}`);
 
-        if (
-            process.env.NODE_ENV !==
-            "production"
-        ) {
-
-            console.log(
-                `📚 Swagger  : http://localhost:${PORT}/api-docs`
-            );
-
-        }
-
         console.log(
             `📅 Fecha    : ${new Date().toLocaleString()}`
         );
@@ -41,42 +30,31 @@ const server = app.listen(
 server.on(
     "error",
     (error) => {
-
         console.error(
             "❌ Error al iniciar el servidor:"
         );
-
         console.error(error);
-
         process.exit(1);
-
     }
 );
 
 process.on(
     "unhandledRejection",
     (error) => {
-
         console.error(
             "❌ Promesa rechazada no controlada:"
         );
-
         console.error(error);
-
     }
 );
 
 process.on(
     "uncaughtException",
     (error) => {
-
         console.error(
             "❌ Excepción no controlada:"
         );
-
         console.error(error);
-
         process.exit(1);
-
     }
 );

@@ -1,6 +1,4 @@
-import {
-    obtenerDashboard
-} from "../models/dashboardModel.js";
+import { obtenerDashboard } from "../models/dashboardModel.js";
 
 export const dashboardGeneral = async () => {
 

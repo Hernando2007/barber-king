@@ -1,8 +1,5 @@
 import express from "express";
-
-import {
-    consultarDisponibilidad
-} from "../controllers/disponibilidadController.js";
+import { consultarDisponibilidad } from "../controllers/disponibilidadController.js";
 
 const router = express.Router();
 

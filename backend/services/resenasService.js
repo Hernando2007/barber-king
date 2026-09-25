@@ -1,11 +1,4 @@
-import {
-    obtenerResenas,
-    obtenerResenaPorId,
-    obtenerResenasPorBarbero,
-    crearResena,
-    actualizarResena,
-    eliminarResena
-} from "../models/resenasModel.js";
+import { obtenerResenas, obtenerResenaPorId, obtenerResenasPorBarbero, crearResena, actualizarResena, eliminarResena } from "../models/resenasModel.js";
 
 export const listarResenas = async () => {
 

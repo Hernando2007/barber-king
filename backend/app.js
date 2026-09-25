@@ -10,6 +10,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./docs/swagger.js";
 
 import { errorHandler } from "./middlewares/errorMiddleware.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 import authRoutes from "./routes/authRoutes.js";
 import usuariosRoutes from "./routes/usuariosRoutes.js";
@@ -20,6 +22,7 @@ import serviciosRoutes from "./routes/serviciosRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import resenasRoutes from "./routes/resenasRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 import {
     verificarEmailService
@@ -53,36 +56,43 @@ const __dirname =
     path.dirname(__filename);
 
 const allowedOrigins = [
-    process.env.FRONTEND_URL
+    process.env.FRONTEND_URL,
+    "http://localhost:49783",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ];
 
-app.use(cors({
+app.use(
+    cors({
+        origin: (origin, callback) => {
 
-    origin(origin, callback) {
+            console.log("Origin:", origin);
 
-        if (!origin) {
+            if (!origin) {
+                return callback(null, true);
+            }
+
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            }
+
             return callback(null, true);
-        }
+        },
 
-        if (
-            allowedOrigins.includes(origin)
-        ) {
+        credentials: true,
+        methods: [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE"
+        ],
 
-            return callback(null, true);
-
-        }
-
-        callback(
-            new Error(
-                "Origen no permitido"
-            )
-        );
-
-    },
-
-    credentials: true
-
-}));
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization"
+        ]
+    })
+);
 
 app.use(
     helmet({
@@ -179,6 +189,7 @@ app.use("/api/servicios", serviciosRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/resenas", resenasRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.use(
     "/uploads",
