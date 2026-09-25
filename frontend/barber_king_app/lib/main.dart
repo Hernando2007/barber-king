@@ -25,7 +25,7 @@ class BarberKingApp extends StatelessWidget {
 
       theme: AppTheme.darkTheme,
 
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.login,
 
       routes: AppRoutes.routes,
     );
