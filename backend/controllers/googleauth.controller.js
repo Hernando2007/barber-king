@@ -14,7 +14,7 @@ export const autenticarConGoogle = async (req, res) => {
             });
         }
 
-        // 1. Validar el token con Google
+        // 1. Validar el token con Google 
         const ticket = await client.verifyIdToken({
             idToken,
             audience: process.env.GOOGLE_CLIENT_ID
