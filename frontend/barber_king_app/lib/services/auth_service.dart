@@ -7,40 +7,42 @@ import 'api_service.dart';
 
 class AuthService {
   final ApiService _api = ApiService();
+  final FlutterSecureStorage _storage =
+      const FlutterSecureStorage();
 
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
-
-  // LOGIN
   Future<Map<String, dynamic>> login({
     required String correo,
     required String contrasena,
   }) async {
     try {
       final response = await _api.dio.post(
-        "/auth/login",
-        data: {"correo": correo.trim(), "password": contrasena},
+        '/auth/login',
+        data: {
+          'correo': correo.trim(),
+          'password': contrasena,
+        },
       );
 
       final data = Map<String, dynamic>.from(response.data);
 
-      if (data["success"] == true) {
-        await _storage.write(key: "token", value: data["token"]);
-
-        await _storage.write(
-          key: "usuario",
-          value: jsonEncode(data["usuario"]),
-        );
+      if (data['success'] == true) {
+        await _guardarSesion(data);
       }
 
       return data;
     } on DioException catch (e) {
-      return {"success": false, "message": _obtenerMensajeError(e)};
+      return {
+        'success': false,
+        'message': _mensajeError(e),
+      };
     } catch (e) {
-      return {"success": false, "message": e.toString()};
+      return {
+        'success': false,
+        'message': e.toString(),
+      };
     }
   }
 
-  // REGISTRO
   Future<Map<String, dynamic>> registrar({
     required int rolId,
     required String nombres,
@@ -49,46 +51,67 @@ class AuthService {
     required String telefono,
     required String fechaNacimiento,
     required String password,
+    String? especialidad,
+    String? diplomaPath,
   }) async {
     try {
+      final form = FormData.fromMap({
+        'rol_id': rolId.toString(),
+        'nombres': nombres.trim(),
+        'apellidos': apellidos.trim(),
+        'correo': correo.trim(),
+        'telefono': telefono.trim(),
+        'fecha_nacimiento': fechaNacimiento.trim(),
+        'password': password,
+        if (especialidad != null)
+          'especialidad': especialidad.trim(),
+        if (diplomaPath != null && diplomaPath.isNotEmpty)
+          'diploma': await MultipartFile.fromFile(
+            diplomaPath,
+            filename: diplomaPath.split('/').last,
+          ),
+      });
+
       final response = await _api.dio.post(
-        "/auth/registro",
-        data: {
-          "rol_id": rolId,
-          "nombres": nombres,
-          "apellidos": apellidos,
-          "correo": correo,
-          "telefono": telefono,
-          "fecha_nacimiento": fechaNacimiento,
-          "password": password,
-        },
+        '/auth/registro',
+        data: form,
+        options: Options(
+          contentType: 'multipart/form-data',
+        ),
       );
 
       return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {"success": false, "message": _obtenerMensajeError(e)};
+      return {
+        'success': false,
+        'message': _mensajeError(e),
+      };
     } catch (e) {
-      return {"success": false, "message": e.toString()};
+      return {
+        'success': false,
+        'message': e.toString(),
+      };
     }
   }
 
-  // RECUPERAR CONTRASEÑA (ENVÍA OTP)
-  Future<Map<String, dynamic>> recuperarPassword(String correo) async {
+  Future<Map<String, dynamic>> recuperarPassword(
+    String correo,
+  ) async {
     try {
       final response = await _api.dio.post(
-        "/auth/forgot-password",
-        data: {"correo": correo.trim()},
+        '/auth/forgot-password',
+        data: {'correo': correo.trim()},
       );
 
       return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {"success": false, "message": _obtenerMensajeError(e)};
-    } catch (e) {
-      return {"success": false, "message": e.toString()};
+      return {
+        'success': false,
+        'message': _mensajeError(e),
+      };
     }
   }
 
-  // RESTABLECER CONTRASEÑA CON OTP
   Future<Map<String, dynamic>> restablecerPassword({
     required String correo,
     required String codigo,
@@ -96,59 +119,89 @@ class AuthService {
   }) async {
     try {
       final response = await _api.dio.post(
-        "/auth/reset-password",
+        '/auth/reset-password',
         data: {
-          "correo": correo.trim(),
-          "codigo": codigo.trim(),
-          "password": password,
+          'correo': correo.trim(),
+          'codigo': codigo.trim(),
+          'password': password,
         },
       );
 
       return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {"success": false, "message": _obtenerMensajeError(e)};
-    } catch (e) {
-      return {"success": false, "message": e.toString()};
+      return {
+        'success': false,
+        'message': _mensajeError(e),
+      };
     }
   }
 
-  // OBTENER TOKEN
-  Future<String?> obtenerToken() async {
-    return await _storage.read(key: "token");
+  Future<String?> obtenerToken() {
+    return _storage.read(key: 'token');
   }
 
-  // OBTENER USUARIO
   Future<Map<String, dynamic>?> obtenerUsuario() async {
-    final usuario = await _storage.read(key: "usuario");
+    final raw = await _storage.read(key: 'usuario');
 
-    if (usuario == null) {
+    if (raw == null || raw.isEmpty) {
       return null;
     }
 
-    return Map<String, dynamic>.from(jsonDecode(usuario));
+    try {
+      return Map<String, dynamic>.from(
+        jsonDecode(raw),
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
-  // VALIDAR SESIÓN
   Future<bool> estaAutenticado() async {
     final token = await obtenerToken();
-
     return token != null && token.isNotEmpty;
   }
 
-  // CERRAR SESIÓN
   Future<void> cerrarSesion() async {
-    await _storage.deleteAll();
+    await _storage.delete(key: 'token');
+    await _storage.delete(key: 'usuario');
   }
 
-  String _obtenerMensajeError(DioException error) {
-    try {
-      final data = error.response?.data;
+  Future<void> _guardarSesion(
+    Map<String, dynamic> data,
+  ) async {
+    final token = data['token']?.toString();
+    final usuario = data['usuario'];
 
-      if (data is Map && data["message"] != null) {
-        return data["message"].toString();
-      }
-    } catch (_) {}
+    if (token == null || usuario is! Map) {
+      return;
+    }
 
-    return "Error de conexión con el servidor.";
+    await _storage.write(
+      key: 'token',
+      value: token,
+    );
+
+    await _storage.write(
+      key: 'usuario',
+      value: jsonEncode(usuario),
+    );
+  }
+
+  String _mensajeError(DioException error) {
+    final data = error.response?.data;
+
+    if (data is Map && data['message'] != null) {
+      return data['message'].toString();
+    }
+
+    if (error.type == DioExceptionType.connectionError) {
+      return 'No se pudo conectar con el servidor.';
+    }
+
+    if (error.type == DioExceptionType.connectionTimeout) {
+      return 'Tiempo de conexión agotado.';
+    }
+
+    return 'Ocurrió un error al comunicarse con el servidor.';
   }
 }

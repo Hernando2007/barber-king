@@ -1,41 +1,37 @@
 import supabase from "../config/supabase.js";
-
+ 
 export const obtenerServicios = async () => {
     return await supabase
         .from("servicios")
         .select("*")
-        .order(
-            "id",
-            {
-                ascending: true
-            }
-        );
+        .order("id", { ascending: true });
 };
-
-export const obtenerServicioPorId = async (
-    id
-) => {
+ 
+export const obtenerServiciosPorBarbero = async (barberoId) => {
+    return await supabase
+        .from("servicios")
+        .select("*")
+        .eq("barbero_id", barberoId)
+        .order("id", { ascending: true });
+};
+ 
+export const obtenerServicioPorId = async (id) => {
     return await supabase
         .from("servicios")
         .select("*")
         .eq("id", id)
         .maybeSingle();
 };
-
-export const crearServicio = async (
-    datos
-) => {
+ 
+export const crearServicio = async (datos) => {
     return await supabase
         .from("servicios")
         .insert(datos)
         .select()
         .single();
 };
-
-export const actualizarServicio = async (
-    id,
-    datos
-) => {
+ 
+export const actualizarServicio = async (id, datos) => {
     return await supabase
         .from("servicios")
         .update(datos)
@@ -43,10 +39,8 @@ export const actualizarServicio = async (
         .select()
         .single();
 };
-
-export const eliminarServicio = async (
-    id
-) => {
+ 
+export const eliminarServicio = async (id) => {
     return await supabase
         .from("servicios")
         .delete()

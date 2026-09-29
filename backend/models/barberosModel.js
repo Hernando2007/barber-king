@@ -1,5 +1,5 @@
 import supabase from "../config/supabase.js";
-
+ 
 export const obtenerBarberos = async () => {
     return await supabase
         .from("barberos")
@@ -14,17 +14,10 @@ export const obtenerBarberos = async () => {
                 foto
             )
         `)
-        .order(
-            "id",
-            {
-                ascending: true
-            }
-        );
+        .order("id", { ascending: true });
 };
-
-export const obtenerBarberoPorId = async (
-    id
-) => {
+ 
+export const obtenerBarberoPorId = async (id) => {
     return await supabase
         .from("barberos")
         .select(`
@@ -41,34 +34,24 @@ export const obtenerBarberoPorId = async (
         .eq("id", id)
         .maybeSingle();
 };
-
-export const obtenerBarberoPorUsuario = async (
-    usuarioId
-) => {
+ 
+export const obtenerBarberoPorUsuario = async (usuarioId) => {
     return await supabase
         .from("barberos")
         .select("*")
-        .eq(
-            "usuario_id",
-            usuarioId
-        )
+        .eq("usuario_id", usuarioId)
         .maybeSingle();
 };
-
-export const crearBarbero = async (
-    datos
-) => {
+ 
+export const crearBarbero = async (datos) => {
     return await supabase
         .from("barberos")
         .insert(datos)
         .select()
         .single();
 };
-
-export const actualizarBarbero = async (
-    id,
-    datos
-) => {
+ 
+export const actualizarBarbero = async (id, datos) => {
     return await supabase
         .from("barberos")
         .update(datos)
@@ -76,12 +59,18 @@ export const actualizarBarbero = async (
         .select()
         .single();
 };
-
-export const eliminarBarbero = async (
-    id
-) => {
+ 
+export const eliminarBarbero = async (id) => {
     return await supabase
         .from("barberos")
         .delete()
         .eq("id", id);
+};
+ 
+export const obtenerBarberoPorUsuarioCompleto = async (usuarioId) => {
+    return await supabase
+        .from("barberos")
+        .select("*")
+        .eq("usuario_id", usuarioId)
+        .maybeSingle();
 };

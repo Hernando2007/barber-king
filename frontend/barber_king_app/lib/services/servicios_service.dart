@@ -5,6 +5,15 @@ import 'api_service.dart';
 class ServicioService {
   final ApiService _api = ApiService();
 
+  Future<List<dynamic>> obtenerMisServicios() async {
+    try {
+      final response = await _api.dio.get('/servicios/mis');
+      return response.data['data'] ?? [];
+    } catch (_) {
+      return [];
+    }
+  }
+
   Future<List<dynamic>> obtenerServicios() async {
     try {
       final response = await _api.dio.get(

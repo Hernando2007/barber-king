@@ -1,5 +1,5 @@
 import supabase from "../config/supabase.js";
-
+ 
 export const obtenerResenas = async () => {
     return await supabase
         .from("resenas")
@@ -22,7 +22,7 @@ export const obtenerResenas = async () => {
             }
         );
 };
-
+ 
 export const obtenerResenaPorId = async (
     id
 ) => {
@@ -43,7 +43,7 @@ export const obtenerResenaPorId = async (
         .eq("id", id)
         .single();
 };
-
+ 
 export const obtenerResenasPorBarbero = async (
     barberoId
 ) => {
@@ -68,7 +68,16 @@ export const obtenerResenasPorBarbero = async (
             }
         );
 };
-
+ 
+ 
+export const obtenerResenaPorCita = async (citaId) => {
+    return await supabase
+        .from("resenas")
+        .select("*")
+        .eq("cita_id", citaId)
+        .maybeSingle();
+};
+ 
 export const crearResena = async (
     datos
 ) => {
@@ -78,7 +87,7 @@ export const crearResena = async (
         .select()
         .single();
 };
-
+ 
 export const actualizarResena = async (
     id,
     datos
@@ -90,7 +99,7 @@ export const actualizarResena = async (
         .select()
         .single();
 };
-
+ 
 export const eliminarResena = async (
     id
 ) => {

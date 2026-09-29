@@ -1,13 +1,15 @@
-import { listarServicios, obtenerUno, registrarServicio, editarServicio, borrarServicio} from "../services/serviciosService.js";
-
-export const obtenerTodos = async (
-    req,
-    res,
-    next
-) => {
+import {
+    listarServicios,
+    listarMisServicios,
+    obtenerUno,
+    registrarServicio,
+    editarServicio,
+    borrarServicio
+} from "../services/serviciosService.js";
+ 
+export const obtenerTodos = async (req, res, next) => {
     try {
-        const servicios =
-            await listarServicios();
+        const servicios = await listarServicios();
         return res.status(200).json({
             success: true,
             total: servicios.length,
@@ -17,16 +19,23 @@ export const obtenerTodos = async (
         next(error);
     }
 };
-export const obtenerPorId = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const obtenerMisServicios = async (req, res, next) => {
     try {
-        const servicio =
-            await obtenerUno(
-                req.params.id
-            );
+        const servicios = await listarMisServicios(req.usuario.id);
+        return res.status(200).json({
+            success: true,
+            total: servicios.length,
+            data: servicios
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+ 
+export const obtenerPorId = async (req, res, next) => {
+    try {
+        const servicio = await obtenerUno(req.params.id);
         return res.status(200).json({
             success: true,
             data: servicio
@@ -35,60 +44,52 @@ export const obtenerPorId = async (
         next(error);
     }
 };
-export const crear = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const crear = async (req, res, next) => {
     try {
-        const servicio =
-            await registrarServicio(
-                req.body
-            );
+        const servicio = await registrarServicio(
+            req.body,
+            req.usuario
+        );
+ 
         return res.status(201).json({
             success: true,
-            message:
-                "Servicio creado correctamente.",
+            message: "Servicio creado correctamente.",
             data: servicio
         });
     } catch (error) {
         next(error);
     }
 };
-export const actualizar = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const actualizar = async (req, res, next) => {
     try {
-        const servicio =
-            await editarServicio(
-                req.params.id,
-                req.body
-            );
+        const servicio = await editarServicio(
+            req.params.id,
+            req.body,
+            req.usuario
+        );
+ 
         return res.status(200).json({
             success: true,
-            message:
-                "Servicio actualizado correctamente.",
+            message: "Servicio actualizado correctamente.",
             data: servicio
         });
     } catch (error) {
         next(error);
     }
 };
-export const eliminar = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const eliminar = async (req, res, next) => {
     try {
         await borrarServicio(
-            req.params.id
+            req.params.id,
+            req.usuario
         );
+ 
         return res.status(200).json({
             success: true,
-            message:
-                "Servicio eliminado correctamente."
+            message: "Servicio eliminado correctamente."
         });
     } catch (error) {
         next(error);

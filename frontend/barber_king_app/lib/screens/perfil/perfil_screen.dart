@@ -12,73 +12,187 @@ class PerfilScreen extends StatefulWidget {
 }
 
 class _PerfilScreenState extends State<PerfilScreen> {
-  final UsuarioService usuarioService = UsuarioService();
-
-  final AuthService authService = AuthService();
+  final _auth = AuthService();
+  final _usuarios = UsuarioService();
 
   Map<String, dynamic>? usuario;
-
   bool cargando = true;
 
   @override
   void initState() {
     super.initState();
-    cargarPerfil();
+    _cargar();
   }
 
-  Future<void> cargarPerfil() async {
-    final data = await authService.obtenerUsuario();
+  Future<void> _cargar() async {
+    final remoto = await _usuarios.obtenerPerfilActual();
+    final local = await _auth.obtenerUsuario();
 
     if (!mounted) return;
 
     setState(() {
-      usuario = data;
+      usuario = remoto ?? local;
       cargando = false;
     });
   }
 
-  Widget infoCard({
-    required IconData icono,
-    required String titulo,
-    required String valor,
-  }) {
+  String _rol() {
+    final id = int.tryParse('${usuario?['rol_id'] ?? 3}') ?? 3;
+    return id == 2 ? 'Barbero' : 'Cliente';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (cargando) {
+      return const Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final esBarbero = _rol() == 'Barbero';
+    final barbero = usuario?['barbero'];
+    final nombre =
+        '${usuario?['nombres'] ?? ''} ${usuario?['apellidos'] ?? ''}'.trim();
+
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(title: Text(esBarbero ? 'Perfil profesional' : 'Mi perfil')),
+      body: RefreshIndicator(
+        onRefresh: _cargar,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(20),
+          children: [
+            _avatar(nombre, esBarbero),
+            const SizedBox(height: 22),
+            const _Title('Información personal'),
+            const SizedBox(height: 12),
+            _info(Icons.person_outline, 'Nombre', nombre),
+            _info(
+              Icons.email_outlined,
+              'Correo',
+              usuario?['correo']?.toString() ?? '-',
+            ),
+            _info(
+              Icons.phone_outlined,
+              'Teléfono',
+              usuario?['telefono']?.toString() ?? '-',
+            ),
+            if (esBarbero && barbero is Map) ...[
+              const SizedBox(height: 22),
+              const _Title('Información profesional'),
+              const SizedBox(height: 12),
+              _info(
+                Icons.workspace_premium_outlined,
+                'Especialidad',
+                barbero['especialidad']?.toString() ?? '-',
+              ),
+              _info(
+                Icons.description_outlined,
+                'Documento profesional',
+                barbero['diploma_url'] == null
+                    ? 'No adjuntado'
+                    : 'Documento adjuntado',
+              ),
+              _info(
+                Icons.verified_outlined,
+                'Verificación',
+                barbero['verificacion_estado']?.toString() ?? 'pendiente',
+              ),
+            ] else ...[
+              const SizedBox(height: 22),
+              const _Title('Preferencias del cliente'),
+              const SizedBox(height: 12),
+              _info(
+                Icons.notifications_none_outlined,
+                'Notificaciones',
+                'Configurables desde tu cuenta',
+              ),
+            ],
+            const SizedBox(height: 25),
+            SizedBox(
+              height: 52,
+              child: OutlinedButton.icon(
+                onPressed: () => _cerrarSesion(context),
+                icon: const Icon(Icons.logout_outlined),
+                label: const Text('CERRAR SESIÓN'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _avatar(String nombre, bool esBarbero) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 48,
+            backgroundColor: AppColors.surface,
+            child: Icon(
+              esBarbero ? Icons.content_cut : Icons.person,
+              color: AppColors.primary,
+              size: 50,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            nombre.isEmpty ? 'Usuario' : nombre,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: AppColors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            esBarbero ? 'Perfil profesional' : 'Cliente',
+            style: const TextStyle(color: AppColors.subtitle),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _info(IconData icon, String title, String value) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
       ),
       child: Row(
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(icono, color: AppColors.primary),
-          ),
-          const SizedBox(width: 15),
+          Icon(icon, color: AppColors.primary),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  titulo,
+                  title,
                   style: const TextStyle(
                     color: AppColors.subtitle,
-                    fontSize: 12,
+                    fontSize: 11,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 3),
                 Text(
-                  valor.isEmpty ? "-" : valor,
+                  value.isEmpty ? '-' : value,
                   style: const TextStyle(
                     color: AppColors.white,
-                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -90,268 +204,26 @@ class _PerfilScreenState extends State<PerfilScreen> {
     );
   }
 
-  Widget actionCard({
-    required IconData icono,
-    required String titulo,
-    required String subtitulo,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(18),
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 15),
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.border),
-        ),
-        child: Row(
-          children: [
-            Icon(icono, color: AppColors.primary),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    titulo,
-                    style: const TextStyle(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    subtitulo,
-                    style: const TextStyle(
-                      color: AppColors.subtitle,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: AppColors.primary,
-              size: 18,
-            ),
-          ],
-        ),
-      ),
-    );
+  Future<void> _cerrarSesion(BuildContext context) async {
+    await _auth.cerrarSesion();
+    if (!context.mounted) return;
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
+}
+
+class _Title extends StatelessWidget {
+  final String text;
+
+  const _Title(this.text);
 
   @override
   Widget build(BuildContext context) {
-    if (cargando) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    final nombreCompleto =
-        "${usuario?["nombres"] ?? ""} ${usuario?["apellidos"] ?? ""}";
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: cargarPerfil,
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const Expanded(
-                    child: Text(
-                      "Mi Perfil",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 48),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppColors.card,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 110,
-                      height: 110,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.primary, width: 3),
-                      ),
-                      child: const CircleAvatar(
-                        backgroundColor: AppColors.surface,
-                        child: Icon(
-                          Icons.person,
-                          size: 60,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    Text(
-                      nombreCompleto.trim().isEmpty
-                          ? "Usuario"
-                          : nombreCompleto,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Text(
-                      usuario?["rol_nombre"] ?? "Sin rol",
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        usuario?["estado"] == true
-                            ? "Cuenta Activa"
-                            : "Cuenta Inactiva",
-                        style: const TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              const Text(
-                "Información Personal",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 15),
-
-              infoCard(
-                icono: Icons.email_outlined,
-                titulo: "Correo electrónico",
-                valor: usuario?["correo"] ?? "",
-              ),
-
-              infoCard(
-                icono: Icons.phone_outlined,
-                titulo: "Teléfono",
-                valor: usuario?["telefono"] ?? "",
-              ),
-
-              infoCard(
-                icono: Icons.badge_outlined,
-                titulo: "Rol",
-                valor: usuario?["rol"] ?? "Cliente",
-              ),
-
-              infoCard(
-                icono: Icons.verified_user_outlined,
-                titulo: "Estado",
-                valor: usuario?["estado"] == true ? "Activo" : "Inactivo",
-              ),
-
-              const SizedBox(height: 25),
-
-              const Text(
-                "Opciones",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 15),
-
-              actionCard(
-                icono: Icons.edit_outlined,
-                titulo: "Editar perfil",
-                subtitulo: "Actualiza tu información personal",
-                onTap: () {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text("Próximamente")));
-                },
-              ),
-
-              actionCard(
-                icono: Icons.lock_outline,
-                titulo: "Seguridad",
-                subtitulo: "Gestiona tu contraseña y acceso",
-                onTap: () {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text("Próximamente")));
-                },
-              ),
-
-              actionCard(
-                icono: Icons.workspace_premium_outlined,
-                titulo: "Membresía VIP",
-                subtitulo: "Descubre beneficios exclusivos",
-                onTap: () {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text("Próximamente")));
-                },
-              ),
-
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
+    return Text(
+      text,
+      style: const TextStyle(
+        color: AppColors.white,
+        fontSize: 19,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

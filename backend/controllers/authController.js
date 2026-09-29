@@ -1,70 +1,59 @@
-import { registrarUsuario, iniciarSesion, solicitarRecuperacion, cambiarPassword } from "../services/authService.js";
-
-//Registrar usuario
-export const registrar = async (
-    req,
-    res,
-    next
-) => {
-
+import {
+    registrarUsuario,
+    iniciarSesion,
+    solicitarRecuperacion,
+    cambiarPassword
+} from "../services/authService.js";
+ 
+export const registrar = async (req, res, next) => {
     try {
-        const usuario =
-            await registrarUsuario(
-                req.body
-            );
+        const datos = {
+            ...req.body,
+            ...(req.file
+                ? {
+                    diploma_url: req.file.path,
+                    diploma_nombre: req.file.originalname
+                }
+                : {})
+        };
+ 
+        const usuario = await registrarUsuario(datos);
+ 
         return res.status(201).json({
             success: true,
-            message:
-                "Usuario registrado correctamente.",
+            message: "Usuario registrado correctamente.",
             data: usuario
         });
     } catch (error) {
         next(error);
     }
 };
-
-//Inicio de sesion
-export const login = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const login = async (req, res, next) => {
     try {
-        const {
+        const { correo, password } = req.body;
+ 
+        const resultado = await iniciarSesion({
             correo,
             password
-        } = req.body;
-        const resultado =
-            await iniciarSesion({
-                correo,
-                password
-            });
+        });
+ 
         return res.status(200).json({
             success: true,
-            message:
-                "Inicio de sesión exitoso.",
-            token:
-                resultado.token,
-            usuario:
-                resultado.usuario
+            message: "Inicio de sesión exitoso.",
+            token: resultado.token,
+            usuario: resultado.usuario
         });
     } catch (error) {
         next(error);
     }
 };
-
-//Recuperacion de contraseña
-export const forgotPassword = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const forgotPassword = async (req, res, next) => {
     try {
-        const { correo } =
-            req.body;
-        await solicitarRecuperacion(
-            correo
-        );
+        const { correo } = req.body;
+        await solicitarRecuperacion(correo);
+ 
         return res.status(200).json({
             success: true,
             message:
@@ -74,47 +63,33 @@ export const forgotPassword = async (
         next(error);
     }
 };
-//Reestablecer contraseña
-export const resetPassword = async (
-    req,
-    res
-) => {
+ 
+export const resetPassword = async (req, res) => {
     try {
-        const {
-            correo,
-            codigo,
-            password
-        } = req.body;
-        if (
-            !correo ||
-            !codigo ||
-            !password
-        ) {
+        const { correo, codigo, password } = req.body;
+ 
+        if (!correo || !codigo || !password) {
             return res.status(400).json({
                 success: false,
                 message:
                     "Correo, código y contraseña son obligatorios."
             });
         }
+ 
         if (password.length < 6) {
-
             return res.status(400).json({
                 success: false,
                 message:
                     "La contraseña debe tener mínimo 6 caracteres."
             });
         }
-        await cambiarPassword(
-            correo,
-            codigo,
-            password
-        );
+ 
+        await cambiarPassword(correo, codigo, password);
+ 
         return res.status(200).json({
             success: true,
-            message:
-                "Contraseña actualizada correctamente."
+            message: "Contraseña actualizada correctamente."
         });
-
     } catch (error) {
         return res.status(400).json({
             success: false,

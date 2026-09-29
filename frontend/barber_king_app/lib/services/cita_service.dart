@@ -34,7 +34,6 @@ class CitaService {
   }
 
   Future<Map<String, dynamic>> crearCita({
-    required int clienteId,
     required int barberoId,
     required int servicioId,
     required String fecha,
@@ -46,7 +45,6 @@ class CitaService {
       final response = await _api.dio.post(
         "/citas/crear",
         data: {
-          "cliente_id": clienteId,
           "barbero_id": barberoId,
           "servicio_id": servicioId,
           "fecha": fecha,

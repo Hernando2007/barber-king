@@ -1,5 +1,5 @@
 import supabase from "../config/supabase.js";
-
+ 
 export const obtenerHorarioBarbero = async (
     barberoId,
     diaSemana
@@ -11,7 +11,7 @@ export const obtenerHorarioBarbero = async (
         .eq("dia_semana", diaSemana)
         .maybeSingle();
 };
-
+ 
 export const obtenerServicio = async (
     servicioId
 ) => {
@@ -21,7 +21,7 @@ export const obtenerServicio = async (
         .eq("id", servicioId)
         .maybeSingle();
 };
-
+ 
 export const obtenerCitas = async (
     barberoId,
     fecha
@@ -32,7 +32,7 @@ export const obtenerCitas = async (
         .eq("barbero_id", barberoId)
         .eq("fecha", fecha);
 };
-
+ 
 export const crearNuevaCita = async (
     datos
 ) => {
@@ -42,7 +42,7 @@ export const crearNuevaCita = async (
         .select()
         .single();
 };
-
+ 
 export const listarCitas = async () => {
     return await supabase
         .from("citas")
@@ -79,7 +79,7 @@ export const listarCitas = async () => {
             }
         );
 };
-
+ 
 export const obtenerCitaPorId = async (
     id
 ) => {
@@ -108,7 +108,7 @@ export const obtenerCitaPorId = async (
         .eq("id", id)
         .maybeSingle();
 };
-
+ 
 export const actualizarCita = async (
     id,
     datos
@@ -120,7 +120,7 @@ export const actualizarCita = async (
         .select()
         .single();
 };
-
+ 
 export const eliminarCita = async (
     id
 ) => {

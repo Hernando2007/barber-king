@@ -97,7 +97,6 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
     });
 
     final respuesta = await citaService.crearCita(
-      clienteId: 1,
       barberoId: barberoSeleccionado["id"],
       servicioId: servicioSeleccionado["id"],
       fecha: fecha.toIso8601String().split("T").first,

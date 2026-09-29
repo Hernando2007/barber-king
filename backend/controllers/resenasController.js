@@ -1,13 +1,16 @@
-import { listarResenas, obtenerUnaResena, listarResenasPorBarbero, registrarResena, editarResena, borrarResena } from "../services/resenasService.js";
-
-export const obtenerTodas = async (
-    req,
-    res,
-    next
-) => {
+import {
+    listarResenas,
+    obtenerUnaResena,
+    listarResenasPorBarbero,
+    registrarResena,
+    editarResena,
+    borrarResena
+} from "../services/resenasService.js";
+ 
+export const obtenerTodas = async (req, res, next) => {
     try {
-        const resenas =
-            await listarResenas();
+        const resenas = await listarResenas();
+ 
         res.status(200).json({
             success: true,
             total: resenas.length,
@@ -17,16 +20,11 @@ export const obtenerTodas = async (
         next(error);
     }
 };
-export const obtenerPorId = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const obtenerPorId = async (req, res, next) => {
     try {
-        const resena =
-            await obtenerUnaResena(
-                req.params.id
-            );
+        const resena = await obtenerUnaResena(req.params.id);
+ 
         res.status(200).json({
             success: true,
             data: resena
@@ -35,16 +33,13 @@ export const obtenerPorId = async (
         next(error);
     }
 };
-export const obtenerPorBarbero = async (
-    req,
-    res,
-    next
-) => {
+ 
+export const obtenerPorBarbero = async (req, res, next) => {
     try {
-        const resenas =
-            await listarResenasPorBarbero(
-                req.params.barbero_id
-            );
+        const resenas = await listarResenasPorBarbero(
+            req.params.barbero_id
+        );
+ 
         res.status(200).json({
             success: true,
             total: resenas.length,
@@ -52,90 +47,52 @@ export const obtenerPorBarbero = async (
         });
     } catch (error) {
         next(error);
-
     }
-
 };
-
-export const crear = async (
-    req,
-    res,
-    next
-) => {
-
+ 
+export const crear = async (req, res, next) => {
     try {
-
-        const resena =
-            await registrarResena(
-                req.body
-            );
-
+        const resena = await registrarResena(
+            req.body,
+            req.usuario
+        );
+ 
         res.status(201).json({
             success: true,
-            message:
-                "Reseña creada correctamente.",
+            message: "Reseña creada correctamente.",
             data: resena
         });
-
     } catch (error) {
-
         next(error);
-
     }
-
 };
-
-export const actualizar = async (
-    req,
-    res,
-    next
-) => {
-
+ 
+export const actualizar = async (req, res, next) => {
     try {
-
-        const resena =
-            await editarResena(
-                req.params.id,
-                req.body
-            );
-
-        res.status(200).json({
-            success: true,
-            message:
-                "Reseña actualizada correctamente.",
-            data: resena
-        });
-
-    } catch (error) {
-
-        next(error);
-
-    }
-
-};
-
-export const eliminar = async (
-    req,
-    res,
-    next
-) => {
-
-    try {
-
-        await borrarResena(
-            req.params.id
+        const resena = await editarResena(
+            req.params.id,
+            req.body
         );
-
+ 
         res.status(200).json({
             success: true,
-            message:
-                "Reseña eliminada correctamente."
+            message: "Reseña actualizada correctamente.",
+            data: resena
         });
-
     } catch (error) {
-
         next(error);
-
     }
-
+};
+ 
+export const eliminar = async (req, res, next) => {
+    try {
+        await borrarResena(req.params.id);
+ 
+        res.status(200).json({
+            success: true,
+            message: "Reseña eliminada correctamente."
+        });
+    } catch (error) {
+        next(error);
+    }
 };
