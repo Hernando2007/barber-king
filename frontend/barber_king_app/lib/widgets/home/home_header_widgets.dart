@@ -41,7 +41,12 @@ class HomeHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 5),
-              Text(email, style: const TextStyle(color: AppColors.subtitle)),
+              Text(
+                email,
+                style: const TextStyle(
+                  color: AppColors.subtitle,
+                ),
+              ),
             ],
           ),
         ),
@@ -54,7 +59,10 @@ class HomeHeader extends StatelessWidget {
           child: IconButton(
             onPressed: onLogout,
             tooltip: 'Cerrar sesión',
-            icon: const Icon(Icons.logout_rounded, color: AppColors.primary),
+            icon: const Icon(
+              Icons.logout_rounded,
+              color: AppColors.primary,
+            ),
           ),
         ),
       ],
@@ -65,7 +73,10 @@ class HomeHeader extends StatelessWidget {
 class MembershipCard extends StatelessWidget {
   final String role;
 
-  const MembershipCard({super.key, required this.role});
+  const MembershipCard({
+    super.key,
+    required this.role,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +111,10 @@ class MembershipCard extends StatelessWidget {
           const Text(
             'Reserva tus citas, administra tus servicios y '
             'disfruta de la experiencia Barber King.',
-            style: TextStyle(color: AppColors.subtitle, height: 1.4),
+            style: TextStyle(
+              color: AppColors.subtitle,
+              height: 1.4,
+            ),
           ),
         ],
       ),
@@ -111,7 +125,10 @@ class MembershipCard extends StatelessWidget {
 class HomeSectionTitle extends StatelessWidget {
   final String title;
 
-  const HomeSectionTitle({super.key, required this.title});
+  const HomeSectionTitle({
+    super.key,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +168,11 @@ class PremiumMenuCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: AppColors.primary, size: 35),
+              Icon(
+                icon,
+                color: AppColors.primary,
+                size: 35,
+              ),
               const SizedBox(height: 10),
               Text(
                 title,

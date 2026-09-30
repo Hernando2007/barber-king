@@ -40,6 +40,7 @@ export const enviarMensaje = async (
 Eres el asistente virtual de Barber King.
 Ayuda con servicios, precios y cortes de cabello.
 Responde de forma clara y breve.
+Solo responde preguntas sobre barberio o la aplicacion.
 
 SERVICIOS:
 ${catalogo}

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../core/colors.dart';
-
 class ChatMessageBubble extends StatelessWidget {
   final Map<String, dynamic> message;
-  const ChatMessageBubble({super.key, required this.message});
+  const ChatMessageBubble({
+    super.key,
+    required this.message,
+  });
   bool get isUser => message['tipo'] == 'usuario';
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,8 @@ class ChatMessageBubble extends StatelessWidget {
     final imageUrl = message['imagenUrl']?.toString();
     final text = message['texto']?.toString() ?? '';
     return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      alignment:
+          isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(12),
@@ -20,7 +23,9 @@ class ChatMessageBubble extends StatelessWidget {
           maxWidth: MediaQuery.of(context).size.width * .78,
         ),
         decoration: BoxDecoration(
-          color: isUser ? AppColors.primary : AppColors.card,
+          color: isUser
+              ? AppColors.primary
+              : AppColors.card,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -34,7 +39,9 @@ class ChatMessageBubble extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: isUser ? Colors.black : Colors.white,
+                  color: isUser
+                      ? Colors.black
+                      : Colors.white,
                   height: 1.35,
                 ),
               ),
@@ -44,7 +51,6 @@ class ChatMessageBubble extends StatelessWidget {
     );
   }
 }
-
 class _LocalImage extends StatelessWidget {
   final String path;
   const _LocalImage({required this.path});
@@ -64,7 +70,6 @@ class _LocalImage extends StatelessWidget {
     );
   }
 }
-
 class _RemoteImage extends StatelessWidget {
   final String url;
   const _RemoteImage({required this.url});
@@ -93,7 +98,6 @@ class _RemoteImage extends StatelessWidget {
     );
   }
 }
-
 class ChatComposer extends StatelessWidget {
   final TextEditingController controller;
   final bool enabled;
@@ -120,8 +124,13 @@ class ChatComposer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             IconButton(
-              icon: const Icon(Icons.camera_alt, color: AppColors.primary),
-              onPressed: enabled && !loading ? onCamera : null,
+              icon: const Icon(
+                Icons.camera_alt,
+                color: AppColors.primary,
+              ),
+              onPressed: enabled && !loading
+                  ? onCamera
+                  : null,
             ),
             Expanded(
               child: TextField(
@@ -151,10 +160,17 @@ class ChatComposer extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             CircleAvatar(
-              backgroundColor: enabled ? AppColors.primary : Colors.grey,
+              backgroundColor: enabled
+                  ? AppColors.primary
+                  : Colors.grey,
               child: IconButton(
-                icon: const Icon(Icons.send, color: Colors.black),
-                onPressed: enabled && !loading ? onSend : null,
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.black,
+                ),
+                onPressed: enabled && !loading
+                    ? onSend
+                    : null,
               ),
             ),
           ],
@@ -171,7 +187,11 @@ class ChatLoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
-      child: CircularProgressIndicator(color: AppColors.primary),
+      child: CircularProgressIndicator(
+        color: AppColors.primary,
+      ),
     );
   }
 }
+
+

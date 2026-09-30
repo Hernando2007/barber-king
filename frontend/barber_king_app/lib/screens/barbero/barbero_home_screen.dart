@@ -9,7 +9,10 @@ import '../../services/usuario_service.dart';
 class BarberoHomeScreen extends StatefulWidget {
   final Map<String, dynamic> usuario;
 
-  const BarberoHomeScreen({super.key, required this.usuario});
+  const BarberoHomeScreen({
+    super.key,
+    required this.usuario,
+  });
 
   @override
   State<BarberoHomeScreen> createState() => _BarberoHomeScreenState();
@@ -48,7 +51,11 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
 
     if (!mounted) return;
 
-    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.login,
+      (_) => false,
+    );
   }
 
   @override
@@ -103,14 +110,18 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
                         const SizedBox(height: 4),
                         Text(
                           especialidad,
-                          style: const TextStyle(color: AppColors.subtitle),
+                          style: const TextStyle(
+                            color: AppColors.subtitle,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, AppRoutes.perfil),
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      AppRoutes.perfil,
+                    ),
                     icon: const Icon(
                       Icons.person_outline,
                       color: AppColors.primary,
@@ -154,16 +165,8 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
     final items = [
       ('Citas', '${data['totalCitas'] ?? 0}', Icons.event_outlined),
       ('Pendientes', '${data['pendientes'] ?? 0}', Icons.pending_actions),
-      (
-        'Completadas',
-        '${data['completadas'] ?? 0}',
-        Icons.check_circle_outline,
-      ),
-      (
-        'Calificación',
-        '${data['promedioCalificacion'] ?? 0}',
-        Icons.star_outline,
-      ),
+      ('Completadas', '${data['completadas'] ?? 0}', Icons.check_circle_outline),
+      ('Calificación', '${data['promedioCalificacion'] ?? 0}', Icons.star_outline),
     ];
 
     return GridView.builder(
@@ -194,22 +197,9 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      item.$1,
-                      style: const TextStyle(
-                        color: AppColors.subtitle,
-                        fontSize: 11,
-                      ),
-                    ),
+                    Text(item.$1, style: const TextStyle(color: AppColors.subtitle, fontSize: 11)),
                     const SizedBox(height: 3),
-                    Text(
-                      item.$2,
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text(item.$2, style: const TextStyle(color: AppColors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -226,7 +216,9 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: pendiente ? const Color(0xFF2A2411) : AppColors.card,
+        color: pendiente
+            ? const Color(0xFF2A2411)
+            : AppColors.card,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: AppColors.border),
       ),
@@ -286,7 +278,11 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
         Icons.content_cut_outlined,
         AppRoutes.servicios,
       ),
-      _BarberAction('Mi perfil', Icons.badge_outlined, AppRoutes.perfil),
+      _BarberAction(
+        'Mi perfil',
+        Icons.badge_outlined,
+        AppRoutes.perfil,
+      ),
     ];
 
     return GridView.builder(
@@ -304,7 +300,10 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
 
         return InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: () => Navigator.pushNamed(context, action.route),
+          onTap: () => Navigator.pushNamed(
+            context,
+            action.route,
+          ),
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.card,
@@ -314,7 +313,11 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(action.icon, color: AppColors.primary, size: 34),
+                Icon(
+                  action.icon,
+                  color: AppColors.primary,
+                  size: 34,
+                ),
                 const SizedBox(height: 10),
                 Text(
                   action.title,
@@ -332,8 +335,7 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
   }
 
   Widget _professionalCard(dynamic barbero) {
-    final hasDiploma =
-        barbero is Map &&
+    final hasDiploma = barbero is Map &&
         barbero['diploma_url'] != null &&
         barbero['diploma_url'].toString().isNotEmpty;
 
@@ -359,7 +361,9 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
           _row(
             Icons.workspace_premium_outlined,
             'Especialidad',
-            barbero is Map ? barbero['especialidad']?.toString() ?? '-' : '-',
+            barbero is Map
+                ? barbero['especialidad']?.toString() ?? '-'
+                : '-',
           ),
           const SizedBox(height: 10),
           _row(

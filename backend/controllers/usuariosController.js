@@ -1,59 +1,29 @@
-import {
-    listarUsuarios,
-    buscarUsuario,
-    obtenerPerfilCompleto
-} from "../services/usuariosService.js";
- 
+import { listarUsuarios, buscarUsuario, editarPerfil } from "../services/usuariosService.js";
+
 export const getUsuarios = async (req, res, next) => {
-    try {
-        const { data, error } = await listarUsuarios();
- 
-        if (error) {
-            return res.status(500).json({
-                success: false,
-                message: error.message
-            });
-        }
- 
-        return res.status(200).json({
-            success: true,
-            data
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const data = await listarUsuarios();
+    res.status(200).json({ success: true, total: data.length, data });
+  } catch (error) { next(error); }
 };
- 
+
 export const getUsuario = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const { data, error } = await buscarUsuario(id);
- 
-        if (error || !data) {
-            return res.status(404).json({
-                success: false,
-                message: "Usuario no encontrado."
-            });
-        }
- 
-        return res.status(200).json({
-            success: true,
-            data
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const data = await buscarUsuario(req.params.id);
+    res.status(200).json({ success: true, data });
+  } catch (error) { next(error); }
 };
- 
-export const getPerfilActual = async (req, res, next) => {
-    try {
-        const data = await obtenerPerfilCompleto(req.usuario.id);
- 
-        return res.status(200).json({
-            success: true,
-            data
-        });
-    } catch (error) {
-        next(error);
-    }
+
+export const getPerfil = async (req, res, next) => {
+  try {
+    const data = await buscarUsuario(req.usuario.id);
+    res.status(200).json({ success: true, data });
+  } catch (error) { next(error); }
+};
+
+export const updatePerfil = async (req, res, next) => {
+  try {
+    const data = await editarPerfil(req.usuario.id, req.body);
+    res.status(200).json({ success: true, message: "Perfil actualizado correctamente.", data });
+  } catch (error) { next(error); }
 };

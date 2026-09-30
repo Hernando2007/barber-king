@@ -30,11 +30,18 @@ class ProfileHero extends StatelessWidget {
             height: 110,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.primary, width: 3),
+              border: Border.all(
+                color: AppColors.primary,
+                width: 3,
+              ),
             ),
             child: const CircleAvatar(
               backgroundColor: AppColors.surface,
-              child: Icon(Icons.person, size: 60, color: AppColors.primary),
+              child: Icon(
+                Icons.person,
+                size: 60,
+                color: AppColors.primary,
+              ),
             ),
           ),
           const SizedBox(height: 18),
@@ -72,7 +79,10 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 9,
+      ),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: .12),
         borderRadius: BorderRadius.circular(12),
@@ -122,7 +132,11 @@ class ProfileNotice extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const ProfileNotice({super.key, required this.icon, required this.text});
+  const ProfileNotice({
+    super.key,
+    required this.icon,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +154,10 @@ class ProfileNotice extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(color: AppColors.subtitle, height: 1.4),
+              style: const TextStyle(
+                color: AppColors.subtitle,
+                height: 1.4,
+              ),
             ),
           ),
         ],

@@ -1,6 +1,5 @@
 import 'package:barber_king_app/widgets/common/section_widgets.dart';
 import 'package:flutter/material.dart';
-
 import '../../core/colors.dart';
 import '../../widgets/common/feedback_cards.dart';
 

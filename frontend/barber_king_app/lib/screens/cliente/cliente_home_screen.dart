@@ -7,7 +7,10 @@ import '../../services/auth_service.dart';
 class ClienteHomeScreen extends StatelessWidget {
   final Map<String, dynamic> usuario;
 
-  const ClienteHomeScreen({super.key, required this.usuario});
+  const ClienteHomeScreen({
+    super.key,
+    required this.usuario,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,10 @@ class ClienteHomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.black,
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.chatIA),
+        onPressed: () => Navigator.pushNamed(
+          context,
+          AppRoutes.chatIA,
+        ),
         icon: const Icon(Icons.smart_toy_outlined),
         label: const Text('Asistente IA'),
       ),
@@ -96,7 +102,10 @@ class ClienteHomeScreen extends StatelessWidget {
           onPressed: () async {
             await Navigator.pushNamed(context, AppRoutes.perfil);
           },
-          icon: const Icon(Icons.person_outline, color: AppColors.primary),
+          icon: const Icon(
+            Icons.person_outline,
+            color: AppColors.primary,
+          ),
         ),
         IconButton(
           onPressed: () async {
@@ -108,7 +117,10 @@ class ClienteHomeScreen extends StatelessWidget {
               (_) => false,
             );
           },
-          icon: const Icon(Icons.logout_outlined, color: AppColors.primary),
+          icon: const Icon(
+            Icons.logout_outlined,
+            color: AppColors.primary,
+          ),
         ),
       ],
     );
@@ -119,14 +131,21 @@ class ClienteHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF2A2411), AppColors.card],
+          colors: [
+            Color(0xFF2A2411),
+            AppColors.card,
+          ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: AppColors.border),
       ),
       child: const Row(
         children: [
-          Icon(Icons.content_cut, color: AppColors.primary, size: 42),
+          Icon(
+            Icons.content_cut,
+            color: AppColors.primary,
+            size: 42,
+          ),
           SizedBox(width: 15),
           Expanded(
             child: Text(
@@ -155,8 +174,16 @@ class ClienteHomeScreen extends StatelessWidget {
         Icons.calendar_month_outlined,
         AppRoutes.citas,
       ),
-      _ActionItem('Mis citas', Icons.event_note_outlined, AppRoutes.citas),
-      _ActionItem('Mi perfil', Icons.person_outline, AppRoutes.perfil),
+      _ActionItem(
+        'Mis citas',
+        Icons.event_note_outlined,
+        AppRoutes.citas,
+      ),
+      _ActionItem(
+        'Mi perfil',
+        Icons.person_outline,
+        AppRoutes.perfil,
+      ),
     ];
 
     return GridView.builder(
@@ -173,7 +200,10 @@ class ClienteHomeScreen extends StatelessWidget {
         final item = items[index];
         return InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: () => Navigator.pushNamed(context, item.route),
+          onTap: () => Navigator.pushNamed(
+            context,
+            item.route,
+          ),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -184,7 +214,11 @@ class ClienteHomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(item.icon, color: AppColors.primary, size: 34),
+                Icon(
+                  item.icon,
+                  color: AppColors.primary,
+                  size: 34,
+                ),
                 const SizedBox(height: 12),
                 Text(
                   item.title,

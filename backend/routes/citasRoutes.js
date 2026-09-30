@@ -1,19 +1,11 @@
 import express from "express";
-import {
-    crearCita,
-    obtenerTodas,
-    obtenerPorId,
-    actualizar,
-    eliminar
-} from "../controllers/citasController.js";
+import { crearCita, obtenerTodas, obtenerPorId, actualizar, eliminar } from "../controllers/citasController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
- 
-const router = express.Router();
- 
-router.post("/crear", verificarToken, crearCita);
-router.get("/obtenerTodas", verificarToken, obtenerTodas);
-router.get("/obtenerPorId/:id", verificarToken, obtenerPorId);
-router.put("/actualizar/:id", verificarToken, actualizar);
-router.delete("/delete/:id", verificarToken, eliminar);
- 
+const router=express.Router();
+router.use(verificarToken);
+router.post("/crear",crearCita);
+router.get("/obtenerTodas",obtenerTodas);
+router.get("/obtenerPorId/:id",obtenerPorId);
+router.put("/actualizar/:id",actualizar);
+router.delete("/delete/:id",eliminar);
 export default router;

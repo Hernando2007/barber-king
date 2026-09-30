@@ -1,250 +1,78 @@
-import {
-    crearNuevaCita,
-    obtenerServicio,
-    obtenerCitas,
-    listarCitas,
-    obtenerCitaPorId,
-    actualizarCita,
-    eliminarCita
-} from "../models/citasModel.js";
+import { crearNuevaCita, obtenerServicio, obtenerCitas, listarCitas, obtenerCitaPorId, actualizarCita, eliminarCita } from "../models/citasModel.js";
 import { obtenerBarberoPorUsuario } from "../models/barberosModel.js";
- 
-export const registrarCita = async (datos) => {
-    const {
-        cliente_id,
-        barbero_id,
-        servicio_id,
-        fecha,
-        hora,
-        estado,
-        observaciones
-    } = datos;
- 
-    if (
-        !cliente_id ||
-        !barbero_id ||
-        !servicio_id ||
-        !fecha ||
-        !hora
-    ) {
-        throw new Error(
-            "Todos los campos obligatorios deben ser enviados."
-        );
-    }
- 
-    const fechaHoraNueva = new Date(`${fecha}T${hora}`);
- 
-    if (Number.isNaN(fechaHoraNueva.getTime())) {
-        throw new Error("La fecha u hora no son válidas.");
-    }
- 
-    if (fechaHoraNueva < new Date()) {
-        throw new Error(
-            "No se pueden registrar citas en fechas pasadas."
-        );
-    }
- 
-    const { data: servicio, error: errorServicio } =
-        await obtenerServicio(servicio_id);
- 
-    if (errorServicio || !servicio) {
-        throw new Error("Servicio no encontrado.");
-    }
- 
-    const { data: citasExistentes, error: errorCitas } =
-        await obtenerCitas(barbero_id, fecha);
- 
-    if (errorCitas) {
-        throw new Error(errorCitas.message);
-    }
- 
-    const inicioNueva = convertirMinutos(hora);
-    const finNueva = inicioNueva + servicio.duracion;
- 
-    for (const cita of citasExistentes || []) {
-        if (["Cancelada", "cancelada"].includes(cita.estado)) {
-            continue;
-        }
- 
-        const inicioExistente = convertirMinutos(cita.hora);
-        const duracion =
-            Number(cita.duracion_minutos) || Number(servicio.duracion);
-        const finExistente = inicioExistente + duracion;
- 
-        if (
-            inicioNueva < finExistente &&
-            finNueva > inicioExistente
-        ) {
-            throw new Error(
-                "El barbero ya tiene una cita en ese horario."
-            );
-        }
-    }
- 
-    const { data, error: errorCrear } = await crearNuevaCita({
-        cliente_id,
-        barbero_id,
-        servicio_id,
-        fecha,
-        hora,
-        duracion_minutos: servicio.duracion,
-        precio: servicio.precio,
-        estado: estado || "Pendiente",
-        observaciones: observaciones || null
-    });
- 
-    if (errorCrear) {
-        throw new Error(errorCrear.message);
-    }
- 
-    return data;
+
+const minutos = (hora) => {
+  const [h, m] = String(hora).slice(0, 5).split(":").map(Number);
+  return h * 60 + m;
 };
- 
-export const obtenerTodasLasCitas = async () => {
-    const { data, error } = await listarCitas();
- 
-    if (error) {
-        throw new Error(error.message);
-    }
- 
-    return data || [];
+
+export const registrarCita = async (datos, usuario) => {
+  const { barbero_id, servicio_id, fecha, hora, observaciones } = datos || {};
+  if (!barbero_id || !servicio_id || !fecha || !hora) throw new Error("Barbero, servicio, fecha y hora son obligatorios.");
+  const fechaHora = new Date(`${fecha}T${hora}`);
+  if (Number.isNaN(fechaHora.getTime()) || fechaHora < new Date()) throw new Error("La fecha y hora deben ser futuras.");
+  const { data: servicio, error: es } = await obtenerServicio(servicio_id);
+  if (es || !servicio) throw new Error("Servicio no encontrado.");
+  const { data: citas, error: ec } = await obtenerCitas(barbero_id, fecha);
+  if (ec) throw new Error(ec.message);
+  const inicio = minutos(hora), fin = inicio + Number(servicio.duracion || 0);
+  for (const cita of citas || []) {
+    if ((cita.estado || "").toLowerCase() === "cancelada") continue;
+    const ci = minutos(cita.hora), cf = ci + Number(cita.duracion_minutos || 0);
+    if (inicio < cf && fin > ci) throw new Error("El barbero ya tiene una cita en ese horario.");
+  }
+  const { data, error } = await crearNuevaCita({
+    cliente_id: usuario.id, barbero_id, servicio_id, fecha, hora,
+    duracion_minutos: servicio.duracion, precio: servicio.precio,
+    estado: "Pendiente", observaciones: observaciones || null,
+  });
+  if (error) throw new Error(error.message);
+  return data;
 };
- 
-export const obtenerUnaCita = async (id) => {
-    const { data, error } = await obtenerCitaPorId(id);
- 
-    if (error || !data) {
-        throw new Error("Cita no encontrada.");
-    }
- 
-    return data;
+
+export const obtenerTodasLasCitas = async (usuario) => {
+  const filtro = usuario.rol === "Administrador"
+    ? {} : usuario.rol === "Barbero" ? { barberoId: await buscarBarberoId(usuario.id) } : { clienteId: usuario.id };
+  const { data, error } = await listarCitas(filtro);
+  if (error) throw new Error(error.message);
+  return data || [];
 };
- 
-export const obtenerCitasUsuario = async (usuario) => {
-    const citas = await obtenerTodasLasCitas();
- 
-    if (usuario.rol === "Administrador") {
-        return citas;
-    }
- 
-    if (usuario.rol === "Barbero") {
-        const { data: barbero } = await obtenerBarberoPorUsuario(
-            usuario.id
-        );
- 
-        if (!barbero) {
-            return [];
-        }
- 
-        return citas.filter(
-            (cita) => Number(cita.barbero_id) === Number(barbero.id)
-        );
-    }
- 
-    return citas.filter(
-        (cita) => Number(cita.cliente_id) === Number(usuario.id)
-    );
+
+const buscarBarberoId = async (usuarioId) => {
+  const { data, error } = await obtenerBarberoPorUsuario(usuarioId);
+  if (error || !data) throw new Error("Perfil de barbero no encontrado.");
+  return data.id;
 };
- 
+
+export const obtenerUnaCita = async (id, usuario) => {
+  const { data, error } = await obtenerCitaPorId(id);
+  if (error || !data) throw new Error("Cita no encontrada.");
+  if (!puedeGestionar(data, usuario)) throw new Error("No tienes permiso para consultar esta cita.");
+  return data;
+};
+
 export const editarCita = async (id, datos, usuario) => {
-    const cita = await obtenerUnaCita(id);
- 
-    await validarAccesoCita(cita, usuario);
- 
-    const permitidos = {};
- 
-    if (usuario.rol === "Barbero" && datos.estado) {
-        permitidos.estado = datos.estado;
-    }
- 
-    if (usuario.rol === "Cliente") {
-        if (datos.observaciones !== undefined) {
-            permitidos.observaciones = datos.observaciones;
-        }
- 
-        if (datos.estado === "Cancelada") {
-            permitidos.estado = "Cancelada";
-        }
-    }
- 
-    if (usuario.rol === "Administrador") {
-        Object.assign(permitidos, datos);
-    }
- 
-    if (Object.keys(permitidos).length === 0) {
-        throw new Error(
-            "No tienes campos permitidos para modificar esta cita."
-        );
-    }
- 
-    const { data, error } = await actualizarCita(id, permitidos);
- 
-    if (error) {
-        throw new Error(error.message);
-    }
- 
-    return data;
+  const actual = await obtenerUnaCita(id, usuario);
+  const permitidos = usuario.rol === "Administrador" || usuario.rol === "Barbero"
+    ? ["estado", "observaciones", "fecha", "hora"] : ["observaciones"];
+  const cambios = Object.fromEntries(Object.entries(datos || {}).filter(([k]) => permitidos.includes(k)));
+  if (!Object.keys(cambios).length) throw new Error("No hay cambios permitidos.");
+  if (cambios.estado === "Completada" && usuario.rol === "Cliente") throw new Error("El cliente no puede completar una cita.");
+  const { data, error } = await actualizarCita(actual.id, cambios);
+  if (error) throw new Error(error.message);
+  return data;
 };
- 
+
 export const borrarCita = async (id, usuario) => {
-    const cita = await obtenerUnaCita(id);
- 
-    await validarAccesoCita(cita, usuario);
- 
-    if (usuario.rol === "Cliente") {
-        const { error } = await actualizarCita(id, {
-            estado: "Cancelada"
-        });
- 
-        if (error) {
-            throw new Error(error.message);
-        }
- 
-        return true;
-    }
- 
-    if (usuario.rol !== "Administrador") {
-        throw new Error(
-            "El barbero debe gestionar la cita mediante su estado."
-        );
-    }
- 
-    const { error } = await eliminarCita(id);
- 
-    if (error) {
-        throw new Error(error.message);
-    }
- 
-    return true;
+  const actual = await obtenerUnaCita(id, usuario);
+  if (usuario.rol === "Cliente" && actual.estado === "Completada") throw new Error("No puedes eliminar una cita completada.");
+  const { error } = await eliminarCita(id);
+  if (error) throw new Error(error.message);
+  return true;
 };
- 
-const validarAccesoCita = async (cita, usuario) => {
-    if (usuario.rol === "Administrador") {
-        return;
-    }
- 
-    if (usuario.rol === "Cliente") {
-        if (Number(cita.cliente_id) !== Number(usuario.id)) {
-            throw new Error("No tienes acceso a esta cita.");
-        }
-        return;
-    }
- 
-    if (usuario.rol === "Barbero") {
-        const { data: barbero } = await obtenerBarberoPorUsuario(
-            usuario.id
-        );
- 
-        if (!barbero || Number(cita.barbero_id) !== Number(barbero.id)) {
-            throw new Error("No tienes acceso a esta cita.");
-        }
-        return;
-    }
- 
-    throw new Error("Rol no autorizado.");
-};
- 
-const convertirMinutos = (hora) => {
-    const [horas, minutos] = hora.split(":").map(Number);
-    return horas * 60 + minutos;
+
+const puedeGestionar = (cita, usuario) => {
+  if (usuario.rol === "Administrador") return true;
+  if (usuario.rol === "Cliente") return Number(cita.cliente_id) === Number(usuario.id);
+  return Number(cita.barberos?.usuario_id) === Number(usuario.id);
 };
