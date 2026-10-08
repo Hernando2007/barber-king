@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../haircuth/hairtcut_screen.dart';
+import '../barberos/barberos_screen.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
@@ -51,7 +52,15 @@ class HomeScreen extends StatelessWidget {
       },
       child: _topBtn(Icons.content_cut, 'HAIRCUT', false),
     ),
-                _topBtn(Icons.person_outline, 'BARBERS', false),
+                GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const BarbersScreen()),
+    );
+  },
+  child: _topBtn(Icons.person_outline, 'BARBERS', false),
+),
                 _topBtn(Icons.star, 'VIP', true),
               ],
             ),

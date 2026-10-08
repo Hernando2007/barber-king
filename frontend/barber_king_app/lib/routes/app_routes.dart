@@ -46,7 +46,7 @@ class AppRoutes {
 
     crearServicio: (context) => const CrearServicioScreen(),
 
-    barberos: (context) => const BarberosScreen(),
+    barberos: (context) => const BarbersScreen(),
 
     citas: (context) => const CitasScreen(),
 
