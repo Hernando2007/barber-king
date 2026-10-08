@@ -1,179 +1,190 @@
 import 'package:flutter/material.dart';
+ 
 import '../../core/colors.dart';
 import '../../services/barbero_service.dart';
-
-class BarbersScreen extends StatelessWidget {
-  const BarbersScreen({super.key});
-
+import '../../widgets/common/gold_widgets.dart';
+import '../citas/crear_cita_screen.dart';
+ 
+class BarberosScreen extends StatefulWidget {
+  const BarberosScreen({super.key});
+ 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
+  State<BarberosScreen> createState() => _BarberosScreenState();
+}
+ 
+class _BarberosScreenState extends State<BarberosScreen> {
+  List<Map<String, dynamic>> _barberos = [];
+  bool _cargando = true;
+ 
+  @override
+  void initState() {
+    super.initState();
+    _cargar();
+  }
+ 
+  Future<void> _cargar() async {
+    final lista = await BarberoService().obtenerBarberos();
+    if (!mounted) return;
+    setState(() {
+      _barberos = lista.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+      _cargando = false;
+    });
+  }
+ 
+  void _abrirCita([int? barberoId]) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CrearCitaScreen(barberoInicialId: barberoId),
+        ),
+      );
+ 
+  Widget _tarjeta(Map<String, dynamic> b) {
+    final promedio = (b['calificacion_promedio'] as num?)?.toDouble() ?? 0;
+    final total = int.tryParse('${b['total_resenas'] ?? 0}') ?? 0;
+    final especialidad = '${b['especialidad'] ?? 'Barbero profesional'}';
+ 
+    return GestureDetector(
+      onTap: () => _abrirCita(int.tryParse('${b['id']}')),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.border.withValues(alpha: 0.7)),
+        ),
+        child: Column(
           children: [
-            // Encabezado: Botón de retroceso a la izquierda y Título alineado a la derecha
+            Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.primary, width: 1.5),
+              ),
+              child: FotoRed(url: fotoBarbero(b), ancho: 90, alto: 90, circular: true),
+            ),
+            const SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFD4AF37)),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                const Text(
-                  'BARBERS',
-                  style: TextStyle(
-                    color: Color(0xFFD4AF37),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(nombreBarbero(b),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                      const SizedBox(height: 2),
+                      Text(especialidad,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: AppColors.subtitle, fontSize: 12)),
+                    ],
                   ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(children: [
+                      const Icon(Icons.star, size: 16, color: AppColors.primary),
+                      const SizedBox(width: 4),
+                      Text(promedio > 0 ? promedio.toStringAsFixed(1) : 'Nuevo',
+                          style: const TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700)),
+                    ]),
+                    Text('$total reseña${total == 1 ? '' : 's'}',
+                        style: const TextStyle(color: AppColors.subtitle, fontSize: 11)),
+                  ],
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            
-            // Barra de búsqueda
-            TextField(
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search barber...',
-                hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
-                prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.4)),
-                filled: true,
-                fillColor: const Color(0xFF1E293B),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Sección: Master Barbers
-            const Text(
-              'MASTER BARBERS',
-              style: TextStyle(color: Color(0xFFD4AF37), fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.2),
-            ),
-            const SizedBox(height: 12),
-
-            // Tarjetas en formato de bloques anchos orientados verticalmente hacia abajo
-            _barberBlockCard('Junior', 'Master Barber & Fade Expert', '4.9', '5 Years Exp.'),
-            const SizedBox(height: 16),
-            _barberBlockCard('Carlos VIP', 'Stylist & Beard Specialist', '4.8', '4 Years Exp.'),
-            const SizedBox(height: 16),
-            _barberBlockCard('Alejo', 'Classic Cut & Design', '4.7', '3 Years Exp.'),
           ],
         ),
       ),
-      // Barra de navegación inferior
-      bottomNavigationBar: Container(
+    );
+  }
+ 
+  Widget _encabezado() => Padding(
+        padding: const EdgeInsets.fromLTRB(8, 12, 16, 8),
+        child: Row(children: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+            onPressed: () => Navigator.pop(context),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 48),
+              child: Text('BARBEROS', textAlign: TextAlign.center, style: tituloSerif(size: 22)),
+            ),
+          ),
+        ]),
+      );
+ 
+  Widget _navItem(IconData icon, String label, VoidCallback onTap) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Icon(icon, color: Colors.white60, size: 28),
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(color: Colors.white60, fontSize: 11)),
+        ]),
+      );
+ 
+  Widget _barraInferior() => Container(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B),
-          border: Border(
-            top: BorderSide(color: const Color(0xFFD4AF37).withOpacity(0.3), width: 1),
-          ),
+          color: AppColors.card,
+          border: Border(top: BorderSide(color: AppColors.primary.withValues(alpha: 0.3))),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _navItem(Icons.home_filled, 'HOME', false, () => Navigator.pop(context)),
-            _navItem(Icons.search, 'SEARCH', false, () {}),
-            _navItem(Icons.person_outline, 'PROFILE', false, () {}),
-            _navItem(Icons.camera_alt_outlined, 'CAMERA IA', false, () {}),
-            _navItem(Icons.calendar_today_outlined, 'BOOK', false, () {}),
-          ],
+        child: SafeArea(
+          top: false,
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            _navItem(Icons.home_filled, 'HOME',
+                () => Navigator.popUntil(context, (r) => r.isFirst)),
+            _navItem(Icons.search, 'SEARCH', () {}), // TODO
+            _navItem(Icons.person_outline, 'PROFILE', () {}), // TODO
+            _navItem(Icons.camera_alt_outlined, 'CAMERA IA', () {}), // TODO
+            _navItem(Icons.calendar_today_outlined, 'BOOK', _abrirCita),
+          ]),
         ),
-      ),
-    );
-  }
-
-  // Tarjeta en bloque ancho vertical (foto arriba, datos abajo y estrella a la derecha)
-  Widget _barberBlockCard(String name, String role, String rating, String experience) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Imagen / Avatar grande estilo bloque superior
-          Container(
-            height: 140,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey[800],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(Icons.person, color: Colors.white54, size: 60),
-          ),
-          const SizedBox(height: 14),
-          
-          // Fila inferior: Nombre/Rol a la izquierda y Calificación a la derecha
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Columna con Nombre, Rol y Años de experiencia
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      role,
-                      style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      experience,
-                      style: const TextStyle(color: Color(0xFFD4AF37), fontSize: 12, fontWeight: FontWeight.w500),
-                    ),
-                  ],
+      );
+ 
+  Widget _lista() => RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: _cargar,
+        child: _barberos.isEmpty
+            ? ListView(children: const [
+                SizedBox(height: 80),
+                Center(
+                  child: Text('Aún no hay barberos disponibles.',
+                      style: TextStyle(color: AppColors.subtitle)),
                 ),
+              ])
+            : ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                itemCount: _barberos.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
+                itemBuilder: (_, i) => _tarjeta(_barberos[i]),
               ),
-              // Calificación con estrella a la derecha
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Color(0xFFD4AF37), size: 18),
-                  const SizedBox(width: 4),
-                  Text(
-                    rating,
-                    style: const TextStyle(color: Color(0xFFD4AF37), fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Elemento de la barra de navegación inferior
-  Widget _navItem(IconData icon, String label, bool active, VoidCallback onTap) => GestureDetector(
-    onTap: onTap,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: active ? const Color(0xFFD4AF37) : Colors.white60, size: 28),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: active ? const Color(0xFFD4AF37) : Colors.white60,
-            fontSize: 11,
-            fontWeight: active ? FontWeight.bold : FontWeight.normal,
-          ),
+      );
+ 
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          bottom: false,
+          child: Column(children: [
+            _encabezado(),
+            Divider(color: AppColors.border.withValues(alpha: 0.6), indent: 16, endIndent: 16),
+            Expanded(
+              child: _cargando ? const Center(child: CircularProgressIndicator()) : _lista(),
+            ),
+          ]),
         ),
-      ],
-    ),
-  );
+        bottomNavigationBar: _barraInferior(),
+      );
 }
+ 
