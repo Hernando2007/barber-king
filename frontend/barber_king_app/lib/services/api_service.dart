@@ -5,21 +5,21 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../core/config/api_config.dart';
 
 class ApiService {
+  static final ApiService _instance = ApiService._internal();
+
+  factory ApiService() => _instance;
+
   late final Dio dio;
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  ApiService() {
+  ApiService._internal() {
     dio = Dio(
       BaseOptions(
         baseUrl: ApiConfig.baseUrl,
-
         connectTimeout: const Duration(seconds: 15),
-
         receiveTimeout: const Duration(seconds: 15),
-
         sendTimeout: const Duration(seconds: 15),
-
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
@@ -38,11 +38,9 @@ class ApiService {
 
           handler.next(options);
         },
-
         onError: (error, handler) async {
           if (error.response?.statusCode == 401) {
             await storage.delete(key: "token");
-
             await storage.delete(key: "usuario");
           }
 
@@ -55,15 +53,10 @@ class ApiService {
       dio.interceptors.add(
         LogInterceptor(
           request: true,
-
           requestHeader: true,
-
           requestBody: true,
-
           responseHeader: false,
-
           responseBody: true,
-
           error: true,
         ),
       );

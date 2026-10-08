@@ -51,11 +51,7 @@ class _CitasScreenState extends State<CitasScreen> {
     if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          respuesta['message'] ?? 'Cita actualizada',
-        ),
-      ),
+      SnackBar(content: Text(respuesta['message'] ?? 'Cita actualizada')),
     );
 
     if (respuesta['success'] == true) {
@@ -68,9 +64,7 @@ class _CitasScreenState extends State<CitasScreen> {
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Cancelar cita'),
-        content: const Text(
-          '¿Deseas cancelar esta cita?',
-        ),
+        content: const Text('¿Deseas cancelar esta cita?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -91,11 +85,7 @@ class _CitasScreenState extends State<CitasScreen> {
     if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          respuesta['message'] ?? 'Cita cancelada',
-        ),
-      ),
+      SnackBar(content: Text(respuesta['message'] ?? 'Cita cancelada')),
     );
 
     if (respuesta['success'] == true) {
@@ -131,7 +121,7 @@ class _CitasScreenState extends State<CitasScreen> {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const CrearCitaScreen(),
+                    builder: (_) => const CrearCitaScreen(servicioInicial: {}),
                   ),
                 );
                 await _cargar();
@@ -225,9 +215,7 @@ class _CitasScreenState extends State<CitasScreen> {
                     const SizedBox(height: 4),
                     Text(
                       servicioNombre,
-                      style: const TextStyle(
-                        color: AppColors.subtitle,
-                      ),
+                      style: const TextStyle(color: AppColors.subtitle),
                     ),
                   ],
                 ),
@@ -238,19 +226,9 @@ class _CitasScreenState extends State<CitasScreen> {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(
-                child: _dato(
-                  'FECHA',
-                  cita['fecha']?.toString() ?? '-',
-                ),
-              ),
+              Expanded(child: _dato('FECHA', cita['fecha']?.toString() ?? '-')),
               const SizedBox(width: 10),
-              Expanded(
-                child: _dato(
-                  'HORA',
-                  cita['hora']?.toString() ?? '-',
-                ),
-              ),
+              Expanded(child: _dato('HORA', cita['hora']?.toString() ?? '-')),
             ],
           ),
           if (esBarbero && estado.toLowerCase() != 'cancelada') ...[
@@ -259,20 +237,16 @@ class _CitasScreenState extends State<CitasScreen> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => _estado(
-                      int.parse('${cita['id']}'),
-                      'Confirmada',
-                    ),
+                    onPressed: () =>
+                        _estado(int.parse('${cita['id']}'), 'Confirmada'),
                     child: const Text('CONFIRMAR'),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => _estado(
-                      int.parse('${cita['id']}'),
-                      'Completada',
-                    ),
+                    onPressed: () =>
+                        _estado(int.parse('${cita['id']}'), 'Completada'),
                     child: const Text('COMPLETAR'),
                   ),
                 ),
@@ -285,9 +259,7 @@ class _CitasScreenState extends State<CitasScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => _eliminar(
-                  int.parse('${cita['id']}'),
-                ),
+                onPressed: () => _eliminar(int.parse('${cita['id']}')),
                 icon: const Icon(Icons.cancel_outlined),
                 color: AppColors.error,
                 tooltip: 'Cancelar cita',
@@ -301,10 +273,7 @@ class _CitasScreenState extends State<CitasScreen> {
 
   Widget _estadoChip(String estado, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 9,
-        vertical: 6,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
       decoration: BoxDecoration(
         color: color.withValues(alpha: .12),
         borderRadius: BorderRadius.circular(20),
@@ -331,10 +300,7 @@ class _CitasScreenState extends State<CitasScreen> {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 10,
-            ),
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 10),
           ),
           const SizedBox(height: 4),
           Text(

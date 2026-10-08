@@ -7,7 +7,7 @@ import '../../services/disponibilidad_service.dart';
 import '../../services/servicios_service.dart';
 
 class CrearCitaScreen extends StatefulWidget {
-  const CrearCitaScreen({super.key});
+  const CrearCitaScreen({super.key, required Map<String, dynamic> servicioInicial, int? barberoInicialId, String? observaciones});
 
   @override
   State<CrearCitaScreen> createState() => _CrearCitaScreenState();
