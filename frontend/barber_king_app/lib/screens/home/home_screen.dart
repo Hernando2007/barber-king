@@ -1,370 +1,177 @@
 import 'package:flutter/material.dart';
+import '../haircuth/hairtcut_screen.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final AuthService authService = AuthService();
-
-  Map<String, dynamic>? usuario;
-
-  bool cargando = true;
-
-  @override
-  void initState() {
-    super.initState();
-    cargarUsuario();
-  }
-
-  Future<void> cargarUsuario() async {
-    final data = await authService.obtenerUsuario();
-
-    if (!mounted) return;
-
-    if (data == null) {
-      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
-      return;
-    }
-
-    setState(() {
-      usuario = data;
-      cargando = false;
-    });
-  }
-
-  Future<void> cerrarSesion() async {
-    final confirmar = await showDialog<bool>(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text("Cerrar sesión"),
-          content: const Text("¿Deseas cerrar tu sesión actual?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text("Cancelar"),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const Center(
+              child: Text('BARBER KING', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 2)),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text("Salir"),
+            const SizedBox(height: 20),
+            
+            // Barra de búsqueda
+            TextField(
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
+                prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.4)),
+                suffixIcon: const Icon(Icons.tune, color: Color(0xFFD4AF37)),
+                filled: true,
+                fillColor: const Color(0xFF1E293B),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
+              ),
             ),
-          ],
+            const SizedBox(height: 28),
+
+            // Botones superiores
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HaircutScreen()),
         );
       },
-    );
+      child: _topBtn(Icons.content_cut, 'HAIRCUT', false),
+    ),
+                _topBtn(Icons.person_outline, 'BARBERS', false),
+                _topBtn(Icons.star, 'VIP', true),
+              ],
+            ),
+            const SizedBox(height: 32),
 
-    if (confirmar != true) return;
-
-    await authService.cerrarSesion();
-
-    if (!mounted) return;
-
-    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (cargando) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: cargarUsuario,
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "BARBER KING",
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 14,
-                            letterSpacing: 3,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "Hola, ${usuario?["nombres"] ?? ""}",
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          usuario?["correo"] ?? "",
-                          style: const TextStyle(color: AppColors.subtitle),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.card,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: AppColors.border),
-                    ),
-                    child: IconButton(
-                      onPressed: cerrarSesion,
-                      icon: const Icon(
-                        Icons.logout_rounded,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 25),
-
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppColors.card,
-                  borderRadius: BorderRadius.circular(22),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "MEMBRESÍA PREMIUM",
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      usuario?["rol"] ?? "Cliente",
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      "Reserva tus citas, administra tus servicios y disfruta de la experiencia Barber King.",
-                      style: TextStyle(color: AppColors.subtitle),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              const SectionTitle(titulo: "Acceso rápido"),
-
-              const SizedBox(height: 15),
-
-              // CORRECCIÓN: Ahora son 4 elementos en la cuadrícula, dejando el espacio libre
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                childAspectRatio: 1.05,
-                children: [
-                  PremiumMenuCard(
-                    titulo: "Servicios",
-                    icono: Icons.content_cut_rounded,
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.servicios);
-                    },
-                  ),
-                  PremiumMenuCard(
-                    titulo: "Barberos",
-                    icono: Icons.people_alt_rounded,
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.barberos);
-                    },
-                  ),
-                  PremiumMenuCard(
-                    titulo: "Reservar",
-                    icono: Icons.calendar_month_rounded,
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.citas);
-                    },
-                  ),
-                  PremiumMenuCard(
-                    titulo: "Mi Perfil",
-                    icono: Icons.person_rounded,
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.perfil);
-                    },
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 30),
-
-              const SectionTitle(titulo: "Servicios destacados"),
-
-              const SizedBox(height: 15),
-
-              const HighlightCard(
-                titulo: "Corte Premium",
-                descripcion: "Estilo moderno con acabado profesional.",
-                icono: Icons.content_cut,
-              ),
-
-              const SizedBox(height: 12),
-
-              const HighlightCard(
-                titulo: "Barba & Perfilado",
-                descripcion: "Diseño preciso para una apariencia impecable.",
-                icono: Icons.face_retouching_natural,
-              ),
-
-              const SizedBox(height: 12),
-
-              const HighlightCard(
-                titulo: "Experiencia VIP",
-                descripcion: "Atención personalizada y servicios exclusivos.",
-                icono: Icons.workspace_premium,
-              ),
-            ],
+            // Sección Barberos
+            _sectionTitle('BARBERS'),
+            const SizedBox(height: 10),
+            _buildHorizontalList([
+              _card('BARBER JUNIOR', 'Junior, VIP', 4),
+              _card('BARBER ALEX', 'Master, VIP', 5),
+              _card('BARBER ANDRES', 'Senior Stylist', 5),
+            ]),
+            
+            const SizedBox(height: 28),
+            
+            // Sección Cortes
+            _sectionTitle('HAIRCUT'),
+            const SizedBox(height: 10),
+            _buildHorizontalList([
+              _card('DESVANECEDOR', 'Junior, VIP\nRecommendation', 0, isHaircut: true),
+              _card('SIETE', 'Siete, VIP\nRecommendation', 0, isHaircut: true),
+              _card('MOHICANO', 'Mohicano, VIP\nRecommendation', 0, isHaircut: true),
+            ]),
+          ],
+        ),
+      ),
+      // Barra de navegación inferior ampliada y estilizada
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1E293B), // Un tono ligeramente más claro para destacarla
+          border: Border(
+            top: BorderSide(color: const Color(0xFFD4AF37).withOpacity(0.3), width: 1),
           ),
         ),
-      ),
-
-      // AGREGADO: Botón Flotante con estilo Premium acorde al diseño de Barber King
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        icon: const Icon(Icons.smart_toy_rounded, color: Colors.black),
-        label: const Text(
-          "Asistente IA",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        onPressed: () {
-          // El token se resolverá de forma independiente dentro del ChatIAScreen (Opción B del paso anterior)
-          Navigator.pushNamed(context, AppRoutes.chatIA);
-        },
-      ),
-    );
-  }
-}
-
-// Clases auxiliares para que no marque error el código al compilar
-class SectionTitle extends StatelessWidget {
-  final String titulo;
-  const SectionTitle({super.key, required this.titulo});
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      titulo,
-      style: const TextStyle(
-        color: AppColors.white,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-}
-
-class PremiumMenuCard extends StatelessWidget {
-  final String titulo;
-  final IconData icono;
-  final VoidCallback onTap;
-  const PremiumMenuCard({
-    super.key,
-    required this.titulo,
-    required this.icono,
-    required this.onTap,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Icon(icono, color: AppColors.primary, size: 35),
-            const SizedBox(height: 10),
-            Text(
-              titulo,
-              style: const TextStyle(
-                color: AppColors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            _navItem(Icons.home_filled, 'HOME', true),
+            _navItem(Icons.search, 'SEARCH', false),
+            _navItem(Icons.person_outline, 'PROFILE', false),
+            _navItem(Icons.camera_alt_outlined, 'CAMERA IA', false),
+            _navItem(Icons.calendar_today_outlined, 'BOOK', false),
           ],
         ),
       ),
     );
   }
-}
 
-class HighlightCard extends StatelessWidget {
-  final String titulo;
-  final String descripcion;
-  final IconData icono;
-  const HighlightCard({
-    super.key,
-    required this.titulo,
-    required this.descripcion,
-    required this.icono,
-  });
-  @override
-  build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(15),
+  Widget _topBtn(IconData icon, String label, bool active) => Column(
+    children: [
+      Container(
+        width: 70, height: 70,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: active ? const Color(0xFFD4AF37) : const Color(0xFF1E293B), border: Border.all(color: const Color(0xFFD4AF37))),
+        child: Icon(icon, color: active ? const Color(0xFF0F172A) : const Color(0xFFD4AF37), size: 30),
       ),
-      child: Row(
-        children: [
-          Icon(icono, color: AppColors.primary),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  titulo,
-                  style: const TextStyle(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  descripcion,
-                  style: const TextStyle(
-                    color: AppColors.subtitle,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
+      const SizedBox(height: 6),
+      Text(label, style: TextStyle(color: active ? const Color(0xFFD4AF37) : Colors.white54, fontSize: 11, fontWeight: FontWeight.bold)),
+    ],
+  );
+
+  Widget _sectionTitle(String title) => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(title, style: const TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+      const Icon(Icons.chevron_right, color: Color(0xFFD4AF37)),
+    ],
+  );
+
+  Widget _buildHorizontalList(List<Widget> children) => SizedBox(
+    height: 275,
+    child: ListView(scrollDirection: Axis.horizontal, children: children),
+  );
+
+  Widget _card(String title, String subtitle, int rating, {bool isHaircut = false}) => Container(
+    width: 155,
+    margin: const EdgeInsets.only(right: 14),
+    decoration: BoxDecoration(color: const Color(0xFF1E293B), borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3))),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          height: 160, 
+          width: double.infinity,
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.grey[800], 
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Center(
+            child: Icon(Icons.image, color: Colors.white54, size: 45),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(title, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 2),
+        Text(subtitle, textAlign: TextAlign.center, style: TextStyle(color: isHaircut ? const Color(0xFFD4AF37) : Colors.white54, fontSize: 9)),
+        if (!isHaircut) ...[
+          const SizedBox(height: 2),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(5, (i) => Icon(i < rating ? Icons.star : Icons.star_border, color: const Color(0xFFD4AF37), size: 12)),
           ),
         ],
+      ],
+    ),
+  );
+
+  // Elementos de la barra inferior más grandes y cómodos
+  Widget _navItem(IconData icon, String label, bool active) => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Icon(icon, color: active ? const Color(0xFFD4AF37) : Colors.white60, size: 28), // Icono más grande (28)
+      const SizedBox(height: 4),
+      Text(
+        label, 
+        style: TextStyle(
+          color: active ? const Color(0xFFD4AF37) : Colors.white60, 
+          fontSize: 11, // Texto ligeramente más legible
+          fontWeight: active ? FontWeight.bold : FontWeight.normal,
+        ),
       ),
-    );
-  }
+    ],
+  );
 }

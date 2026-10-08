@@ -33,14 +33,30 @@ class _ChatMimosModalState extends State<ChatMimosModal> {
 
     _scrollHaciaAbajo();
 
-    final respuesta = await ChatMimosService.enviarMensaje(texto);
+    try {
+      final resultado = await ChatService.enviarMensaje(
+        mensaje: texto,
+        tokenJWT: 'TOKEN_TEMPORAL_PRUEBAS', // O tu token real si ya lo tienes
+      );
 
-    if (mounted) {
-      setState(() {
-        _mensajes.add({'role': 'bot', 'text': respuesta});
-        _cargando = false;
-      });
-      _scrollHaciaAbajo();
+
+      final textoBot = resultado['respuesta'] ?? resultado['message'] ?? 'Hola';
+
+      if (mounted) {
+        setState(() {
+          _mensajes.add({'role': 'bot', 'text': textoBot});
+          _cargando = false;
+        });
+        _scrollHaciaAbajo();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _mensajes.add({'role': 'bot', 'text': 'Error: $e'});
+          _cargando = false;
+        });
+        _scrollHaciaAbajo();
+      }
     }
   }
 

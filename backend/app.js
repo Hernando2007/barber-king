@@ -6,9 +6,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 
-import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./docs/swagger.js";
-
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -167,18 +164,7 @@ app.get("/health", (req, res) => {
 
 });
 
-if (
-    process.env.NODE_ENV !==
-    "production"
-) {
 
-    app.use(
-        "/api-docs",
-        swaggerUi.serve,
-        swaggerUi.setup(swaggerSpec)
-    );
-
-}
 
 app.use("/api/auth", authRoutes);
 app.use("/api/usuarios", usuariosRoutes);
