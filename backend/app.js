@@ -163,15 +163,7 @@ app.get("/health", (req, res) => {
 if (
     process.env.NODE_ENV !==
     "production"
-) {
-
-    app.use(
-        "/api-docs",
-        swaggerUi.serve,
-        swaggerUi.setup(swaggerSpec)
-    );
-
-}
+)
 
 app.use("/api/auth", authRoutes);
 app.use("/api/usuarios", usuariosRoutes);
