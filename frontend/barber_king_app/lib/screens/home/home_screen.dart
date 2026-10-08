@@ -3,6 +3,9 @@ import '../haircuth/hairtcut_screen.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../barbero/barbero_home_screen.dart';
+import '../admin/admin_dashboard_screen.dart';
+import '../cliente/cliente_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
 import '../../core/colors.dart';
-import '../../services/auth_service.dart';
+import '../../routes/app_routes.dart';
+import '../../services/registro_service.dart';
+import '../../widgets/common/app_field.dart';
+import 'barber_register_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -10,128 +16,131 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final nombres = TextEditingController();
-  final apellidos = TextEditingController();
-  final correo = TextEditingController();
-  final telefono = TextEditingController();
-  final fecha = TextEditingController();
-  final password = TextEditingController();
-  final confirmar = TextEditingController();
+  final _nombres = TextEditingController();
+  final _apellidos = TextEditingController();
+  final _correo = TextEditingController();
+  final _telefono = TextEditingController();
+  final _fecha = TextEditingController();
+  final _password = TextEditingController();
+  final _confirmar = TextEditingController();
+  final _servicio = RegistroService();
 
-  final auth = AuthService();
-
-  bool cargando = false;
-  bool ocultarPassword = true;
-  bool ocultarConfirmar = true;
-  int rol = 3;
+  int _rol = 3; // 3 = Cliente, 2 = Barbero
+  DateTime? _nacimiento;
+  bool _cargando = false;
 
   @override
   void dispose() {
     for (final c in [
-      nombres,
-      apellidos,
-      correo,
-      telefono,
-      fecha,
-      password,
-      confirmar,
-    ]) {
+      _nombres,
+      _apellidos,
+      _correo,
+      _telefono,
+      _fecha,
+      _password,
+      _confirmar,
+    ])
       c.dispose();
-    }
     super.dispose();
   }
 
-  void mensaje(String texto) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(texto)));
-  }
+  void _aviso(String t) =>
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t)));
 
-  Future<void> seleccionarFecha() async {
+  Future<void> _elegirFecha() async {
+    final hoy = DateTime.now();
     final f = await showDatePicker(
       context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1950),
-      lastDate: DateTime.now(),
+      initialDate: _nacimiento ?? DateTime(hoy.year - 18),
+      firstDate: DateTime(1940),
+      lastDate: hoy,
     );
-
-    if (f != null) {
-      fecha.text =
-          "${f.year}-${f.month.toString().padLeft(2, '0')}-${f.day.toString().padLeft(2, '0')}";
-    }
+    if (f == null) return;
+    setState(() {
+      _nacimiento = f;
+      _fecha.text = DateFormat('dd/MM/yyyy').format(f);
+    });
   }
 
-  Future<void> registrar() async {
-    final campos = [nombres, apellidos, correo, password, confirmar];
+  String? _validar() {
+    if (_nombres.text.trim().isEmpty || _apellidos.text.trim().isEmpty)
+      return 'Escribe tus nombres y apellidos.';
+    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]{2,}$').hasMatch(_correo.text.trim()))
+      return 'Correo electrónico no válido.';
+    if (_password.text.length < 6)
+      return 'La contraseña debe tener mínimo 6 caracteres.';
+    if (_password.text != _confirmar.text)
+      return 'Las contraseñas no coinciden.';
+    return null;
+  }
 
-    if (campos.any((c) => c.text.trim().isEmpty)) {
-      mensaje("Complete todos los campos obligatorios.");
+  Future<void> _crear() async {
+    final error = _validar();
+    if (error != null) {
+      _aviso(error);
       return;
     }
 
-    if (password.text != confirmar.text) {
-      mensaje("Las contraseñas no coinciden.");
+    final fecha = _nacimiento == null
+        ? ''
+        : DateFormat('yyyy-MM-dd').format(_nacimiento!);
+
+    // El barbero completa su perfil en la siguiente pantalla.
+    if (_rol == 2) {
+      final datos = {
+        'nombres': _nombres.text.trim(),
+        'apellidos': _apellidos.text.trim(),
+        'correo': _correo.text.trim(),
+        'telefono': _telefono.text.trim(),
+        'fecha_nacimiento': fecha,
+        'password': _password.text,
+      };
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => BarberRegisterScreen(datos: datos)),
+      );
       return;
     }
 
-    setState(() => cargando = true);
-
-    final respuesta = await auth.registrar(
-      rolId: rol,
-      nombres: nombres.text.trim(),
-      apellidos: apellidos.text.trim(),
-      correo: correo.text.trim(),
-      telefono: telefono.text.trim(),
-      fechaNacimiento: fecha.text.trim(),
-      password: password.text.trim(),
+    setState(() => _cargando = true);
+    final r = await _servicio.registrar(
+      rolId: 3,
+      nombres: _nombres.text,
+      apellidos: _apellidos.text,
+      correo: _correo.text,
+      password: _password.text,
+      telefono: _telefono.text,
+      fechaNacimiento: fecha,
     );
-
     if (!mounted) return;
+    setState(() => _cargando = false);
 
-    setState(() => cargando = false);
-
-    if (respuesta["success"] == true) {
-      mensaje("Usuario registrado correctamente.");
-      Navigator.pop(context);
+    if (r['success'] == true) {
+      _aviso('Cuenta creada. Ya puedes iniciar sesión.');
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     } else {
-      mensaje(respuesta["message"] ?? "Error al registrar.");
+      _aviso(r['message']?.toString() ?? 'No se pudo crear la cuenta.');
     }
   }
 
-  Widget campo(
+  // Campo con separación superior, para no repetir SizedBox.
+  Widget _f(
     String label,
-    IconData icon,
-    TextEditingController controller, {
-    TextInputType? tipo,
-    bool lectura = false,
-    VoidCallback? tocar,
+    String hint,
+    IconData icono,
+    TextEditingController c, {
+    bool password = false,
+    TextInputType? teclado,
   }) {
-    return TextField(
-      controller: controller,
-      keyboardType: tipo,
-      readOnly: lectura,
-      onTap: tocar,
-      decoration: InputDecoration(labelText: label, prefixIcon: Icon(icon)),
-    );
-  }
-
-  Widget campoPassword(
-    String label,
-    IconData icon,
-    TextEditingController controller,
-    bool ocultar,
-    VoidCallback cambiar,
-  ) {
-    return TextField(
-      controller: controller,
-      obscureText: ocultar,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-        suffixIcon: IconButton(
-          onPressed: cambiar,
-          icon: Icon(
-            ocultar ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-          ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: AppField(
+        label: label,
+        hint: hint,
+        icon: icono,
+        controller: c,
+        password: password,
+        keyboard: teclado,
       ),
     );
   }
@@ -141,153 +150,113 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 550),
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppColors.card,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: AppColors.border),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: .08),
-                      blurRadius: 20,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    IconButton(
-                      alignment: Alignment.centerLeft,
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Icon(
-                      Icons.person_add_alt_1_rounded,
-                      color: AppColors.primary,
-                      size: 90,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "CREAR CUENTA",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "Únete a la experiencia premium de Barber King",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.subtitle),
-                    ),
-                    const SizedBox(height: 30),
-
-                    DropdownButtonFormField<int>(
-                      initialValue: rol,
-                      dropdownColor: AppColors.surface,
-                      decoration: const InputDecoration(
-                        labelText: "Tipo de cuenta",
-                        prefixIcon: Icon(Icons.badge_outlined),
-                      ),
-                      items: const [
-                        DropdownMenuItem(value: 3, child: Text("Cliente")),
-                        DropdownMenuItem(value: 2, child: Text("Barbero")),
-                      ],
-                      onChanged: (v) => setState(() => rol = v ?? 3),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    campo("Nombres", Icons.person_outline, nombres),
-                    const SizedBox(height: 18),
-
-                    campo("Apellidos", Icons.person_outline, apellidos),
-                    const SizedBox(height: 18),
-
-                    campo(
-                      "Correo electrónico",
-                      Icons.email_outlined,
-                      correo,
-                      tipo: TextInputType.emailAddress,
-                    ),
-                    const SizedBox(height: 18),
-
-                    campo(
-                      "Teléfono",
-                      Icons.phone_outlined,
-                      telefono,
-                      tipo: TextInputType.phone,
-                    ),
-                    const SizedBox(height: 18),
-
-                    campo(
-                      "Fecha de nacimiento",
-                      Icons.calendar_month_outlined,
-                      fecha,
-                      lectura: true,
-                      tocar: seleccionarFecha,
-                    ),
-                    const SizedBox(height: 18),
-
-                    campoPassword(
-                      "Contraseña",
-                      Icons.lock_outline,
-                      password,
-                      ocultarPassword,
-                      () => setState(() => ocultarPassword = !ocultarPassword),
-                    ),
-                    const SizedBox(height: 18),
-
-                    campoPassword(
-                      "Confirmar contraseña",
-                      Icons.lock_reset_outlined,
-                      confirmar,
-                      ocultarConfirmar,
-                      () =>
-                          setState(() => ocultarConfirmar = !ocultarConfirmar),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    SizedBox(
-                      height: 58,
-                      child: ElevatedButton(
-                        onPressed: cargando ? null : registrar,
-                        child: cargando
-                            ? const SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3,
-                                ),
-                              )
-                            : const Text("CREAR CUENTA"),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("Ya tengo una cuenta"),
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back_ios_new, size: 14),
+                label: const Text('Atrás'),
+              ),
+              Center(
+                child: Text(
+                  'CREAR CUENTA',
+                  style: GoogleFonts.playfairDisplay(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
-            ),
+              const Center(
+                child: Text(
+                  'Vive una experiencia premium en Barber King',
+                  style: TextStyle(color: AppColors.subtitle, fontSize: 12),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'TIPO DE CUENTA',
+                style: TextStyle(
+                  color: AppColors.subtitle,
+                  fontSize: 10,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const SizedBox(height: 6),
+              DropdownButtonFormField<int>(
+                value: _rol,
+                dropdownColor: AppColors.card,
+                iconEnabledColor: AppColors.primary,
+                items: const [
+                  DropdownMenuItem(value: 3, child: Text('Cliente')),
+                  DropdownMenuItem(value: 2, child: Text('Barbero')),
+                ],
+                onChanged: (v) => setState(() => _rol = v ?? 3),
+              ),
+              _f('Nombres', 'Tus nombres', Icons.person_outline, _nombres),
+              _f(
+                'Apellidos',
+                'Tus apellidos',
+                Icons.person_outline,
+                _apellidos,
+              ),
+              _f(
+                'Correo electrónico',
+                'correo@ejemplo.com',
+                Icons.mail_outline,
+                _correo,
+                teclado: TextInputType.emailAddress,
+              ),
+              _f(
+                'Teléfono',
+                '+57 300 000 0000',
+                Icons.phone_outlined,
+                _telefono,
+                teclado: TextInputType.phone,
+              ),
+              GestureDetector(
+                onTap: _elegirFecha,
+                child: AbsorbPointer(
+                  child: _f(
+                    'Fecha de nacimiento',
+                    'DD/MM/AAAA',
+                    Icons.calendar_today_outlined,
+                    _fecha,
+                  ),
+                ),
+              ),
+              _f(
+                'Contraseña',
+                '••••••••',
+                Icons.lock_outline,
+                _password,
+                password: true,
+              ),
+              _f(
+                'Confirmar contraseña',
+                '••••••••',
+                Icons.lock_outline,
+                _confirmar,
+                password: true,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _cargando ? null : _crear,
+                child: _cargando
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.black,
+                        ),
+                      )
+                    : Text(_rol == 2 ? 'CONTINUAR' : 'CREAR CUENTA'),
+              ),
+            ],
           ),
         ),
       ),

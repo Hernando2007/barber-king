@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/colors.dart';
+import '../../core/config/api_config.dart';
 import '../../services/auth_service.dart';
+import '../../services/chat_service.dart';
 
 class ChatIAScreen extends StatefulWidget {
   const ChatIAScreen({super.key});
@@ -18,13 +21,15 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
   final mensajes = <Map<String, dynamic>>[];
   final ImagePicker _picker = ImagePicker();
   final AuthService _authService = AuthService();
+  final ChatService _chatService = ChatService();
 
   String _tokenUsuario = "";
   String? _sesionId;
   bool _cargando = true;
 
-  // URL corregida y exacta según la estructura de tu app.js
-  static const String _baseUrl = 'http://10.0.2.2';
+  // Usa la misma URL base del resto de la aplicación.
+  // Esto evita perder /api y el puerto 3000.
+  static String get _baseUrl => ApiConfig.baseUrl;
 
   @override
   void initState() {
@@ -68,25 +73,17 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
       mensajes.add({'tipo': 'usuario', 'texto': texto});
       _cargando = true;
     });
-
     mensaje.clear();
 
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/chatear'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $_tokenUsuario',
-        },
-        body: jsonEncode({
-          'mensaje': texto,
-          if (_sesionId != null) 'sesionId': _sesionId,
-        }),
+      final data = await _chatService.enviarMensaje(
+        mensaje: texto,
+        sesionId: _sesionId,
       );
 
-      final data = jsonDecode(response.body);
+      if (!mounted) return;
 
-      if (response.statusCode == 200 && data['success'] == true) {
+      if (data['success'] == true) {
         setState(() {
           _sesionId = data['sesionId'];
           mensajes.add({
@@ -98,13 +95,24 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
         setState(() {
           mensajes.add({
             'tipo': 'bot',
-            'texto':
-                data['message'] ??
-                'Ocurrió un inconveniente al procesar el mensaje.',
+            'texto': data['message'] ?? 'No se pudo procesar el mensaje.',
           });
         });
       }
+    } on DioException catch (e) {
+      if (!mounted) return;
+      final status = e.response?.statusCode;
+      final body = e.response?.data;
+      setState(() {
+        mensajes.add({
+          'tipo': 'bot',
+          'texto': status == 404
+              ? 'La ruta de IA no está disponible. Verifica que el backend esté actualizado y reiniciado.'
+              : (body is Map ? (body['message'] ?? 'Error de comunicación con la IA.') : 'Error de comunicación con la IA.'),
+        });
+      });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         mensajes.add({
           'tipo': 'bot',
@@ -112,9 +120,7 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
         });
       });
     } finally {
-      setState(() {
-        _cargando = false;
-      });
+      if (mounted) setState(() => _cargando = false);
     }
   }
 

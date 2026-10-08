@@ -4,17 +4,18 @@ export const obtenerServicios = async () => {
     return await supabase
         .from("servicios")
         .select("*")
-        .order(
-            "id",
-            {
-                ascending: true
-            }
-        );
+        .order("id", { ascending: true });
 };
 
-export const obtenerServicioPorId = async (
-    id
-) => {
+export const obtenerServiciosPorBarbero = async (barberoId) => {
+    return await supabase
+        .from("servicios")
+        .select("*")
+        .eq("barbero_id", barberoId)
+        .order("id", { ascending: true });
+};
+
+export const obtenerServicioPorId = async (id) => {
     return await supabase
         .from("servicios")
         .select("*")
@@ -22,9 +23,7 @@ export const obtenerServicioPorId = async (
         .maybeSingle();
 };
 
-export const crearServicio = async (
-    datos
-) => {
+export const crearServicio = async (datos) => {
     return await supabase
         .from("servicios")
         .insert(datos)
@@ -32,10 +31,7 @@ export const crearServicio = async (
         .single();
 };
 
-export const actualizarServicio = async (
-    id,
-    datos
-) => {
+export const actualizarServicio = async (id, datos) => {
     return await supabase
         .from("servicios")
         .update(datos)
@@ -44,9 +40,7 @@ export const actualizarServicio = async (
         .single();
 };
 
-export const eliminarServicio = async (
-    id
-) => {
+export const eliminarServicio = async (id) => {
     return await supabase
         .from("servicios")
         .delete()

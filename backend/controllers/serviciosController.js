@@ -1,4 +1,4 @@
-import { listarServicios, obtenerUno, registrarServicio, editarServicio, borrarServicio} from "../services/serviciosService.js";
+import { listarServicios, listarMisServicios, obtenerUno, registrarServicio, editarServicio, borrarServicio} from "../services/serviciosService.js";
 
 export const obtenerTodos = async (
     req,
@@ -35,6 +35,13 @@ export const obtenerPorId = async (
         next(error);
     }
 };
+export const misServicios = async (req, res, next) => {
+    try {
+        const servicios = await listarMisServicios(req.usuario);
+        return res.status(200).json({ success: true, total: servicios.length, data: servicios });
+    } catch (error) { next(error); }
+};
+
 export const crear = async (
     req,
     res,
@@ -43,6 +50,7 @@ export const crear = async (
     try {
         const servicio =
             await registrarServicio(
+                req.usuario,
                 req.body
             );
         return res.status(201).json({
@@ -63,6 +71,7 @@ export const actualizar = async (
     try {
         const servicio =
             await editarServicio(
+                req.usuario,
                 req.params.id,
                 req.body
             );

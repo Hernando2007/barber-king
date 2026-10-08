@@ -12,6 +12,8 @@ import '../screens/servicios/servicios_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/chat/chat_ia_screen.dart';
+import '../screens/admin/admin_dashboard_screen.dart';
+import '../screens/horarios/horarios_screen.dart';
 
 class AppRoutes {
   static const splash = "/";
@@ -25,6 +27,8 @@ class AppRoutes {
   static const citas = "/citas";
   static const perfil = "/perfil";
   static const chatIA = '/chat-ia';
+  static const horarios = '/horarios';
+  static const admin = '/admin';
 
   static const forgotPassword = "/forgot-password";
   static const resetPassword = "/reset-password";
@@ -54,5 +58,9 @@ class AppRoutes {
 
     // CORRECCIÓN: Invocación limpia sin parámetros de constructor heredados del contexto
     chatIA: (context) => const ChatIAScreen(),
+
+    horarios: (context) => const HorariosScreen(),
+
+    admin: (context) => const AdminDashboardScreen(),
   };
 }

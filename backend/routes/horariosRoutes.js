@@ -1,0 +1,2 @@
+import express from "express";import{verificarToken}from"../middlewares/authMiddleware.js";import{verificarRol}from"../middlewares/rolMiddleware.js";import{obtener,crearHorario,actualizarHorario,eliminarHorario}from"../controllers/horariosController.js";
+const router=express.Router();router.use(verificarToken,verificarRol("Barbero","Administrador"));router.get("/",obtener);router.post("/",crearHorario);router.put("/:id",actualizarHorario);router.delete("/:id",eliminarHorario);export default router;

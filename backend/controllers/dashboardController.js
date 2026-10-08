@@ -1,4 +1,4 @@
-import { dashboardGeneral } from "../services/dashboardService.js";
+import { dashboardGeneral, dashboardBarbero } from "../services/dashboardService.js";
 
 export const obtenerDashboardAdmin = async (
     req,
@@ -24,4 +24,17 @@ export const obtenerDashboardAdmin = async (
 
     }
 
+};
+
+export const obtenerDashboardBarbero = async (req, res, next) => {
+    try {
+        const data = await dashboardBarbero(req.usuario.id);
+        return res.status(200).json({
+            success: true,
+            message: "Dashboard del barbero obtenido correctamente.",
+            data,
+        });
+    } catch (error) {
+        next(error);
+    }
 };

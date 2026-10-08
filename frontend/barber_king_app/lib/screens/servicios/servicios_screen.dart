@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../services/servicios_service.dart';
+import '../../services/auth_service.dart';
 import 'crear_servicio_screen.dart';
 
 class ServiciosScreen extends StatefulWidget {
@@ -34,8 +35,12 @@ class _ServiciosScreenState
       cargando = true;
     });
 
-    final data =
-        await service.obtenerServicios();
+    final usuario = await AuthService().obtenerUsuario();
+    final rolId = int.tryParse('${usuario?['rol_id'] ?? 3}') ?? 3;
+
+    final data = rolId == 2
+        ? await service.obtenerMisServicios()
+        : await service.obtenerServicios();
 
     if (!mounted) return;
 

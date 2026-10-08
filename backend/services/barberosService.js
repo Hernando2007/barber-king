@@ -1,4 +1,5 @@
 import { obtenerBarberos, obtenerBarberoPorId, obtenerBarberoPorUsuario, crearBarbero, actualizarBarbero, eliminarBarbero } from "../models/barberosModel.js";
+import supabase from "../config/supabase.js";
 
 export const listarBarberos = async () => {
 
@@ -16,7 +17,16 @@ export const listarBarberos = async () => {
 
     }
 
-    return data;
+    const { data: resenas } = await supabase.from("resenas").select("barbero_id,calificacion");
+    const promedio = new Map();
+    for (const r of resenas || []) {
+        const id = Number(r.barbero_id); const item = promedio.get(id) || { total: 0, suma: 0 };
+        item.total += 1; item.suma += Number(r.calificacion || 0); promedio.set(id, item);
+    }
+    return (data || []).map((barbero) => {
+        const item = promedio.get(Number(barbero.id));
+        return { ...barbero, calificacion_promedio: item ? Number((item.suma / item.total).toFixed(1)) : 0, total_resenas: item?.total || 0 };
+    });
 
 };
 

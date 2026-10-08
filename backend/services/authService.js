@@ -2,9 +2,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { buscarPorCorreo, crearUsuario, guardarTokenRecuperacion, actualizarPassword, limpiarToken, actualizarUltimoLogin } from "../models/authModel.js";
 import { enviarCodigoRecuperacion } from "./emailService.js";
+import { crearBarbero } from "../models/barberosModel.js";
 
 export const registrarUsuario = async (
-    usuario
+    usuario,
+    files = {}
 ) => {
     const {
         rol_id,
@@ -65,6 +67,34 @@ export const registrarUsuario = async (
         throw new Error(
             error.message
         );
+    }
+    if (Number(data.rol_id) === 2) {
+        const especialidad = String(
+            usuario.especialidad || ""
+        ).trim();
+
+        if (!especialidad) {
+            throw new Error(
+                "La especialidad es obligatoria para registrarse como barbero."
+            );
+        }
+
+        const diploma = Array.isArray(files.diploma)
+            ? files.diploma[0]
+            : null;
+
+        const { error: barberoError } = await crearBarbero({
+            usuario_id: data.id,
+            especialidad,
+            diploma_url: diploma?.path || diploma?.secure_url || null,
+            diploma_nombre: diploma?.originalname || null,
+            verificacion_estado: diploma ? "pendiente" : "sin_documento",
+            activo: true,
+        });
+
+        if (barberoError) {
+            throw new Error(barberoError.message);
+        }
     }
     return data;
 };

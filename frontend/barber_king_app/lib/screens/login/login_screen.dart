@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../../widgets/auth/brand_header.dart';
+import '../../widgets/common/app_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,57 +14,44 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final correoController = TextEditingController();
-
-  final passwordController = TextEditingController();
-
-  final AuthService authService = AuthService();
-
-  bool cargando = false;
-
-  bool ocultarPassword = true;
+  final _correo = TextEditingController();
+  final _password = TextEditingController();
+  final _auth = AuthService();
+  bool _cargando = false;
 
   @override
   void dispose() {
-    correoController.dispose();
-    passwordController.dispose();
+    _correo.dispose();
+    _password.dispose();
     super.dispose();
   }
 
-  Future<void> login() async {
-    final correo = correoController.text.trim();
+  void _mensaje(String texto) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(texto)));
+  }
 
-    final password = passwordController.text.trim();
+  Future<void> _login() async {
+    final correo = _correo.text.trim();
+    final password = _password.text.trim();
 
     if (correo.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Complete todos los campos.")),
-      );
-
+      _mensaje('Complete todos los campos.');
       return;
     }
 
-    setState(() {
-      cargando = true;
-    });
+    setState(() => _cargando = true);
 
-    final respuesta = await authService.login(
-      correo: correo,
-      contrasena: password,
-    );
+    // POST /api/auth/login -> guarda token y usuario en storage seguro
+    final r = await _auth.login(correo: correo, contrasena: password);
 
     if (!mounted) return;
+    setState(() => _cargando = false);
 
-    setState(() {
-      cargando = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(respuesta["message"] ?? "Proceso completado")),
-    );
-
-    if (respuesta["success"] == true) {
+    if (r['success'] == true) {
+      // HomeScreen decide la vista según rol_id (admin, barbero, cliente)
       Navigator.pushReplacementNamed(context, AppRoutes.home);
+    } else {
+      _mensaje(r['message']?.toString() ?? 'No se pudo iniciar sesión.');
     }
   }
 
@@ -70,150 +59,82 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-
               children: [
-                const Icon(
-                  Icons.content_cut,
-                  size: 90,
-                  color: AppColors.primary,
-                ),
-
-                const SizedBox(height: 20),
-
-                const Text(
-                  "BARBER KING",
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
+                const BrandHeader(subtitle: 'Inicia sesión para continuar'),
+                const SizedBox(height: 28),
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ),
-
-                const SizedBox(height: 10),
-
-                const Text(
-                  "Inicia sesión para continuar",
-                  style: TextStyle(color: AppColors.subtitle),
-                ),
-
-                const SizedBox(height: 40),
-
-                TextField(
-                  controller: correoController,
-
-                  keyboardType: TextInputType.emailAddress,
-
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-
-                  cursorColor: AppColors.primary,
-
-                  decoration: const InputDecoration(
-                    labelText: "Correo electrónico",
-
-                    prefixIcon: Icon(
-                      Icons.email_outlined,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                TextField(
-                  controller: passwordController,
-
-                  obscureText: ocultarPassword,
-
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-
-                  cursorColor: AppColors.primary,
-
-                  decoration: InputDecoration(
-                    labelText: "Contraseña",
-
-                    prefixIcon: const Icon(
-                      Icons.lock_outline,
-                      color: AppColors.primary,
-                    ),
-
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          ocultarPassword = !ocultarPassword;
-                        });
-                      },
-
-                      icon: Icon(
-                        ocultarPassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-
-                        color: AppColors.primary,
+                  child: Column(
+                    children: [
+                      AppField(
+                        label: 'Correo electrónico',
+                        hint: 'correo@ejemplo.com',
+                        icon: Icons.person_outline,
+                        controller: _correo,
+                        keyboard: TextInputType.emailAddress,
                       ),
-                    ),
+                      const SizedBox(height: 14),
+                      AppField(
+                        label: 'Contraseña',
+                        hint: '••••••••',
+                        icon: Icons.lock_outline,
+                        controller: _password,
+                        password: true,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            AppRoutes.forgotPassword,
+                          ),
+                          child: const Text(
+                            '¿Olvidaste tu contraseña?',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: _cargando ? null : _login,
+                        child: _cargando
+                            ? const SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.black,
+                                ),
+                              )
+                            : const Text('INICIAR SESIÓN'),
+                      ),
+                    ],
                   ),
                 ),
-
-                const SizedBox(height: 12),
-
-                Align(
-                  alignment: Alignment.centerRight,
-
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.forgotPassword);
-                    },
-
-                    child: const Text("¿Olvidaste tu contraseña?"),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                SizedBox(
-                  width: double.infinity,
-
-                  height: 55,
-
-                  child: ElevatedButton(
-                    onPressed: cargando ? null : login,
-
-                    child: cargando
-                        ? const SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: CircularProgressIndicator(),
-                          )
-                        : const Text("Iniciar Sesión"),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
+                const SizedBox(height: 18),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-
                   children: [
                     const Text(
-                      "¿No tienes cuenta?",
-                      style: TextStyle(color: AppColors.subtitle),
+                      '¿No tienes cuenta?',
+                      style: TextStyle(color: AppColors.subtitle, fontSize: 13),
                     ),
-
                     TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.register);
-                      },
-
-                      child: const Text("Registrarse"),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, AppRoutes.register),
+                      child: const Text(
+                        'Regístrate',
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
                     ),
                   ],
                 ),

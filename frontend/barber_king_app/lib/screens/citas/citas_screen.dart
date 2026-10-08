@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../../services/auth_service.dart';
 import '../../services/cita_service.dart';
 import 'crear_cita_screen.dart';
 
@@ -12,375 +13,305 @@ class CitasScreen extends StatefulWidget {
 }
 
 class _CitasScreenState extends State<CitasScreen> {
-  final CitaService service = CitaService();
+  final _service = CitaService();
+  final _auth = AuthService();
 
   List<dynamic> citas = [];
-
+  int rolId = 3;
   bool cargando = true;
+
+  bool get esBarbero => rolId == 2;
 
   @override
   void initState() {
     super.initState();
-    cargarCitas();
+    _cargar();
   }
 
-  Future<void> cargarCitas() async {
-    setState(() {
-      cargando = true;
-    });
-
-    final data = await service.obtenerCitas();
+  Future<void> _cargar() async {
+    final usuario = await _auth.obtenerUsuario();
+    final id = int.tryParse('${usuario?['rol_id'] ?? 3}') ?? 3;
+    final data = await _service.obtenerCitas();
 
     if (!mounted) return;
 
     setState(() {
+      rolId = id;
       citas = data;
       cargando = false;
     });
   }
 
-  Future<void> eliminar(int id) async {
-    final confirmar = await showDialog<bool>(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text("Eliminar cita"),
-          content: const Text("¿Deseas eliminar esta cita?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context, false);
-              },
-              child: const Text("Cancelar"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-              child: const Text("Eliminar"),
-            ),
-          ],
-        );
-      },
+  Future<void> _estado(int id, String estado) async {
+    final respuesta = await _service.actualizarCita(
+      id: id,
+      datos: {'estado': estado},
     );
-
-    if (confirmar != true) {
-      return;
-    }
-
-    final respuesta = await service.eliminarCita(id);
 
     if (!mounted) return;
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(respuesta["message"])));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(respuesta['message'] ?? 'Cita actualizada')),
+    );
 
-    if (respuesta["success"] == true) {
-      cargarCitas();
+    if (respuesta['success'] == true) {
+      await _cargar();
     }
   }
 
-  Color colorEstado(String estado) {
+  Future<void> _eliminar(int id) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Cancelar cita'),
+        content: const Text('¿Deseas cancelar esta cita?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('No'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Sí, cancelar'),
+          ),
+        ],
+      ),
+    );
+
+    if (ok != true) return;
+
+    final respuesta = await _service.eliminarCita(id);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(respuesta['message'] ?? 'Cita cancelada')),
+    );
+
+    if (respuesta['success'] == true) {
+      await _cargar();
+    }
+  }
+
+  Color _estadoColor(String estado) {
     switch (estado.toLowerCase()) {
-      case "confirmada":
+      case 'confirmada':
+      case 'completada':
         return AppColors.success;
-
-      case "cancelada":
+      case 'cancelada':
         return AppColors.error;
-
       default:
         return AppColors.primary;
     }
-  }
-
-  Widget citaCard(Map<String, dynamic> cita) {
-    final cliente = cita["usuarios"];
-
-    final servicio = cita["servicios"];
-
-    final nombreCliente = cliente == null
-        ? "Cliente"
-        : "${cliente["nombres"]} ${cliente["apellidos"]}";
-
-    final nombreServicio = servicio?["nombre"] ?? "Servicio";
-
-    final estado = cita["estado"] ?? "Pendiente";
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 18),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 65,
-                  height: 65,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: AppColors.primary.withOpacity(0.15),
-                  ),
-                  child: const Icon(
-                    Icons.calendar_month,
-                    color: AppColors.primary,
-                    size: 30,
-                  ),
-                ),
-
-                const SizedBox(width: 15),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        nombreCliente,
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 4),
-
-                      Text(
-                        nombreServicio,
-                        style: const TextStyle(color: AppColors.subtitle),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 18),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "FECHA",
-                          style: TextStyle(
-                            color: AppColors.subtitle,
-                            fontSize: 11,
-                          ),
-                        ),
-
-                        const SizedBox(height: 5),
-
-                        Text(
-                          cita["fecha"]?.toString() ?? "",
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(width: 12),
-
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "HORA",
-                          style: TextStyle(
-                            color: AppColors.subtitle,
-                            fontSize: 11,
-                          ),
-                        ),
-
-                        const SizedBox(height: 5),
-
-                        Text(
-                          cita["hora"]?.toString() ?? "",
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 18),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colorEstado(estado).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          size: 10,
-                          color: colorEstado(estado),
-                        ),
-
-                        const SizedBox(width: 8),
-
-                        Text(
-                          estado,
-                          style: TextStyle(
-                            color: colorEstado(estado),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(width: 12),
-
-                IconButton(
-                  onPressed: () {
-                    eliminar(cita["id"]);
-                  },
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.black,
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const CrearCitaScreen()),
-          );
-
-          cargarCitas();
-        },
-        icon: const Icon(Icons.add),
-        label: const Text("Nueva cita"),
+      appBar: AppBar(
+        title: Text(esBarbero ? 'Agenda profesional' : 'Mis citas'),
       ),
-
+      floatingActionButton: esBarbero
+          ? null
+          : FloatingActionButton.extended(
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.black,
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CrearCitaScreen(servicioInicial: {}),
+                  ),
+                );
+                await _cargar();
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('Nueva cita'),
+            ),
       body: cargando
           ? const Center(child: CircularProgressIndicator())
-          : SafeArea(
-              child: RefreshIndicator(
-                onRefresh: cargarCitas,
-                child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new,
-                            color: AppColors.primary,
-                          ),
+          : RefreshIndicator(
+              onRefresh: _cargar,
+              child: citas.isEmpty
+                  ? ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const [
+                        SizedBox(height: 170),
+                        Icon(
+                          Icons.event_busy_outlined,
+                          size: 70,
+                          color: AppColors.primary,
                         ),
-
-                        const Expanded(
+                        SizedBox(height: 16),
+                        Center(
                           child: Text(
-                            "Mis Citas",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            'No hay citas registradas.',
+                            style: TextStyle(color: AppColors.subtitle),
                           ),
                         ),
-
-                        const SizedBox(width: 48),
                       ],
+                    )
+                  : ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(18),
+                      itemCount: citas.length,
+                      itemBuilder: (_, index) => _citaCard(citas[index]),
                     ),
+            ),
+    );
+  }
 
-                    const SizedBox(height: 10),
+  Widget _citaCard(Map<String, dynamic> cita) {
+    final cliente = cita['usuarios'];
+    final servicio = cita['servicios'];
+    final nombre = cliente is Map
+        ? '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'.trim()
+        : 'Cliente';
+    final servicioNombre = servicio is Map
+        ? servicio['nombre']?.toString() ?? 'Servicio'
+        : 'Servicio';
+    final estado = cita['estado']?.toString() ?? 'Pendiente';
+    final color = _estadoColor(estado);
 
-                    const Text(
-                      "Administra todas tus reservas.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.subtitle),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    if (citas.isEmpty)
-                      Container(
-                        padding: const EdgeInsets.all(30),
-                        decoration: BoxDecoration(
-                          color: AppColors.card,
-                          borderRadius: BorderRadius.circular(22),
-                          border: Border.all(color: AppColors.border),
-                        ),
-                        child: const Column(
-                          children: [
-                            Icon(
-                              Icons.calendar_month,
-                              size: 70,
-                              color: AppColors.primary,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "No tienes citas registradas",
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: .12),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: const Icon(
+                  Icons.calendar_month_outlined,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      nombre.isEmpty ? 'Cliente' : nombre,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
                       ),
-
-                    ...citas.map((cita) => citaCard(cita)),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      servicioNombre,
+                      style: const TextStyle(color: AppColors.subtitle),
+                    ),
                   ],
                 ),
               ),
+              _estadoChip(estado, color),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: _dato('FECHA', cita['fecha']?.toString() ?? '-')),
+              const SizedBox(width: 10),
+              Expanded(child: _dato('HORA', cita['hora']?.toString() ?? '-')),
+            ],
+          ),
+          if (esBarbero && estado.toLowerCase() != 'cancelada') ...[
+            const SizedBox(height: 15),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () =>
+                        _estado(int.parse('${cita['id']}'), 'Confirmada'),
+                    child: const Text('CONFIRMAR'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () =>
+                        _estado(int.parse('${cita['id']}'), 'Completada'),
+                    child: const Text('COMPLETAR'),
+                  ),
+                ),
+              ],
             ),
+          ] else if (!esBarbero &&
+              estado.toLowerCase() != 'cancelada' &&
+              estado.toLowerCase() != 'completada') ...[
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                onPressed: () => _eliminar(int.parse('${cita['id']}')),
+                icon: const Icon(Icons.cancel_outlined),
+                color: AppColors.error,
+                tooltip: 'Cancelar cita',
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _estadoChip(String estado, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: .12),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        estado,
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.bold,
+          fontSize: 11,
+        ),
+      ),
+    );
+  }
+
+  Widget _dato(String title, String value) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 10),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              color: AppColors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

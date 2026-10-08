@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/colors.dart';
-import '../../services/auth_service.dart';
+import '../core/colors.dart';
+import '../services/auth_service.dart';
 
 class VerificarCodigoScreen extends StatefulWidget {
   final String correo;
