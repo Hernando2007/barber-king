@@ -45,6 +45,7 @@ class _AppFieldState extends State<AppField> {
             color: AppColors.subtitle,
             fontSize: 10,
             letterSpacing: 0.8,
+            fontWeight: FontWeight.bold, // Más marcado para legibilidad
           ),
         ),
         const SizedBox(height: 6),
@@ -53,10 +54,17 @@ class _AppFieldState extends State<AppField> {
           keyboardType: widget.keyboard,
           obscureText: widget.password && _oculto,
           cursorColor: AppColors.primary,
-          style: const TextStyle(color: Colors.white, fontSize: 14),
+          style: const TextStyle(
+            color: AppColors.primary, // Texto escrito oscuro y legible
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
           decoration: InputDecoration(
             hintText: widget.hint,
-            hintStyle: const TextStyle(color: Colors.white38, fontSize: 14),
+            hintStyle: TextStyle(
+              color: AppColors.subtitle.withOpacity(0.6), // Hint oscuro pero suave
+              fontSize: 14,
+            ),
             prefixIcon: Icon(widget.icon, color: AppColors.primary, size: 20),
             suffixIcon: widget.password
                 ? IconButton(

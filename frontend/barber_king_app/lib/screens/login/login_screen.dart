@@ -72,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: BoxDecoration(
                     color: AppColors.card,
                     borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: Column(
                     children: [
@@ -99,12 +100,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: const Text(
                             '¿Olvidaste tu contraseña?',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 8),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.white, // Letras blancas garantizadas
+                          minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                         onPressed: _cargando ? null : _login,
                         child: _cargando
                             ? const SizedBox(
@@ -112,10 +125,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 22,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: AppColors.black,
+                                  color: AppColors.white,
                                 ),
                               )
-                            : const Text('INICIAR SESIÓN'),
+                            : const Text(
+                                'INICIAR SESIÓN',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -133,7 +153,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushNamed(context, AppRoutes.register),
                       child: const Text(
                         'Regístrate',
-                        style: TextStyle(decoration: TextDecoration.underline),
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
                   ],

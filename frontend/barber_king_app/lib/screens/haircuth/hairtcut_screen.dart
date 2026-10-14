@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/colors.dart';
 
 class HaircutScreen extends StatelessWidget {
   const HaircutScreen({super.key});
@@ -6,7 +7,7 @@ class HaircutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
@@ -16,33 +17,35 @@ class HaircutScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFD4AF37)),
+                  icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
                   onPressed: () => Navigator.pop(context),
                 ),
-                Center(
-                  child: const Text(
-                    'HAIRCUT', 
+                const Expanded(
+                  child: Text(
+                    'HAIRCUT',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFD4AF37), 
-                      fontSize: 20, 
-                      fontWeight: FontWeight.bold, 
+                      color: AppColors.primary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
                     ),
                   ),
                 ),
+                const SizedBox(width: 48), // Espacio para equilibrar el icono de atrás
               ],
             ),
             const SizedBox(height: 16),
             
             // Barra de búsqueda
             TextField(
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.primary),
               decoration: InputDecoration(
                 hintText: 'Search haircut...',
-                hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
-                prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.4)),
+                hintStyle: TextStyle(color: AppColors.subtitle.withOpacity(0.6)),
+                prefixIcon: const Icon(Icons.search, color: AppColors.subtitle),
                 filled: true,
-                fillColor: const Color(0xFF1E293B),
+                fillColor: AppColors.surface,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
               ),
             ),
@@ -67,7 +70,7 @@ class HaircutScreen extends StatelessWidget {
             // Sección 1: Destacados / Tendencias
             const Text(
               'TRENDING STYLES',
-              style: TextStyle(color: Color(0xFFD4AF37), fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+              style: TextStyle(color: AppColors.primary, fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.2),
             ),
             const SizedBox(height: 10),
             SizedBox(
@@ -87,7 +90,7 @@ class HaircutScreen extends StatelessWidget {
             // Sección 2: Clásicos y otros estilos
             const Text(
               'CLASSIC & BEARD',
-              style: TextStyle(color: Color(0xFFD4AF37), fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+              style: TextStyle(color: AppColors.primary, fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.2),
             ),
             const SizedBox(height: 10),
             SizedBox(
@@ -104,13 +107,13 @@ class HaircutScreen extends StatelessWidget {
           ],
         ),
       ),
-      // Barra de navegación inferior idéntica a la del Home
+      // Barra de navegación inferior
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B),
+          color: AppColors.card,
           border: Border(
-            top: BorderSide(color: const Color(0xFFD4AF37).withOpacity(0.3), width: 1),
+            top: BorderSide(color: AppColors.border, width: 1),
           ),
         ),
         child: Row(
@@ -132,15 +135,15 @@ class HaircutScreen extends StatelessWidget {
     margin: const EdgeInsets.only(right: 10),
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
     decoration: BoxDecoration(
-      color: isSelected ? const Color(0xFFD4AF37) : const Color(0xFF1E293B),
+      color: isSelected ? AppColors.primary : AppColors.surface,
       borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.5)),
+      border: Border.all(color: AppColors.border),
     ),
     child: Center(
       child: Text(
         label,
         style: TextStyle(
-          color: isSelected ? const Color(0xFF0F172A) : Colors.white,
+          color: isSelected ? AppColors.white : AppColors.primary,
           fontWeight: FontWeight.bold,
           fontSize: 12,
         ),
@@ -148,37 +151,62 @@ class HaircutScreen extends StatelessWidget {
     ),
   );
 
-  // Tarjeta con el estilo idéntico al de la pantalla principal (Home)
+  // Tarjeta de corte adaptada a modo claro
+ // Tarjeta de corte optimizada para mejor visualización del nombre
   Widget _haircutCard(String title, String subtitle, String price) => Container(
-    width: 155,
+    width: 172, // Ancho ampliado para que el nombre quepa holgadamente
     margin: const EdgeInsets.only(right: 14),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
     decoration: BoxDecoration(
-      color: const Color(0xFF1E293B), 
+      color: AppColors.card, 
       borderRadius: BorderRadius.circular(16), 
-      border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3)),
+      border: Border.all(color: AppColors.border),
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // Contenedor de la imagen grande
         Container(
-          height: 140, 
+          height: 125, // Altura de la imagen ajustada proporcionalmente
           width: double.infinity,
-          margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.grey[800], 
+            color: AppColors.surface, 
             borderRadius: BorderRadius.circular(12),
           ),
           child: const Center(
-            child: Icon(Icons.content_cut, color: Colors.white54, size: 40),
+            child: Icon(Icons.content_cut, color: AppColors.subtitle, size: 36),
           ),
         ),
-        const SizedBox(height: 2),
-        Text(title, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 2),
-        Text(subtitle, textAlign: TextAlign.center, style: const TextStyle(color: Color(0xFFD4AF37), fontSize: 9)),
+        const SizedBox(height: 10),
+        Text(
+          title, 
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: AppColors.primary, 
+            fontSize: 13, 
+            fontWeight: FontWeight.w900,
+          ),
+        ),
         const SizedBox(height: 4),
-        Text(price, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+        Text(
+          subtitle, 
+          textAlign: TextAlign.center, 
+          maxLines: 2,
+          style: const TextStyle(
+            color: AppColors.subtitle, 
+            fontSize: 9,
+            height: 1.1,
+          ),
+        ),
+        const Spacer(),
+        Text(
+          price, 
+          style: const TextStyle(
+            color: AppColors.primary, 
+            fontSize: 12, 
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     ),
   );
@@ -189,13 +217,13 @@ class HaircutScreen extends StatelessWidget {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: active ? const Color(0xFFD4AF37) : Colors.white60, size: 28),
+        Icon(icon, color: active ? AppColors.primary : AppColors.subtitle, size: 26),
         const SizedBox(height: 4),
         Text(
           label, 
           style: TextStyle(
-            color: active ? const Color(0xFFD4AF37) : Colors.white60, 
-            fontSize: 11, 
+            color: active ? AppColors.primary : AppColors.subtitle, 
+            fontSize: 10, 
             fontWeight: active ? FontWeight.bold : FontWeight.normal,
           ),
         ),

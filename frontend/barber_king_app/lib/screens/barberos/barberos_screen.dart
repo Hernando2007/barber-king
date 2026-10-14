@@ -73,7 +73,7 @@ class _BarberosScreenState extends State<BarberosScreen> {
                       Text(nombreBarbero(b),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                          style: const TextStyle(color: AppColors.primary, fontSize: 16, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 2),
                       Text(especialidad,
                           maxLines: 1,
@@ -126,9 +126,9 @@ class _BarberosScreenState extends State<BarberosScreen> {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Icon(icon, color: Colors.white60, size: 28),
+          Icon(icon, color: AppColors.subtitle, size: 26),
           const SizedBox(height: 4),
-          Text(label, style: const TextStyle(color: Colors.white60, fontSize: 11)),
+          Text(label, style: const TextStyle(color: AppColors.subtitle, fontSize: 10)),
         ]),
       );
  
@@ -143,9 +143,9 @@ class _BarberosScreenState extends State<BarberosScreen> {
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             _navItem(Icons.home_filled, 'HOME',
                 () => Navigator.popUntil(context, (r) => r.isFirst)),
-            _navItem(Icons.search, 'SEARCH', () {}), // TODO
-            _navItem(Icons.person_outline, 'PROFILE', () {}), // TODO
-            _navItem(Icons.camera_alt_outlined, 'CAMERA IA', () {}), // TODO
+            _navItem(Icons.search, 'SEARCH', () {}),
+            _navItem(Icons.person_outline, 'PROFILE', () {}),
+            _navItem(Icons.camera_alt_outlined, 'CAMERA IA', () {}),
             _navItem(Icons.calendar_today_outlined, 'BOOK', _abrirCita),
           ]),
         ),
@@ -180,11 +180,10 @@ class _BarberosScreenState extends State<BarberosScreen> {
             _encabezado(),
             Divider(color: AppColors.border.withValues(alpha: 0.6), indent: 16, endIndent: 16),
             Expanded(
-              child: _cargando ? const Center(child: CircularProgressIndicator()) : _lista(),
+              child: _cargando ? const Center(child: CircularProgressIndicator(color: AppColors.primary)) : _lista(),
             ),
           ]),
         ),
         bottomNavigationBar: _barraInferior(),
       );
 }
- 

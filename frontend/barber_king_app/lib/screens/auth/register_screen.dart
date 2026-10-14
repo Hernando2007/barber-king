@@ -39,8 +39,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _fecha,
       _password,
       _confirmar,
-    ])
+    ]) {
       c.dispose();
+    }
     super.dispose();
   }
 
@@ -63,14 +64,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? _validar() {
-    if (_nombres.text.trim().isEmpty || _apellidos.text.trim().isEmpty)
+    if (_nombres.text.trim().isEmpty || _apellidos.text.trim().isEmpty) {
       return 'Escribe tus nombres y apellidos.';
-    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]{2,}$').hasMatch(_correo.text.trim()))
+    }
+    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]{2,}$').hasMatch(_correo.text.trim())) {
       return 'Correo electrónico no válido.';
-    if (_password.text.length < 6)
+    }
+    if (_password.text.length < 6) {
       return 'La contraseña debe tener mínimo 6 caracteres.';
-    if (_password.text != _confirmar.text)
+    }
+    if (_password.text != _confirmar.text) {
       return 'Las contraseñas no coinciden.';
+    }
     return null;
   }
 
@@ -85,7 +90,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ? ''
         : DateFormat('yyyy-MM-dd').format(_nacimiento!);
 
-    // El barbero completa su perfil en la siguiente pantalla.
     if (_rol == 2) {
       final datos = {
         'nombres': _nombres.text.trim(),
@@ -123,7 +127,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  // Campo con separación superior, para no repetir SizedBox.
   Widget _f(
     String label,
     String hint,
@@ -157,14 +160,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               TextButton.icon(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back_ios_new, size: 14),
-                label: const Text('Atrás'),
+                icon: const Icon(Icons.arrow_back_ios_new, size: 14, color: AppColors.primary),
+                label: const Text('Atrás', style: TextStyle(color: AppColors.primary)),
               ),
               Center(
                 child: Text(
                   'CREAR CUENTA',
                   style: GoogleFonts.playfairDisplay(
-                    color: Colors.white,
+                    color: AppColors.primary, // Título oscuro de alta legibilidad
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
                   ),
@@ -183,26 +186,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   color: AppColors.subtitle,
                   fontSize: 10,
                   letterSpacing: 0.8,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 6),
-              DropdownButtonFormField<int>(
-                value: _rol,
-                dropdownColor: AppColors.card,
-                iconEnabledColor: AppColors.primary,
-                items: const [
-                  DropdownMenuItem(value: 3, child: Text('Cliente')),
-                  DropdownMenuItem(value: 2, child: Text('Barbero')),
-                ],
-                onChanged: (v) => setState(() => _rol = v ?? 3),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<int>(
+                    value: _rol,
+                    dropdownColor: AppColors.card,
+                    iconEnabledColor: AppColors.primary,
+                    isExpanded: true,
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 3,
+                        child: Text('Cliente', style: TextStyle(color: AppColors.primary)),
+                      ),
+                      DropdownMenuItem(
+                        value: 2,
+                        child: Text('Barbero', style: TextStyle(color: AppColors.primary)),
+                      ),
+                    ],
+                    onChanged: (v) => setState(() => _rol = v ?? 3),
+                  ),
+                ),
               ),
               _f('Nombres', 'Tus nombres', Icons.person_outline, _nombres),
-              _f(
-                'Apellidos',
-                'Tus apellidos',
-                Icons.person_outline,
-                _apellidos,
-              ),
+              _f('Apellidos', 'Tus apellidos', Icons.person_outline, _apellidos),
               _f(
                 'Correo electrónico',
                 'correo@ejemplo.com',
@@ -244,6 +265,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.white, // Letras blancas garantizadas sobre el botón negro
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
                 onPressed: _cargando ? null : _crear,
                 child: _cargando
                     ? const SizedBox(
@@ -251,10 +280,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 22,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: AppColors.black,
+                          color: AppColors.white,
                         ),
                       )
-                    : Text(_rol == 2 ? 'CONTINUAR' : 'CREAR CUENTA'),
+                    : Text(
+                        _rol == 2 ? 'CONTINUAR' : 'CREAR CUENTA',
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
+                        ),
+                      ),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/colors.dart';
 import '../haircuth/hairtcut_screen.dart';
 import '../barberos/barberos_screen.dart';
 
@@ -8,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: AppColors.background, // Fondo blanco limpio
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
@@ -17,31 +18,39 @@ class HomeScreen extends StatelessWidget {
               child: Text(
                 'BARBER KING',
                 style: TextStyle(
-                  color: Color(0xFFD4AF37),
+                  color: AppColors.primary,
                   fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
                   letterSpacing: 2,
                 ),
               ),
             ),
             const SizedBox(height: 20),
 
-            // Barra de búsqueda
+            // Barra de búsqueda adaptada a modo claro
             TextField(
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.primary),
               decoration: InputDecoration(
                 hintText: 'Search...',
-                hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
-                prefixIcon: Icon(
+                hintStyle: TextStyle(color: AppColors.subtitle.withOpacity(0.6)),
+                prefixIcon: const Icon(
                   Icons.search,
-                  color: Colors.white.withOpacity(0.4),
+                  color: AppColors.subtitle,
                 ),
-                suffixIcon: const Icon(Icons.tune, color: Color(0xFFD4AF37)),
+                suffixIcon: const Icon(Icons.tune, color: AppColors.primary),
                 filled: true,
-                fillColor: const Color(0xFF1E293B),
+                fillColor: AppColors.surface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
+                  borderSide: const BorderSide(color: AppColors.border),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(color: AppColors.border),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
                 ),
               ),
             ),
@@ -114,10 +123,10 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B),
+          color: AppColors.card,
           border: Border(
             top: BorderSide(
-              color: const Color(0xFFD4AF37).withOpacity(0.3),
+              color: AppColors.border,
               width: 1,
             ),
           ),
@@ -136,47 +145,49 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _topBtn(IconData icon, String label, bool active) => Column(
+Widget _topBtn(IconData icon, String label, bool active) => Column(
     children: [
       Container(
         width: 70,
         height: 70,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: active ? const Color(0xFFD4AF37) : const Color(0xFF1E293B),
-          border: Border.all(color: const Color(0xFFD4AF37)),
+          color: AppColors.surface, // Mismo fondo uniforme para todos
+          border: Border.all(
+            color: AppColors.border, // Mismo borde sutil para todos
+            width: 1.5,
+          ),
         ),
         child: Icon(
           icon,
-          color: active ? const Color(0xFF0F172A) : const Color(0xFFD4AF37),
+          color: AppColors.primary, // Ícono oscuro consistente
           size: 30,
         ),
       ),
       const SizedBox(height: 6),
       Text(
         label,
-        style: TextStyle(
-          color: active ? const Color(0xFFD4AF37) : Colors.white54,
+        style: const TextStyle(
+          color: AppColors.subtitle, // Texto uniforme y legible
           fontSize: 11,
           fontWeight: FontWeight.bold,
         ),
       ),
     ],
   );
-
   Widget _sectionTitle(String title) => Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Text(
         title,
         style: const TextStyle(
-          color: Color(0xFFD4AF37),
+          color: AppColors.primary,
           fontSize: 18,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.2,
         ),
       ),
-      const Icon(Icons.chevron_right, color: Color(0xFFD4AF37)),
+      const Icon(Icons.chevron_right, color: AppColors.primary),
     ],
   );
 
@@ -194,30 +205,30 @@ class HomeScreen extends StatelessWidget {
     width: 155,
     margin: const EdgeInsets.only(right: 14),
     decoration: BoxDecoration(
-      color: const Color(0xFF1E293B),
+      color: AppColors.card,
       borderRadius: BorderRadius.circular(16),
-      border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3)),
+      border: Border.all(color: AppColors.border),
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: 160,
+          height: 150,
           width: double.infinity,
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.grey[800],
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(12),
           ),
           child: const Center(
-            child: Icon(Icons.image, color: Colors.white54, size: 45),
+            child: Icon(Icons.image_outlined, color: AppColors.subtitle, size: 40),
           ),
         ),
         const SizedBox(height: 4),
         Text(
           title,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.primary,
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
@@ -227,8 +238,9 @@ class HomeScreen extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isHaircut ? const Color(0xFFD4AF37) : Colors.white54,
+            color: isHaircut ? AppColors.primaryLight : AppColors.subtitle,
             fontSize: 9,
+            fontWeight: FontWeight.w500,
           ),
         ),
         if (!isHaircut) ...[
@@ -239,7 +251,7 @@ class HomeScreen extends StatelessWidget {
               5,
               (i) => Icon(
                 i < rating ? Icons.star : Icons.star_border,
-                color: const Color(0xFFD4AF37),
+                color: Colors.amber[750] ?? Colors.orange,
                 size: 12,
               ),
             ),
@@ -254,15 +266,15 @@ class HomeScreen extends StatelessWidget {
     children: [
       Icon(
         icon,
-        color: active ? const Color(0xFFD4AF37) : Colors.white60,
-        size: 28,
+        color: active ? AppColors.primary : AppColors.subtitle,
+        size: 26,
       ),
       const SizedBox(height: 4),
       Text(
         label,
         style: TextStyle(
-          color: active ? const Color(0xFFD4AF37) : Colors.white60,
-          fontSize: 11,
+          color: active ? AppColors.primary : AppColors.subtitle,
+          fontSize: 10,
           fontWeight: active ? FontWeight.bold : FontWeight.normal,
         ),
       ),
