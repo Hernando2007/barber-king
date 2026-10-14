@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../login/login_screen.dart';
+import 'package:barber_king_app/screens/login/login_screen.dart';
 
 class PasswordChangedScreen extends StatelessWidget {
   const PasswordChangedScreen({super.key});
@@ -38,9 +37,7 @@ class PasswordChangedScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-
                     MaterialPageRoute(builder: (_) => const LoginScreen()),
-
                     (_) => false,
                   );
                 },

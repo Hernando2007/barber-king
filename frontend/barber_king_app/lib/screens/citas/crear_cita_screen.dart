@@ -1,391 +1,278 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/colors.dart';
+import '../../routes/app_routes.dart';
 import '../../services/barbero_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/disponibilidad_service.dart';
 import '../../services/servicios_service.dart';
+import '../../widgets/common/gold_cajas.dart';
+import '../../widgets/common/gold_widgets.dart';
+
+typedef _Mapa = Map<String, dynamic>;
 
 class CrearCitaScreen extends StatefulWidget {
-  const CrearCitaScreen({super.key, required Map<String, dynamic> servicioInicial, int? barberoInicialId, String? observaciones});
+  final int? barberoInicialId;
+  // ignore: library_private_types_in_public_api
+  final _Mapa? servicioInicial;
+  final String? observaciones;
+
+  const CrearCitaScreen({
+    super.key,
+    this.barberoInicialId,
+    this.servicioInicial,
+    this.observaciones,
+  });
 
   @override
   State<CrearCitaScreen> createState() => _CrearCitaScreenState();
 }
 
 class _CrearCitaScreenState extends State<CrearCitaScreen> {
-  final ServicioService servicioService = ServicioService();
-
-  final BarberoService barberoService = BarberoService();
-
-  final CitaService citaService = CitaService();
-
-  final DisponibilidadService disponibilidadService =
-      DisponibilidadService();
-
-  List servicios = [];
-
-  List barberos = [];
-
-  List horarios = [];
-
-  dynamic servicioSeleccionado;
-
-  dynamic barberoSeleccionado;
-
-  String? horaSeleccionada;
-
-  DateTime fecha = DateTime.now();
-
-  bool cargando = true;
-
-  bool creando = false;
+  List<_Mapa> _barberos = [];
+  List<_Mapa> _servicios = [];
+  int? _barberoId;
+  int? _servicioId;
+  DateTime? _fecha;
+  String? _hora;
+  bool _cargando = true;
+  bool _enviando = false;
 
   @override
   void initState() {
     super.initState();
-    cargarDatos();
+    _barberoId = widget.barberoInicialId;
+    _servicioId = int.tryParse('${widget.servicioInicial?['id']}');
+    _cargar();
   }
 
-  Future<void> cargarDatos() async {
-    final s = await servicioService.obtenerServicios();
+  void _aviso(String t) =>
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t)));
 
-    final b = await barberoService.obtenerBarberos();
-
-    if (!mounted) return;
-
+  // Al cambiar servicio o barbero, la hora elegida deja de ser válida.
+  void _cambiar({int? barbero, int? servicio}) {
     setState(() {
-      servicios = s;
-      barberos = b;
-      cargando = false;
+      _barberoId = barbero ?? _barberoId;
+      _servicioId = servicio ?? _servicioId;
+      _fecha = null;
+      _hora = null;
     });
   }
 
-  Future<void> consultarDisponibilidad() async {
-    if (barberoSeleccionado == null ||
-        servicioSeleccionado == null) {
+  Future<void> _cargar() async {
+    final r = await Future.wait([
+      BarberoService().obtenerBarberos(),
+      ServicioService().obtenerServicios(),
+    ]);
+    if (!mounted) return;
+    _Mapa mapa(e) => Map<String, dynamic>.from(e as Map);
+    setState(() {
+      _barberos = r[0].map(mapa).toList();
+      _servicios = r[1].map(mapa).where((s) => s['estado'] != false).toList();
+      _cargando = false;
+    });
+  }
+
+  _Mapa? get _barbero =>
+      _barberos.where((b) => b['id'] == _barberoId).firstOrNull;
+
+  Future<void> _elegirHorario() async {
+    if (_barberoId == null || _servicioId == null) {
+      _aviso('Primero elige el servicio y el barbero.');
       return;
     }
 
-    final data =
-        await disponibilidadService.consultarDisponibilidad(
-      barberoId: barberoSeleccionado["id"],
-      servicioId: servicioSeleccionado["id"],
-      fecha: fecha.toIso8601String().split("T").first,
+    final hoy = DateTime.now();
+    final f = await showDatePicker(
+      context: context,
+      initialDate: _fecha ?? hoy,
+      firstDate: hoy,
+      lastDate: hoy.add(const Duration(days: 60)),
     );
-
+    if (f == null) return;
+    final slots = await DisponibilidadService().consultarDisponibilidad(
+      barberoId: _barberoId!,
+      servicioId: _servicioId!,
+      fecha: DateFormat('yyyy-MM-dd').format(f),
+    );
     if (!mounted) return;
+    // Si es hoy, se ocultan las horas que ya pasaron.
+    final libres = slots.map((e) => '$e').where((h) {
+      final p = h.split(':');
+      return !DateUtils.isSameDay(f, hoy) ||
+          int.parse(p[0]) * 60 + int.parse(p[1]) > hoy.hour * 60 + hoy.minute;
+    }).toList();
 
-    setState(() {
-      horarios = data;
-      horaSeleccionada = null;
-    });
-  }
-
-  Future<void> crearCita() async {
-    if (horaSeleccionada == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Seleccione un horario."),
-        ),
-      );
+    if (libres.isEmpty) {
+      _aviso('No hay horarios disponibles ese día.');
       return;
     }
 
-    setState(() {
-      creando = true;
-    });
-
-    final respuesta = await citaService.crearCita(
-      barberoId: barberoSeleccionado["id"],
-      servicioId: servicioSeleccionado["id"],
-      fecha: fecha.toIso8601String().split("T").first,
-      hora: horaSeleccionada!,
-    );
-
-    if (!mounted) return;
-
-    setState(() {
-      creando = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(respuesta["message"]),
-      ),
-    );
-
-    if (respuesta["success"] == true) {
-      Navigator.pop(context);
-    }
-  }
-
-  Widget sectionTitle(String text) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: AppColors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+    final hora = await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: AppColors.card,
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final h in libres)
+              ActionChip(
+                label: Text(h),
+                onPressed: () => Navigator.pop(ctx, h),
+              ),
+          ],
         ),
       ),
     );
+    if (hora != null) {
+      setState(() {
+        _fecha = f;
+        _hora = hora;
+      });
+    }
+  }
+
+  Future<void> _confirmar() async {
+    if (_servicioId == null ||
+        _barberoId == null ||
+        _fecha == null ||
+        _hora == null) {
+      _aviso('Completa servicio, barbero, fecha y hora.');
+      return;
+    }
+    setState(() => _enviando = true);
+    final r = await CitaService().crearCita(
+      barberoId: _barberoId!,
+      servicioId: _servicioId!,
+      fecha: DateFormat('yyyy-MM-dd').format(_fecha!),
+      hora: _hora!,
+      observaciones: widget.observaciones,
+    );
+    if (!mounted) return;
+    setState(() => _enviando = false);
+
+    if (r['success'] == true) {
+      _aviso('Cita reservada correctamente.');
+      Navigator.pushReplacementNamed(context, AppRoutes.citas);
+    } else {
+      _aviso(r['message']?.toString() ?? 'No se pudo reservar la cita.');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final fotos = ((_barbero?['portafolio'] as List?) ?? [])
+        .map((e) => '$e')
+        .toList();
+
     return Scaffold(
       backgroundColor: AppColors.background,
-
-      appBar: AppBar(
-        title: const Text("Reservar Cita"),
-      ),
-
-      body: cargando
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-
+      body: SafeArea(
+        child: _cargando
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-
-                    decoration: BoxDecoration(
-                      color: AppColors.card,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        color: AppColors.border,
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back_ios_new, size: 18),
                       ),
-                    ),
-
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          color: AppColors.primary,
-                          size: 45,
+                      Expanded(
+                        child: Text(
+                          'RESERVAR CITA',
+                          style: tituloSerif(size: 20),
                         ),
-                        SizedBox(width: 15),
-                        Expanded(
-                          child: Text(
-                            "Agenda tu cita con los mejores barberos",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  const Center(
+                    child: IconoCirculo(Icons.edit_calendar_outlined, tam: 66),
+                  ),
+                  const SizedBox(height: 16),
+                  CajaSeccion(
+                    'TRABAJOS DEL BARBERO',
+                    fotos.isEmpty
+                        ? const Text(
+                            'Elige un barbero para ver su portafolio.',
                             style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  sectionTitle("Servicio"),
-
-                  const SizedBox(height: 10),
-
-                  DropdownButtonFormField(
-                    value: servicioSeleccionado,
-
-                    dropdownColor: AppColors.surface,
-
-                    decoration: const InputDecoration(
-                      hintText: "Seleccione un servicio",
-                    ),
-
-                    items: servicios.map((s) {
-                      return DropdownMenuItem(
-                        value: s,
-                        child: Text(
-                          s["nombre"],
-                        ),
-                      );
-                    }).toList(),
-
-                    onChanged: (v) async {
-                      setState(() {
-                        servicioSeleccionado = v;
-                      });
-
-                      await consultarDisponibilidad();
-                    },
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  sectionTitle("Barbero"),
-
-                  const SizedBox(height: 10),
-
-                  DropdownButtonFormField(
-                    value: barberoSeleccionado,
-
-                    dropdownColor: AppColors.surface,
-
-                    decoration: const InputDecoration(
-                      hintText: "Seleccione un barbero",
-                    ),
-
-                    items: barberos.map((b) {
-                      final usuario = b["usuarios"];
-
-                      return DropdownMenuItem(
-                        value: b,
-                        child: Text(
-                          "${usuario["nombres"]} ${usuario["apellidos"]}",
-                        ),
-                      );
-                    }).toList(),
-
-                    onChanged: (v) async {
-                      setState(() {
-                        barberoSeleccionado = v;
-                      });
-
-                      await consultarDisponibilidad();
-                    },
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  sectionTitle("Fecha"),
-
-                  const SizedBox(height: 10),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(18),
-
-                    onTap: () async {
-                      final picked =
-                          await showDatePicker(
-                        context: context,
-                        initialDate: fecha,
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(
-                          const Duration(days: 90),
-                        ),
-                      );
-
-                      if (picked != null) {
-                        setState(() {
-                          fecha = picked;
-                        });
-
-                        await consultarDisponibilidad();
-                      }
-                    },
-
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-
-                      decoration: BoxDecoration(
-                        color: AppColors.surface,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: AppColors.border,
-                        ),
-                      ),
-
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.event,
-                            color: AppColors.primary,
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            fecha
-                                .toIso8601String()
-                                .split("T")
-                                .first,
-                            style: const TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w600,
+                              color: AppColors.subtitle,
+                              fontSize: 12,
                             ),
                           )
-                        ],
+                        : FotosHorizontal(fotos),
+                  ),
+                  CajaSeccion(
+                    'TIPO DE SERVICIO',
+                    ServiciosSelector(
+                      servicios: _servicios,
+                      seleccionado: _servicioId,
+                      onSeleccion: (s) => _cambiar(servicio: s['id'] as int?),
+                    ),
+                  ),
+                  const EtiquetaCampo('Seleccionar barbero'),
+                  DropdownButtonFormField<int>(
+                    initialValue: _barbero == null ? null : _barberoId,
+                    isExpanded: true,
+                    hint: const Text('Barberos disponibles'),
+                    dropdownColor: AppColors.card,
+                    iconEnabledColor: AppColors.primary,
+                    items: [
+                      for (final b in _barberos)
+                        DropdownMenuItem(
+                          value: b['id'] as int,
+                          child: Text(
+                            nombreBarbero(b),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
+                    onChanged: (v) => _cambiar(barbero: v),
+                  ),
+                  const SizedBox(height: 14),
+                  const EtiquetaCampo('Seleccionar fecha y hora'),
+                  GestureDetector(
+                    onTap: _elegirHorario,
+                    child: InputDecorator(
+                      decoration: const InputDecoration(
+                        suffixIcon: Icon(
+                          Icons.expand_more,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      child: Text(
+                        _hora == null
+                            ? 'Elegir fecha y hora'
+                            : '${DateFormat('dd/MM/yyyy').format(_fecha!)} · $_hora',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: _hora == null ? Colors.white54 : Colors.white,
+                        ),
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 30),
-
-                  sectionTitle("Horarios Disponibles"),
-
-                  const SizedBox(height: 15),
-
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-
-                    children: horarios.map<Widget>((h) {
-                      final hora = h.toString();
-
-                      final seleccionado =
-                          horaSeleccionada == hora;
-
-                      return ChoiceChip(
-                        label: Text(hora),
-
-                        selected: seleccionado,
-
-                        selectedColor:
-                            AppColors.primary,
-
-                        backgroundColor:
-                            AppColors.surface,
-
-                        labelStyle: TextStyle(
-                          color: seleccionado
-                              ? Colors.black
-                              : Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-
-                        onSelected: (_) {
-                          setState(() {
-                            horaSeleccionada = hora;
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  SizedBox(
-                    width: double.infinity,
-                    height: 58,
-
-                    child: ElevatedButton(
-                      onPressed:
-                          creando ? null : crearCita,
-
-                      child: creando
-                          ? const CircularProgressIndicator()
-                          : const Text(
-                              "CONFIRMAR RESERVA",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                  const SizedBox(height: 22),
+                  ElevatedButton(
+                    onPressed: _enviando ? null : _confirmar,
+                    child: _enviando
+                        ? const SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.black,
                             ),
-                    ),
+                          )
+                        : const Text('CONFIRMAR RESERVA'),
                   ),
-
-                  const SizedBox(height: 30),
                 ],
               ),
-            ),
+      ),
     );
   }
 }

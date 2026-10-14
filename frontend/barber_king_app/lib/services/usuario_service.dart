@@ -20,12 +20,29 @@ class UsuarioService {
     }
   }
 
+  /// PUT /api/usuarios/me (nombres, apellidos, telefono, fecha_nacimiento).
+  Future<Map<String, dynamic>> actualizarPerfil(
+    Map<String, dynamic> datos,
+  ) async {
+    try {
+      final response = await _api.dio.put('/usuarios/me', data: datos);
+      return Map<String, dynamic>.from(response.data);
+    } on DioException catch (e) {
+      final data = e.response?.data;
+
+      return {
+        'success': false,
+        'message': data is Map && data['message'] != null
+            ? data['message'].toString()
+            : 'No se pudo actualizar el perfil.',
+      };
+    }
+  }
+
   Future<Map<String, dynamic>?> obtenerUsuario(int id) async {
     try {
       final response = await _api.dio.get('/usuarios/$id');
-      return Map<String, dynamic>.from(
-        response.data['data'],
-      );
+      return Map<String, dynamic>.from(response.data['data']);
     } catch (_) {
       return null;
     }
@@ -33,7 +50,8 @@ class UsuarioService {
 
   String nombreCompleto(Map<String, dynamic> usuario) {
     return '${usuario['nombres'] ?? ''} '
-        '${usuario['apellidos'] ?? ''}'.trim();
+            '${usuario['apellidos'] ?? ''}'
+        .trim();
   }
 
   String rolUsuario(Map<String, dynamic> usuario) {

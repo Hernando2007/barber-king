@@ -1,26 +1,25 @@
+import 'package:barber_king_app/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/admin/admin_dashboard_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
+import '../screens/auth/register_screen.dart';
 import '../screens/auth/reset_password_screen.dart';
 import '../screens/barberos/barberos_screen.dart';
+import '../screens/chat/chat_ia_screen.dart';
 import '../screens/citas/citas_screen.dart';
 import '../screens/home/home_screen.dart';
-import '../screens/login/login_screen.dart';
+import '../screens/horarios/horarios_screen.dart';
 import '../screens/perfil/perfil_screen.dart';
 import '../screens/servicios/crear_servicio_screen.dart';
 import '../screens/servicios/servicios_screen.dart';
 import '../screens/splash/splash_screen.dart';
-import '../screens/auth/register_screen.dart';
-import '../screens/chat/chat_ia_screen.dart';
-import '../screens/admin/admin_dashboard_screen.dart';
-import '../screens/horarios/horarios_screen.dart';
 
 class AppRoutes {
   static const splash = "/";
   static const login = "/login";
   static const home = "/home";
   static const register = "/register";
-
   static const servicios = "/servicios";
   static const crearServicio = "/crear-servicio";
   static const barberos = "/barberos";
@@ -29,38 +28,24 @@ class AppRoutes {
   static const chatIA = '/chat-ia';
   static const horarios = '/horarios';
   static const admin = '/admin';
-
   static const forgotPassword = "/forgot-password";
   static const resetPassword = "/reset-password";
 
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => const SplashScreen(),
-
+    // El login ahora es el de "tipo de usuario" (pestañas Cliente / Barbero).
     login: (context) => const LoginScreen(),
-
     register: (context) => const RegisterScreen(),
-
     home: (context) => const HomeScreen(),
-
     servicios: (context) => const ServiciosScreen(),
-
     crearServicio: (context) => const CrearServicioScreen(),
-
     barberos: (context) => const BarberosScreen(),
-
     citas: (context) => const CitasScreen(),
-
     perfil: (context) => const PerfilScreen(),
-
     forgotPassword: (context) => const ForgotPasswordScreen(),
-
     resetPassword: (context) => const ResetPasswordScreen(),
-
-    // CORRECCIÓN: Invocación limpia sin parámetros de constructor heredados del contexto
     chatIA: (context) => const ChatIAScreen(),
-
     horarios: (context) => const HorariosScreen(),
-
     admin: (context) => const AdminDashboardScreen(),
   };
 }
