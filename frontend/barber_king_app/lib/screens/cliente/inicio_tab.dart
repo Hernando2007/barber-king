@@ -101,6 +101,37 @@ class _InicioTabState extends State<InicioTab> {
     );
   }
 
+  /// Encabezado con letra normal (sans-serif)
+  Widget _encabezadoSeccion(String titulo, VoidCallback onTap) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            titulo.toUpperCase(),
+            style: const TextStyle(
+              color: AppColors.primary,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.0,
+            ),
+          ),
+          IconButton(
+            onPressed: onTap,
+            icon: const Icon(
+              Icons.chevron_right,
+              color: AppColors.primary,
+              size: 20,
+            ),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _fila(List<Widget> hijos, String vacio) {
     if (hijos.isEmpty) {
       return Text(
@@ -109,17 +140,18 @@ class _InicioTabState extends State<InicioTab> {
       );
     }
     return SizedBox(
-      height: 190,
+      height: 235, // Se amplía la altura para dar cabida a las tarjetas más grandes
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: hijos.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (_, i) => hijos[i],
       ),
     );
   }
 
-  Widget _tarjeta({
+  /// Tarjetas más grandes que aprovechan mejor el espacio
+  Widget _tarjetaCard({
     required String? foto,
     required String titulo,
     required Widget pie,
@@ -127,20 +159,44 @@ class _InicioTabState extends State<InicioTab> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
-        width: 108,
+      child: Container(
+        width: 160, // Ancho mayor para darle prominencia a la tarjeta
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.border.withValues(alpha: 0.6),
+            width: 1,
+          ),
+        ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            FotoRed(url: foto, ancho: 108, alto: 128),
-            const SizedBox(height: 6),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: FotoRed(
+                  url: foto,
+                  ancho: double.infinity,
+                  alto: double.infinity,
+                  radio: 12,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Text(
               titulo,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-            const SizedBox(height: 3),
+            const SizedBox(height: 4),
             pie,
           ],
         ),
@@ -198,10 +254,10 @@ class _InicioTabState extends State<InicioTab> {
                 child: Center(child: CircularProgressIndicator()),
               )
             else ...[
-              TituloSeccion('BARBEROS', onTap: () => widget.onIrATab(1)),
+              _encabezadoSeccion('BARBEROS', () => widget.onIrATab(1)),
               _fila([
                 for (final b in barberos.take(10))
-                  _tarjeta(
+                  _tarjetaCard(
                     foto: fotoBarbero(b),
                     titulo: nombreBarbero(b),
                     pie: Estrellas(
@@ -212,17 +268,17 @@ class _InicioTabState extends State<InicioTab> {
                         _reservar(barberoId: int.tryParse('${b['id']}')),
                   ),
               ], 'No hay barberos para mostrar.'),
-              TituloSeccion('CORTES', onTap: () => widget.onIrATab(4)),
+              _encabezadoSeccion('CORTES', () => widget.onIrATab(4)),
               _fila([
                 for (final s in servicios.take(10))
-                  _tarjeta(
+                  _tarjetaCard(
                     foto: s['imagen']?.toString(),
                     titulo: '${s['nombre']}',
                     pie: Text(
                       precioCOP(num.tryParse('${s['precio']}') ?? 0),
                       style: const TextStyle(
                         color: AppColors.primary,
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

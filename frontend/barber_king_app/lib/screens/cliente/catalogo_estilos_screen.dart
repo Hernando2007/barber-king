@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../services/servicios_service.dart';
-import '../../widgets/common/gold_cajas.dart';
 import '../../widgets/common/gold_widgets.dart';
 import '../citas/crear_cita_screen.dart';
 
 typedef _Mapa = Map<String, dynamic>;
 
-/// Pestaña "Reservar": catálogo de servicios por categoría + tipo de cabello.
 class CatalogoEstilosScreen extends StatefulWidget {
   const CatalogoEstilosScreen({super.key});
 
@@ -17,18 +15,14 @@ class CatalogoEstilosScreen extends StatefulWidget {
 }
 
 class _CatalogoEstilosScreenState extends State<CatalogoEstilosScreen> {
-  static const _tipos = [
-    'Corto',
-    'Mediano',
-    'Largo',
-    'Liso',
-    'Ondulado',
-    'Rizado',
-  ];
+  static const _categorias = ['Todos', 'Cortes', 'Barba'];
+  static const _tiposCabello = ['Corto', 'Mediano', 'Largo', 'Rizado', 'Liso'];
 
+  final TextEditingController _busqueda = TextEditingController();
   List<_Mapa> _servicios = [];
   _Mapa? _seleccionado;
-  String? _tipo;
+  String _catActiva = 'Todos';
+  String? _tipoCabello;
   bool _cargando = true;
 
   @override
@@ -37,25 +31,48 @@ class _CatalogoEstilosScreenState extends State<CatalogoEstilosScreen> {
     _cargar();
   }
 
+  @override
+  void dispose() {
+    _busqueda.dispose();
+    super.dispose();
+  }
+
   Future<void> _cargar() async {
-    final lista = await ServicioService().obtenerServicios();
-    if (!mounted) return;
-    setState(() {
-      _servicios = lista
-          .map((e) => Map<String, dynamic>.from(e as Map))
-          .where((s) => s['estado'] != false)
-          .toList();
-      _cargando = false;
-    });
+    try {
+      final lista = await ServicioService().obtenerServicios();
+      if (!mounted) return;
+      setState(() {
+        _servicios = lista
+            .map((e) => Map<String, dynamic>.from(e as Map))
+            .where((s) => s['estado'] != false)
+            .toList();
+        _cargando = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _cargando = false);
+    }
   }
 
   bool _esBarba(_Mapa s) =>
       '${s['nombre']} ${s['descripcion']}'.toLowerCase().contains('barba');
 
+  List<_Mapa> get _serviciosFiltrados {
+    final q = _busqueda.text.trim().toLowerCase();
+    return _servicios.where((s) {
+      final coincideNombre = '${s['nombre']} ${s['descripcion']}'
+          .toLowerCase()
+          .contains(q);
+      if (_catActiva == 'Cortes') return coincideNombre && !_esBarba(s);
+      if (_catActiva == 'Barba') return coincideNombre && _esBarba(s);
+      return coincideNombre;
+    }).toList();
+  }
+
   void _reservar() {
     if (_seleccionado == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Elige un estilo del catálogo.')),
+        const SnackBar(content: Text('Por favor, elige un estilo del catálogo.')),
       );
       return;
     }
@@ -64,163 +81,238 @@ class _CatalogoEstilosScreenState extends State<CatalogoEstilosScreen> {
       MaterialPageRoute(
         builder: (_) => CrearCitaScreen(
           servicioInicial: _seleccionado,
-          observaciones: _tipo == null ? null : 'Tipo de cabello: $_tipo',
+          observaciones:
+              _tipoCabello == null ? null : 'Tipo de cabello: $_tipoCabello',
         ),
       ),
     );
   }
 
-  Widget _carrusel(List<_Mapa> lista) {
-    if (lista.isEmpty) {
-      return const Text(
-        'Aún no hay estilos en esta categoría.',
-        style: TextStyle(color: AppColors.subtitle, fontSize: 12),
-      );
-    }
-    return SizedBox(
-      height: 106,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: lista.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 10),
-        itemBuilder: (_, i) {
-          final s = lista[i];
-          final activo = _seleccionado?['id'] == s['id'];
-          return GestureDetector(
-            onTap: () => setState(() => _seleccionado = s),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: activo ? AppColors.primary : Colors.transparent,
-                      width: 2,
-                    ),
-                  ),
-                  child: FotoRed(
-                    url: s['imagen']?.toString(),
-                    ancho: 72,
-                    alto: 72,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                SizedBox(
-                  width: 76,
-                  child: Text(
-                    '${s['nombre']}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 9,
-                      color: activo ? AppColors.primary : Colors.white70,
-                    ),
-                  ),
-                ),
-              ],
+  Widget _tarjetaServicio(_Mapa s) {
+    final activo = _seleccionado?['id'] == s['id'];
+    final precio = num.tryParse('${s['precio']}') ?? 0;
+    final duracion = s['duracion'] ?? 30;
+
+    return GestureDetector(
+      onTap: () => setState(() => _seleccionado = s),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: activo ? AppColors.primary : AppColors.border,
+            width: activo ? 2 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: FotoRed(
+                url: s['imagen']?.toString(),
+                ancho: 75,
+                alto: 75,
+              ),
             ),
-          );
-        },
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${s['nombre']}',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${s['descripcion'] ?? ''}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: AppColors.subtitle,
+                      fontSize: 11,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${precioCOP(precio)} · $duracion min',
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Radio<_Mapa>(
+              value: s,
+              groupValue: _seleccionado,
+              activeColor: AppColors.primary,
+              onChanged: (val) => setState(() => _seleccionado = val),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final cortes = _servicios.where((s) => !_esBarba(s)).toList();
-    final barba = _servicios.where(_esBarba).toList();
+    final lista = _serviciosFiltrados;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: _cargando
-            ? const Center(child: CircularProgressIndicator())
-            : RefreshIndicator(
-                color: AppColors.primary,
-                onRefresh: _cargar,
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                  children: [
-                    const Center(
-                      child: IconoCirculo(Icons.content_cut, tam: 60),
+        child: Column(
+          children: [
+            // Título y Buscador
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
+              child: Column(
+                children: [
+                  const Text(
+                    'CATÁLOGO DE ESTILOS',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.0,
                     ),
-                    const SizedBox(height: 10),
-                    Center(
-                      child: Text(
-                        'CATÁLOGO DE ESTILOS',
-                        style: tituloSerif(size: 22),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _busqueda,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Buscar servicio...',
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      prefixIcon: const Icon(Icons.search, color: AppColors.primary),
+                      filled: true,
+                      fillColor: AppColors.card,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    CajaSeccion('CORTES DE CABELLO', _carrusel(cortes)),
-                    CajaSeccion('CUIDADO DE BARBA', _carrusel(barba)),
-                    const EtiquetaCampo('Tipo de cabello'),
-                    DropdownButtonFormField<String>(
-                      initialValue: _tipo,
-                      hint: const Text('Seleccionar...'),
-                      dropdownColor: AppColors.card,
-                      iconEnabledColor: AppColors.primary,
-                      items: [
-                        for (final t in _tipos)
-                          DropdownMenuItem(value: t, child: Text(t)),
-                      ],
-                      onChanged: (v) => setState(() => _tipo = v),
+                    onChanged: (_) => setState(() {}),
+                  ),
+                ],
+              ),
+            ),
+
+            // Chips de categorías
+            SizedBox(
+              height: 40,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: _categorias.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemBuilder: (_, i) {
+                  final cat = _categorias[i];
+                  final sel = _catActiva == cat;
+                  return ChoiceChip(
+                    label: Text(cat.toUpperCase()),
+                    selected: sel,
+                    showCheckmark: false,
+                    selectedColor: AppColors.primary,
+                    backgroundColor: AppColors.card,
+                    labelStyle: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: sel ? AppColors.black : Colors.white,
                     ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        for (final t in _tipos)
-                          ChoiceChip(
-                            label: Text(t.toUpperCase()),
-                            selected: _tipo == t,
-                            showCheckmark: false,
-                            onSelected: (_) => setState(() => _tipo = t),
-                            selectedColor: AppColors.primary,
-                            backgroundColor: Colors.transparent,
-                            side: const BorderSide(color: AppColors.border),
-                            labelStyle: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              color: _tipo == t
-                                  ? AppColors.black
-                                  : Colors.white,
+                    onSelected: (_) => setState(() => _catActiva = cat),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Lista principal de servicios ocupando el espacio de forma segura
+            Expanded(
+              child: _cargando
+                  ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+                  : RefreshIndicator(
+                      color: AppColors.primary,
+                      onRefresh: _cargar,
+                      child: lista.isEmpty
+                          ? ListView(
+                              children: const [
+                                SizedBox(height: 80),
+                                Center(
+                                  child: Text(
+                                    'No se encontraron servicios.',
+                                    style: TextStyle(color: AppColors.subtitle),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              itemCount: lista.length,
+                              itemBuilder: (_, i) => _tarjetaServicio(lista[i]),
                             ),
+                    ),
+            ),
+
+            // Filtro horizontal inferior para tipo de cabello
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+              color: AppColors.card,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    const Text(
+                      'Cabello: ',
+                      style: TextStyle(color: AppColors.subtitle, fontSize: 11),
+                    ),
+                    for (final t in _tiposCabello)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: ChoiceChip(
+                          label: Text(t),
+                          selected: _tipoCabello == t,
+                          showCheckmark: false,
+                          selectedColor: AppColors.primary,
+                          backgroundColor: AppColors.background,
+                          labelStyle: TextStyle(
+                            fontSize: 10,
+                            color: _tipoCabello == t ? AppColors.black : Colors.white,
                           ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    const EtiquetaCampo('Herramientas sugeridas'),
-                    const Row(
-                      children: [
-                        Icon(
-                          Icons.content_cut,
-                          color: AppColors.primary,
-                          size: 20,
+                          onSelected: (s) => setState(() => _tipoCabello = s ? t : null),
                         ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            'Tijeras y navajas premium recomendadas.',
-                            style: TextStyle(
-                              color: AppColors.subtitle,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _reservar,
-                      child: const Text('RESERVAR ESTILO SELECCIONADO'),
-                    ),
+                      ),
                   ],
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: AppColors.card,
+          border: Border(top: BorderSide(color: AppColors.border)),
+        ),
+        child: ElevatedButton(
+          onPressed: _seleccionado == null ? null : _reservar,
+          child: Text(
+            _seleccionado == null
+                ? 'SELECCIONA UN ESTILO'
+                : 'RESERVAR ${_seleccionado!['nombre']}'.toUpperCase(),
+          ),
+        ),
       ),
     );
   }

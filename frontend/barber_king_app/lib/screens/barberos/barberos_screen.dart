@@ -33,7 +33,8 @@ class _BarberosScreenState extends State<BarberosScreen> {
     });
   }
 
-  Widget _tarjeta(Map<String, dynamic> b) {
+ /// Tarjeta ancha con mayor altura
+  Widget _tarjetaAncha(Map<String, dynamic> b) {
     final promedio = (b['calificacion_promedio'] as num?)?.toDouble() ?? 0;
     final total = int.tryParse('${b['total_resenas'] ?? 0}') ?? 0;
     final especialidad = '${b['especialidad'] ?? 'Barbero profesional'}';
@@ -47,15 +48,17 @@ class _BarberosScreenState extends State<BarberosScreen> {
         ),
       ),
       child: Container(
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.only(bottom: 14),
+        // Aumentamos el padding vertical (de 14 a 18 o 20) para darle más altura a la card
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
         decoration: BoxDecoration(
           color: AppColors.card,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.border.withValues(alpha: 0.7)),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
+            // Foto circular del barbero con un tamaño ligeramente mayor si deseas (ej: 76)
             Container(
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
@@ -64,45 +67,67 @@ class _BarberosScreenState extends State<BarberosScreen> {
               ),
               child: FotoRed(
                 url: fotoBarbero(b),
-                ancho: 80,
-                alto: 80,
+                ancho: 76,
+                alto: 76,
                 circular: true,
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              nombreBarbero(b),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              especialidad,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: AppColors.subtitle, fontSize: 11),
-            ),
-            const SizedBox(height: 6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.star, size: 14, color: AppColors.primary),
-                const SizedBox(width: 4),
-                Text(
-                  promedio > 0 ? promedio.toStringAsFixed(1) : 'Nuevo',
-                  style: const TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+            const SizedBox(width: 16),
+            // Detalles del barbero
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    nombreBarbero(b),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16, // Texto un poco más prominente
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    especialidad,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: AppColors.subtitle,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(Icons.star, size: 14, color: AppColors.primary),
+                      const SizedBox(width: 4),
+                      Text(
+                        promedio > 0 ? promedio.toStringAsFixed(1) : 'Nuevo',
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '($total reseña${total == 1 ? '' : 's'})',
+                        style: const TextStyle(
+                          color: AppColors.subtitle,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Text(
-              '$total reseña${total == 1 ? '' : 's'}',
-              style: const TextStyle(color: AppColors.subtitle, fontSize: 10),
+            // Indicador a la derecha
+            const Icon(
+              Icons.chevron_right,
+              color: AppColors.primary,
             ),
           ],
         ),
@@ -117,9 +142,18 @@ class _BarberosScreenState extends State<BarberosScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Text('DESCUBRE BARBEROS', style: tituloSerif(size: 22)),
+            // Título principal con fuente normal sans-serif
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Text(
+                'DESCUBRE BARBEROS',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.0,
+                ),
+              ),
             ),
             Divider(
               color: AppColors.border.withValues(alpha: 0.6),
@@ -144,18 +178,11 @@ class _BarberosScreenState extends State<BarberosScreen> {
                                 ),
                               ],
                             )
-                          : GridView.builder(
+                          : ListView.builder(
                               physics: const AlwaysScrollableScrollPhysics(),
                               padding: const EdgeInsets.all(16),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 12,
-                                    crossAxisSpacing: 12,
-                                    childAspectRatio: 0.78,
-                                  ),
                               itemCount: _barberos.length,
-                              itemBuilder: (_, i) => _tarjeta(_barberos[i]),
+                              itemBuilder: (_, i) => _tarjetaAncha(_barberos[i]),
                             ),
                     ),
             ),

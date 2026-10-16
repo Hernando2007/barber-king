@@ -7,6 +7,7 @@ import '../../services/barbero_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/disponibilidad_service.dart';
 import '../../services/servicios_service.dart';
+import '../../widgets/common/app_bottom_nav.dart';
 import '../../widgets/common/gold_cajas.dart';
 import '../../widgets/common/gold_widgets.dart';
 
@@ -14,7 +15,6 @@ typedef _Mapa = Map<String, dynamic>;
 
 class CrearCitaScreen extends StatefulWidget {
   final int? barberoInicialId;
-  // ignore: library_private_types_in_public_api
   final _Mapa? servicioInicial;
   final String? observaciones;
 
@@ -50,7 +50,6 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
   void _aviso(String t) =>
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t)));
 
-  // Al cambiar servicio o barbero, la hora elegida deja de ser válida.
   void _cambiar({int? barbero, int? servicio}) {
     setState(() {
       _barberoId = barbero ?? _barberoId;
@@ -97,7 +96,7 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
       fecha: DateFormat('yyyy-MM-dd').format(f),
     );
     if (!mounted) return;
-    // Si es hoy, se ocultan las horas que ya pasaron.
+    
     final libres = slots.map((e) => '$e').where((h) {
       final p = h.split(':');
       return !DateUtils.isSameDay(f, hoy) ||
@@ -160,6 +159,11 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
     } else {
       _aviso(r['message']?.toString() ?? 'No se pudo reservar la cita.');
     }
+  }
+
+  /// Manejo del toque en la barra de navegación inferior
+  void _alTocarBarraInferior(int index) {
+    Navigator.pop(context); // Vuelve al contenedor principal (ClienteHomeScreen)
   }
 
   @override
@@ -272,6 +276,11 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
                   ),
                 ],
               ),
+      ),
+      // Mantiene la barra de navegación inferior en esta pantalla
+      bottomNavigationBar: AppBottomNav(
+        actual: 4, // Resalta la pestaña de reservas/citas
+        onTap: _alTocarBarraInferior,
       ),
     );
   }
