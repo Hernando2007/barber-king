@@ -5,8 +5,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/colors.dart';
 import '../../services/auth_service.dart';
-import '../../widgets/auth/account_type_selector.dart';
-import '../../widgets/auth/barber_registration_fields.dart';
+import '../../widgets/auth/register_account_type.dart';
+import '../../widgets/auth/register_barber_fields.dart';
+import '../../widgets/auth/register_fields_sections.dart';
+import '../../widgets/auth/register_header.dart';
+import '../../widgets/auth/register_submit_buttons.dart';
 import '../../widgets/common/app_ui.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -19,7 +22,6 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _auth = AuthService();
-  final _picker = ImagePicker();
 
   final _nombres = TextEditingController();
   final _apellidos = TextEditingController();
@@ -55,32 +57,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller.dispose();
     }
     super.dispose();
-  }
-
-  Future<void> _seleccionarFecha() async {
-    final value = await showDatePicker(
-      context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1950),
-      lastDate: DateTime.now(),
-    );
-
-    if (value == null) return;
-
-    _fecha.text =
-        '${value.year}-${value.month.toString().padLeft(2, '0')}-'
-        '${value.day.toString().padLeft(2, '0')}';
-  }
-
-  Future<void> _seleccionarDiploma() async {
-    final file = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 85,
-    );
-
-    if (file == null || !mounted) return;
-
-    setState(() => _diploma = file);
   }
 
   Future<void> _registrar() async {
@@ -135,9 +111,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  InputDecoration _decoration(String label, IconData icon) {
-    return InputDecoration(labelText: label, prefixIcon: Icon(icon));
+  void _onChangedRol(int value) {
+    setState(() {
+      _rol = value;
+      if (_rol != 2) {
+        _diploma = null;
+        _especialidad.clear();
+        _experiencia.clear();
+        _descripcion.clear();
+      }
+    });
   }
+
+  void _togglePassword() =>
+      setState(() => _ocultarPassword = !_ocultarPassword);
+  void _toggleConfirmar() =>
+      setState(() => _ocultarConfirmar = !_ocultarConfirmar);
+  void _onDiplomaChanged(XFile? file) => setState(() => _diploma = file);
 
   @override
   Widget build(BuildContext context) {
@@ -153,31 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(
-                    Icons.content_cut_rounded,
-                    color: AppColors.primary,
-                    size: 46,
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'ÚNETE A BARBER KING',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 23,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 2.4,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    'Crea tu cuenta y vive la experiencia premium.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.subtitle,
-                      fontSize: 14,
-                    ),
-                  ),
+                  const RegisterHeader(),
                   const SizedBox(height: 24),
                   AppCard(
                     child: Form(
@@ -185,168 +151,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Text(
-                            'Tipo de cuenta',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          AccountTypeSelector(
+                          RegisterAccountType(
                             value: _rol,
-                            onChanged: (value) {
-                              setState(() {
-                                _rol = value;
-                                if (_rol != 2) {
-                                  _diploma = null;
-                                  _especialidad.clear();
-                                  _experiencia.clear();
-                                  _descripcion.clear();
-                                }
-                              });
-                            },
+                            onChanged: _onChangedRol,
                           ),
                           const SizedBox(height: 24),
-                          const SectionHeader(
-                            title: 'Datos personales',
-                            icon: Icons.person_outline_rounded,
+                          RegisterFieldsSections(
+                            nombres: _nombres,
+                            apellidos: _apellidos,
+                            correo: _correo,
+                            telefono: _telefono,
+                            fecha: _fecha,
+                            password: _password,
+                            confirmar: _confirmar,
+                            ocultarPassword: _ocultarPassword,
+                            ocultarConfirmar: _ocultarConfirmar,
+                            onTogglePassword: _togglePassword,
+                            onToggleConfirmar: _toggleConfirmar,
                           ),
-                          const SizedBox(height: 16),
-                          TextFormField(
-                            controller: _nombres,
-                            textCapitalization: TextCapitalization.words,
-                            decoration: _decoration(
-                              'Nombres',
-                              Icons.person_outline_rounded,
-                            ),
-                            validator: _requerido,
+                          RegisterBarberFields(
+                            visible: _rol == 2,
+                            especialidad: _especialidad,
+                            experiencia: _experiencia,
+                            descripcion: _descripcion,
+                            diplomaName: _diploma?.name,
+                            onDiplomaChanged: _onDiplomaChanged,
                           ),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                            controller: _apellidos,
-                            textCapitalization: TextCapitalization.words,
-                            decoration: _decoration(
-                              'Apellidos',
-                              Icons.badge_outlined,
-                            ),
-                            validator: _requerido,
-                          ),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                            controller: _correo,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: _decoration(
-                              'Correo electrónico',
-                              Icons.email_outlined,
-                            ),
-                            validator: (value) {
-                              final text = value?.trim() ?? '';
-                              if (text.isEmpty) return 'Ingresa tu correo.';
-                              if (!text.contains('@') || !text.contains('.')) {
-                                return 'Ingresa un correo válido.';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                            controller: _telefono,
-                            keyboardType: TextInputType.phone,
-                            decoration: _decoration(
-                              'Teléfono',
-                              Icons.phone_outlined,
-                            ),
-                          ),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                            controller: _fecha,
-                            readOnly: true,
-                            onTap: _seleccionarFecha,
-                            decoration: _decoration(
-                              'Fecha de nacimiento',
-                              Icons.calendar_month_outlined,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          const SectionHeader(
-                            title: 'Seguridad',
-                            icon: Icons.lock_outline_rounded,
-                          ),
-                          const SizedBox(height: 16),
-                          TextFormField(
-                            controller: _password,
-                            obscureText: _ocultarPassword,
-                            decoration: _decoration(
-                              'Contraseña',
-                              Icons.lock_outline_rounded,
-                            ).copyWith(
-                              suffixIcon: IconButton(
-                                onPressed: () => setState(
-                                  () => _ocultarPassword = !_ocultarPassword,
-                                ),
-                                icon: Icon(
-                                  _ocultarPassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.length < 6) {
-                                return 'Mínimo 6 caracteres.';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                            controller: _confirmar,
-                            obscureText: _ocultarConfirmar,
-                            decoration: _decoration(
-                              'Confirmar contraseña',
-                              Icons.lock_reset_outlined,
-                            ).copyWith(
-                              suffixIcon: IconButton(
-                                onPressed: () => setState(
-                                  () => _ocultarConfirmar = !_ocultarConfirmar,
-                                ),
-                                icon: Icon(
-                                  _ocultarConfirmar
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                ),
-                              ),
-                            ),
-                            validator: _requerido,
-                          ),
-                          if (_rol == 2) ...[
-                            const SizedBox(height: 24),
-                            BarberRegistrationFields(
-                              specialtyController: _especialidad,
-                              experienceController: _experiencia,
-                              descriptionController: _descripcion,
-                              diplomaName: _diploma?.name,
-                              onPickDiploma: _seleccionarDiploma,
-                              onRemoveDiploma: () =>
-                                  setState(() => _diploma = null),
-                            ),
-                          ],
                           const SizedBox(height: 26),
-                          PrimaryGradientButton(
-                            label: _rol == 2
-                                ? 'REGISTRARME COMO BARBERO'
-                                : 'CREAR CUENTA',
-                            icon: Icons.person_add_alt_1_rounded,
-                            loading: _cargando,
-                            onPressed: _cargando ? null : _registrar,
-                          ),
-                          const SizedBox(height: 8),
-                          TextButton(
-                            onPressed:
-                                _cargando ? null : () => Navigator.pop(context),
-                            child: const Text('Ya tengo una cuenta'),
+                          RegisterSubmitButtons(
+                            esBarbero: _rol == 2,
+                            cargando: _cargando,
+                            onRegister: _registrar,
+                            onCancel: () => Navigator.pop(context),
                           ),
                         ],
                       ),
@@ -359,12 +195,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  String? _requerido(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Campo obligatorio.';
-    }
-    return null;
   }
 }

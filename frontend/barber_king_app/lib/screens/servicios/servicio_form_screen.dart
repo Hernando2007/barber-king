@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../services/servicios_service.dart';
 import '../../widgets/common/app_ui.dart';
+import '../../widgets/servicios/servicio_form_activo_switch.dart';
+import '../../widgets/servicios/servicio_form_campos.dart';
+import '../../widgets/servicios/servicio_form_header.dart';
 
 class ServicioFormScreen extends StatefulWidget {
   final Map<String, dynamic>? servicio;
@@ -119,40 +122,7 @@ class _ServicioFormScreenState extends State<ServicioFormScreen> {
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              AppCard(
-                gradient: AppColors.heroGradient,
-                borderColor: AppColors.primary.withValues(alpha: .3),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        gradient: AppColors.goldGradient,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: const Icon(
-                        Icons.design_services_outlined,
-                        color: AppColors.black,
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Text(
-                        _esEdicion
-                            ? 'Actualiza la información del servicio'
-                            : 'Agrega un servicio al catálogo',
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: 14,
-                          height: 1.4,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ServicioFormHeader(esEdicion: _esEdicion),
               const SizedBox(height: 22),
               TextFormField(
                 controller: _nombre,
@@ -180,82 +150,15 @@ class _ServicioFormScreenState extends State<ServicioFormScreen> {
                 ),
               ),
               const SizedBox(height: 14),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _precio,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      decoration: const InputDecoration(
-                        labelText: 'Precio',
-                        prefixText: '\$ ',
-                        prefixIcon: Icon(Icons.payments_outlined),
-                      ),
-                      validator: (value) {
-                        final precio =
-                            double.tryParse((value ?? '').replaceAll(',', '.'));
-                        if (precio == null || precio <= 0) {
-                          return 'Precio inválido.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _duracion,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'Duración',
-                        suffixText: 'min',
-                        prefixIcon: Icon(Icons.timer_outlined),
-                      ),
-                      validator: (value) {
-                        final duracion = int.tryParse(value?.trim() ?? '');
-                        if (duracion == null || duracion <= 0) {
-                          return 'Duración inválida.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              TextFormField(
-                controller: _descanso,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Tiempo de descanso',
-                  suffixText: 'min',
-                  prefixIcon: Icon(Icons.coffee_outlined),
-                  helperText: 'Tiempo entre citas. Opcional.',
-                ),
+              ServicioFormCampos(
+                precio: _precio,
+                duracion: _duracion,
+                descanso: _descanso,
               ),
               const SizedBox(height: 18),
-              AppCard(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                child: SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  value: _activo,
-                  onChanged: (value) => setState(() => _activo = value),
-                  title: const Text(
-                    'Servicio activo',
-                    style: TextStyle(color: AppColors.white, fontSize: 14),
-                  ),
-                  subtitle: const Text(
-                    'Los servicios inactivos no aparecen en las reservas.',
-                    style: TextStyle(
-                      color: AppColors.subtitle,
-                      fontSize: 11.5,
-                    ),
-                  ),
-                ),
+              ServicioFormActivoSwitch(
+                value: _activo,
+                onChanged: (value) => setState(() => _activo = value),
               ),
               const SizedBox(height: 26),
               PrimaryGradientButton(

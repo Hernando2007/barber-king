@@ -4,6 +4,8 @@ import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/common/app_ui.dart';
+import '../../widgets/login/login_brand.dart';
+import '../../widgets/login/login_form_card.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -65,6 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _togglePassword() =>
+      setState(() => _ocultarPassword = !_ocultarPassword);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,85 +97,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     constraints: const BoxConstraints(maxWidth: 440),
                     child: Column(
                       children: [
-                        _brand(),
+                        const LoginBrand(),
                         const SizedBox(height: 34),
-                        AppCard(
-                          padding: const EdgeInsets.fromLTRB(22, 26, 22, 22),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const Text(
-                                'Bienvenido de nuevo',
-                                style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              const Text(
-                                'Ingresa para gestionar tus citas y servicios.',
-                                style: TextStyle(
-                                  color: AppColors.subtitle,
-                                  fontSize: 12.5,
-                                ),
-                              ),
-                              const SizedBox(height: 24),
-                              TextField(
-                                controller: _correo,
-                                keyboardType: TextInputType.emailAddress,
-                                textInputAction: TextInputAction.next,
-                                autofillHints: const [AutofillHints.email],
-                                decoration: const InputDecoration(
-                                  labelText: 'Correo electrónico',
-                                  hintText: 'tu@correo.com',
-                                  prefixIcon: Icon(Icons.alternate_email_rounded),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              TextField(
-                                controller: _password,
-                                obscureText: _ocultarPassword,
-                                textInputAction: TextInputAction.done,
-                                onSubmitted: (_) => _login(),
-                                decoration: InputDecoration(
-                                  labelText: 'Contraseña',
-                                  prefixIcon: const Icon(Icons.lock_outline_rounded),
-                                  suffixIcon: IconButton(
-                                    onPressed: () => setState(
-                                      () => _ocultarPassword = !_ocultarPassword,
-                                    ),
-                                    icon: Icon(
-                                      _ocultarPassword
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.forgotPassword,
-                                  ),
-                                  child: const Text(
-                                    '¿Olvidaste tu contraseña?',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              PrimaryGradientButton(
-                                label: 'Iniciar sesión',
-                                icon: Icons.login_rounded,
-                                loading: _cargando,
-                                onPressed: _login,
-                              ),
-                            ],
-                          ),
+                        LoginFormCard(
+                          correo: _correo,
+                          password: _password,
+                          ocultarPassword: _ocultarPassword,
+                          cargando: _cargando,
+                          onTogglePassword: _togglePassword,
+                          onLogin: _login,
                         ),
                         const SizedBox(height: 22),
                         Row(
@@ -211,51 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _brand() {
-    return Column(
-      children: [
-        Container(
-          width: 82,
-          height: 82,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: AppColors.goldGradient,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: .28),
-                blurRadius: 30,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: const Icon(
-            Icons.content_cut_rounded,
-            color: AppColors.black,
-            size: 37,
-          ),
-        ),
-        const SizedBox(height: 18),
-        const Text(
-          'BARBER KING',
-          style: TextStyle(
-            color: AppColors.white,
-            fontSize: 28,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 5,
-          ),
-        ),
-        const SizedBox(height: 6),
-        const Text(
-          'Gestión profesional para tu barbería',
-          style: TextStyle(
-            color: AppColors.subtitle,
-            fontSize: 12.5,
-          ),
-        ),
-      ],
     );
   }
 

@@ -6,6 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'api_service.dart';
 
+part 'auth_service_recuperacion.dart';
+
 class AuthService {
   final ApiService _api = ApiService();
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
@@ -97,46 +99,6 @@ class AuthService {
       return {
         'success': false,
         'message': e.toString(),
-      };
-    }
-  }
-
-  Future<Map<String, dynamic>> recuperarPassword(String correo) async {
-    try {
-      final response = await _api.dio.post(
-        '/auth/forgot-password',
-        data: {'correo': correo.trim()},
-      );
-
-      return Map<String, dynamic>.from(response.data);
-    } on DioException catch (e) {
-      return {
-        'success': false,
-        'message': _mensajeError(e),
-      };
-    }
-  }
-
-  Future<Map<String, dynamic>> restablecerPassword({
-    required String correo,
-    required String codigo,
-    required String password,
-  }) async {
-    try {
-      final response = await _api.dio.post(
-        '/auth/reset-password',
-        data: {
-          'correo': correo.trim(),
-          'codigo': codigo.trim(),
-          'password': password,
-        },
-      );
-
-      return Map<String, dynamic>.from(response.data);
-    } on DioException catch (e) {
-      return {
-        'success': false,
-        'message': _mensajeError(e),
       };
     }
   }
