@@ -21,7 +21,7 @@ export const obtenerHorarios = async (req, res, next) => {
 export const crear = async (req, res, next) => {
     try {
         const horario = await crearHorarioBarbero(
-            req.usuario.id,
+            req.usuario,
             req.body
         );
  
@@ -38,7 +38,7 @@ export const crear = async (req, res, next) => {
 export const actualizar = async (req, res, next) => {
     try {
         const horario = await editarHorarioBarbero(
-            req.usuario.id,
+            req.usuario,
             req.params.id,
             req.body
         );
@@ -56,7 +56,7 @@ export const actualizar = async (req, res, next) => {
 export const eliminar = async (req, res, next) => {
     try {
         await eliminarHorarioBarbero(
-            req.usuario.id,
+            req.usuario,
             req.params.id
         );
  

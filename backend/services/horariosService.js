@@ -31,9 +31,18 @@ const obtenerBarberoId = async (usuario) => {
 // LISTAR HORARIOS DEL BARBERO AUTENTICADO
 // ======================================================
 
-export const listarHorarios = async (usuario) => {
-  const barberoId =
-    await obtenerBarberoId(usuario);
+export const listarHorarios = async (usuarioOBarberoId) => {
+  const esUsuario =
+    usuarioOBarberoId &&
+    typeof usuarioOBarberoId === "object";
+
+  const barberoId = esUsuario
+    ? await obtenerBarberoId(usuarioOBarberoId)
+    : Number(usuarioOBarberoId);
+
+  if (!barberoId || Number.isNaN(barberoId)) {
+    throw new Error("Barbero inválido.");
+  }
 
   const { data, error } =
     await obtenerHorarios(barberoId);
@@ -86,9 +95,9 @@ export const crear = async (
       dia_semana: Number(dia_semana),
       hora_inicio,
       hora_fin,
-      activo:
+      disponible:
         activo !== undefined
-          ? activo
+          ? Boolean(activo)
           : true,
     });
 
@@ -176,8 +185,8 @@ export const editar = async (
   if (
     datos?.activo !== undefined
   ) {
-    campos.activo =
-      datos.activo;
+    campos.disponible =
+      Boolean(datos.activo);
   }
 
   const horaInicio =

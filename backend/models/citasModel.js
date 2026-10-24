@@ -9,6 +9,7 @@ export const obtenerHorarioBarbero = async (
         .select("*")
         .eq("barbero_id", barberoId)
         .eq("dia_semana", diaSemana)
+        .eq("disponible", true)
         .maybeSingle();
 };
  

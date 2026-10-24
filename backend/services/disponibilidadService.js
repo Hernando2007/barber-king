@@ -1,5 +1,6 @@
 import { obtenerHorarioBarbero, obtenerServicio, obtenerCitas } from "../models/citasModel.js";
 import { generarBloques } from "../utils/horarios.js";
+import { httpError } from "../utils/httpError.js";
 
 export const obtenerDisponibilidad = async (
     barberoId,
@@ -13,8 +14,21 @@ export const obtenerDisponibilidad = async (
         !fecha
     ) {
 
-        throw new Error(
+        throw httpError(
+            400,
             "Faltan parámetros requeridos."
+        );
+
+    }
+
+    if (
+        !Number.isInteger(Number(barberoId)) ||
+        !Number.isInteger(Number(servicioId))
+    ) {
+
+        throw httpError(
+            400,
+            "El barbero y el servicio deben ser válidos."
         );
 
     }
@@ -72,9 +86,7 @@ export const obtenerDisponibilidad = async (
 
     if (!horario) {
 
-        throw new Error(
-            "El barbero no trabaja ese día."
-        );
+        return [];
 
     }
 

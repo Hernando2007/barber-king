@@ -19,13 +19,19 @@ CREATE TABLE barberos (
 
     descripcion TEXT,
 
+    direccion TEXT,
+
     foto_trabajo TEXT,
 
-    disponible BOOLEAN DEFAULT TRUE,
+    portafolio JSONB NOT NULL DEFAULT '[]'::JSONB,
 
-    created_at TIMESTAMP DEFAULT NOW(),
+    disponible BOOLEAN NOT NULL DEFAULT TRUE,
 
-    updated_at TIMESTAMP DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE
+        NOT NULL DEFAULT NOW(),
+
+    updated_at TIMESTAMP WITH TIME ZONE
+        NOT NULL DEFAULT NOW(),
 
     CONSTRAINT fk_barbero_usuario
         FOREIGN KEY(usuario_id)

@@ -22,7 +22,7 @@ CREATE TABLE horarios (
 
     hora_fin TIME NOT NULL,
 
-    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    disponible BOOLEAN NOT NULL DEFAULT TRUE,
 
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 

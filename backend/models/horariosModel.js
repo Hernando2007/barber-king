@@ -1,9 +1,30 @@
 import supabase from "../config/supabase.js";
 
+// La base de datos usa "disponible"; la app móvil consume "activo".
+const normalizarHorario = (horario) => {
+  if (!horario) {
+    return horario;
+  }
+
+  const { disponible, activo, ...resto } =
+    horario;
+
+  const habilitado =
+    disponible !== undefined
+      ? disponible !== false
+      : activo !== false;
+
+  return {
+    ...resto,
+    disponible: habilitado,
+    activo: habilitado,
+  };
+};
+
 export const obtenerHorarios = async (
   barberoId
 ) => {
-  return await supabase
+  const { data, error } = await supabase
     .from("horarios")
     .select(`
       id,
@@ -11,7 +32,7 @@ export const obtenerHorarios = async (
       dia_semana,
       hora_inicio,
       hora_fin,
-      activo
+      disponible
     `)
     .eq("barbero_id", barberoId)
     .order("dia_semana", {
@@ -20,12 +41,19 @@ export const obtenerHorarios = async (
     .order("hora_inicio", {
       ascending: true,
     });
+
+  return {
+    data: Array.isArray(data)
+      ? data.map(normalizarHorario)
+      : data,
+    error,
+  };
 };
 
 export const obtenerHorarioPorId = async (
   id
 ) => {
-  return await supabase
+  const { data, error } = await supabase
     .from("horarios")
     .select(`
       id,
@@ -33,41 +61,69 @@ export const obtenerHorarioPorId = async (
       dia_semana,
       hora_inicio,
       hora_fin,
-      activo
+      disponible
     `)
     .eq("id", id)
     .single();
+
+  return {
+    data: normalizarHorario(data),
+    error,
+  };
 };
 
 export const crearHorario = async (
   datos
 ) => {
-  return await supabase
+  const { data, error } = await supabase
     .from("horarios")
     .insert({
       barbero_id: datos.barbero_id,
       dia_semana: datos.dia_semana,
       hora_inicio: datos.hora_inicio,
       hora_fin: datos.hora_fin,
-      activo:
-        datos.activo !== undefined
-          ? datos.activo
-          : true,
+      disponible:
+        datos.disponible !== undefined
+          ? datos.disponible
+          : datos.activo !== undefined
+            ? datos.activo
+            : true,
     })
     .select()
     .single();
+
+  return {
+    data: normalizarHorario(data),
+    error,
+  };
 };
 
 export const actualizarHorario = async (
   id,
   datos
 ) => {
-  return await supabase
+  const campos = { ...datos };
+
+  if (
+    campos.activo !== undefined &&
+    campos.disponible === undefined
+  ) {
+    campos.disponible = campos.activo;
+  }
+
+  delete campos.activo;
+
+  const { data, error } = await supabase
     .from("horarios")
-    .update(datos)
+    .update(campos)
     .eq("id", id)
     .select()
     .single();
+
+  return {
+    data: normalizarHorario(data),
+    error,
+  };
 };
 
 export const eliminarHorario = async (
