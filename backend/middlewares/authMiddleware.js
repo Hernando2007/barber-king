@@ -46,6 +46,7 @@ export const verificarToken = async (
                 nombres,
                 correo,
                 rol_id,
+                estado,
                 roles(nombre)
             `)
             .eq("id", decoded.id)
@@ -60,6 +61,16 @@ export const verificarToken = async (
                 success: false,
                 message:
                     "Usuario no encontrado."
+            });
+
+        }
+
+        if (usuario.estado === false) {
+
+            return res.status(403).json({
+                success: false,
+                message:
+                    "Tu cuenta está desactivada. Contacta a un administrador."
             });
 
         }

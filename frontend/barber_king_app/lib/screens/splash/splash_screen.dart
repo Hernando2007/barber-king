@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
+import '../../services/auth_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,140 +13,166 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController controller;
+  final _auth = AuthService();
 
-  late Animation<double> scaleAnimation;
-
-  late Animation<double> opacityAnimation;
+  late final AnimationController _controller;
+  late final Animation<double> _scale;
+  late final Animation<double> _opacity;
 
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
+    _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1300),
     );
 
-    scaleAnimation = Tween<double>(
-      begin: 0.7,
-      end: 1,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOutBack));
+    _scale = Tween<double>(begin: .82, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+    );
 
-    opacityAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeIn));
+    _opacity = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
 
-    controller.forward();
+    _controller.forward();
+    _iniciar();
+  }
 
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!mounted) return;
+  Future<void> _iniciar() async {
+    await Future.delayed(const Duration(milliseconds: 2000));
 
-      Navigator.pushReplacementNamed(context, AppRoutes.login);
-    });
+    final autenticado = await _auth.estaAutenticado();
+
+    if (!mounted) return;
+
+    Navigator.pushReplacementNamed(
+      context,
+      autenticado ? AppRoutes.home : AppRoutes.login,
+    );
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-
       body: Container(
         width: double.infinity,
         height: double.infinity,
-
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF0B1020), Color(0xFF131B2E), Color(0xFF0B1020)],
-          ),
+          gradient: AppColors.backgroundGradient,
         ),
-
-        child: AnimatedBuilder(
-          animation: controller,
-
-          builder: (context, child) {
-            return Opacity(
-              opacity: opacityAnimation.value,
-
-              child: Transform.scale(scale: scaleAnimation.value, child: child),
-            );
-          },
-
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: [
-              Container(
-                width: 150,
-                height: 150,
-
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.card,
-
-                  border: Border.all(color: AppColors.primary, width: 3),
-
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.25),
-                      blurRadius: 30,
-                      spreadRadius: 2,
+        child: Stack(
+          children: [
+            Positioned(
+              top: -120,
+              right: -90,
+              child: _glow(280, AppColors.primary.withValues(alpha: .14)),
+            ),
+            Positioned(
+              bottom: -160,
+              left: -120,
+              child: _glow(320, AppColors.info.withValues(alpha: .06)),
+            ),
+            SafeArea(
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: _opacity.value,
+                    child: Transform.scale(
+                      scale: _scale.value,
+                      child: child,
                     ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    const Spacer(flex: 3),
+                    Container(
+                      width: 108,
+                      height: 108,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: AppColors.goldGradient,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: .3),
+                            blurRadius: 36,
+                            spreadRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.content_cut_rounded,
+                        color: AppColors.black,
+                        size: 48,
+                      ),
+                    ),
+                    const SizedBox(height: 26),
+                    const Text(
+                      'BARBER KING',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 29,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 5.5,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'CORTE  •  ESTILO  •  EXPERIENCIA',
+                      style: TextStyle(
+                        color: AppColors.subtitle,
+                        fontSize: 10.5,
+                        letterSpacing: 2.4,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(flex: 4),
+                    const SizedBox(
+                      width: 88,
+                      height: 2.4,
+                      child: LinearProgressIndicator(
+                        color: AppColors.primary,
+                        backgroundColor: AppColors.border,
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                    ),
+                    const SizedBox(height: 26),
+                    const Text(
+                      'GESTIÓN PROFESIONAL PARA TU BARBERÍA',
+                      style: TextStyle(
+                        color: AppColors.muted,
+                        fontSize: 9,
+                        letterSpacing: 1.6,
+                      ),
+                    ),
+                    const SizedBox(height: 28),
                   ],
                 ),
-
-                child: const Icon(
-                  Icons.content_cut,
-                  color: AppColors.primary,
-                  size: 75,
-                ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-              const SizedBox(height: 35),
-
-              const Text(
-                "BARBER KING",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 4,
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              const Text(
-                "Premium Barber Experience",
-                style: TextStyle(
-                  color: AppColors.subtitle,
-                  fontSize: 16,
-                  letterSpacing: 1,
-                ),
-              ),
-
-              const SizedBox(height: 60),
-
-              SizedBox(
-                width: 180,
-                child: LinearProgressIndicator(
-                  minHeight: 5,
-                  borderRadius: BorderRadius.circular(20),
-                  color: AppColors.primary,
-                  backgroundColor: AppColors.card,
-                ),
-              ),
-            ],
-          ),
+  Widget _glow(double size, Color color) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [color, Colors.transparent],
         ),
       ),
     );

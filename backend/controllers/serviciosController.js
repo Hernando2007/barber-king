@@ -6,10 +6,12 @@ import {
     editarServicio,
     borrarServicio
 } from "../services/serviciosService.js";
- 
+
 export const obtenerTodos = async (req, res, next) => {
     try {
-        const servicios = await listarServicios();
+        const soloActivos = req.query.activos === "true";
+        const servicios = await listarServicios({ soloActivos });
+
         return res.status(200).json({
             success: true,
             total: servicios.length,
@@ -19,10 +21,11 @@ export const obtenerTodos = async (req, res, next) => {
         next(error);
     }
 };
- 
+
 export const obtenerMisServicios = async (req, res, next) => {
     try {
-        const servicios = await listarMisServicios(req.usuario.id);
+        const servicios = await listarMisServicios(req.usuario);
+
         return res.status(200).json({
             success: true,
             total: servicios.length,
@@ -32,10 +35,11 @@ export const obtenerMisServicios = async (req, res, next) => {
         next(error);
     }
 };
- 
+
 export const obtenerPorId = async (req, res, next) => {
     try {
         const servicio = await obtenerUno(req.params.id);
+
         return res.status(200).json({
             success: true,
             data: servicio
@@ -44,14 +48,11 @@ export const obtenerPorId = async (req, res, next) => {
         next(error);
     }
 };
- 
+
 export const crear = async (req, res, next) => {
     try {
-        const servicio = await registrarServicio(
-            req.body,
-            req.usuario
-        );
- 
+        const servicio = await registrarServicio(req.usuario, req.body);
+
         return res.status(201).json({
             success: true,
             message: "Servicio creado correctamente.",
@@ -61,15 +62,15 @@ export const crear = async (req, res, next) => {
         next(error);
     }
 };
- 
+
 export const actualizar = async (req, res, next) => {
     try {
         const servicio = await editarServicio(
+            req.usuario,
             req.params.id,
-            req.body,
-            req.usuario
+            req.body
         );
- 
+
         return res.status(200).json({
             success: true,
             message: "Servicio actualizado correctamente.",
@@ -79,17 +80,20 @@ export const actualizar = async (req, res, next) => {
         next(error);
     }
 };
- 
+
 export const eliminar = async (req, res, next) => {
     try {
-        await borrarServicio(
+        const forzar = req.query.forzar === "true";
+        const resultado = await borrarServicio(
+            req.usuario,
             req.params.id,
-            req.usuario
+            { forzar }
         );
- 
+
         return res.status(200).json({
             success: true,
-            message: "Servicio eliminado correctamente."
+            message: "Servicio eliminado correctamente.",
+            data: resultado
         });
     } catch (error) {
         next(error);

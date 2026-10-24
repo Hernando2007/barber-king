@@ -5,23 +5,16 @@ import 'api_service.dart';
 class HorarioService {
   final ApiService _api = ApiService();
 
-  Future<List<Map<String, dynamic>>> obtenerHorarios(
-    int barberoId,
-  ) async {
+  Future<List<Map<String, dynamic>>> obtenerHorarios(int barberoId) async {
     try {
-      final response = await _api.dio.get(
-        '/horarios/barbero/$barberoId',
-      );
-
+      final response = await _api.dio.get('/horarios/barbero/$barberoId');
       final data = response.data;
       final lista = data is Map ? data['data'] : null;
 
       if (lista is! List) return [];
 
       return lista
-          .map(
-            (item) => Map<String, dynamic>.from(item),
-          )
+          .map((item) => Map<String, dynamic>.from(item))
           .toList();
     } on DioException catch (e) {
       throw Exception(_mensaje(e));
@@ -32,7 +25,7 @@ class HorarioService {
     required int diaSemana,
     required String horaInicio,
     required String horaFin,
-    bool disponible = true,
+    bool activo = true,
   }) async {
     try {
       final response = await _api.dio.post(
@@ -41,8 +34,24 @@ class HorarioService {
           'dia_semana': diaSemana,
           'hora_inicio': horaInicio,
           'hora_fin': horaFin,
-          'disponible': disponible,
+          'activo': activo,
         },
+      );
+
+      return Map<String, dynamic>.from(response.data);
+    } on DioException catch (e) {
+      throw Exception(_mensaje(e));
+    }
+  }
+
+  Future<Map<String, dynamic>> actualizarHorario({
+    required int id,
+    required Map<String, dynamic> datos,
+  }) async {
+    try {
+      final response = await _api.dio.put(
+        '/horarios/actualizar/$id',
+        data: datos,
       );
 
       return Map<String, dynamic>.from(response.data);

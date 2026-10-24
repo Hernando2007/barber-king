@@ -14,29 +14,23 @@ class ServicioService {
     }
   }
 
-  Future<List<dynamic>> obtenerServicios() async {
+  Future<List<dynamic>> obtenerServicios({bool soloActivos = false}) async {
     try {
       final response = await _api.dio.get(
-        "/servicios/obtener",
+        '/servicios/obtener',
+        queryParameters: soloActivos ? {'activos': 'true'} : null,
       );
 
-      return response.data["data"] ?? [];
+      return response.data['data'] ?? [];
     } catch (_) {
       return [];
     }
   }
 
-  Future<Map<String, dynamic>?> obtenerServicio(
-    int id,
-  ) async {
+  Future<Map<String, dynamic>?> obtenerServicio(int id) async {
     try {
-      final response = await _api.dio.get(
-        "/servicios/obtener/$id",
-      );
-
-      return Map<String, dynamic>.from(
-        response.data["data"],
-      );
+      final response = await _api.dio.get('/servicios/obtener/$id');
+      return Map<String, dynamic>.from(response.data['data']);
     } catch (_) {
       return null;
     }
@@ -53,28 +47,21 @@ class ServicioService {
   }) async {
     try {
       final response = await _api.dio.post(
-        "/servicios/crear",
+        '/servicios/crear',
         data: {
-          "nombre": nombre,
-          "descripcion": descripcion,
-          "precio": precio,
-          "duracion": duracion,
-          "tiempo_descanso": tiempoDescanso,
-          "imagen": imagen,
-          "estado": estado,
+          'nombre': nombre,
+          'descripcion': descripcion,
+          'precio': precio,
+          'duracion': duracion,
+          'tiempo_descanso': tiempoDescanso,
+          'imagen': imagen,
+          'estado': estado,
         },
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {
-        "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al crear servicio."
-      };
+      return _error(e, 'Error al crear servicio.');
     }
   }
 
@@ -84,41 +71,51 @@ class ServicioService {
   }) async {
     try {
       final response = await _api.dio.put(
-        "/servicios/actualizar/$id",
+        '/servicios/actualizar/$id',
         data: datos,
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {
-        "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al actualizar."
-      };
+      return _error(e, 'Error al actualizar.');
     }
   }
 
   Future<Map<String, dynamic>> eliminarServicio(
-    int id,
-  ) async {
+    int id, {
+    bool forzar = false,
+  }) async {
     try {
       final response = await _api.dio.delete(
-        "/servicios/eliminar/$id",
+        '/servicios/eliminar/$id',
+        queryParameters: forzar ? {'forzar': 'true'} : null,
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
+      return _error(e, 'Error al eliminar.');
+    }
+  }
+
+  Map<String, dynamic> _error(DioException error, String fallback) {
+    final data = error.response?.data;
+
+    if (data is Map) {
       return {
-        "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al eliminar."
+        'success': false,
+        'message': data['message']?.toString() ?? fallback,
+        'detalles': data['detalles'] ?? data['detalle'],
+        'statusCode': error.response?.statusCode,
       };
     }
+
+    if (error.type == DioExceptionType.connectionError) {
+      return {
+        'success': false,
+        'message': 'No se pudo conectar con el servidor.',
+      };
+    }
+
+    return {'success': false, 'message': fallback};
   }
 }

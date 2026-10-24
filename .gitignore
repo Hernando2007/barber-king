@@ -1,2 +1,46 @@
-# ENV
+# Entorno y secretos
 .env
+.env.*
+!.env.example
+!backend/.env.example
+backend/.env
+backend/.env.*
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+.nyc_output/
+
+# Archivos cargados en tiempo de ejecución
+backend/uploads/*
+!backend/uploads/1785088701971-303123337.jpeg
+!backend/uploads/1787755778956-842406602.jpg
+
+# Flutter / Dart
+.dart_tool/
+.packages
+.build/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+frontend/barber_king_app/android/local.properties
+frontend/barber_king_app/android/.gradle/
+frontend/barber_king_app/android/key.properties
+frontend/barber_king_app/ios/Pods/
+frontend/barber_king_app/ios/.symlinks/
+frontend/barber_king_app/ios/Flutter/ephemeral/
+frontend/barber_king_app/macos/Flutter/ephemeral/
+frontend/barber_king_app/linux/flutter/ephemeral/
+frontend/barber_king_app/windows/flutter/ephemeral/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+*.log

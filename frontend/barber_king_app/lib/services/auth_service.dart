@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,8 +8,7 @@ import 'api_service.dart';
 
 class AuthService {
   final ApiService _api = ApiService();
-  final FlutterSecureStorage _storage =
-      const FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   Future<Map<String, dynamic>> login({
     required String correo,
@@ -52,7 +52,11 @@ class AuthService {
     required String fechaNacimiento,
     required String password,
     String? especialidad,
-    String? diplomaPath,
+    int? experiencia,
+    String? descripcion,
+    String? direccion,
+    Uint8List? diplomaBytes,
+    String? diplomaNombre,
   }) async {
     try {
       final form = FormData.fromMap({
@@ -63,21 +67,24 @@ class AuthService {
         'telefono': telefono.trim(),
         'fecha_nacimiento': fechaNacimiento.trim(),
         'password': password,
-        if (especialidad != null)
+        if (especialidad != null && especialidad.trim().isNotEmpty)
           'especialidad': especialidad.trim(),
-        if (diplomaPath != null && diplomaPath.isNotEmpty)
-          'diploma': await MultipartFile.fromFile(
-            diplomaPath,
-            filename: diplomaPath.split('/').last,
+        if (experiencia != null) 'experiencia': experiencia.toString(),
+        if (descripcion != null && descripcion.trim().isNotEmpty)
+          'descripcion': descripcion.trim(),
+        if (direccion != null && direccion.trim().isNotEmpty)
+          'direccion': direccion.trim(),
+        if (diplomaBytes != null && diplomaBytes.isNotEmpty)
+          'diploma': MultipartFile.fromBytes(
+            diplomaBytes,
+            filename: diplomaNombre ?? 'diploma.pdf',
           ),
       });
 
       final response = await _api.dio.post(
         '/auth/registro',
         data: form,
-        options: Options(
-          contentType: 'multipart/form-data',
-        ),
+        options: Options(contentType: 'multipart/form-data'),
       );
 
       return Map<String, dynamic>.from(response.data);
@@ -94,9 +101,7 @@ class AuthService {
     }
   }
 
-  Future<Map<String, dynamic>> recuperarPassword(
-    String correo,
-  ) async {
+  Future<Map<String, dynamic>> recuperarPassword(String correo) async {
     try {
       final response = await _api.dio.post(
         '/auth/forgot-password',
@@ -148,9 +153,7 @@ class AuthService {
     }
 
     try {
-      return Map<String, dynamic>.from(
-        jsonDecode(raw),
-      );
+      return Map<String, dynamic>.from(jsonDecode(raw));
     } catch (_) {
       return null;
     }
@@ -161,14 +164,22 @@ class AuthService {
     return token != null && token.isNotEmpty;
   }
 
+  Future<void> actualizarUsuarioLocal(Map<String, dynamic> usuario) async {
+    final actual = await obtenerUsuario();
+    final combinado = {
+      ...?actual,
+      ...usuario,
+    };
+
+    await _storage.write(key: 'usuario', value: jsonEncode(combinado));
+  }
+
   Future<void> cerrarSesion() async {
     await _storage.delete(key: 'token');
     await _storage.delete(key: 'usuario');
   }
 
-  Future<void> _guardarSesion(
-    Map<String, dynamic> data,
-  ) async {
+  Future<void> _guardarSesion(Map<String, dynamic> data) async {
     final token = data['token']?.toString();
     final usuario = data['usuario'];
 
@@ -176,15 +187,8 @@ class AuthService {
       return;
     }
 
-    await _storage.write(
-      key: 'token',
-      value: token,
-    );
-
-    await _storage.write(
-      key: 'usuario',
-      value: jsonEncode(usuario),
-    );
+    await _storage.write(key: 'token', value: token);
+    await _storage.write(key: 'usuario', value: jsonEncode(usuario));
   }
 
   String _mensajeError(DioException error) {

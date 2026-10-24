@@ -49,37 +49,40 @@ const __dirname =
  
 const allowedOrigins = [
     process.env.FRONTEND_URL,
-    "http://localhost:49783",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://192.168.100.165:3000",
-];
- 
+].filter(Boolean);
+
+const esOrigenLocal = (origen) => {
+    if (!origen) {
+        return true;
+    }
+
+    return (
+        /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origen) ||
+        /^https?:\/\/(192\.168|10\.|172\.(1[6-9]|2\d|3[01]))\.\d+\.\d+(:\d+)?$/.test(
+            origen
+        ) ||
+        allowedOrigins.includes(origen)
+    );
+};
+
 app.use(
     cors({
         origin: (origin, callback) => {
- 
-            console.log("Origin:", origin);
- 
-            if (!origin) {
-                return callback(null, true);
-            }
- 
-            if (allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            }
- 
-            return callback(null, true);
+            callback(null, esOrigenLocal(origin));
         },
- 
+
         credentials: true,
         methods: [
             "GET",
             "POST",
             "PUT",
-            "DELETE"
+            "DELETE",
+            "OPTIONS"
         ],
- 
+
         allowedHeaders: [
             "Content-Type",
             "Authorization"
@@ -90,7 +93,10 @@ app.use(
 app.use(
     helmet({
         crossOriginEmbedderPolicy:
-            false
+            false,
+        crossOriginResourcePolicy: {
+            policy: "cross-origin"
+        }
     })
 );
  
@@ -102,32 +108,49 @@ if (
     app.use(morgan("dev"));
  
 }
- 
-app.use(rateLimit({
- 
+
+const limiteGeneral = rateLimit({
     windowMs:
         15 * 60 * 1000,
- 
+
     max:
         process.env.NODE_ENV ===
         "production"
-            ? 300
-            : 100,
- 
+            ? 2000
+            : 5000,
+
     standardHeaders: true,
- 
+
     legacyHeaders: false,
- 
+
     message: {
- 
+
         success: false,
- 
+
         message:
-            "Demasiadas peticiones."
- 
+            "Demasiadas peticiones. Espera un momento."
+
     }
- 
-}));
+
+});
+
+const limiteAutenticacion = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 50,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        message:
+            "Demasiados intentos. Espera unos minutos."
+    }
+});
+
+app.use(limiteGeneral);
+app.use("/api/auth/login", limiteAutenticacion);
+app.use("/api/auth/forgot-password", limiteAutenticacion);
+app.use("/api/auth/reset-password", limiteAutenticacion);
+app.use("/api/auth/google", limiteAutenticacion);
  
 app.use(express.json({
     limit: "10mb"

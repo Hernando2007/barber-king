@@ -1,3 +1,3 @@
-import { uploadDocumento } from "../config/cloudinary.js";
- 
+import { uploadDocumento } from "../config/multer.js";
+
 export const subirDiploma = uploadDocumento.single("diploma");

@@ -9,12 +9,29 @@ class DashboardService {
     try {
       final response = await _api.dio.get('/dashboard/barbero');
       final data = response.data;
+
       if (data is Map && data['data'] is Map) {
         return Map<String, dynamic>.from(data['data']);
       }
     } on DioException {
       return null;
     }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> obtenerAdmin() async {
+    try {
+      final response = await _api.dio.get('/dashboard');
+      final data = response.data;
+
+      if (data is Map && data['data'] is Map) {
+        return Map<String, dynamic>.from(data['data']);
+      }
+    } on DioException {
+      return null;
+    }
+
     return null;
   }
 }

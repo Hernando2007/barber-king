@@ -1,25 +1,53 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFFD4AF37);
+  AppColors._();
 
-  static const Color primaryLight = Color(0xFFFFD76A);
+  static const Color primary = Color(0xFFD6B25E);
+  static const Color primaryLight = Color(0xFFF4DA9A);
+  static const Color primaryDark = Color(0xFFA9832F);
 
-  static const Color background = Color(0xFF0B1020);
+  static const Color background = Color(0xFF070A12);
+  static const Color backgroundSoft = Color(0xFF0B101C);
+  static const Color card = Color(0xFF111824);
+  static const Color surface = Color(0xFF172033);
+  static const Color surfaceAlt = Color(0xFF1D2940);
 
-  static const Color card = Color(0xFF151C2E);
+  static const Color border = Color(0xFF26324A);
+  static const Color borderStrong = Color(0xFF354563);
 
-  static const Color surface = Color(0xFF1A2236);
+  static const Color white = Color(0xFFF8FAFC);
+  static const Color subtitle = Color(0xFF94A3B8);
+  static const Color muted = Color(0xFF64748B);
 
-  static const Color border = Color(0xFF8B6B17);
+  static const Color success = Color(0xFF4ADE80);
+  static const Color warning = Color(0xFFFBBF24);
+  static const Color error = Color(0xFFF87171);
+  static const Color info = Color(0xFF60A5FA);
 
-  static const Color white = Colors.white;
+  static const Color black = Color(0xFF090C12);
 
-  static const Color subtitle = Color(0xFFB0B0B0);
+  static const LinearGradient goldGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [primaryLight, primary, primaryDark],
+  );
 
-  static const Color success = Color(0xFF4CAF50);
+  static const LinearGradient cardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF182338), card],
+  );
 
-  static const Color error = Color(0xFFE53935);
+  static const LinearGradient heroGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF2C2412), Color(0xFF141B2A), Color(0xFF0E1420)],
+  );
 
-  static const Color black = Colors.black;
+  static const LinearGradient backgroundGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFF0C1220), background],
+  );
 }

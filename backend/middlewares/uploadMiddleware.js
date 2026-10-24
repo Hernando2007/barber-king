@@ -1,4 +1,3 @@
-import { upload } from "../config/cloudinary.js";
+import { uploadImagen } from "../config/multer.js";
 
-// Ya ejecuta .single("imagen") y lo exporta
-export const subirImagen = upload.single("imagen");
+export const subirImagen = uploadImagen.single("imagen");

@@ -6,12 +6,51 @@ import {
     guardarTokenRecuperacion,
     actualizarPassword,
     limpiarToken,
-    actualizarUltimoLogin
+    actualizarUltimoLogin,
 } from "../models/authModel.js";
 import { crearBarbero } from "../models/barberosModel.js";
+import { eliminarUsuario } from "../models/usuariosModel.js";
 import { enviarCodigoRecuperacion } from "./emailService.js";
- 
-export const registrarUsuario = async (usuario) => {
+import { httpError } from "../utils/httpError.js";
+
+const ROL_BARBERO = 2;
+const ROL_CLIENTE = 3;
+
+const CORREO_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const texto = (valor) => {
+    if (valor === undefined || valor === null) {
+        return null;
+    }
+
+    const limpio = String(valor).trim();
+    return limpio.length ? limpio : null;
+};
+
+const nombreRol = (rolId) => {
+    if (Number(rolId) === 1) {
+        return "Administrador";
+    }
+
+    if (Number(rolId) === ROL_BARBERO) {
+        return "Barbero";
+    }
+
+    return "Cliente";
+};
+
+const quitarDatosSensibles = (usuario) => {
+    const {
+        password: _password,
+        token_recuperacion: _tokenRecuperacion,
+        token_expiracion: _tokenExpiracion,
+        ...seguro
+    } = usuario;
+
+    return seguro;
+};
+
+export const registrarUsuario = async (datos) => {
     const {
         rol_id,
         nombres,
@@ -21,218 +60,309 @@ export const registrarUsuario = async (usuario) => {
         fecha_nacimiento,
         password,
         especialidad,
+        experiencia,
+        descripcion,
+        direccion,
         diploma_url,
-        diploma_nombre
-    } = usuario;
- 
-    if (
-        !rol_id ||
-        !nombres ||
-        !apellidos ||
-        !correo ||
-        !password
-    ) {
-        throw new Error(
+        diploma_nombre,
+    } = datos || {};
+
+    const rolId = Number(rol_id);
+    const nombre = texto(nombres);
+    const apellido = texto(apellidos);
+    const email = texto(correo)?.toLowerCase();
+
+    if (!nombre || !apellido || !email || !password) {
+        throw httpError(
+            400,
             "Todos los campos obligatorios deben ser enviados."
         );
     }
- 
-    if (![2, 3].includes(Number(rol_id))) {
-        throw new Error(
+
+    if (![ROL_BARBERO, ROL_CLIENTE].includes(rolId)) {
+        throw httpError(
+            400,
             "El tipo de cuenta seleccionado no es válido."
         );
     }
- 
-    if (Number(rol_id) === 2 && !especialidad?.trim()) {
-        throw new Error(
+
+    if (nombre.length < 2 || apellido.length < 2) {
+        throw httpError(
+            400,
+            "Nombres y apellidos deben tener al menos 2 caracteres."
+        );
+    }
+
+    if (!CORREO_REGEX.test(email)) {
+        throw httpError(
+            400,
+            "Ingresa un correo electrónico válido."
+        );
+    }
+
+    if (String(password).length < 6) {
+        throw httpError(
+            400,
+            "La contraseña debe tener mínimo 6 caracteres."
+        );
+    }
+
+    if (rolId === ROL_BARBERO && !texto(especialidad)) {
+        throw httpError(
+            400,
             "La especialidad es obligatoria para registrarse como barbero."
         );
     }
- 
-    const { data: existe } = await buscarPorCorreo(
-        correo.trim().toLowerCase()
-    );
- 
+
+    const telefonoLimpio = texto(telefono);
+
+    if (
+        telefonoLimpio &&
+        (telefonoLimpio.length < 7 || telefonoLimpio.length > 20)
+    ) {
+        throw httpError(
+            400,
+            "El teléfono debe tener entre 7 y 20 caracteres."
+        );
+    }
+
+    const { data: existe } = await buscarPorCorreo(email);
+
     if (existe) {
-        throw new Error("El correo ya está registrado.");
+        throw httpError(409, "El correo ya está registrado.");
     }
- 
-    const passwordHash = await bcrypt.hash(password, 10);
- 
-    const { data, error } = await crearUsuario({
-        rol_id: Number(rol_id),
-        nombres: nombres.trim(),
-        apellidos: apellidos.trim(),
-        correo: correo.trim().toLowerCase(),
-        telefono: telefono?.trim() || null,
-        fecha_nacimiento: fecha_nacimiento || null,
-        password: passwordHash
-    });
- 
-    if (error) {
-        throw new Error(error.message);
-    }
- 
-    if (Number(rol_id) === 2) {
-        const { error: barberoError } = await crearBarbero({
-            usuario_id: data.id,
-            especialidad: especialidad.trim(),
-            diploma_url: diploma_url || null,
-            diploma_nombre: diploma_nombre || null,
-            activo: true,
-            verificacion_estado: diploma_url
-                ? "pendiente"
-                : "pendiente"
-        });
- 
-        if (barberoError) {
-            throw new Error(
-                `Usuario creado, pero no fue posible crear el perfil de barbero: ${barberoError.message}`
+
+    let experienciaNumero = 0;
+
+    if (experiencia !== undefined && experiencia !== null && experiencia !== "") {
+        experienciaNumero = Number(experiencia);
+
+        if (
+            !Number.isFinite(experienciaNumero) ||
+            experienciaNumero < 0 ||
+            experienciaNumero > 70
+        ) {
+            throw httpError(
+                400,
+                "La experiencia debe ser un número entre 0 y 70."
             );
         }
     }
- 
-    const {
-        password: _password,
-        token_recuperacion: _tokenRecuperacion,
-        token_expiracion: _tokenExpiracion,
-        ...usuarioSeguro
-    } = data;
- 
-    return usuarioSeguro;
+
+    const passwordHash = await bcrypt.hash(String(password), 10);
+
+    const { data, error } = await crearUsuario({
+        rol_id: rolId,
+        nombres: nombre,
+        apellidos: apellido,
+        correo: email,
+        telefono: telefonoLimpio,
+        fecha_nacimiento: fecha_nacimiento || null,
+        password: passwordHash,
+        estado: true,
+    });
+
+    if (error) {
+        if (error.code === "23505") {
+            throw httpError(409, "El correo ya está registrado.");
+        }
+
+        throw new Error(error.message);
+    }
+
+    if (rolId === ROL_BARBERO) {
+        const portafolio = diploma_url
+            ? [
+                  {
+                      tipo: "diploma",
+                      url: diploma_url,
+                      nombre: diploma_nombre || "diploma",
+                  },
+              ]
+            : [];
+
+        const { error: barberoError } = await crearBarbero({
+            usuario_id: data.id,
+            especialidad: texto(especialidad),
+            experiencia: Math.round(experienciaNumero),
+            descripcion: texto(descripcion),
+            direccion: texto(direccion),
+            disponible: true,
+            portafolio,
+        });
+
+        if (barberoError) {
+            await eliminarUsuario(data.id);
+
+            throw new Error(
+                `No fue posible crear el perfil de barbero: ${barberoError.message}`
+            );
+        }
+    }
+
+    return {
+        ...quitarDatosSensibles(data),
+        rol_nombre: nombreRol(rolId),
+    };
 };
- 
+
 export const iniciarSesion = async ({ correo, password }) => {
     if (!correo || !password) {
-        throw new Error(
+        throw httpError(
+            400,
             "Correo y contraseña son obligatorios."
         );
     }
- 
-    const { data: usuario } = await buscarPorCorreo(
-        correo.trim().toLowerCase()
-    );
- 
+
+    const email = String(correo).trim().toLowerCase();
+
+    const { data: usuario } = await buscarPorCorreo(email);
+
     if (!usuario) {
-        throw new Error(
+        throw httpError(
+            401,
             "Correo o contraseña incorrectos."
         );
     }
- 
+
+    if (usuario.estado === false) {
+        throw httpError(
+            403,
+            "Tu cuenta está desactivada. Contacta a un administrador."
+        );
+    }
+
+    if (!usuario.password) {
+        throw httpError(
+            400,
+            "Esta cuenta está vinculada a Google. Inicia sesión con Google."
+        );
+    }
+
     const coincide = await bcrypt.compare(
-        password,
+        String(password),
         usuario.password
     );
- 
+
     if (!coincide) {
-        throw new Error(
+        throw httpError(
+            401,
             "Correo o contraseña incorrectos."
         );
     }
- 
+
     await actualizarUltimoLogin(usuario.id);
- 
-    const rol_nombre =
-        Number(usuario.rol_id) === 1
-            ? "Administrador"
-            : Number(usuario.rol_id) === 2
-                ? "Barbero"
-                : "Cliente";
- 
+
+    const rol_nombre = nombreRol(usuario.rol_id);
+
     const token = jwt.sign(
         {
             id: usuario.id,
             rol_id: usuario.rol_id,
-            rol: rol_nombre
+            rol: rol_nombre,
         },
         process.env.JWT_SECRET,
         { expiresIn: "8h" }
     );
- 
-    const {
-        password: _password,
-        token_recuperacion: _tokenRecuperacion,
-        token_expiracion: _tokenExpiracion,
-        ...usuarioSeguro
-    } = usuario;
- 
+
     return {
         token,
         usuario: {
-            ...usuarioSeguro,
-            rol_nombre
-        }
+            ...quitarDatosSensibles(usuario),
+            rol_nombre,
+        },
     };
 };
- 
+
 export const solicitarRecuperacion = async (correo) => {
-    const { data: usuario } = await buscarPorCorreo(correo);
- 
+    const email = texto(correo)?.toLowerCase();
+
+    if (!email) {
+        throw httpError(
+            400,
+            "El correo electrónico es obligatorio."
+        );
+    }
+
+    const { data: usuario } = await buscarPorCorreo(email);
+
     if (!usuario) {
         return true;
     }
- 
+
     const codigo = Math.floor(
         100000 + Math.random() * 900000
     ).toString();
- 
+
     const expiracion = new Date(
         Date.now() + 15 * 60 * 1000
     );
- 
+
     const { error } = await guardarTokenRecuperacion(
-        correo,
+        email,
         codigo,
         expiracion
     );
- 
+
     if (error) {
         throw new Error(error.message);
     }
- 
-    await enviarCodigoRecuperacion(correo, codigo);
+
+    await enviarCodigoRecuperacion(email, codigo);
+
     return true;
 };
- 
+
 export const cambiarPassword = async (
     correo,
     codigo,
     password
 ) => {
     if (!correo || !codigo || !password) {
-        throw new Error(
+        throw httpError(
+            400,
             "Todos los campos son obligatorios."
         );
     }
- 
-    const { data: usuario } = await buscarPorCorreo(correo);
- 
+
+    if (String(password).length < 6) {
+        throw httpError(
+            400,
+            "La contraseña debe tener mínimo 6 caracteres."
+        );
+    }
+
+    const email = String(correo).trim().toLowerCase();
+
+    const { data: usuario } = await buscarPorCorreo(email);
+
     if (!usuario) {
-        throw new Error("Código inválido.");
+        throw httpError(400, "Código inválido.");
     }
- 
-    if (usuario.token_recuperacion !== codigo) {
-        throw new Error("Código inválido.");
+
+    if (String(usuario.token_recuperacion) !== String(codigo)) {
+        throw httpError(400, "Código inválido.");
     }
- 
+
     if (
         !usuario.token_expiracion ||
         new Date(usuario.token_expiracion) < new Date()
     ) {
-        throw new Error("El código ha expirado.");
+        throw httpError(400, "El código ha expirado.");
     }
- 
-    const passwordHash = await bcrypt.hash(password, 10);
- 
+
+    const passwordHash = await bcrypt.hash(String(password), 10);
+
     const { error } = await actualizarPassword(
         usuario.id,
         passwordHash
     );
- 
+
     if (error) {
         throw new Error(error.message);
     }
- 
+
     await limpiarToken(usuario.id);
+
     return true;
 };

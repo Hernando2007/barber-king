@@ -1,22 +1,13 @@
 import supabase from "../config/supabase.js";
 import { obtenerDashboard } from "../models/dashboardModel.js";
-import { obtenerBarberoPorUsuario } from "../models/barberosModel.js";
+import { asegurarPerfilBarbero } from "./barberosService.js";
  
 export const dashboardGeneral = async () => {
     return await obtenerDashboard();
 };
  
 export const dashboardBarbero = async (usuarioId) => {
-    const { data: barbero, error: barberoError } =
-        await obtenerBarberoPorUsuario(usuarioId);
- 
-    if (barberoError) {
-        throw new Error(barberoError.message);
-    }
- 
-    if (!barbero) {
-        throw new Error("Perfil de barbero no encontrado.");
-    }
+    const barbero = await asegurarPerfilBarbero(usuarioId);
  
     const [
         citas,
@@ -46,7 +37,7 @@ export const dashboardBarbero = async (usuarioId) => {
         supabase
             .from("servicios")
             .select("*", { count: "exact", head: true })
-            .eq("barbero_id", barbero.id)
+            .eq("estado", true)
     ]);
  
     const errores = [

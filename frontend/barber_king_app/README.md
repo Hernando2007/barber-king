@@ -1,17 +1,53 @@
-# barber_king_app
+# Barber King - Aplicación Flutter
 
-A new Flutter project.
+Cliente móvil y web del sistema de gestión de barbería Barber King.
 
-## Getting Started
+## Requisitos
 
-This project is a starting point for a Flutter application.
+- Flutter 3.44 o superior.
+- Dart 3.12 o superior.
+- Backend de Barber King en ejecución.
 
-A few resources to get you started if this is your first Flutter project:
+## Ejecutar
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## URL del backend
+
+La aplicación elige la URL según la plataforma:
+
+- Web: `http://localhost:3000`
+- Emulador Android: `http://10.0.2.2:3000`
+- Dispositivo físico: edita el valor por defecto en `lib/core/config/api_config.dart`
+
+También puedes sobrescribirla sin modificar el código:
+
+```bash
+flutter run --dart-define=API_URL=http://192.168.1.50:3000
+```
+
+## Estructura
+
+```text
+lib/
+├── core/      Tema, colores, formateadores y configuración de la API
+├── models/    Modelos del cliente
+├── routes/    Rutas de navegación
+├── screens/   Pantallas por módulo
+├── services/  Consumo de la API
+└── widgets/   Componentes reutilizables
+```
+
+## Permisos
+
+La cámara y la galería están configuradas en `android/app/src/main/AndroidManifest.xml` e `ios/Runner/Info.plist`.
+
+## Verificación
+
+```bash
+flutter analyze
+flutter test
+```

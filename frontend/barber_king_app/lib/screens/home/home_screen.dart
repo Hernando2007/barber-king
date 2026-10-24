@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../admin/admin_home_screen.dart';
 import '../barbero/barbero_home_screen.dart';
 import '../cliente/cliente_home_screen.dart';
 
@@ -60,18 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ) ??
         3;
 
+    if (rolId == 1) {
+      return AdminHomeScreen(usuario: usuario!);
+    }
+
     if (rolId == 2) {
       return BarberoHomeScreen(usuario: usuario!);
     }
 
-    if (rolId == 3) {
-      return ClienteHomeScreen(usuario: usuario!);
-    }
-
-    return const Scaffold(
-      body: Center(
-        child: Text('Rol no soportado.'),
-      ),
-    );
+    return ClienteHomeScreen(usuario: usuario!);
   }
 }

@@ -22,10 +22,7 @@ class ImageSourceSheet extends StatelessWidget {
               color: AppColors.primary,
             ),
             title: const Text('Tomar foto'),
-            onTap: () {
-              Navigator.pop(context);
-              onSelected(ImageSource.camera);
-            },
+            onTap: () => onSelected(ImageSource.camera),
           ),
           ListTile(
             leading: const Icon(
@@ -33,10 +30,7 @@ class ImageSourceSheet extends StatelessWidget {
               color: AppColors.primary,
             ),
             title: const Text('Elegir de la galería'),
-            onTap: () {
-              Navigator.pop(context);
-              onSelected(ImageSource.gallery);
-            },
+            onTap: () => onSelected(ImageSource.gallery),
           ),
         ],
       ),

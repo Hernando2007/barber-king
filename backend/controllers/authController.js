@@ -11,7 +11,7 @@ export const registrar = async (req, res, next) => {
             ...req.body,
             ...(req.file
                 ? {
-                    diploma_url: req.file.path,
+                    diploma_url: `/uploads/documents/${req.file.filename}`,
                     diploma_nombre: req.file.originalname
                 }
                 : {})

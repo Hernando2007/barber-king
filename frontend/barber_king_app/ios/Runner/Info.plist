@@ -26,6 +26,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Barber King usa la cámara para tomar fotos de perfil y para las recomendaciones de corte con inteligencia artificial.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Barber King necesita acceso a tus fotos para subir imágenes de perfil, portafolio y recomendaciones de corte.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Barber King usa el micrófono al grabar video con la cámara.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

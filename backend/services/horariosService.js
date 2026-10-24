@@ -6,9 +6,7 @@ import {
   eliminarHorario,
 } from "../models/horariosModel.js";
 
-import {
-  obtenerBarberoPorUsuario,
-} from "../models/barberosModel.js";
+import { asegurarPerfilBarbero } from "./barberosService.js";
 
 const obtenerBarberoId = async (usuario) => {
   if (!usuario?.id) {
@@ -17,16 +15,15 @@ const obtenerBarberoId = async (usuario) => {
     );
   }
 
-  const { data, error } =
-    await obtenerBarberoPorUsuario(usuario.id);
+  const barbero = await asegurarPerfilBarbero(usuario.id);
 
-  if (error || !data) {
+  if (!barbero) {
     throw new Error(
       "Perfil de barbero no encontrado."
     );
   }
 
-  return data.id;
+  return barbero.id;
 };
 
 

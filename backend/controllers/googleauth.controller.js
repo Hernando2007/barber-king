@@ -1,92 +1,172 @@
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
-import { obtenerUsuarioPorCorreo, crearUsuarioGoogle, actualizarUsuario } from "../models/usuariosModel.js";
+import {
+    obtenerUsuarioPorCorreo,
+    crearUsuarioGoogle,
+    actualizarUsuario,
+    obtenerUsuarioPorId,
+} from "../models/usuariosModel.js";
+import { httpError } from "../utils/httpError.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+const nombreRol = (rolId) => {
+    if (Number(rolId) === 1) {
+        return "Administrador";
+    }
+
+    if (Number(rolId) === 2) {
+        return "Barbero";
+    }
+
+    return "Cliente";
+};
+
+const separarNombre = (payload) => {
+    const completo = String(payload.name || "").trim();
+
+    const nombres =
+        String(payload.given_name || "").trim() ||
+        completo.split(/\s+/)[0] ||
+        "Usuario";
+
+    const apellidos =
+        String(payload.family_name || "").trim() ||
+        completo.split(/\s+/).slice(1).join(" ") ||
+        "Google";
+
+    return { nombres, apellidos };
+};
+
 export const autenticarConGoogle = async (req, res) => {
     try {
-        const { idToken } = req.body;
+        const { idToken } = req.body || {};
 
         if (!idToken) {
-            return res.status(400).json({
-                error: 'El idToken de Google es requerido'
-            });
+            throw httpError(
+                400,
+                "El idToken de Google es requerido."
+            );
         }
 
-        // 1. Validar el token con Google 
+        if (!process.env.GOOGLE_CLIENT_ID) {
+            throw httpError(
+                500,
+                "El inicio de sesión con Google no está configurado."
+            );
+        }
+
         const ticket = await client.verifyIdToken({
             idToken,
-            audience: process.env.GOOGLE_CLIENT_ID
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
 
         const payload = ticket.getPayload();
-        const { sub: googleId, email, name: nombre, picture: avatar } = payload;
 
-        // 2. Comprobar si ya existe en Supabase
-        const { data: usuarioExistente } = await obtenerUsuarioPorCorreo(email);
-
-        let usuarioFinal = null;
-
-        if (usuarioExistente) {
-            // LOGIN: Ya existe, actualizamos si faltaba vincular Google
-            usuarioFinal = usuarioExistente;
-
-            const camposActualizar = {};
-            if (!usuarioExistente.googleId) camposActualizar.googleId = googleId;
-            if (!usuarioExistente.avatar && avatar) camposActualizar.avatar = avatar;
-            if (!usuarioExistente.isVerified) camposActualizar.isVerified = true;
-
-            if (Object.keys(camposActualizar).length > 0) {
-                await actualizarUsuario(usuarioExistente.id, camposActualizar);
-            }
-        } else {
-            // REGISTRO: Usuario nuevo
-            const { data: nuevoUsuario, error: errorCrear } = await crearUsuarioGoogle({
-                nombre,
-                email,
-                googleId,
-                avatar,
-                rol: 'usuario'
-            });
-
-            if (errorCrear) {
-                return res.status(500).json({
-                    error: 'Error al registrar el usuario en Supabase',
-                    detalle: errorCrear.message
-                });
-            }
-
-            usuarioFinal = Array.isArray(nuevoUsuario) ? nuevoUsuario[0] : nuevoUsuario;
+        if (!payload?.email) {
+            throw httpError(
+                400,
+                "La cuenta de Google no tiene un correo disponible."
+            );
         }
 
-        // 3. Generar token de sesión JWT
+        const correo = payload.email.toLowerCase();
+        const { sub: googleId, picture: avatar } = payload;
+        const { nombres, apellidos } = separarNombre(payload);
+
+        const { data: existente } = await obtenerUsuarioPorCorreo(
+            correo
+        );
+
+        let usuarioFinal = null;
+        let mensaje = "Inicio de sesión exitoso con Google.";
+        let usuarioId = existente?.id || null;
+
+        if (existente) {
+            if (existente.estado === false) {
+                throw httpError(
+                    403,
+                    "Tu cuenta está desactivada. Contacta a un administrador."
+                );
+            }
+
+            const cambios = {};
+
+            if (!existente.googleId) {
+                cambios.googleId = googleId;
+            }
+
+            if (!existente.avatar && avatar) {
+                cambios.avatar = avatar;
+            }
+
+            if (!existente.email_verificado) {
+                cambios.email_verificado = true;
+            }
+
+            if (Object.keys(cambios).length) {
+                await actualizarUsuario(existente.id, cambios);
+            }
+        } else {
+            const { data: nuevo, error } = await crearUsuarioGoogle({
+                nombres,
+                apellidos,
+                correo,
+                googleId,
+                avatar,
+            });
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            usuarioId = nuevo.id;
+            mensaje = "Registro exitoso con Google.";
+        }
+
+        const { data: completo, error: errorPerfil } =
+            await obtenerUsuarioPorId(usuarioId);
+
+        if (errorPerfil || !completo) {
+            throw new Error(
+                "No fue posible cargar el perfil del usuario."
+            );
+        }
+
+        usuarioFinal = completo;
+
+        const rol_nombre =
+            usuarioFinal.roles?.nombre ||
+            nombreRol(usuarioFinal.rol_id);
+
         const token = jwt.sign(
-            { id: usuarioFinal.id, rol: usuarioFinal.rol },
+            {
+                id: usuarioFinal.id,
+                rol_id: usuarioFinal.rol_id,
+                rol: rol_nombre,
+            },
             process.env.JWT_SECRET,
-            { expiresIn: '1d' }
+            { expiresIn: "8h" }
         );
 
         return res.status(200).json({
-            message: usuarioExistente ? 'Inicio de sesión exitoso con Google' : 'Registro exitoso con Google',
+            success: true,
+            message: mensaje,
             token,
             usuario: {
-                id: usuarioFinal.id,
-                nombre: usuarioFinal.nombre,
-                email: usuarioFinal.email,
-                rol: usuarioFinal.rol,
-                avatar: usuarioFinal.avatar || avatar
-            }
+                ...usuarioFinal,
+                rol_nombre,
+            },
         });
+    } catch (error) {
+        console.error("Error en autenticación con Google:", error.message);
 
-    }  catch (error) {
-    // Imprime el objeto de error completo para inspeccionar la causa real
-    console.error('--- DETALLE DEL ERROR DE GOOGLE ---');
-    console.error(error);
-    console.error('-----------------------------------');
-
-    return res.status(401).json({
-        error: 'Token de Google inválido o expirado'
-    });
+        return res.status(error.statusCode || 401).json({
+            success: false,
+            message:
+                error.statusCode
+                    ? error.message
+                    : "Token de Google inválido o expirado.",
+        });
     }
 };

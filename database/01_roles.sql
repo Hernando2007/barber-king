@@ -29,3 +29,10 @@ CREATE TABLE roles (
 COMMENT ON TABLE roles IS 'Roles disponibles dentro del sistema.';
 COMMENT ON COLUMN roles.nombre IS 'Nombre del rol.';
 COMMENT ON COLUMN roles.estado IS 'Indica si el rol está activo.';
+
+INSERT INTO roles (nombre, descripcion)
+VALUES
+    ('Administrador', 'Acceso total al panel de gestión.'),
+    ('Barbero', 'Gestiona su agenda, horarios y perfil profesional.'),
+    ('Cliente', 'Reserva citas, califica y conversa con los barberos.')
+ON CONFLICT (nombre) DO NOTHING;
