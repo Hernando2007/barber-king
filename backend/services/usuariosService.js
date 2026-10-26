@@ -789,7 +789,7 @@ export const actualizarMiPerfil = async (usuario, datos) => {
         campos.password = await bcrypt.hash(passwordNueva, 10);
     }
 
-    const barbero = await obtenerBarberoPorUsuario(usuario.id);
+    const { data: barbero } = await obtenerBarberoPorUsuario(usuario.id);
     const perfilBarbero = barbero
         ? normalizarCamposBarbero(datos)
         : {};
@@ -858,7 +858,7 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
         throw httpError(400, "Selecciona un archivo.");
     }
 
-    const barbero = await obtenerBarberoPorUsuario(usuario.id);
+    const { data: barbero } = await obtenerBarberoPorUsuario(usuario.id);
 
     if (!barbero) {
         throw httpError(
