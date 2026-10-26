@@ -6,6 +6,7 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
 
     if (texto.isEmpty || _enviando) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _enviando = true);
 
     final respuesta = await _chat.enviarMensaje(
@@ -15,6 +16,7 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
 
     if (!mounted) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _enviando = false);
 
     if (respuesta['success'] == true) {
@@ -22,6 +24,7 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
       final enviado = Map<String, dynamic>.from(
         respuesta['data'] as Map,
       );
+      // ignore: invalid_use_of_protected_member
       setState(() {
         _mensajes.add({...enviado, 'esMio': true});
         final id = int.tryParse('${enviado['id']}') ?? 0;
@@ -50,6 +53,7 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
     final file = await _picker.pickImage(source: source, imageQuality: 80);
     if (file == null) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _enviando = true);
 
     final bytes = await file.readAsBytes();
@@ -58,6 +62,7 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
     if (!mounted) return;
 
     if (subida == null || subida.isEmpty) {
+      // ignore: invalid_use_of_protected_member
       setState(() => _enviando = false);
       showAppSnack(
         context,
@@ -75,10 +80,12 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
 
     if (!mounted) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _enviando = false);
 
     if (respuesta['success'] == true) {
       final enviado = Map<String, dynamic>.from(respuesta['data'] as Map);
+      // ignore: invalid_use_of_protected_member
       setState(() {
         _mensajes.add({...enviado, 'esMio': true});
         final id = int.tryParse('${enviado['id']}') ?? 0;

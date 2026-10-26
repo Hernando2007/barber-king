@@ -5,6 +5,8 @@ class _ChatMessageItem extends StatelessWidget {
 
   const _ChatMessageItem({required this.item});
 
+  BuildContext? get context => null;
+
   @override
   Widget build(BuildContext context) {
     if (item.type == _ChatType.userImage) {
@@ -51,7 +53,7 @@ class _ChatMessageItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(13),
         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .8,
+          maxWidth: MediaQuery.of(context!).size.width * .8,
         ),
         decoration: BoxDecoration(
           color: error

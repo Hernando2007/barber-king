@@ -96,12 +96,6 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
     return null;
   }
 
-  Map<String, dynamic>? get _barberoSeleccionado {
-    for (final barbero in _listaBarberos) {
-      if (barbero['id'] == _barberoId) return barbero;
-    }
-    return null;
-  }
 
   void _onServicioChanged(int? value) {
     setState(() => _servicioId = value);

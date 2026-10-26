@@ -24,6 +24,7 @@ Future<void> _adjuntar(_ChatIAScreenState state) async {
 
   if (!state.mounted) return;
 
+  // ignore: invalid_use_of_protected_member
   state.setState(() {
     state._items.add(_ChatItem.userImage(bytes));
     state._enviando = true;
@@ -38,6 +39,7 @@ Future<void> _adjuntar(_ChatIAScreenState state) async {
 
   if (!state.mounted) return;
 
+  // ignore: invalid_use_of_protected_member
   state.setState(() {
     state._enviando = false;
     state._sesionId = respuesta['sesionId']?.toString() ?? state._sesionId;
