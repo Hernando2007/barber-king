@@ -16,6 +16,7 @@ Ejecuta los archivos en el editor SQL de Supabase, uno por uno y en este orden:
 8. `08_mensajes_chat.sql`
 9. `09_datos_prueba.sql` (opcional)
 10. `10_verificacion_barberos.sql` (verificación anti-fraude de barberos)
+11. `11_limpieza_tablas.sql` (elimina tablas legadas sin uso)
 
 Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecutarse sobre una base con información que quieras conservar.
 
