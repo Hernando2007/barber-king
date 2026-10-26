@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/colors.dart';
-
 class StatusPill extends StatelessWidget {
   final String label;
   final Color color;

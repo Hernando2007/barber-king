@@ -12,6 +12,7 @@ extension _ChatConversacionSync on _ChatConversacionScreenState {
           .map((item) => Map<String, dynamic>.from(item as Map))
           .toList();
 
+      // ignore: invalid_use_of_protected_member
       setState(() {
         _mensajes
           ..clear()
@@ -22,6 +23,7 @@ extension _ChatConversacionSync on _ChatConversacionScreenState {
 
       _bajar();
     } else {
+      // ignore: invalid_use_of_protected_member
       setState(() => _cargando = false);
       if (mounted) {
         showAppSnack(
@@ -59,6 +61,7 @@ extension _ChatConversacionSync on _ChatConversacionScreenState {
 
     if (nuevas.isEmpty) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() {
       for (final mensaje in nuevas) {
         final id = int.tryParse('${mensaje['id']}') ?? 0;

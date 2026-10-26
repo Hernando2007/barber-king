@@ -6,6 +6,7 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
     final barberoId = _barberoId;
 
     if (servicioId == null || barberoId == null) {
+      // ignore: invalid_use_of_protected_member
       setState(() {
         _horarios = [];
         _hora = null;
@@ -13,6 +14,7 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
       return;
     }
 
+    // ignore: invalid_use_of_protected_member
     setState(() {
       _consultando = true;
       _hora = null;
@@ -26,6 +28,7 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
 
     if (!mounted) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() {
       _horarios = data
           .map((item) => item.toString())
@@ -45,6 +48,7 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
 
     if (value == null) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _fecha = value);
     await _consultarDisponibilidad();
   }
@@ -60,6 +64,7 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
       return;
     }
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _creando = true);
 
     final respuesta = await _citas.crearCita(
@@ -71,6 +76,7 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
 
     if (!mounted) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _creando = false);
 
     showAppSnack(

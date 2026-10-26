@@ -59,6 +59,7 @@ extension _AdminUsuarioFormLogic on _AdminUsuarioFormScreenState {
       return;
     }
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _cargando = true);
 
     final id = int.tryParse('${widget.usuario?['id']}');
@@ -94,6 +95,7 @@ extension _AdminUsuarioFormLogic on _AdminUsuarioFormScreenState {
 
     if (!mounted) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _cargando = false);
 
     showAppSnack(

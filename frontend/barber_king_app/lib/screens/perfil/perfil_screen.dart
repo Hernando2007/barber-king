@@ -60,12 +60,6 @@ class _PerfilScreenState extends State<PerfilScreen> {
   String get _nombre =>
       '${_usuario?['nombres'] ?? ''} ${_usuario?['apellidos'] ?? ''}'.trim();
 
-  String? _requerido(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Campo obligatorio.';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {

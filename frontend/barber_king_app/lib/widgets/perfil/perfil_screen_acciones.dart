@@ -38,6 +38,7 @@ extension _PerfilAcciones on _PerfilScreenState {
 
     if (file == null) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _subiendoFoto = true);
 
     final bytes = await file.readAsBytes();
@@ -45,6 +46,7 @@ extension _PerfilAcciones on _PerfilScreenState {
 
     if (!mounted) return;
 
+    // ignore: invalid_use_of_protected_member
     setState(() => _subiendoFoto = false);
 
     showAppSnack(
