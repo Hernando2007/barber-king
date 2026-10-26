@@ -99,8 +99,19 @@ class BarberRegistrationFields extends StatelessWidget {
             icon: const Icon(Icons.upload_file_outlined, size: 19),
             label: Text(
               diplomaName == null
-                  ? 'Adjuntar diploma o certificado'
+                  ? 'Adjuntar diploma o certificado *'
                   : 'Cambiar documento',
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Obligatorio para cuentas de barbero. La IA verifica que sea un '
+            'diploma real de barbería; las cuentas con documentos falsos son '
+            'rechazadas. Solo imágenes JPG, PNG o WEBP.',
+            style: TextStyle(
+              color: AppColors.muted,
+              fontSize: 11.5,
+              height: 1.35,
             ),
           ),
           if (diplomaName != null) ...[

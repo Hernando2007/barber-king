@@ -15,8 +15,11 @@ Ejecuta los archivos en el editor SQL de Supabase, uno por uno y en este orden:
 7. `07_resenas.sql`
 8. `08_mensajes_chat.sql`
 9. `09_datos_prueba.sql` (opcional)
+10. `10_verificacion_barberos.sql` (verificación anti-fraude de barberos)
 
 Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecutarse sobre una base con información que quieras conservar.
+
+`10_verificacion_barberos.sql` es una migración incremental (no borra datos): agrega `barberos.verificacion_estado`, la tabla de auditoría `verificaciones_barberos` y marca como aprobados a los barberos existentes.
 
 ## Datos iniciales
 

@@ -21,6 +21,7 @@ import resenasRoutes from "./routes/resenasRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import horariosRoutes from "./routes/horariosRoutes.js";
+import verificacionesRoutes from "./routes/verificacionesRoutes.js";
  
 import {
     verificarEmailService
@@ -151,6 +152,7 @@ app.use("/api/auth/login", limiteAutenticacion);
 app.use("/api/auth/forgot-password", limiteAutenticacion);
 app.use("/api/auth/reset-password", limiteAutenticacion);
 app.use("/api/auth/google", limiteAutenticacion);
+app.use("/api/auth/registro", limiteAutenticacion);
  
 app.use(express.json({
     limit: "10mb"
@@ -194,6 +196,7 @@ app.use("/api/resenas", resenasRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/horarios", horariosRoutes);
+app.use("/api/verificaciones", verificacionesRoutes);
  
 app.use(
     "/uploads",

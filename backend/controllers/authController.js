@@ -12,7 +12,8 @@ export const registrar = async (req, res, next) => {
             ...(req.file
                 ? {
                     diploma_url: `/uploads/documents/${req.file.filename}`,
-                    diploma_nombre: req.file.originalname
+                    diploma_nombre: req.file.originalname,
+                    diploma_mimetype: req.file.mimetype
                 }
                 : {})
         };

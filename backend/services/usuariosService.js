@@ -1,6 +1,10 @@
 import bcrypt from "bcrypt";
 import { httpError } from "../utils/httpError.js";
 import {
+    verificarDiplomaBarbero,
+    marcarBarberoVerificado,
+} from "./verificacionBarberosService.js";
+import {
     obtenerUsuarios,
     obtenerUsuarioPorId,
     obtenerUsuarioConPassword,
@@ -863,6 +867,18 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
         );
     }
 
+    const urlDiploma = `/uploads/documents/${archivo.filename}`;
+
+    await verificarDiplomaBarbero({
+        rutaArchivo: archivo.path,
+        urlPublica: urlDiploma,
+        mimetype: archivo.mimetype,
+        nombreOriginal: archivo.originalname,
+        origen: "actualizacion",
+        usuarioId: usuario.id,
+        barberoId: barbero.id,
+    });
+
     const portafolio = Array.isArray(barbero.portafolio)
         ? barbero.portafolio.filter(
               (item) => item?.tipo !== "diploma"
@@ -871,7 +887,7 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
 
     portafolio.push({
         tipo: "diploma",
-        url: `/uploads/documents/${archivo.filename}`,
+        url: urlDiploma,
         nombre: archivo.originalname || archivo.filename,
     });
 
@@ -883,8 +899,10 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
         throw new Error(error.message);
     }
 
+    await marcarBarberoVerificado(barbero.id);
+
     return {
-        diploma_url: `/uploads/documents/${archivo.filename}`,
+        diploma_url: urlDiploma,
         portafolio,
     };
 };

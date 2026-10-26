@@ -11,6 +11,11 @@ import {
 import { crearBarbero } from "../models/barberosModel.js";
 import { eliminarUsuario } from "../models/usuariosModel.js";
 import { enviarCodigoRecuperacion } from "./emailService.js";
+import {
+    verificarDiplomaBarbero,
+    marcarBarberoVerificado,
+    esColumnaEstadoFaltante,
+} from "./verificacionBarberosService.js";
 import { httpError } from "../utils/httpError.js";
 
 const ROL_BARBERO = 2;
@@ -65,6 +70,7 @@ export const registrarUsuario = async (datos) => {
         direccion,
         diploma_url,
         diploma_nombre,
+        diploma_mimetype,
     } = datos || {};
 
     const rolId = Number(rol_id);
@@ -149,6 +155,22 @@ export const registrarUsuario = async (datos) => {
         }
     }
 
+    if (rolId === ROL_BARBERO && !diploma_url) {
+        throw httpError(
+            400,
+            "Adjunta tu diploma o certificado de barbería para crear la cuenta."
+        );
+    }
+
+    if (rolId === ROL_BARBERO) {
+        await verificarDiplomaBarbero({
+            urlPublica: diploma_url,
+            mimetype: diploma_mimetype,
+            nombreOriginal: diploma_nombre,
+            origen: "registro",
+        });
+    }
+
     const passwordHash = await bcrypt.hash(String(password), 10);
 
     const { data, error } = await crearUsuario({
@@ -171,17 +193,15 @@ export const registrarUsuario = async (datos) => {
     }
 
     if (rolId === ROL_BARBERO) {
-        const portafolio = diploma_url
-            ? [
-                  {
-                      tipo: "diploma",
-                      url: diploma_url,
-                      nombre: diploma_nombre || "diploma",
-                  },
-              ]
-            : [];
+        const portafolio = [
+            {
+                tipo: "diploma",
+                url: diploma_url,
+                nombre: diploma_nombre || "diploma",
+            },
+        ];
 
-        const { error: barberoError } = await crearBarbero({
+        let datosBarbero = {
             usuario_id: data.id,
             especialidad: texto(especialidad),
             experiencia: Math.round(experienciaNumero),
@@ -189,7 +209,20 @@ export const registrarUsuario = async (datos) => {
             direccion: texto(direccion),
             disponible: true,
             portafolio,
-        });
+            verificacion_estado: "aprobado",
+        };
+
+        let { data: barberoCreado, error: barberoError } =
+            await crearBarbero(datosBarbero);
+
+        if (esColumnaEstadoFaltante(barberoError)) {
+            const { verificacion_estado: _estado, ...compatibles } =
+                datosBarbero;
+            datosBarbero = compatibles;
+
+            ({ data: barberoCreado, error: barberoError } =
+                await crearBarbero(datosBarbero));
+        }
 
         if (barberoError) {
             await eliminarUsuario(data.id);
@@ -197,6 +230,10 @@ export const registrarUsuario = async (datos) => {
             throw new Error(
                 `No fue posible crear el perfil de barbero: ${barberoError.message}`
             );
+        }
+
+        if (barberoCreado?.id) {
+            await marcarBarberoVerificado(barberoCreado.id);
         }
     }
 
