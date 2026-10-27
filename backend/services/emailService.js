@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
+import { ASUNTO, contenido } from "./emailPlantilla.js";
 
 const HOSTS_LOCALES = ["localhost", "127.0.0.1", "::1", ""];
-const ASUNTO = "Código de recuperación";
 
 const leerSmtp = () => {
     const host = (process.env.SMTP_HOST || "").trim();
@@ -28,6 +28,11 @@ const leerResend = () => ({
     ).trim(),
 });
 
+const leerBrevo = () => ({
+    clave: (process.env.BREVO_API_KEY || "").trim(),
+    remitente: (process.env.EMAIL_USER || "").trim(),
+});
+
 const crearTransporte = () => {
     const smtp = leerSmtp();
 
@@ -48,7 +53,11 @@ const crearTransporte = () => {
 
 export const correoConfigurado = () => {
     const smtp = leerSmtp();
-    return Boolean(leerResend().clave) || (smtp.completo && !smtp.esLocal);
+    return (
+        Boolean(leerResend().clave) ||
+        Boolean(leerBrevo().clave) ||
+        (smtp.completo && !smtp.esLocal)
+    );
 };
 
 export const verificarEmailService = async () => {
@@ -57,11 +66,16 @@ export const verificarEmailService = async () => {
         return;
     }
 
+    if (leerBrevo().clave) {
+        console.log("✓ Correo configurado por Brevo (API HTTP).");
+        return;
+    }
+
     const smtp = leerSmtp();
 
     if (!smtp.completo) {
         console.warn(
-            "⚠ Correo sin configurar: define RESEND_API_KEY o SMTP_HOST, EMAIL_USER y EMAIL_PASS."
+            "⚠ Correo sin configurar: define RESEND_API_KEY, BREVO_API_KEY o las variables SMTP."
         );
         return;
     }
@@ -80,28 +94,6 @@ export const verificarEmailService = async () => {
         console.error("✗ Error SMTP:", error.message);
     }
 };
-
-const contenido = (codigo) => ({
-    text: `
-Tu código de recuperación es:
-
-${codigo}
-
-Este código expira en 15 minutos.
-`,
-    html: `
-<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
-    <h2>Recuperación de contraseña</h2>
-    <p>Has solicitado recuperar tu contraseña.</p>
-    <p>Utiliza el siguiente código:</p>
-    <div style="font-size:32px;font-weight:bold;letter-spacing:8px;padding:20px;background:#f5f5f5;text-align:center;border-radius:8px;">
-        ${codigo}
-    </div>
-    <p style="margin-top:20px;">Este código expira en <strong>15 minutos</strong>.</p>
-    <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
-</div>
-`,
-});
 
 const enviarPorResend = async (correo, codigo) => {
     const { clave, remitente } = leerResend();
@@ -130,16 +122,48 @@ const enviarPorResend = async (correo, codigo) => {
     }
 };
 
+const enviarPorBrevo = async (correo, codigo) => {
+    const { clave, remitente } = leerBrevo();
+    const { text, html } = contenido(codigo);
+
+    const respuesta = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+            "api-key": clave,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            sender: {
+                name: process.env.APP_NAME || "Barber King",
+                email: remitente,
+            },
+            to: [{ email: correo }],
+            subject: ASUNTO,
+            htmlContent: html,
+            textContent: text,
+        }),
+    });
+
+    if (!respuesta.ok) {
+        const detalle = await respuesta.text().catch(() => "");
+        throw new Error(
+            `Brevo respondió ${respuesta.status}. ${detalle}`.trim()
+        );
+    }
+};
+
 export const enviarCodigoRecuperacion = async (correo, codigo) => {
     try {
         if (leerResend().clave) {
             await enviarPorResend(correo, codigo);
+        } else if (leerBrevo().clave) {
+            await enviarPorBrevo(correo, codigo);
         } else {
             const transporte = crearTransporte();
 
             if (!transporte) {
                 throw new Error(
-                    "El servicio de correo no está configurado. Define RESEND_API_KEY o las variables SMTP."
+                    "El servicio de correo no está configurado. Define RESEND_API_KEY, BREVO_API_KEY o las variables SMTP."
                 );
             }
 
@@ -160,7 +184,7 @@ export const enviarCodigoRecuperacion = async (correo, codigo) => {
     } catch (error) {
         console.error("Error enviando correo:", error.message);
         throw new Error(
-            "No fue posible enviar el correo de recuperación. Revisa RESEND_API_KEY o la configuración SMTP del servidor."
+            "No fue posible enviar el correo de recuperación. Revisa RESEND_API_KEY, BREVO_API_KEY o la configuración SMTP del servidor."
         );
     }
 };
