@@ -1,5 +1,6 @@
 import 'package:barber_king_app/core/config/api_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/theme.dart';
 import 'routes/app_routes.dart'; // Ajusta la ruta según la ubicación exacta de tu ApiConfig
@@ -23,6 +24,13 @@ class BarberKingApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Barber King",
       theme: AppTheme.darkTheme,
+      locale: const Locale('es'),
+      supportedLocales: const [Locale('es'), Locale('en')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       initialRoute: AppRoutes.splash,
       routes: AppRoutes.routes,
     );
