@@ -21,9 +21,8 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
 
     if (respuesta['success'] == true) {
       _composer.clear();
-      final enviado = Map<String, dynamic>.from(
-        respuesta['data'] as Map,
-      );
+      final data = Map<String, dynamic>.from(respuesta['data'] as Map);
+      final enviado = Map<String, dynamic>.from(data['mensaje'] as Map);
       // ignore: invalid_use_of_protected_member
       setState(() {
         _mensajes.add({...enviado, 'esMio': true});
@@ -84,7 +83,8 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
     setState(() => _enviando = false);
 
     if (respuesta['success'] == true) {
-      final enviado = Map<String, dynamic>.from(respuesta['data'] as Map);
+      final data = Map<String, dynamic>.from(respuesta['data'] as Map);
+      final enviado = Map<String, dynamic>.from(data['mensaje'] as Map);
       // ignore: invalid_use_of_protected_member
       setState(() {
         _mensajes.add({...enviado, 'esMio': true});
