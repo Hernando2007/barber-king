@@ -51,8 +51,13 @@ class ApiConfig {
   }
 
   /// Devuelve la raíz del servidor (ej: http://192.168.1.110:3000)
-  static String get origin =>
-      _cachedOrigin.isNotEmpty ? _cachedOrigin : _deviceUrl;
+  static String get origin {
+    if (useRemote) {
+      return _remoteUrl;
+    }
+
+    return _cachedOrigin.isNotEmpty ? _cachedOrigin : _deviceUrl;
+  }
 
   /// Resuelve la URL completa para imágenes o archivos
   static String? resolveMedia(String? path) {
