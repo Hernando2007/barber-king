@@ -61,7 +61,7 @@ class AuthService {
     String? diplomaNombre,
   }) async {
     try {
-      final form = FormData.fromMap({
+      final mapData = <String, dynamic>{
         'rol_id': rolId.toString(),
         'nombres': nombres.trim(),
         'apellidos': apellidos.trim(),
@@ -76,17 +76,20 @@ class AuthService {
           'descripcion': descripcion.trim(),
         if (direccion != null && direccion.trim().isNotEmpty)
           'direccion': direccion.trim(),
-        if (diplomaBytes != null && diplomaBytes.isNotEmpty)
-          'diploma': MultipartFile.fromBytes(
-            diplomaBytes,
-            filename: diplomaNombre ?? 'diploma.pdf',
-          ),
-      });
+      };
+
+      if (diplomaBytes != null && diplomaBytes.isNotEmpty) {
+        mapData['diploma'] = MultipartFile.fromBytes(
+          diplomaBytes,
+          filename: diplomaNombre ?? 'diploma.pdf',
+        );
+      }
+
+      final form = FormData.fromMap(mapData);
 
       final response = await _api.dio.post(
         '/auth/registro',
         data: form,
-        options: Options(contentType: 'multipart/form-data'),
       );
 
       return Map<String, dynamic>.from(response.data);
@@ -161,11 +164,11 @@ class AuthService {
     }
 
     if (error.type == DioExceptionType.connectionError) {
-      return 'No se pudo conectar con el servidor.';
+      return 'No se pudo conectar con el servidor. Revisa tu conexión a la red local.';
     }
 
     if (error.type == DioExceptionType.connectionTimeout) {
-      return 'Tiempo de conexión agotado.';
+      return 'Tiempo de conexión agotado al intentar alcanzar el servidor.';
     }
 
     return 'Ocurrió un error al comunicarse con el servidor.';
