@@ -7,9 +7,11 @@ import '../../core/colors.dart';
 import '../../core/config/api_config.dart';
 import '../../services/chat_ia_service.dart';
 import '../../widgets/chat/image_source_sheet.dart';
+import '../../widgets/common/app_ui.dart';
 
 part '../../widgets/chat/chat_ia_item.dart';
 part '../../widgets/chat/chat_ia_actions.dart';
+part '../../widgets/chat/chat_ia_welcome.dart';
 part '../../widgets/chat/chat_ia_message.dart';
 part '../../widgets/chat/chat_ia_recommendation.dart';
 part '../../widgets/chat/chat_ia_composer.dart';
@@ -31,12 +33,6 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
 
   String? _sesionId;
   bool _enviando = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _items.add(_ChatItem.botText('Hola'));
-  }
 
   @override
   void dispose() {
@@ -114,9 +110,7 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
             onPressed: _enviando
                 ? null
                 : () => setState(() {
-                    _items
-                      ..clear()
-                      ..add(_ChatItem.botText('Hola'));
+                    _items.clear();
                     _sesionId = null;
                   }),
             icon: const Icon(Icons.restart_alt_rounded),
@@ -127,13 +121,18 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                controller: _scroll,
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                itemCount: _items.length,
-                itemBuilder: (_, index) =>
-                    _ChatMessageItem(item: _items[index]),
-              ),
+              child: _items.isEmpty
+                  ? _ChatIaWelcome(
+                      disabled: _enviando,
+                      onSuggestion: _enviarTexto,
+                    )
+                  : ListView.builder(
+                      controller: _scroll,
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      itemCount: _items.length,
+                      itemBuilder: (_, index) =>
+                          _ChatMessageItem(item: _items[index]),
+                    ),
             ),
             if (_enviando)
               const Padding(
