@@ -8,6 +8,7 @@ import {
     obtenerUsuarioBasico,
     listarMensajesDirectos,
     listarMensajesSesion,
+    listarNovedadesDirectas,
     crearMensajeDirecto,
 } from "../models/chatDirectoModel.js";
 
@@ -373,6 +374,50 @@ export const obtenerConversacion = async (
             mensajeConEstado(mensaje, usuario.id)
         ),
     };
+};
+
+export const obtenerNovedadesChat = async (
+    usuario,
+    desdeId = 0
+) => {
+    if (!usuario?.id) {
+        throw httpError(401, "Usuario no autenticado.");
+    }
+
+    const base = Number(desdeId) || 0;
+
+    const { data, error } = await listarNovedadesDirectas(
+        Number(usuario.id),
+        base
+    );
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    const mensajes = (data || []).map((item) => {
+        const emisor = item.usuarios || {};
+        const nombre = `${emisor.nombres || ""} ${
+            emisor.apellidos || ""
+        }`.trim();
+
+        return {
+            id: item.id,
+            sesion_id: item.sesion_id,
+            usuario_id: item.usuario_id,
+            mensaje: item.mensaje,
+            imagen_url: item.imagen_url,
+            created_at: item.created_at,
+            emisor_nombre: nombre || "Usuario",
+            emisor_foto: emisor.foto || null,
+        };
+    });
+
+    const ultimoId = mensajes.length
+        ? Number(mensajes[mensajes.length - 1].id)
+        : base;
+
+    return { mensajes, ultimo_id: ultimoId };
 };
 
 export const enviarMensajeDirecto = async (usuario, datos) => {

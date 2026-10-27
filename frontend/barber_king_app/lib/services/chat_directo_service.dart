@@ -37,6 +37,22 @@ class ChatDirectoService {
     }
   }
 
+  Future<Map<String, dynamic>> obtenerNovedades({int desdeId = 0}) async {
+    try {
+      final response = await _api.dio.get(
+        '/chat/directo/novedades',
+        queryParameters: {'desde_id': desdeId},
+      );
+
+      return {
+        'success': true,
+        'data': Map<String, dynamic>.from(response.data['data']),
+      };
+    } on DioException catch (error) {
+      return _error(error, 'No se pudieron consultar los mensajes nuevos.');
+    }
+  }
+
   Future<Map<String, dynamic>> enviarMensaje({
     required int destinatarioId,
     required String mensaje,

@@ -125,6 +125,43 @@ export const listarMensajesSesion = async (
     return resultado;
 };
 
+export const listarNovedadesDirectas = async (
+    usuarioId,
+    desdeId = 0,
+    limite = 50
+) => {
+    const resultado = await supabase
+        .from("mensajes_chat")
+        .select(`
+            id,
+            sesion_id,
+            usuario_id,
+            mensaje,
+            imagen_url,
+            created_at,
+            usuarios(
+                nombres,
+                apellidos,
+                foto
+            )
+        `)
+        .eq("tipo_mensaje", "directo")
+        .neq("usuario_id", usuarioId)
+        .gt("id", Number(desdeId) || 0)
+        .or(
+            `sesion_id.like.directo_${usuarioId}_%,` +
+                `sesion_id.like.%_${usuarioId}`
+        )
+        .order("id", { ascending: false })
+        .limit(limite);
+
+    if (Array.isArray(resultado.data)) {
+        resultado.data.reverse();
+    }
+
+    return resultado;
+};
+
 export const crearMensajeDirecto = async (datos) => {
     return await supabase
         .from("mensajes_chat")

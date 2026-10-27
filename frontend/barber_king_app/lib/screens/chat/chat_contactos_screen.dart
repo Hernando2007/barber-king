@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../services/auth_service.dart';
 import '../../services/chat_directo_service.dart';
+import '../../services/chat_notificacion_service.dart';
 import '../../widgets/chat/chat_contactos_card.dart';
 import '../../widgets/common/app_ui.dart';
 import 'chat_conversacion_screen.dart';
@@ -36,6 +37,8 @@ class _ChatContactosScreenState extends State<ChatContactosScreen> {
 
   Future<void> _cargar() async {
     setState(() => _cargando = true);
+
+    ChatNotificacionService.instance.marcarLeidos();
 
     final usuario = await AuthService().obtenerUsuario();
     final respuesta = await _chat.obtenerContactos();

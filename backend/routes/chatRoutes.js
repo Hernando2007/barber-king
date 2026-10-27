@@ -7,6 +7,7 @@ import {
 import {
     contactosDirectos,
     mensajesDirectos,
+    novedadesDirectas,
     enviarDirecto,
 } from "../controllers/chatDirectoController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
@@ -18,6 +19,12 @@ router.get(
     "/directo/contactos",
     verificarToken,
     contactosDirectos
+);
+
+router.get(
+    "/directo/novedades",
+    verificarToken,
+    novedadesDirectas
 );
 
 router.get(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../../services/chat_notificacion_service.dart';
 import '../admin/admin_home_screen.dart';
 import '../barbero/barbero_home_screen.dart';
 import '../cliente/cliente_home_screen.dart';
@@ -23,6 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _cargarUsuario();
+    ChatNotificacionService.instance.iniciar();
+  }
+
+  @override
+  void dispose() {
+    ChatNotificacionService.instance.detener();
+    super.dispose();
   }
 
   Future<void> _cargarUsuario() async {

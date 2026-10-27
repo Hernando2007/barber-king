@@ -1,6 +1,7 @@
 import {
     obtenerContactosDirectos,
     obtenerConversacion,
+    obtenerNovedadesChat,
     enviarMensajeDirecto,
 } from "../services/chatDirectoService.js";
 
@@ -24,6 +25,22 @@ export const mensajesDirectos = async (req, res, next) => {
             req.usuario,
             req.params.contactoId,
             req.query.ultimo_id
+        );
+
+        return res.status(200).json({
+            success: true,
+            data,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const novedadesDirectas = async (req, res, next) => {
+    try {
+        const data = await obtenerNovedadesChat(
+            req.usuario,
+            req.query.desde_id
         );
 
         return res.status(200).json({
