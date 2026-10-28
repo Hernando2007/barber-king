@@ -76,7 +76,10 @@ export const obtenerUsuarioBasico = async (id) => {
         .maybeSingle();
 };
 
-export const listarMensajesDirectos = async (limite = 2000) => {
+export const listarMensajesDirectos = async (
+    usuarioId,
+    limite = 300
+) => {
     return await supabase
         .from("mensajes_chat")
         .select(`
@@ -91,6 +94,10 @@ export const listarMensajesDirectos = async (limite = 2000) => {
             created_at
         `)
         .eq("tipo_mensaje", "directo")
+        .or(
+            `sesion_id.like.directo_${usuarioId}_%,` +
+                `sesion_id.like.%_${usuarioId}`
+        )
         .order("created_at", { ascending: false })
         .limit(limite);
 };

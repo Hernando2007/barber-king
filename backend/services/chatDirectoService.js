@@ -1,4 +1,5 @@
 import { httpError } from "../utils/httpError.js";
+import { contieneProfanidad } from "../utils/profanidad.js";
 import { obtenerBarberoPorUsuario } from "../models/barberosModel.js";
 import { asegurarPerfilBarbero } from "./barberosService.js";
 import {
@@ -87,7 +88,6 @@ const datosContacto = (usuario, extra = {}) => {
         nombres: usuario.nombres || "",
         apellidos: usuario.apellidos || "",
         foto: usuario.foto || null,
-        correo: usuario.correo || null,
         rol:
             extra.rol ||
             usuario.roles?.nombre ||
@@ -261,7 +261,7 @@ export const obtenerContactosDirectos = async (usuario) => {
     }
 
     const { data: mensajes, error: errorMensajes } =
-        await listarMensajesDirectos();
+        await listarMensajesDirectos(miId);
 
     if (errorMensajes) {
         throw new Error(errorMensajes.message);
@@ -435,6 +435,13 @@ export const enviarMensajeDirecto = async (usuario, datos) => {
         throw httpError(
             400,
             "Escribe un mensaje antes de enviarlo."
+        );
+    }
+
+    if (contieneProfanidad(mensaje)) {
+        throw httpError(
+            400,
+            "El mensaje tiene palabras no permitidas. Reformúlalo para enviarlo."
         );
     }
 
