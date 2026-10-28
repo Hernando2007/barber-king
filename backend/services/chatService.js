@@ -1,6 +1,7 @@
 import Groq from "groq-sdk";
 import supabase from "../config/supabase.js";
 import { httpError } from "../utils/httpError.js";
+import { contieneProfanidad } from "../utils/profanidad.js";
 
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY,
@@ -132,6 +133,13 @@ export const enviarMensaje = async (
     usuarioId,
     sesionId
 ) => {
+    if (contieneProfanidad(mensaje)) {
+        throw httpError(
+            400,
+            "El mensaje tiene palabras no permitidas. Reformúlalo para enviarlo."
+        );
+    }
+
     const sesion = sesionId || `sesion_${Date.now()}`;
 
     const [catalogo, barberos] = await Promise.all([
