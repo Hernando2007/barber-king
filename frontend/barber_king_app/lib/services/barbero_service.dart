@@ -106,4 +106,66 @@ class BarberoService {
       };
     }
   }
+
+  Future<List<dynamic>> obtenerDestacados({int limite = 5}) async {
+    try {
+      final response = await _api.dio.get(
+        "/barberos/destacados",
+        queryParameters: {"limite": limite},
+      );
+
+      return response.data["data"] ?? [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> obtenerCercanos({
+    required double latitud,
+    required double longitud,
+    double radioKm = 15,
+  }) async {
+    try {
+      final response = await _api.dio.get(
+        "/barberos/cercanos",
+        queryParameters: {
+          "latitud": latitud,
+          "longitud": longitud,
+          "radio_km": radioKm,
+        },
+      );
+
+      return response.data["data"] ?? [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<Map<String, dynamic>> actualizarUbicacion({
+    required double latitud,
+    required double longitud,
+    String? ciudad,
+    String? zona,
+  }) async {
+    try {
+      final response = await _api.dio.put(
+        "/barberos/ubicacion",
+        data: {
+          "latitud": latitud,
+          "longitud": longitud,
+          "ciudad": ?ciudad,
+          "zona": ?zona,
+        },
+      );
+
+      return Map<String, dynamic>.from(response.data);
+    } on DioException catch (e) {
+      return {
+        "success": false,
+        "message":
+            e.response?.data["message"] ??
+            "No fue posible actualizar la ubicación.",
+      };
+    }
+  }
 }

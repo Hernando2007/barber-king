@@ -5,6 +5,8 @@ import '../../core/colors.dart';
 import '../../core/formatters.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../../services/barbero_service.dart';
+import '../../services/ubicacion_service.dart';
 import '../../services/usuario_service.dart';
 import '../../widgets/common/app_ui.dart';
 
@@ -12,6 +14,7 @@ part '../../widgets/perfil/perfil_screen_acciones.dart';
 part '../../widgets/perfil/perfil_screen_password.dart';
 part '../../widgets/perfil/perfil_screen_header.dart';
 part '../../widgets/perfil/perfil_screen_info.dart';
+part '../../widgets/perfil/perfil_screen_ubicacion.dart';
 part '../../widgets/perfil/perfil_screen_edit.dart';
 part '../../widgets/perfil/perfil_screen_edit_view.dart';
 
@@ -30,6 +33,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
   Map<String, dynamic>? _usuario;
   bool _cargando = true;
   bool _subiendoFoto = false;
+  bool _actualizandoUbicacion = false;
 
   @override
   void initState() {
@@ -60,6 +64,45 @@ class _PerfilScreenState extends State<PerfilScreen> {
   String get _nombre =>
       '${_usuario?['nombres'] ?? ''} ${_usuario?['apellidos'] ?? ''}'.trim();
 
+  Future<void> _compartirUbicacion() async {
+    setState(() => _actualizandoUbicacion = true);
+    try {
+      final posicion = await UbicacionService().obtenerPosicion();
+      final barbero = _barbero;
+      final respuesta = await BarberoService().actualizarUbicacion(
+        latitud: posicion.latitud,
+        longitud: posicion.longitud,
+        ciudad: barbero['ciudad']?.toString(),
+        zona: barbero['zona']?.toString(),
+      );
+
+      if (!mounted) return;
+      showAppSnack(
+        context,
+        respuesta['success'] == true
+            ? 'Ubicación compartida. Los clientes ya pueden encontrarte.'
+            : respuesta['message']?.toString() ??
+                'No fue posible compartir tu ubicación.',
+        error: respuesta['success'] != true,
+      );
+
+      if (respuesta['success'] == true) {
+        final remoto = await _usuarios.obtenerPerfilActual();
+
+        if (remoto != null && mounted) {
+          setState(() => _usuario = remoto);
+        }
+      }
+    } on UbicacionException catch (e) {
+      if (mounted) {
+        showAppSnack(context, e.mensaje, error: true);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _actualizandoUbicacion = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +152,12 @@ class _PerfilScreenState extends State<PerfilScreen> {
               if (_esBarbero) ...[
                 const SizedBox(height: 22),
                 _PerfilInfoProfesional(barbero: barbero),
+                const SizedBox(height: 22),
+                _PerfilUbicacionCard(
+                  barbero: barbero,
+                  cargando: _actualizandoUbicacion,
+                  onCompartir: _compartirUbicacion,
+                ),
                 const SizedBox(height: 22),
                 const SectionHeader(
                   title: 'Documento profesional',

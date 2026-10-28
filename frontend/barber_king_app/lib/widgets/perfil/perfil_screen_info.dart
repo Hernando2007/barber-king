@@ -74,6 +74,16 @@ class _PerfilInfoProfesional extends StatelessWidget {
           value: barbero['direccion']?.toString() ?? '-',
         ),
         InfoRow(
+          icon: Icons.location_city_outlined,
+          label: 'Ciudad',
+          value: barbero['ciudad']?.toString() ?? '-',
+        ),
+        InfoRow(
+          icon: Icons.map_outlined,
+          label: 'Zona o barrio',
+          value: barbero['zona']?.toString() ?? '-',
+        ),
+        InfoRow(
           icon: Icons.notes_outlined,
           label: 'Descripción',
           value: barbero['descripcion']?.toString() ?? '-',

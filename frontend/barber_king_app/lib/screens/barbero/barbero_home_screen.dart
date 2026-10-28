@@ -1,18 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../core/formatters.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../../services/barbero_service.dart';
 import '../../services/chat_notificacion_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/dashboard_service.dart';
+import '../../services/ubicacion_service.dart';
 import '../../services/usuario_service.dart';
 import '../../widgets/common/app_ui.dart';
 
 part '../../widgets/barbero/barbero_home_header.dart';
 part '../../widgets/barbero/barbero_home_info.dart';
 part '../../widgets/barbero/barbero_home_herramientas.dart';
+part '../../widgets/barbero/barbero_home_ubicacion.dart';
 
 class BarberoHomeScreen extends StatefulWidget {
   final Map<String, dynamic> usuario;
@@ -125,6 +130,8 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
                       cita: _citaHoy,
                       onVerCitas: () => _ir(AppRoutes.citas),
                     ),
+                    const SizedBox(height: 20),
+                    const _BarberoUbicacionCard(),
                     const SizedBox(height: 20),
                     _BarberoStatsGrid(resumen: _resumen),
                     const SizedBox(height: 24),

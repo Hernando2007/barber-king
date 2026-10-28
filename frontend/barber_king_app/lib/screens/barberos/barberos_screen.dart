@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../services/auth_service.dart';
 import '../../services/barbero_service.dart';
-import '../../widgets/barberos/barberos_screen_card.dart';
+import '../../widgets/barberos/barberos_acciones.dart';
+import '../../widgets/barberos/barberos_cerca_boton.dart';
+import '../../widgets/barberos/barberos_destacados_panel.dart';
+import '../../widgets/barberos/barberos_screen_lista.dart';
 import '../../widgets/common/app_ui.dart';
-import '../chat/chat_conversacion_screen.dart';
-import '../citas/crear_cita_screen.dart';
 
 class BarberosScreen extends StatefulWidget {
   const BarberosScreen({super.key});
@@ -20,8 +21,10 @@ class _BarberosScreenState extends State<BarberosScreen> {
   final TextEditingController _busqueda = TextEditingController();
 
   List<Map<String, dynamic>> _barberos = [];
+  List<Map<String, dynamic>> _destacados = [];
   int _rol = 3;
   bool _cargando = true;
+  bool _cercaDeMi = false;
 
   @override
   void initState() {
@@ -35,20 +38,29 @@ class _BarberosScreenState extends State<BarberosScreen> {
     super.dispose();
   }
 
+  List<Map<String, dynamic>> _mapa(List<dynamic> data) {
+    return data
+        .whereType<Map>()
+        .map((item) => Map<String, dynamic>.from(item))
+        .toList();
+  }
+
   Future<void> _cargar() async {
     setState(() => _cargando = true);
 
     final usuario = await AuthService().obtenerUsuario();
-    final data = await _service.obtenerBarberos();
+    final resultados = await Future.wait([
+      _service.obtenerBarberos(),
+      _service.obtenerDestacados(),
+    ]);
 
     if (!mounted) return;
 
     setState(() {
       _rol = int.tryParse('${usuario?['rol_id'] ?? 3}') ?? 3;
-      _barberos = data
-          .whereType<Map>()
-          .map((item) => Map<String, dynamic>.from(item))
-          .toList();
+      _barberos = _mapa(resultados[0]);
+      _destacados = _mapa(resultados[1]);
+      _cercaDeMi = false;
       _cargando = false;
     });
   }
@@ -63,54 +75,12 @@ class _BarberosScreenState extends State<BarberosScreen> {
           ? '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
           : '';
       final especialidad = '${barbero['especialidad'] ?? ''}';
+      final lugar = '${barbero['ciudad'] ?? ''} ${barbero['zona'] ?? ''}';
+
       return nombre.toLowerCase().contains(texto) ||
-          especialidad.toLowerCase().contains(texto);
+          especialidad.toLowerCase().contains(texto) ||
+          lugar.toLowerCase().contains(texto);
     }).toList();
-  }
-
-  Map<String, dynamic> _usuario(Map<String, dynamic> barbero) {
-    final value = barbero['usuarios'];
-    return value is Map ? Map<String, dynamic>.from(value) : {};
-  }
-
-  Future<void> _abrirChat(Map<String, dynamic> barbero) async {
-    final usuario = _usuario(barbero);
-
-    if (usuario['id'] == null) {
-      showAppSnack(context, 'No se pudo abrir el chat.', error: true);
-      return;
-    }
-
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChatConversacionScreen(
-          contacto: {
-            'usuario_id': usuario['id'],
-            'nombres': usuario['nombres'],
-            'apellidos': usuario['apellidos'],
-            'foto': usuario['foto'],
-            'rol_id': 2,
-            'especialidad': barbero['especialidad'],
-          },
-        ),
-      ),
-    );
-  }
-
-  Future<void> _reservar(Map<String, dynamic> barbero) async {
-    final guardada = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CrearCitaScreen(
-          barberoInicial: int.tryParse('${barbero['id']}'),
-        ),
-      ),
-    );
-
-    if (guardada == true && mounted) {
-      showAppSnack(context, 'Tu cita fue registrada correctamente.');
-    }
   }
 
   @override
@@ -137,41 +107,53 @@ class _BarberosScreenState extends State<BarberosScreen> {
                 child: ListView(
                   padding: const EdgeInsets.all(20),
                   children: [
-                    const Text(
-                      'Profesionales especializados para brindarte la mejor experiencia.',
-                      style: TextStyle(
-                        color: AppColors.subtitle,
-                        fontSize: 13,
-                        height: 1.45,
-                      ),
+                    BarberosDestacadosPanel(barberos: _destacados),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _busqueda,
+                            onChanged: (_) => setState(() {}),
+                            decoration: InputDecoration(
+                              hintText: _cercaDeMi
+                                  ? 'Buscar en barberos cercanos'
+                                  : 'Buscar por nombre, especialidad o zona',
+                              prefixIcon: const Icon(Icons.search_rounded),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        BarberosCercaBoton(
+                          activo: _cercaDeMi,
+                          onCerca: (lista) => setState(() {
+                            _barberos = lista;
+                            _cercaDeMi = true;
+                          }),
+                          onTodos: _cargar,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _busqueda,
-                      onChanged: (_) => setState(() {}),
-                      decoration: const InputDecoration(
-                        hintText: 'Buscar por nombre o especialidad',
-                        prefixIcon: Icon(Icons.search_rounded),
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-                    if (filtrados.isEmpty)
-                      const EmptyState(
-                        icon: Icons.people_alt_outlined,
-                        title: 'Sin barberos disponibles',
-                        message:
-                            'El equipo se está actualizando. Vuelve a intentarlo pronto.',
-                      )
-                    else
-                      ...filtrados.map(
-                        (barbero) => BarberosScreenCard(
-                          barbero: barbero,
-                          puedeChatear: _rol != 1,
-                          puedeReservar: _rol != 1,
-                          onChat: () => _abrirChat(barbero),
-                          onReservar: () => _reservar(barbero),
+                    if (_cercaDeMi) ...[
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Barberos a menos de 15 km de tu ubicación.',
+                        style: TextStyle(
+                          color: AppColors.subtitle,
+                          fontSize: 12,
                         ),
                       ),
+                    ],
+                    const SizedBox(height: 18),
+                    BarberosLista(
+                      barberos: filtrados,
+                      puedeChatear: _rol != 1,
+                      puedeReservar: _rol != 1,
+                      cercaActiva: _cercaDeMi,
+                      onChat: (barbero) =>
+                          BarberosAcciones.abrirChat(context, barbero),
+                      onReservar: (barbero) =>
+                          BarberosAcciones.reservar(context, barbero),
+                    ),
                   ],
                 ),
               ),

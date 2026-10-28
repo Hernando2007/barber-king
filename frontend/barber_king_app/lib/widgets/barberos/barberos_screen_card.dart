@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../core/config/api_config.dart';
 import '../common/app_ui.dart';
+import 'barberos_calificacion.dart';
 
 class BarberosScreenCard extends StatelessWidget {
   final Map<String, dynamic> barbero;
@@ -43,6 +44,11 @@ class BarberosScreenCard extends StatelessWidget {
     final experiencia = int.tryParse('${barbero['experiencia'] ?? 0}') ?? 0;
     final disponible = barbero['disponible'] != false;
     final foto = usuario['foto']?.toString() ?? barbero['foto_trabajo']?.toString();
+    final promedio =
+        (barbero['calificacion_promedio'] as num?)?.toDouble() ?? 0;
+    final totalResenas =
+        int.tryParse('${barbero['total_resenas'] ?? 0}') ?? 0;
+    final distancia = double.tryParse('${barbero['distancia_km'] ?? ''}');
 
     return AppCard(
       margin: const EdgeInsets.only(bottom: 14),
@@ -105,8 +111,19 @@ class BarberosScreenCard extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
+                    const SizedBox(height: 4),
+                    BarberosCalificacion(
+                      promedio: promedio,
+                      total: totalResenas,
+                      compacto: true,
+                    ),
+                    BarberosUbicacionLine(
+                      ciudad: barbero['ciudad']?.toString(),
+                      zona: barbero['zona']?.toString(),
+                      distanciaKm: distancia,
+                    ),
                     if (experiencia > 0) ...[
-                      const SizedBox(height: 3),
+                      const SizedBox(height: 2),
                       Text(
                         '$experiencia año${experiencia == 1 ? '' : 's'} de experiencia',
                         style: const TextStyle(

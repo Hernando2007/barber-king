@@ -26,6 +26,8 @@ class _PerfilEditSheetState extends State<_PerfilEditSheet> {
   late final TextEditingController _experiencia;
   late final TextEditingController _descripcion;
   late final TextEditingController _direccion;
+  late final TextEditingController _ciudad;
+  late final TextEditingController _zona;
 
   bool _guardando = false;
 
@@ -63,6 +65,12 @@ class _PerfilEditSheetState extends State<_PerfilEditSheet> {
     _direccion = TextEditingController(
       text: barbero['direccion']?.toString(),
     );
+    _ciudad = TextEditingController(
+      text: barbero['ciudad']?.toString(),
+    );
+    _zona = TextEditingController(
+      text: barbero['zona']?.toString(),
+    );
   }
 
   @override
@@ -76,6 +84,8 @@ class _PerfilEditSheetState extends State<_PerfilEditSheet> {
       _experiencia,
       _descripcion,
       _direccion,
+      _ciudad,
+      _zona,
     ]) {
       controller.dispose();
     }
@@ -115,6 +125,8 @@ class _PerfilEditSheetState extends State<_PerfilEditSheet> {
         'experiencia': int.tryParse(_experiencia.text.trim()) ?? 0,
         'descripcion': _descripcion.text.trim(),
         'direccion': _direccion.text.trim(),
+        'ciudad': _ciudad.text.trim(),
+        'zona': _zona.text.trim(),
       });
     }
 
@@ -165,6 +177,8 @@ class _PerfilEditSheetState extends State<_PerfilEditSheet> {
           experiencia: _experiencia,
           descripcion: _descripcion,
           direccion: _direccion,
+          ciudad: _ciudad,
+          zona: _zona,
           esBarbero: widget.esBarbero,
           guardando: _guardando,
           requerido: _requerido,

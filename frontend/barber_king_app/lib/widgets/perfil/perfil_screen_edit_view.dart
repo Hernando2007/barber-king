@@ -9,6 +9,8 @@ class _PerfilEditView extends StatelessWidget {
   final TextEditingController experiencia;
   final TextEditingController descripcion;
   final TextEditingController direccion;
+  final TextEditingController ciudad;
+  final TextEditingController zona;
   final bool esBarbero;
   final bool guardando;
   final String? Function(String?) requerido;
@@ -24,6 +26,8 @@ class _PerfilEditView extends StatelessWidget {
     required this.experiencia,
     required this.descripcion,
     required this.direccion,
+    required this.ciudad,
+    required this.zona,
     required this.esBarbero,
     required this.guardando,
     required this.requerido,
@@ -134,6 +138,26 @@ class _PerfilEditView extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'Dirección',
               prefixIcon: Icon(Icons.location_on_outlined),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextFormField(
+            controller: ciudad,
+            textCapitalization: TextCapitalization.words,
+            decoration: const InputDecoration(
+              labelText: 'Ciudad',
+              hintText: 'Ej: Sincelejo',
+              prefixIcon: Icon(Icons.location_city_outlined),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextFormField(
+            controller: zona,
+            textCapitalization: TextCapitalization.words,
+            decoration: const InputDecoration(
+              labelText: 'Zona o barrio',
+              hintText: 'Ej: Centro',
+              prefixIcon: Icon(Icons.map_outlined),
             ),
           ),
         ],
