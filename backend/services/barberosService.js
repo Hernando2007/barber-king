@@ -1,13 +1,15 @@
 import {
-    obtenerBarberos,
+    actualizarBarbero,
+    crearBarbero,
+    eliminarBarbero,
     obtenerBarberoPorId,
     obtenerBarberoPorUsuario,
-    crearBarbero,
-    actualizarBarbero,
-    eliminarBarbero,
+    obtenerBarberos,
 } from "../models/barberosModel.js";
 import { obtenerUsuarioPorId } from "../models/usuariosModel.js";
 import { httpError } from "../utils/httpError.js";
+import { normalizarBarbero } from "./barberosNormalizador.js";
+import { anotarCalificaciones } from "./barberosRankingService.js";
 
 export const asegurarPerfilBarbero = async (usuarioId) => {
     const { data: existente, error } =
@@ -33,10 +35,7 @@ export const asegurarPerfilBarbero = async (usuarioId) => {
     }
 
     if (Number(usuario.rol_id) !== 2) {
-        throw httpError(
-            403,
-            "El usuario no tiene rol de barbero."
-        );
+        throw httpError(403, "El usuario no tiene rol de barbero.");
     }
 
     const { data, error: errorCrear } = await crearBarbero({
@@ -55,67 +54,6 @@ export const asegurarPerfilBarbero = async (usuarioId) => {
     return data;
 };
 
-const normalizar = (datos, { parcial = true } = {}) => {
-    const entrada = datos || {};
-    const campos = {};
-
-    if (!parcial || entrada.especialidad !== undefined) {
-        const especialidad = String(
-            entrada.especialidad || ""
-        ).trim();
-
-        if (!especialidad) {
-            throw httpError(
-                400,
-                "La especialidad es obligatoria."
-            );
-        }
-
-        campos.especialidad = especialidad;
-    }
-
-    if (entrada.experiencia !== undefined) {
-        const experiencia = Number(entrada.experiencia);
-
-        if (
-            !Number.isFinite(experiencia) ||
-            experiencia < 0 ||
-            experiencia > 70
-        ) {
-            throw httpError(
-                400,
-                "La experiencia debe ser un número entre 0 y 70."
-            );
-        }
-
-        campos.experiencia = Math.round(experiencia);
-    }
-
-    for (const campo of ["descripcion", "direccion", "foto_trabajo"]) {
-        if (entrada[campo] !== undefined) {
-            const valor = String(entrada[campo] ?? "").trim();
-            campos[campo] = valor.length ? valor : null;
-        }
-    }
-
-    if (entrada.disponible !== undefined) {
-        campos.disponible = Boolean(entrada.disponible);
-    }
-
-    if (entrada.portafolio !== undefined) {
-        if (!Array.isArray(entrada.portafolio)) {
-            throw httpError(
-                400,
-                "El portafolio debe ser una lista."
-            );
-        }
-
-        campos.portafolio = entrada.portafolio;
-    }
-
-    return campos;
-};
-
 export const listarBarberos = async () => {
     const { data, error } = await obtenerBarberos();
 
@@ -123,7 +61,7 @@ export const listarBarberos = async () => {
         throw new Error(error.message);
     }
 
-    return data || [];
+    return await anotarCalificaciones(data || []);
 };
 
 export const obtenerUno = async (id) => {
@@ -141,7 +79,8 @@ export const obtenerUno = async (id) => {
         throw httpError(404, "Barbero no encontrado.");
     }
 
-    return data;
+    const [barbero] = await anotarCalificaciones([data]);
+    return barbero;
 };
 
 export const registrarBarbero = async (datos) => {
@@ -160,7 +99,7 @@ export const registrarBarbero = async (datos) => {
         );
     }
 
-    const campos = normalizar(datos, { parcial: false });
+    const campos = normalizarBarbero(datos, { parcial: false });
 
     const { data, error } = await crearBarbero({
         ...campos,
@@ -178,10 +117,7 @@ export const registrarBarbero = async (datos) => {
 
 export const editarBarbero = async (id, datos) => {
     if (!id) {
-        throw httpError(
-            400,
-            "El ID del barbero es obligatorio."
-        );
+        throw httpError(400, "El ID del barbero es obligatorio.");
     }
 
     const { data: existe } = await obtenerBarberoPorId(id);
@@ -190,13 +126,10 @@ export const editarBarbero = async (id, datos) => {
         throw httpError(404, "Barbero no encontrado.");
     }
 
-    const campos = normalizar(datos);
+    const campos = normalizarBarbero(datos);
 
     if (!Object.keys(campos).length) {
-        throw httpError(
-            400,
-            "No hay datos válidos para actualizar."
-        );
+        throw httpError(400, "No hay datos válidos para actualizar.");
     }
 
     const { data, error } = await actualizarBarbero(id, campos);
@@ -215,19 +148,13 @@ export const editarPerfilBarbero = async (usuarioId, datos) => {
         throw httpError(404, "Perfil de barbero no encontrado.");
     }
 
-    const campos = normalizar(datos);
+    const campos = normalizarBarbero(datos);
 
     if (!Object.keys(campos).length) {
-        throw httpError(
-            400,
-            "No hay datos válidos para actualizar."
-        );
+        throw httpError(400, "No hay datos válidos para actualizar.");
     }
 
-    const { data, error } = await actualizarBarbero(
-        barbero.id,
-        campos
-    );
+    const { data, error } = await actualizarBarbero(barbero.id, campos);
 
     if (error) {
         throw new Error(error.message);
@@ -238,10 +165,7 @@ export const editarPerfilBarbero = async (usuarioId, datos) => {
 
 export const borrarBarbero = async (id) => {
     if (!id) {
-        throw httpError(
-            400,
-            "El ID del barbero es obligatorio."
-        );
+        throw httpError(400, "El ID del barbero es obligatorio.");
     }
 
     const { data: existe } = await obtenerBarberoPorId(id);

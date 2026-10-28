@@ -286,6 +286,12 @@ const normalizarCamposBarbero = (
         campos.foto_trabajo = texto(entrada.foto_trabajo);
     }
 
+    for (const campo of ["ciudad", "zona"]) {
+        if (entrada[campo] !== undefined) {
+            campos[campo] = texto(entrada[campo])?.slice(0, 120) || null;
+        }
+    }
+
     if (entrada.disponible !== undefined) {
         campos.disponible = Boolean(entrada.disponible);
     }

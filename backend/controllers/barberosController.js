@@ -6,6 +6,11 @@ import {
     editarPerfilBarbero,
     borrarBarbero
 } from "../services/barberosService.js";
+import {
+    actualizarUbicacionBarbero,
+    listarBarberosCercanos,
+    listarBarberosDestacados
+} from "../services/barberosRankingService.js";
  
 export const obtenerTodos = async (req, res, next) => {
     try {
@@ -82,6 +87,53 @@ export const actualizarPerfil = async (req, res, next) => {
     }
 };
  
+export const cercanos = async (req, res, next) => {
+    try {
+        const barberos = await listarBarberosCercanos(req.query);
+
+        return res.status(200).json({
+            success: true,
+            total: barberos.length,
+            data: barberos
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const destacados = async (req, res, next) => {
+    try {
+        const barberos = await listarBarberosDestacados(
+            req.query.limite
+        );
+
+        return res.status(200).json({
+            success: true,
+            total: barberos.length,
+            data: barberos
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const actualizarUbicacion = async (req, res, next) => {
+    try {
+        const barbero = await actualizarUbicacionBarbero(
+            req.usuario.id,
+            req.body
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Ubicación actualizada.",
+            data: barbero
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const eliminar = async (req, res, next) => {
     try {
         await borrarBarbero(req.params.id);

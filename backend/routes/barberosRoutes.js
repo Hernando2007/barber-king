@@ -5,6 +5,9 @@ import {
     crear,
     actualizar,
     actualizarPerfil,
+    actualizarUbicacion,
+    cercanos,
+    destacados,
     eliminar
 } from "../controllers/barberosController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
@@ -14,12 +17,21 @@ const router = express.Router();
  
 router.get("/obtener", obtenerTodos);
 router.get("/obtener/:id", obtenerPorId);
+router.get("/cercanos", verificarToken, cercanos);
+router.get("/destacados", verificarToken, destacados);
  
 router.put(
     "/perfil",
     verificarToken,
     verificarRol("Barbero"),
     actualizarPerfil
+);
+ 
+router.put(
+    "/ubicacion",
+    verificarToken,
+    verificarRol("Barbero"),
+    actualizarUbicacion
 );
  
 router.post(

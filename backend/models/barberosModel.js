@@ -74,3 +74,9 @@ export const obtenerBarberoPorUsuarioCompleto = async (usuarioId) => {
         .eq("usuario_id", usuarioId)
         .maybeSingle();
 };
+
+export const obtenerCalificacionesBarberos = async () => {
+    return await supabase
+        .from("resenas")
+        .select("barbero_id, calificacion");
+};
