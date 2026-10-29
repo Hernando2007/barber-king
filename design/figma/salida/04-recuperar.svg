@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+<g>
+  <g transform="translate(20 58) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M15 18 9 12l6-6"/></g>
+  <text x="46" y="72" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="500" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Atrás</text>
+</g>
+<circle cx="195" cy="150" r="39" fill="#0B101C" stroke="#D6B25E" stroke-width="1.5"/>
+<g transform="translate(178 133) scale(1.4166666666666667)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+<text x="195" y="234" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="900" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">BARBER KING</text>
+<text x="195" y="260" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Recupera tu contraseña</text>
+<rect x="20" y="292" width="350" height="300" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<text x="195" y="328" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Ingresa tu correo y te enviaremos un código de</text>
+<text x="195" y="347" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">6 dígitos para restablecer tu contraseña.</text>
+<g>
+    <text x="40" y="391" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">CORREO ELECTRÓNICO</text>
+    <rect x="38" y="400" width="314" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(54 417) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="12" cy="12" r="4"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-3.5 7.1"/></g>
+    <text x="84" y="432" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">correo@ejemplo.com</text>
+    
+  </g>
+<g><rect x="38" y="476" width="314" height="52" rx="14" fill="url(#gold)"/><text x="195" y="507" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">ENVIAR CÓDIGO</text></g>
+<text x="195" y="556" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Ya tengo un código</text>
+<text x="195" y="792" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="2">CORTE  •  ESTILO  •  EXPERIENCIA</text>
+</svg>

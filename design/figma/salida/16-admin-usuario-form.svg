@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="940" viewBox="0 0 390 940">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="940" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  <g transform="translate(20 57) scale(1)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M15 18 9 12l6-6"/></g>
+  <text x="56" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Editar usuario</text>
+  
+  
+</g>
+<rect x="20" y="112" width="350" height="104" rx="20" fill="url(#hero)" stroke="#D6B25E" stroke-opacity="0.3" stroke-width="1" opacity="1"/>
+<g>
+    <circle cx="64" cy="164" r="28" fill="#1D2940" stroke="#D6B25E"/>
+    <text x="64" y="170.72" font-family="Poppins, Arial, sans-serif" font-size="19.040000000000003" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">MR</text>
+    
+  </g>
+<text x="108" y="158" font-family="Poppins, Arial, sans-serif" font-size="18" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Marco Ruiz</text>
+<text x="108" y="178" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Barbero · Cuenta activa</text>
+<g>
+    <rect x="298" y="146" width="50.78" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="323.39" y="159.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Activa</text>
+  </g>
+<g>
+  <g transform="translate(20 230) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></g>
+  <text x="46" y="241" font-family="Poppins, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Datos de la cuenta</text>
+</g>
+<g>
+    <text x="22" y="261" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Rol</text>
+    <rect x="20" y="270" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 287) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></g>
+    <text x="66" y="302" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Barbero</text>
+    <g transform="translate(334 287) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m6 9 6 6 6-6"/></g>
+  </g>
+<g>
+    <text x="22" y="331" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Nombres</text>
+    <rect x="20" y="340" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 357) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g>
+    <text x="66" y="372" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Marco</text>
+    
+  </g>
+<g>
+    <text x="22" y="401" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Apellidos</text>
+    <rect x="20" y="410" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 427) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+    <text x="66" y="442" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Ruiz</text>
+    
+  </g>
+<g>
+    <text x="22" y="471" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Correo electrónico</text>
+    <rect x="20" y="480" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 497) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></g>
+    <text x="66" y="512" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">marco@barberking.com</text>
+    
+  </g>
+<g>
+    <text x="22" y="541" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Teléfono</text>
+    <rect x="20" y="550" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 567) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M21 16.9v2.7a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-2.9 18.7 18.7 0 0 1-5.8-5.8A19 19 0 0 1 1.8 4.6 2 2 0 0 1 3.8 2.4h2.7a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.5 10.2a15 15 0 0 0 6.3 6.3l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.1 1.4z"/></g>
+    <text x="66" y="582" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">+57 310 555 8899</text>
+    
+  </g>
+<g>
+    <text x="22" y="611" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Fecha de nacimiento</text>
+    <rect x="20" y="620" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 637) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <text x="66" y="652" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">1992-06-14</text>
+    <g transform="translate(334 637) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m6 9 6 6 6-6"/></g>
+  </g>
+<g>
+    <text x="22" y="681" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Nueva contraseña (opcional)</text>
+    <rect x="20" y="690" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 707) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></g>
+    <text x="66" y="722" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">••••••••</text>
+    <g transform="translate(334 707) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g>
+  </g>
+<text x="22" y="750" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Déjala vacía para conservar la actual.</text>
+<rect x="20" y="766" width="350" height="60" rx="16" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<text x="36" y="790" font-family="Poppins, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Cuenta activa</text>
+<text x="36" y="808" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Los usuarios desactivados no pueden iniciar sesión.</text>
+<g>
+    <rect x="310" y="783" width="46" height="26" rx="13" fill="#D6B25E" stroke="#D6B25E"/>
+    <circle cx="343" cy="796" r="10" fill="#090C12"/>
+  </g>
+<g><rect x="20" y="848" width="350" height="52" rx="14" fill="url(#gold)"/><g transform="translate(123.275 865)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="m20 6-11 11-5-5"/></g></g><text x="149.275" y="879" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">GUARDAR CAMBIOS</text></g>
+<text x="195" y="920" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Los cambios se aplican de inmediato.</text>
+</svg>

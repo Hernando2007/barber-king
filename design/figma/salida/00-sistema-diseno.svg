@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="1140" viewBox="0 0 780 1140"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient></defs>
+<rect width="780" height="1140" fill="#070A12"/>
+<rect x="0" y="0" width="780" height="240" fill="#0B101C"/>
+<text x="48" y="58" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="1.8">SISTEMA DE DISEÑO</text>
+<text x="48" y="100" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.6">Barber King</text>
+<text x="48" y="124" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Colores, tipografía y componentes usados en las 21 pantallas.</text>
+<g transform="translate(682 66) scale(1.9166666666666667)" fill="none" stroke="#D6B25E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+<text x="48" y="202" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Mockups 390 × 844 · tema oscuro · Material 3</text>
+<text x="48" y="290" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="1.1">01 · COLOR</text>
+
+<g>
+  <rect x="48" y="310" width="160" height="40" rx="10" fill="#D6B25E" stroke="#354563"/>
+  <text x="48" y="366" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">primary</text>
+  <text x="48" y="380" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#D6B25E</text>
+</g>
+<g>
+  <rect x="223" y="310" width="160" height="40" rx="10" fill="#F4DA9A" stroke="#354563"/>
+  <text x="223" y="366" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">primaryLight</text>
+  <text x="223" y="380" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#F4DA9A</text>
+</g>
+<g>
+  <rect x="398" y="310" width="160" height="40" rx="10" fill="#A9832F" stroke="#354563"/>
+  <text x="398" y="366" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">primaryDark</text>
+  <text x="398" y="380" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#A9832F</text>
+</g>
+<g>
+  <rect x="573" y="310" width="160" height="40" rx="10" fill="#070A12" stroke="#354563"/>
+  <text x="573" y="366" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">background</text>
+  <text x="573" y="380" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#070A12</text>
+</g>
+<g>
+  <rect x="48" y="392" width="160" height="40" rx="10" fill="#0B101C" stroke="#354563"/>
+  <text x="48" y="448" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">backgroundSoft</text>
+  <text x="48" y="462" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#0B101C</text>
+</g>
+<g>
+  <rect x="223" y="392" width="160" height="40" rx="10" fill="#111824" stroke="#354563"/>
+  <text x="223" y="448" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">card</text>
+  <text x="223" y="462" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#111824</text>
+</g>
+<g>
+  <rect x="398" y="392" width="160" height="40" rx="10" fill="#172033" stroke="#354563"/>
+  <text x="398" y="448" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">surface</text>
+  <text x="398" y="462" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#172033</text>
+</g>
+<g>
+  <rect x="573" y="392" width="160" height="40" rx="10" fill="#1D2940" stroke="#354563"/>
+  <text x="573" y="448" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">surfaceAlt</text>
+  <text x="573" y="462" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#1D2940</text>
+</g>
+<g>
+  <rect x="48" y="474" width="160" height="40" rx="10" fill="#26324A" stroke="#354563"/>
+  <text x="48" y="530" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">border</text>
+  <text x="48" y="544" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#26324A</text>
+</g>
+<g>
+  <rect x="223" y="474" width="160" height="40" rx="10" fill="#354563" stroke="#354563"/>
+  <text x="223" y="530" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">borderStrong</text>
+  <text x="223" y="544" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#354563</text>
+</g>
+<g>
+  <rect x="398" y="474" width="160" height="40" rx="10" fill="#F8FAFC" stroke="#354563"/>
+  <text x="398" y="530" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">white</text>
+  <text x="398" y="544" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#F8FAFC</text>
+</g>
+<g>
+  <rect x="573" y="474" width="160" height="40" rx="10" fill="#94A3B8" stroke="#354563"/>
+  <text x="573" y="530" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">subtitle</text>
+  <text x="573" y="544" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#94A3B8</text>
+</g>
+<g>
+  <rect x="48" y="556" width="160" height="40" rx="10" fill="#64748B" stroke="#354563"/>
+  <text x="48" y="612" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">muted</text>
+  <text x="48" y="626" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#64748B</text>
+</g>
+<g>
+  <rect x="223" y="556" width="160" height="40" rx="10" fill="#4ADE80" stroke="#354563"/>
+  <text x="223" y="612" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">success</text>
+  <text x="223" y="626" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#4ADE80</text>
+</g>
+<g>
+  <rect x="398" y="556" width="160" height="40" rx="10" fill="#FBBF24" stroke="#354563"/>
+  <text x="398" y="612" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">warning</text>
+  <text x="398" y="626" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#FBBF24</text>
+</g>
+<g>
+  <rect x="573" y="556" width="160" height="40" rx="10" fill="#F87171" stroke="#354563"/>
+  <text x="573" y="612" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">error</text>
+  <text x="573" y="626" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0.6">#F87171</text>
+</g>
+<text x="48" y="682" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="1.1">02 · TIPOGRAFÍA</text>
+
+<g>
+  <text x="48" y="736" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Aa</text>
+  <text x="116" y="724" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="1.1">DISPLAY</text>
+  <text x="116" y="741" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Poppins 30 / 700</text>
+  <text x="430" y="736" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hola, Marco · títulos de pantalla</text>
+</g>
+
+<g>
+  <text x="48" y="800" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Aa</text>
+  <text x="116" y="788" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="1.1">TÍTULO</text>
+  <text x="116" y="805" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Poppins 19 / 600</text>
+  <text x="430" y="800" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Encabezados de sección y tarjetas</text>
+</g>
+
+<g>
+  <text x="48" y="864" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Aa</text>
+  <text x="116" y="852" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="1.1">CUERPO</text>
+  <text x="116" y="869" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Poppins 13 / 400</text>
+  <text x="430" y="864" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Textos de apoyo y descripciones</text>
+</g>
+<text x="48" y="930" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="1.1">03 · COMPONENTES</text>
+<g><rect x="48" y="948" width="170" height="52" rx="14" fill="url(#gold)"/><text x="133" y="979" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">RESERVAR</text></g>
+<g><rect x="234" y="948" width="170" height="52" rx="14" fill="none" stroke="#354563"/><text x="319" y="979" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">VER DETALLE</text></g>
+<g>
+    <rect x="420" y="954" width="55.05" height="30" rx="15" fill="#D6B25E" stroke="#D6B25E"/>
+    
+    <text x="447.525" y="973" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">Todos</text>
+  </g>
+<g>
+    <rect x="496" y="954" width="73.68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="532.84" y="973" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Clientes</text>
+  </g>
+<g>
+    <rect x="586" y="954" width="73.68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="622.84" y="973" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Barberos</text>
+  </g>
+<g>
+    <rect x="48" y="1022" width="71.30000000000001" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="83.65" y="1035.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Confirmada</text>
+  </g>
+<g>
+    <rect x="146" y="1022" width="66.17" height="20" rx="10" fill="#FBBF24" opacity="0.14"/>
+    <text x="179.085" y="1035.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#FBBF24" text-anchor="middle" opacity="1" letter-spacing="0">Pendiente</text>
+  </g>
+<g>
+    <rect x="244" y="1022" width="66.17" height="20" rx="10" fill="#F87171" opacity="0.14"/>
+    <text x="277.085" y="1035.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#F87171" text-anchor="middle" opacity="1" letter-spacing="0">Cancelada</text>
+  </g>
+<g>
+    <rect x="342" y="1022" width="55.910000000000004" height="20" rx="10" fill="#60A5FA" opacity="0.14"/>
+    <text x="369.955" y="1035.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#60A5FA" text-anchor="middle" opacity="1" letter-spacing="0">Barbero</text>
+  </g>
+<g transform="translate(440 1020) scale(0.5833333333333334)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(459 1020) scale(0.5833333333333334)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(478 1020) scale(0.5833333333333334)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(497 1020) scale(0.5833333333333334)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(516 1020) scale(0.5833333333333334)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+<text x="542" y="1032" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">4.8 (124)</text>
+<g>
+    
+    <rect x="48" y="1062" width="300" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(64 1079) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></g>
+    <text x="94" y="1094" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Buscar barbero</text>
+    
+  </g>
+<g>
+    <circle cx="402" cy="1086" r="24" fill="#1D2940" stroke="#354563"/>
+    <text x="402" y="1091.76" font-family="Poppins, Arial, sans-serif" font-size="16.32" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">MR</text>
+    <circle cx="422" cy="1106" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+<g>
+    <rect x="440" y="1073" width="46" height="26" rx="13" fill="#D6B25E" stroke="#D6B25E"/>
+    <circle cx="473" cy="1086" r="10" fill="#090C12"/>
+  </g>
+<g>
+    <rect x="504" y="1078" width="160" height="6" rx="3" fill="#1D2940"/>
+    <rect x="504" y="1078" width="108.80000000000001" height="6" rx="3" fill="#D6B25E"/>
+  </g>
+<text x="504" y="1066" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Progreso del día</text>
+<rect x="694" y="1062" width="38" height="48" rx="12" fill="url(#gold)"  opacity="1"/>
+<g transform="translate(703 1072) scale(0.8333333333333334)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+</svg>

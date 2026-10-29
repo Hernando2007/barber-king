@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<defs>
+  <radialGradient id="haloOro"><stop offset="0" stop-color="#D6B25E" stop-opacity="0.14"/><stop offset="1" stop-color="#D6B25E" stop-opacity="0"/></radialGradient>
+  <radialGradient id="haloAzul"><stop offset="0" stop-color="#60A5FA" stop-opacity="0.09"/><stop offset="1" stop-color="#60A5FA" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="352" cy="120" r="260" fill="url(#haloOro)"/>
+<circle cx="30" cy="700" r="300" fill="url(#haloAzul)"/>
+<circle cx="195" cy="146" r="49" fill="#D6B25E" opacity="0.10"/>
+<circle cx="195" cy="146" r="41" fill="url(#gold)"/>
+<g transform="translate(177 128) scale(1.5416666666666667)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+<text x="195" y="236" font-family="Poppins, Arial, sans-serif" font-size="28" font-weight="800" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="5">BARBER KING</text>
+<text x="195" y="260" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Gestión profesional para tu barbería</text>
+<rect x="24" y="286" width="342" height="430" rx="20" fill="url(#card)" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<text x="46" y="326" font-family="Poppins, Arial, sans-serif" font-size="21" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Bienvenido de nuevo</text>
+<text x="46" y="350" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Ingresa para gestionar tus citas y servicios.</text>
+<g>
+    <text x="46" y="385" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Correo electrónico</text>
+    <rect x="44" y="394" width="302" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(60 411) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="12" cy="12" r="4"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-3.5 7.1"/></g>
+    <text x="90" y="426" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">hernando@correo.com</text>
+    
+  </g>
+<g>
+    <text x="46" y="469" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Contraseña</text>
+    <rect x="44" y="478" width="302" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(60 495) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></g>
+    <text x="90" y="510" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">••••••••</text>
+    <g transform="translate(310 495) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g>
+  </g>
+<text x="346" y="560" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#D6B25E" text-anchor="end" opacity="1" letter-spacing="0">¿Olvidaste tu contraseña?</text>
+<g><rect x="44" y="582" width="302" height="52" rx="14" fill="url(#gold)"/><g transform="translate(127.19 599)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></g></g><text x="153.19" y="613" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Iniciar sesión</text></g>
+<g>
+  <text x="195" y="672" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">¿Aún no tienes cuenta?</text>
+  <text x="195" y="692" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Crear cuenta</text>
+</g>
+<text x="195" y="794" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="2">CORTE  •  ESTILO  •  EXPERIENCIA</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  
+  <text x="24" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Chatea con tu barbero</text>
+  
+  <g transform="translate(346 58) scale(0.9166666666666666)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g>
+</g>
+<text x="20" y="120" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Resuelve dudas y agenda tu próxima cita por chat.</text>
+<g>
+    
+    <rect x="20" y="144" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 161) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></g>
+    <text x="66" y="176" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Buscar contacto</text>
+    
+  </g>
+
+<g>
+  <rect x="20" y="216" width="350" height="96" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="58" cy="258" r="24" fill="#1D2940" stroke="#354563"/>
+    <text x="58" y="263.76" font-family="Poppins, Arial, sans-serif" font-size="16.32" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">MR</text>
+    <circle cx="78" cy="278" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+  <text x="96" y="248" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Marco Ruiz</text>
+  <text x="346" y="244" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="end" opacity="1" letter-spacing="0">11 ago</text>
+  <text x="96" y="266" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Fade</text>
+  <text x="96" y="286" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Perfecto, te espero a las 10:00.</text>
+  <g transform="translate(342 256) scale(0.6666666666666666)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+
+<g>
+  <rect x="20" y="330" width="350" height="96" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="58" cy="372" r="24" fill="#1D2940" stroke="#354563"/>
+    <text x="58" y="377.76" font-family="Poppins, Arial, sans-serif" font-size="16.32" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">ST</text>
+    <circle cx="78" cy="392" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+  <text x="96" y="362" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Sebastián Torres</text>
+  <text x="346" y="358" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="end" opacity="1" letter-spacing="0">10 ago</text>
+  <text x="96" y="380" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Barba</text>
+  <text x="96" y="400" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">¿Tienen disponibilidad el sábado?</text>
+  <g transform="translate(342 370) scale(0.6666666666666666)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+
+<g>
+  <rect x="20" y="444" width="350" height="96" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="58" cy="486" r="24" fill="#1D2940" stroke="#354563"/>
+    <text x="58" y="491.76" font-family="Poppins, Arial, sans-serif" font-size="16.32" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">AR</text>
+    <circle cx="78" cy="506" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+  <text x="96" y="476" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez</text>
+  <text x="346" y="472" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="end" opacity="1" letter-spacing="0">9 ago</text>
+  <text x="96" y="494" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Fade</text>
+  <text x="96" y="514" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Inicia la conversación</text>
+  <g transform="translate(342 484) scale(0.6666666666666666)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+<text x="195" y="806" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Tus conversaciones son privadas.</text>
+</svg>

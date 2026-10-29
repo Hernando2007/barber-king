@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  
+  <text x="24" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Nuestros barberos</text>
+  
+  <g transform="translate(346 58) scale(0.9166666666666666)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g>
+</g>
+<rect x="20" y="112" width="350" height="176" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<g transform="translate(36 122) scale(0.8333333333333334)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="8" r="5"/><path d="m8.5 12.5-1.5 8 5-3 5 3-1.5-8"/></g>
+<text x="64" y="138" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Mejor calificados</text>
+<text x="64" y="154" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Elegidos por los clientes</text>
+<g transform="translate(336 122) scale(0.5833333333333334)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+
+<g>
+  <circle cx="51" cy="182" r="11" fill="#D6B25E" stroke="#D6B25E"/>
+  <text x="51" y="186" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">1</text>
+  <g>
+    <circle cx="88" cy="182" r="16" fill="#1D2940" stroke="#354563"/>
+    <text x="88" y="185.84" font-family="Poppins, Arial, sans-serif" font-size="10.88" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">ST</text>
+    
+  </g>
+  <text x="112" y="179" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Sebastián Torres</text>
+  <text x="112" y="193" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Bogotá, Zona T</text>
+  <g transform="translate(280 175) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+  <text x="346" y="185" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#D6B25E" text-anchor="end" opacity="1" letter-spacing="0">4.9 (86)</text>
+</g>
+
+<g>
+  <circle cx="51" cy="218" r="11" fill="#1D2940" stroke="#26324A"/>
+  <text x="51" y="222" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">2</text>
+  <g>
+    <circle cx="88" cy="218" r="16" fill="#1D2940" stroke="#354563"/>
+    <text x="88" y="221.84" font-family="Poppins, Arial, sans-serif" font-size="10.88" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">AR</text>
+    
+  </g>
+  <text x="112" y="215" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez</text>
+  <text x="112" y="229" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Bogotá, Chapinero</text>
+  <g transform="translate(280 211) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+  <text x="346" y="221" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#D6B25E" text-anchor="end" opacity="1" letter-spacing="0">4.8 (124)</text>
+</g>
+
+<g>
+  <circle cx="51" cy="254" r="11" fill="#1D2940" stroke="#26324A"/>
+  <text x="51" y="258" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">3</text>
+  <g>
+    <circle cx="88" cy="254" r="16" fill="#1D2940" stroke="#354563"/>
+    <text x="88" y="257.84" font-family="Poppins, Arial, sans-serif" font-size="10.88" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">MH</text>
+    
+  </g>
+  <text x="112" y="251" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Mateo Herrera</text>
+  <text x="112" y="265" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Bogotá, Cedritos</text>
+  <g transform="translate(280 247) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+  <text x="346" y="257" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#D6B25E" text-anchor="end" opacity="1" letter-spacing="0">4.7 (41)</text>
+</g>
+<g>
+    
+    <rect x="20" y="304" width="286" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(36 321) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></g>
+    <text x="66" y="336" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Buscar barbero o zona</text>
+    
+  </g>
+<rect x="318" y="304" width="52" height="52" rx="14" fill="#D6B25E" opacity="0.13"/>
+<g transform="translate(333 319) scale(0.9166666666666666)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.8"/></g>
+<text x="20" y="380" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Barberos a menos de 15 km de tu ubicación.</text>
+<rect x="20" y="394" width="350" height="288" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<g>
+    <circle cx="65" cy="441" r="29" fill="#1D2940" stroke="#354563"/>
+    <text x="65" y="447.96" font-family="Poppins, Arial, sans-serif" font-size="19.720000000000002" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">AR</text>
+    <circle cx="90" cy="466" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+<text x="108" y="432" font-family="Poppins, Arial, sans-serif" font-size="16" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez</text>
+<text x="108" y="452" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="500" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Fade</text>
+<g transform="translate(108 466) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+<text x="124" y="477" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">4.8 (124)</text>
+<g transform="translate(108 484) scale(0.5)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.8"/></g>
+<text x="124" y="495" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Bogotá, Chapinero · a 2.4 km</text>
+<text x="108" y="515" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">7 años de experiencia</text>
+<g>
+    <rect x="284" y="408" width="71.30000000000001" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="319.65" y="421.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Disponible</text>
+  </g>
+<text x="36" y="548" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Especialista en fades y diseños personalizados.</text>
+<text x="36" y="567" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Trabaja con productos premium para cuidar tu</text>
+<text x="36" y="586" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">estilo.</text>
+<g><rect x="36" y="620" width="150" height="44" rx="14" fill="none" stroke="#354563"/><g transform="translate(70.595 633)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.6 8.6 0 0 1-4-1L3 21l1.9-5.2a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 12.4 3 8.5 8.5 0 0 1 21 11.5z"/></g></g><text x="96.595" y="647" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Chatear</text></g>
+<g><rect x="194" y="620" width="160" height="44" rx="14" fill="url(#gold)"/><g transform="translate(229.68 633)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g></g><text x="255.68" y="647" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Reservar</text></g>
+<rect x="20" y="694" width="350" height="288" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<g>
+    <circle cx="65" cy="741" r="29" fill="#1D2940" stroke="#354563"/>
+    <text x="65" y="747.96" font-family="Poppins, Arial, sans-serif" font-size="19.720000000000002" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">JP</text>
+    <circle cx="90" cy="766" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+<text x="108" y="732" font-family="Poppins, Arial, sans-serif" font-size="16" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Juan Pablo Gómez</text>
+<text x="108" y="752" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="500" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Corte clásico</text>
+<g transform="translate(108 766) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+<text x="124" y="777" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">4.6 (58)</text>
+</svg>

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="1180" viewBox="0 0 390 1180">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="1180" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  <g transform="translate(20 57) scale(1)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M15 18 9 12l6-6"/></g>
+  <text x="56" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Crear cuenta</text>
+  
+  
+</g>
+<g transform="translate(172 124) scale(1.9166666666666667)" fill="none" stroke="#D6B25E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+<text x="195" y="200" font-family="Poppins, Arial, sans-serif" font-size="23" font-weight="700" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="2.4">ÚNETE A BARBER KING</text>
+<text x="195" y="224" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Crea tu cuenta y vive la experiencia premium.</text>
+<rect x="20" y="248" width="350" height="900" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<text x="40" y="282" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Tipo de cuenta</text>
+
+<g>
+  <rect x="40" y="286" width="155" height="90" rx="16" fill="#D6B25E" fill-opacity="0.16" stroke="#D6B25E" stroke-width="2"/>
+  <g transform="translate(103 302) scale(1.1666666666666667)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g>
+  <text x="117.5" y="360" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Cliente</text>
+</g>
+
+<g>
+  <rect x="195" y="286" width="155" height="90" rx="16" fill="#172033" fill-opacity="1" stroke="#26324A" stroke-width="1"/>
+  <g transform="translate(258 302) scale(1.1666666666666667)" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#94A3B8"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+  <text x="272.5" y="360" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">Barbero</text>
+</g>
+<g>
+  <g>
+    <rect x="40" y="396" width="30" height="30" rx="9" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(46.6 402.6) scale(0.7000000000000001)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g>
+  </g>
+  <text x="80" y="416" font-family="Poppins, Arial, sans-serif" font-size="17" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Datos personales</text>
+</g>
+<g>
+    <text x="42" y="437" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Nombres</text>
+    <rect x="40" y="446" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 463) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g>
+    <text x="86" y="478" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Hernando</text>
+    
+  </g>
+<g>
+    <text x="42" y="517" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Apellidos</text>
+    <rect x="40" y="526" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 543) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+    <text x="86" y="558" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Botello</text>
+    
+  </g>
+<g>
+    <text x="42" y="597" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Correo electrónico</text>
+    <rect x="40" y="606" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 623) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="12" cy="12" r="4"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-3.5 7.1"/></g>
+    <text x="86" y="638" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">hernando@correo.com</text>
+    
+  </g>
+<g>
+    <text x="42" y="677" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Teléfono</text>
+    <rect x="40" y="686" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 703) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M21 16.9v2.7a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-2.9 18.7 18.7 0 0 1-5.8-5.8A19 19 0 0 1 1.8 4.6 2 2 0 0 1 3.8 2.4h2.7a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.5 10.2a15 15 0 0 0 6.3 6.3l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.1 1.4z"/></g>
+    <text x="86" y="718" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">+57 300 456 7890</text>
+    
+  </g>
+<g>
+    <text x="42" y="757" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Fecha de nacimiento</text>
+    <rect x="40" y="766" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 783) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <text x="86" y="798" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">1998-04-16</text>
+    <g transform="translate(314 783) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m6 9 6 6 6-6"/></g>
+  </g>
+<g>
+  <g>
+    <rect x="40" y="846" width="30" height="30" rx="9" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(46.6 852.6) scale(0.7000000000000001)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></g>
+  </g>
+  <text x="80" y="866" font-family="Poppins, Arial, sans-serif" font-size="17" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Seguridad</text>
+</g>
+<g>
+    <text x="42" y="887" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Contraseña</text>
+    <rect x="40" y="896" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 913) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></g>
+    <text x="86" y="928" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">••••••••</text>
+    <g transform="translate(314 913) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g>
+  </g>
+<g>
+    <text x="42" y="967" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Confirmar contraseña</text>
+    <rect x="40" y="976" width="310" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    <g transform="translate(56 993) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></g>
+    <text x="86" y="1008" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">••••••••</text>
+    <g transform="translate(314 993) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g>
+  </g>
+<g><rect x="40" y="1046" width="310" height="52" rx="14" fill="url(#gold)"/><g transform="translate(135.01999999999998 1063)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g></g><text x="161.01999999999998" y="1077" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">CREAR CUENTA</text></g>
+<text x="195" y="1122" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="500" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Ya tengo una cuenta</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+<g transform="translate(20 57) scale(1)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M15 18 9 12l6-6"/></g>
+<g>
+    <circle cx="74" cy="70" r="18" fill="#1D2940" stroke="#354563"/>
+    <text x="74" y="74.32" font-family="Poppins, Arial, sans-serif" font-size="12.24" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">MR</text>
+    <circle cx="88" cy="84" r="6" fill="#4ADE80" stroke="#111824" stroke-width="2"/>
+  </g>
+<text x="102" y="70" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Marco Ruiz</text>
+<text x="102" y="87" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fade · en línea</text>
+<g transform="translate(344 60) scale(0.8333333333333334)" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#94A3B8"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
+<rect x="0" y="108" width="390" height="1" fill="#26324A"/>
+
+<g>
+  <rect x="129" y="114" width="132" height="24" rx="12" fill="#172033"/>
+  <text x="195" y="130" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">HOY</text>
+</g>
+<g>
+    <path d="M32 148 H286 A16 16 0 0 1 302 164 V204 A16 16 0 0 1 286 220 H20 A4 4 0 0 1 16 216 V164 A16 16 0 0 1 32 148 Z" fill="#111824" stroke="#26324A"/>
+    <text x="31" y="171" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Hola Marco, ¿tienes espacio para un</text>
+<text x="31" y="191" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">fade el viernes?</text>
+    <text x="287" y="211" font-family="Poppins, Arial, sans-serif" font-size="9" font-weight="400" fill="#F8FAFC" text-anchor="end" opacity="0.5" letter-spacing="0">10:02</text>
+  </g><g>
+    <path d="M155.44 230 H358 A16 16 0 0 1 374 246 V279 A4 4 0 0 1 370 283 H155.44 A16 16 0 0 1 139.44 267 V246 A16 16 0 0 1 155.44 230 Z" fill="url(#gold)" />
+    <text x="154.44" y="253" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">¡Claro! Tengo 10:00 y 15:30.</text>
+    <text x="359" y="274" font-family="Poppins, Arial, sans-serif" font-size="9" font-weight="400" fill="#090C12" text-anchor="end" opacity="0.55" letter-spacing="0">10:04</text>
+  </g><g>
+    <path d="M32 293 H241.58000000000004 A16 16 0 0 1 257.58000000000004 309 V330 A16 16 0 0 1 241.58000000000004 346 H20 A4 4 0 0 1 16 342 V309 A16 16 0 0 1 32 293 Z" fill="#111824" stroke="#26324A"/>
+    <text x="31" y="316" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Listo, te espero a las 10:00.</text>
+    <text x="242.58000000000004" y="337" font-family="Poppins, Arial, sans-serif" font-size="9" font-weight="400" fill="#F8FAFC" text-anchor="end" opacity="0.5" letter-spacing="0">10:04</text>
+  </g><g>
+    <path d="M239.68 356 H358 A16 16 0 0 1 374 372 V424 A4 4 0 0 1 370 428 H239.68 A16 16 0 0 1 223.68 412 V372 A16 16 0 0 1 239.68 356 Z" fill="url(#gold)" />
+    <text x="238.68" y="379" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Perfecto, 10:00.</text>
+    <text x="359" y="419" font-family="Poppins, Arial, sans-serif" font-size="9" font-weight="400" fill="#090C12" text-anchor="end" opacity="0.55" letter-spacing="0">10:05</text>
+  </g><g>
+    <path d="M32 438 H286 A16 16 0 0 1 302 454 V494 A16 16 0 0 1 286 510 H20 A4 4 0 0 1 16 506 V454 A16 16 0 0 1 32 438 Z" fill="#111824" stroke="#26324A"/>
+    <text x="31" y="461" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Puedes confirmar la cita desde Mis</text>
+<text x="31" y="481" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">citas.</text>
+    <text x="287" y="501" font-family="Poppins, Arial, sans-serif" font-size="9" font-weight="400" fill="#F8FAFC" text-anchor="end" opacity="0.5" letter-spacing="0">10:06</text>
+  </g><g>
+    <path d="M127.36000000000001 520 H358 A16 16 0 0 1 374 536 V588 A4 4 0 0 1 370 592 H127.36000000000001 A16 16 0 0 1 111.36000000000001 576 V536 A16 16 0 0 1 127.36000000000001 520 Z" fill="url(#gold)" />
+    <text x="126.36000000000001" y="543" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Listo, ya la confirmé. ¡Gracias!</text>
+    <text x="359" y="583" font-family="Poppins, Arial, sans-serif" font-size="9" font-weight="400" fill="#090C12" text-anchor="end" opacity="0.55" letter-spacing="0">10:07</text>
+  </g>
+<g>
+    <rect x="0" y="760" width="390" height="84" fill="#0B101C"/>
+    <rect x="0" y="760" width="390" height="1" fill="#26324A"/>
+    <g transform="translate(20 790) scale(0.9166666666666666)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/></g>
+    <rect x="56" y="776" width="258" height="48" rx="16" fill="#172033" stroke="#26324A"/>
+    <text x="72" y="806" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Escribe un mensaje...</text>
+    <rect x="326" y="775" width="46" height="46" rx="14" fill="url(#gold)"/>
+    <g transform="translate(338 787) scale(0.9166666666666666)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></g>
+  </g>
+</svg>

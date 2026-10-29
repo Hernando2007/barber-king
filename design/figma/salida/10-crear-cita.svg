@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  <g transform="translate(20 57) scale(1)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M15 18 9 12l6-6"/></g>
+  <text x="56" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Reservar cita</text>
+  
+  
+</g>
+<rect x="20" y="112" width="350" height="92" rx="20" fill="url(#hero)" stroke="#D6B25E" stroke-opacity="0.3" stroke-width="1" opacity="1"/>
+<g>
+  <rect x="36" y="136" width="46" height="46" rx="14" fill="url(#gold)"/>
+  <g transform="translate(49 149) scale(0.8333333333333334)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+</g>
+<text x="96" y="152" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Agenda tu cita con los</text>
+<text x="96" y="172" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">mejores barberos de la ciudad.</text>
+
+<g>
+  <g transform="translate(20 231) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+  <text x="46" y="242" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Servicio</text>
+</g>
+<g>
+    
+    <rect x="20" y="256" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    
+    <text x="36" y="288" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Corte + Barba · $ 40.000</text>
+    <g transform="translate(334 273) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m6 9 6 6 6-6"/></g>
+  </g>
+
+<g>
+  <g transform="translate(20 321) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g>
+  <text x="46" y="332" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Barbero</text>
+</g>
+<g>
+    
+    <rect x="20" y="346" width="350" height="54" rx="14" fill="#172033" stroke="#26324A" stroke-width="1"/>
+    
+    <text x="36" y="378" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez · Fade</text>
+    <g transform="translate(334 363) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m6 9 6 6 6-6"/></g>
+  </g>
+
+<g>
+  <g transform="translate(20 411) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+  <text x="46" y="422" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
+</g>
+<g>
+  <rect x="20" y="436" width="350" height="54" rx="14" fill="#172033" stroke="#26324A"/>
+  <g transform="translate(36 453) scale(0.8333333333333334)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+  <text x="66" y="468" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">viernes, 23 de octubre</text>
+  <g transform="translate(340 453) scale(0.8333333333333334)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m6 9 6 6 6-6"/></g>
+</g>
+<text x="20" y="512" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">$ 40.000 · 60 min</text>
+
+<g>
+  <g transform="translate(20 537) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></g>
+  <text x="46" y="548" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Horarios disponibles</text>
+</g>
+<text x="20" y="568" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora local · Bogotá</text>
+<g>
+    <rect x="20" y="572" width="68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="54" y="591" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">09:00</text>
+  </g><g>
+    <rect x="98" y="572" width="68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="132" y="591" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">09:45</text>
+  </g><g>
+    <rect x="176" y="572" width="68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="210" y="591" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">10:30</text>
+  </g><g>
+    <rect x="254" y="572" width="68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="288" y="591" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">11:15</text>
+  </g><g>
+    <rect x="20" y="610" width="68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="54" y="629" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">14:00</text>
+  </g><g>
+    <rect x="98" y="610" width="68" height="30" rx="15" fill="#D6B25E" stroke="#D6B25E"/>
+    
+    <text x="132" y="629" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">15:30</text>
+  </g><g>
+    <rect x="176" y="610" width="68" height="30" rx="15" fill="#172033" stroke="#26324A"/>
+    
+    <text x="210" y="629" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">16:15</text>
+  </g>
+<g><rect x="20" y="744" width="350" height="52" rx="14" fill="url(#gold)"/><g transform="translate(115.445 761)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="m20 6-11 11-5-5"/></g></g><text x="141.445" y="775" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">CONFIRMAR RESERVA</text></g>
+</svg>

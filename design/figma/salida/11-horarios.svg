@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  
+  <text x="24" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Mis horarios</text>
+  
+  <g transform="translate(346 58) scale(0.9166666666666666)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g>
+</g>
+<text x="24" y="138" font-family="Poppins, Arial, sans-serif" font-size="24" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Tu semana de trabajo</text>
+<text x="24" y="162" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Define los días y horas en que tus</text>
+<text x="24" y="180" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">clientes pueden reservar.</text>
+<rect x="20" y="198" width="350" height="104" rx="20" fill="url(#card)" stroke="#D6B25E" stroke-opacity="0.3" stroke-width="1" opacity="1"/>
+<g>
+  <rect x="34" y="216" width="48" height="48" rx="14" fill="url(#gold)"/>
+  <g transform="translate(48 230) scale(0.8333333333333334)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+</g>
+<text x="98" y="240" font-family="Poppins, Arial, sans-serif" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">5 días activos</text>
+<text x="98" y="260" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">6 jornadas configuradas</text>
+<rect x="310" y="222" width="40" height="40" rx="12" fill="#D6B25E" opacity="0.15"/>
+<g transform="translate(321 233) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M12 5v14M5 12h14"/></g>
+<text x="24" y="330" font-family="Poppins, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Disponibilidad semanal</text>
+<text x="24" y="348" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Puedes tener varias jornadas por día.</text>
+
+<g>
+  <rect x="20" y="364" width="350" height="66" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="380" width="34" height="34" rx="10" fill="#D6B25E" opacity="0.16" stroke="#D6B25E"/>
+    <text x="51" y="402" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="700" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">LU</text>
+  </g>
+  <text x="80" y="391" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Lunes</text>
+  <g>
+    <rect x="148" y="377" width="35.39" height="20" rx="10" fill="#D6B25E" opacity="0.14"/>
+    <text x="165.695" y="390.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Hoy</text>
+  </g>
+  <text x="80" y="413" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">09:00 - 13:00  ·  +1 jornada</text>
+  <g>
+    <rect x="268" y="377" width="50.78" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="293.39" y="390.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Activo</text>
+  </g>
+  <g transform="translate(342 386) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
+</g>
+<g>
+  <rect x="20" y="438" width="350" height="66" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="454" width="34" height="34" rx="10" fill="#1D2940" opacity="1" stroke="#26324A"/>
+    <text x="51" y="476" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">MA</text>
+  </g>
+  <text x="80" y="465" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Martes</text>
+  
+  <text x="80" y="487" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">14:00 - 20:00</text>
+  <g>
+    <rect x="268" y="451" width="50.78" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="293.39" y="464.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Activo</text>
+  </g>
+  <g transform="translate(342 460) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
+</g>
+<g>
+  <rect x="20" y="512" width="350" height="66" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="528" width="34" height="34" rx="10" fill="#1D2940" opacity="1" stroke="#26324A"/>
+    <text x="51" y="550" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">MI</text>
+  </g>
+  <text x="80" y="539" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Miércoles</text>
+  
+  <text x="80" y="561" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Día libre</text>
+  
+  <g transform="translate(342 534) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
+</g>
+<g>
+  <rect x="20" y="586" width="350" height="66" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="602" width="34" height="34" rx="10" fill="#1D2940" opacity="1" stroke="#26324A"/>
+    <text x="51" y="624" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">JU</text>
+  </g>
+  <text x="80" y="613" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Jueves</text>
+  
+  <text x="80" y="635" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">09:00 - 18:00</text>
+  <g>
+    <rect x="268" y="599" width="50.78" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="293.39" y="612.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Activo</text>
+  </g>
+  <g transform="translate(342 608) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
+</g>
+<g>
+  <rect x="20" y="660" width="350" height="66" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="676" width="34" height="34" rx="10" fill="#1D2940" opacity="1" stroke="#26324A"/>
+    <text x="51" y="698" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">VI</text>
+  </g>
+  <text x="80" y="687" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Viernes</text>
+  
+  <text x="80" y="709" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">08:00 - 12:00</text>
+  <g>
+    <rect x="268" y="673" width="50.78" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="293.39" y="686.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Activo</text>
+  </g>
+  <g transform="translate(342 682) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
+</g>
+<g><rect x="178.55" y="764" width="191.45" height="54" rx="16" fill="url(#gold)"/><g transform="translate(202.55 782)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M12 5v14M5 12h14"/></g></g><text x="228.55" y="796" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Agregar jornada</text></g>
+</svg>

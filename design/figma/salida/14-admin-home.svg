@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+<text x="20" y="70" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Hola, Carlos</text>
+<text x="20" y="92" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Control total de Barber King</text>
+<g transform="translate(316 58) scale(0.9166666666666666)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></g>
+<g transform="translate(352 58) scale(0.9166666666666666)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></g>
+<rect x="20" y="112" width="350" height="180" rx="20" fill="url(#hero)" stroke="#D6B25E" stroke-opacity="0.35" stroke-width="1" opacity="1"/>
+<rect x="38" y="132" width="46" height="46" rx="14" fill="url(#gold)"/>
+<g transform="translate(51 145) scale(0.8333333333333334)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></g>
+<text x="96" y="154" font-family="Poppins, Arial, sans-serif" font-size="17" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Panel de administración</text>
+<text x="96" y="176" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Administra usuarios, barberos,</text>
+<text x="96" y="195" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">servicios y citas desde un solo lugar.</text>
+<text x="40" y="254" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="700" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">4</text>
+<text x="40" y="271" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Reseñas</text>
+<text x="150" y="254" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="700" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">2</text>
+<text x="150" y="271" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Pendientes</text>
+<text x="260" y="254" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="700" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">1</text>
+<text x="260" y="271" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Completadas</text>
+
+<g>
+  <rect x="20" y="304" width="169" height="88" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="317" width="32" height="32" rx="9.6" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(41.04 324.04) scale(0.7466666666666667)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></g>
+  </g>
+  <text x="34" y="370" font-family="Poppins, Arial, sans-serif" font-size="21" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">4</text>
+  <text x="34" y="386" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Usuarios</text>
+</g>
+
+<g>
+  <rect x="201" y="304" width="169" height="88" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="215" y="317" width="32" height="32" rx="9.6" fill="#60A5FA" opacity="0.13"/>
+    <g transform="translate(222.04 324.04) scale(0.7466666666666667)" fill="none" stroke="#60A5FA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#60A5FA"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+  </g>
+  <text x="215" y="370" font-family="Poppins, Arial, sans-serif" font-size="21" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">1</text>
+  <text x="215" y="386" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Barberos</text>
+</g>
+
+<g>
+  <rect x="20" y="400" width="169" height="88" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="413" width="32" height="32" rx="9.6" fill="#4ADE80" opacity="0.13"/>
+    <g transform="translate(41.04 420.04) scale(0.7466666666666667)" fill="none" stroke="#4ADE80" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#4ADE80"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></g>
+  </g>
+  <text x="34" y="466" font-family="Poppins, Arial, sans-serif" font-size="21" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">5</text>
+  <text x="34" y="482" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Servicios</text>
+</g>
+
+<g>
+  <rect x="201" y="400" width="169" height="88" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="215" y="413" width="32" height="32" rx="9.6" fill="#FBBF24" opacity="0.13"/>
+    <g transform="translate(222.04 420.04) scale(0.7466666666666667)" fill="none" stroke="#FBBF24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#FBBF24"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+  </g>
+  <text x="215" y="466" font-family="Poppins, Arial, sans-serif" font-size="21" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">3</text>
+  <text x="215" y="482" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Citas</text>
+</g>
+<text x="20" y="526" font-family="Poppins, Arial, sans-serif" font-size="18" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Accesos rápidos</text>
+<text x="20" y="546" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Gestiona la operación del negocio</text>
+
+<g>
+  <rect x="20" y="564" width="350" height="60" rx="16" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="574" width="40" height="40" rx="12" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(42.8 582.8) scale(0.9333333333333335)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></g>
+  </g>
+  <text x="88" y="591" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Usuarios</text>
+  <text x="88" y="609" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Clientes, barberos y admins</text>
+  
+  <g transform="translate(340 585) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+
+<g>
+  <rect x="20" y="632" width="350" height="60" rx="16" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="642" width="40" height="40" rx="12" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(42.8 650.8) scale(0.9333333333333335)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></g>
+  </g>
+  <text x="88" y="659" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Servicios</text>
+  <text x="88" y="677" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Catálogo y precios</text>
+  
+  <g transform="translate(340 653) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+
+<g>
+  <rect x="20" y="700" width="350" height="60" rx="16" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="710" width="40" height="40" rx="12" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(42.8 718.8) scale(0.9333333333333335)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+  </g>
+  <text x="88" y="727" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Citas</text>
+  <text x="88" y="745" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Agenda general</text>
+  
+  <g transform="translate(340 721) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+
+<g>
+  <rect x="20" y="768" width="350" height="60" rx="16" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <rect x="34" y="778" width="40" height="40" rx="12" fill="#D6B25E" opacity="0.13"/>
+    <g transform="translate(42.8 786.8) scale(0.9333333333333335)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.6 8.6 0 0 1-4-1L3 21l1.9-5.2a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 12.4 3 8.5 8.5 0 0 1 21 11.5z"/></g>
+  </g>
+  <text x="88" y="795" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Mensajes</text>
+  <text x="88" y="813" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Conversaciones con clientes</text>
+  <rect x="316" y="788" width="22" height="20" rx="10" fill="#F87171"/><text x="327" y="802" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">3</text>
+  <g transform="translate(340 789) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="m9 18 6-6-6-6"/></g>
+</g>
+</svg>
