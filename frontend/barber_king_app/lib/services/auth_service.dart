@@ -3,11 +3,15 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'api_service.dart';
 import 'notificacion_segundo_plano.dart';
 
+part 'auth_service_google.dart';
 part 'auth_service_recuperacion.dart';
+
+bool _googleInicializado = false;
 
 class AuthService {
   final ApiService _api = ApiService();

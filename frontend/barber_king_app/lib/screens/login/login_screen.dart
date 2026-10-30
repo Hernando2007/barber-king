@@ -70,6 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void _togglePassword() =>
       setState(() => _ocultarPassword = !_ocultarPassword);
 
+  void _onGoogleExito() {
+    Navigator.pushReplacementNamed(context, AppRoutes.home);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           cargando: _cargando,
                           onTogglePassword: _togglePassword,
                           onLogin: _login,
+                          onGoogleExito: _onGoogleExito,
                         ),
                         const SizedBox(height: 22),
                         Row(
