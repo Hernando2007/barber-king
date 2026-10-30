@@ -28,6 +28,7 @@ class ChatNotificacionService with WidgetsBindingObserver {
   Timer? _timer;
   int _usuarioId = 0;
   int _ultimoId = 0;
+  int _ultimoLatido = 0;
   bool _primeraConsulta = true;
   bool _activo = false;
   bool _consultando = false;
@@ -54,6 +55,9 @@ class ChatNotificacionService with WidgetsBindingObserver {
     await _prepararPlugin();
 
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('chat_app_abierta', true);
+    _ultimoLatido = DateTime.now().millisecondsSinceEpoch;
+    await prefs.setInt('chat_app_abierta_en', _ultimoLatido);
     final guardado = prefs.getInt(_clave);
 
     if (guardado == null) {
@@ -83,6 +87,27 @@ class ChatNotificacionService with WidgetsBindingObserver {
     _primeraConsulta = true;
     _consultando = false;
     noLeidos.value = 0;
+    await _marcarAppAbierta(false);
+  }
+
+  Future<void> _marcarAppAbierta(bool abierta) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('chat_app_abierta', abierta);
+
+    if (!abierta) return;
+
+    _ultimoLatido = DateTime.now().millisecondsSinceEpoch;
+    await prefs.setInt('chat_app_abierta_en', _ultimoLatido);
+  }
+
+  Future<void> _latir() async {
+    final ahora = DateTime.now().millisecondsSinceEpoch;
+
+    if (ahora - _ultimoLatido < 60000) return;
+
+    _ultimoLatido = ahora;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('chat_app_abierta_en', ahora);
   }
 
   void marcarLeidos() {
@@ -96,10 +121,18 @@ class ChatNotificacionService with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (!_activo || state != AppLifecycleState.resumed) return;
+    if (!_activo) return;
 
-    _reiniciarTimer();
-    _consultar();
+    if (state == AppLifecycleState.resumed) {
+      _marcarAppAbierta(true);
+      _reiniciarTimer();
+      _consultar();
+      return;
+    }
+
+    if (state == AppLifecycleState.paused) {
+      _marcarAppAbierta(false);
+    }
   }
 
   Future<void> _consultar() async {
@@ -115,8 +148,18 @@ class ChatNotificacionService with WidgetsBindingObserver {
         return;
       }
 
-      final respuesta = await _chat.obtenerNovedades(desdeId: _ultimoId);
+      await _latir();
 
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.reload();
+      final guardado = prefs.getInt(_clave);
+
+      if (guardado != null && guardado > _ultimoId) {
+        _ultimoId = guardado;
+        _primeraConsulta = false;
+      }
+
+      final respuesta = await _chat.obtenerNovedades(desdeId: _ultimoId);
       if (!_activo || respuesta['success'] != true) return;
 
       final raw = respuesta['data'];
@@ -147,7 +190,6 @@ class ChatNotificacionService with WidgetsBindingObserver {
 
       if (nuevoUltimo != _ultimoId || esPrimera) {
         _ultimoId = nuevoUltimo;
-        final prefs = await SharedPreferences.getInstance();
         await prefs.setInt(_clave, _ultimoId);
       }
     } finally {

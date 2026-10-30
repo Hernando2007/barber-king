@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'api_service.dart';
+import 'notificacion_segundo_plano.dart';
 
 part 'auth_service_recuperacion.dart';
 
@@ -140,6 +141,7 @@ class AuthService {
   }
 
   Future<void> cerrarSesion() async {
+    await NotificacionSegundoPlano.detener();
     await _storage.delete(key: 'token');
     await _storage.delete(key: 'usuario');
   }
