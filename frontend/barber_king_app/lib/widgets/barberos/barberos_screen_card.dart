@@ -4,6 +4,7 @@ import '../../core/colors.dart';
 import '../../core/config/api_config.dart';
 import '../common/app_ui.dart';
 import 'barberos_calificacion.dart';
+import 'barberos_screen_acciones.dart';
 
 class BarberosScreenCard extends StatelessWidget {
   final Map<String, dynamic> barbero;
@@ -11,6 +12,7 @@ class BarberosScreenCard extends StatelessWidget {
   final bool puedeReservar;
   final VoidCallback onChat;
   final VoidCallback onReservar;
+  final VoidCallback onMapa;
 
   const BarberosScreenCard({
     super.key,
@@ -19,6 +21,7 @@ class BarberosScreenCard extends StatelessWidget {
     required this.puedeReservar,
     required this.onChat,
     required this.onReservar,
+    required this.onMapa,
   });
 
   Map<String, dynamic> _usuario(Map<String, dynamic> barbero) {
@@ -168,29 +171,15 @@ class BarberosScreenCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: puedeChatear ? onChat : null,
-                  icon: const Icon(Icons.forum_outlined, size: 17),
-                  label: const Text('Chatear'),
-                ),
-              ),
-              if (puedeReservar) ...[
-                const SizedBox(width: 9),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: disponible ? onReservar : null,
-                    icon: const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 17,
-                    ),
-                    label: const Text('Reservar'),
-                  ),
-                ),
-              ],
-            ],
+          BarberosScreenAcciones(
+            ubicacionVigente: barbero['tiene_ubicacion'] == true &&
+                barbero['ubicacion_vigente'] == true,
+            puedeChatear: puedeChatear,
+            puedeReservar: puedeReservar,
+            disponible: disponible,
+            onChat: onChat,
+            onReservar: onReservar,
+            onMapa: onMapa,
           ),
         ],
       ),

@@ -141,6 +141,28 @@ class BarberoService {
     }
   }
 
+  Future<Map<String, dynamic>> obtenerUbicacion(int id) async {
+    try {
+      final response = await _api.dio.get(
+        "/barberos/ubicacion/$id",
+      );
+
+      return {
+        "success": true,
+        "data": Map<String, dynamic>.from(response.data["data"]),
+      };
+    } on DioException catch (e) {
+      final data = e.response?.data;
+
+      return {
+        "success": false,
+        "message": data is Map && data["message"] != null
+            ? data["message"].toString()
+            : "No fue posible obtener la ubicación.",
+      };
+    }
+  }
+
   Future<Map<String, dynamic>> actualizarUbicacion({
     required double latitud,
     required double longitud,

@@ -10,6 +10,7 @@ class BarberosLista extends StatelessWidget {
   final bool cercaActiva;
   final void Function(Map<String, dynamic>) onChat;
   final void Function(Map<String, dynamic>) onReservar;
+  final void Function(Map<String, dynamic>) onMapa;
 
   const BarberosLista({
     super.key,
@@ -19,6 +20,7 @@ class BarberosLista extends StatelessWidget {
     required this.cercaActiva,
     required this.onChat,
     required this.onReservar,
+    required this.onMapa,
   });
 
   @override
@@ -44,6 +46,7 @@ class BarberosLista extends StatelessWidget {
               puedeReservar: puedeReservar,
               onChat: () => onChat(barbero),
               onReservar: () => onReservar(barbero),
+              onMapa: () => onMapa(barbero),
             ),
           )
           .toList(),

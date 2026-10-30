@@ -7,6 +7,7 @@ import {
     actualizarPerfil,
     actualizarUbicacion,
     cercanos,
+    ubicacion,
     destacados,
     eliminar
 } from "../controllers/barberosController.js";
@@ -18,6 +19,7 @@ const router = express.Router();
 router.get("/obtener", obtenerTodos);
 router.get("/obtener/:id", obtenerPorId);
 router.get("/cercanos", verificarToken, cercanos);
+router.get("/ubicacion/:id", verificarToken, ubicacion);
 router.get("/destacados", verificarToken, destacados);
  
 router.put(
