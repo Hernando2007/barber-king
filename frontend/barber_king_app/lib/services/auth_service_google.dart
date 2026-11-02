@@ -18,7 +18,14 @@ extension AuthServiceGoogle on AuthService {
 
       return data;
     } on _GoogleCancelado {
-      return {'success': false, 'cancelado': true};
+      return {
+        'success': false,
+        'cancelado': true,
+        'message':
+            'Se canceló el acceso con Google. Si elegiste tu cuenta y aun así '
+            'no entra, falta registrar esta app (nombre del paquete y huella '
+            'SHA-1) en Google Cloud.',
+      };
     } on _GoogleNoConfigurado catch (e) {
       return {'success': false, 'message': e.message};
     } on GoogleSignInException catch (e) {
@@ -83,15 +90,29 @@ extension AuthServiceGoogle on AuthService {
   }
 
   String _mensajeGoogle(GoogleSignInException error) {
+    final detalle = error.description;
+
+    String conDetalle(String texto) => detalle == null || detalle.isEmpty
+        ? texto
+        : '$texto — $detalle';
+
     switch (error.code) {
       case GoogleSignInExceptionCode.clientConfigurationError:
-        return 'Google no está configurado para esta app. Revisa el cliente OAuth y la huella SHA-1.';
+        return conDetalle(
+          'Google no reconoció a esta app. Registra el paquete '
+          'com.example.barber_king_app con su huella SHA-1 en Google Cloud.',
+        );
       case GoogleSignInExceptionCode.providerConfigurationError:
-        return 'Google rechazó la solicitud de inicio de sesión. Intenta de nuevo.';
+        return conDetalle(
+          'Google rechazó el inicio de sesión. Revisa la pantalla de '
+          'consentimiento y los usuarios de prueba.',
+        );
       case GoogleSignInExceptionCode.uiUnavailable:
-        return 'No se pudo abrir la ventana de Google. Intenta de nuevo.';
+        return conDetalle('No se pudo abrir la ventana de Google.');
       default:
-        return 'No fue posible iniciar sesión con Google (${error.code.name}).';
+        return conDetalle(
+          'No fue posible iniciar sesión con Google (${error.code.name}).',
+        );
     }
   }
 }

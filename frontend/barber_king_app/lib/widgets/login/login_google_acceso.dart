@@ -33,13 +33,13 @@ class _LoginGoogleAccesoState extends State<LoginGoogleAcceso> {
       return;
     }
 
-    if (respuesta['cancelado'] == true) return;
+    final cancelado = respuesta['cancelado'] == true;
+    final mensaje = respuesta['message']?.toString() ?? '';
 
     showAppSnack(
       context,
-      respuesta['message']?.toString() ??
-          'No se pudo iniciar sesión con Google.',
-      error: true,
+      mensaje.isEmpty ? 'No se pudo iniciar sesión con Google.' : mensaje,
+      error: !cancelado,
     );
   }
 
