@@ -1,4 +1,5 @@
 import supabase from "../config/supabase.js";
+import { asegurarHorariosPorDefecto } from "./horariosModel.js";
  
 export const obtenerBarberos = async () => {
     return await supabase
@@ -44,11 +45,17 @@ export const obtenerBarberoPorUsuario = async (usuarioId) => {
 };
  
 export const crearBarbero = async (datos) => {
-    return await supabase
+    const resultado = await supabase
         .from("barberos")
         .insert(datos)
         .select()
         .single();
+
+    if (!resultado.error && resultado.data?.id) {
+        await asegurarHorariosPorDefecto(resultado.data.id);
+    }
+
+    return resultado;
 };
  
 export const actualizarBarbero = async (id, datos) => {

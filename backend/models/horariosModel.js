@@ -134,3 +134,56 @@ export const eliminarHorario = async (
     .delete()
     .eq("id", id);
 };
+
+// 1 = lunes ... 7 = domingo, igual que consulta la disponibilidad.
+export const HORARIOS_POR_DEFECTO = [
+  { dia_semana: 1, hora_inicio: "09:00", hora_fin: "19:00" },
+  { dia_semana: 2, hora_inicio: "09:00", hora_fin: "19:00" },
+  { dia_semana: 3, hora_inicio: "09:00", hora_fin: "19:00" },
+  { dia_semana: 4, hora_inicio: "09:00", hora_fin: "19:00" },
+  { dia_semana: 5, hora_inicio: "09:00", hora_fin: "19:00" },
+  { dia_semana: 6, hora_inicio: "09:00", hora_fin: "18:00" },
+  { dia_semana: 7, hora_inicio: "10:00", hora_fin: "14:00" },
+];
+
+export const asegurarHorariosPorDefecto = async (barberoId) => {
+  if (!barberoId) {
+    return { data: null, error: null };
+  }
+
+  const { data: existentes, error } = await supabase
+    .from("horarios")
+    .select("dia_semana")
+    .eq("barbero_id", barberoId);
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  const dias = new Set(
+    (existentes || []).map((item) => Number(item.dia_semana))
+  );
+
+  const faltantes = HORARIOS_POR_DEFECTO.filter(
+    (item) => !dias.has(item.dia_semana)
+  );
+
+  if (!faltantes.length) {
+    return { data: [], error: null };
+  }
+
+  const { data, error: errorInsert } = await supabase
+    .from("horarios")
+    .insert(
+      faltantes.map((item) => ({
+        barbero_id: barberoId,
+        hora_inicio: item.hora_inicio,
+        hora_fin: item.hora_fin,
+        dia_semana: item.dia_semana,
+        disponible: true,
+      }))
+    )
+    .select();
+
+  return { data, error: errorInsert };
+};
