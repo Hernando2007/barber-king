@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api_service.dart';
 import 'notificacion_segundo_plano.dart';
@@ -146,6 +147,7 @@ class AuthService {
 
   Future<void> cerrarSesion() async {
     await NotificacionSegundoPlano.detener();
+    await _limpiarSesionLocal();
     await _storage.delete(key: 'token');
     await _storage.delete(key: 'usuario');
   }
@@ -160,6 +162,20 @@ class AuthService {
 
     await _storage.write(key: 'token', value: token);
     await _storage.write(key: 'usuario', value: jsonEncode(usuario));
+
+    // Copia en SharedPreferences: el proceso de fondo no siempre abre el almacén seguro.
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(NotificacionSegundoPlano.claveToken, token);
+    await prefs.setInt(
+      NotificacionSegundoPlano.claveUsuarioId,
+      int.tryParse('${usuario['id']}') ?? 0,
+    );
+  }
+
+  Future<void> _limpiarSesionLocal() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(NotificacionSegundoPlano.claveToken);
+    await prefs.remove(NotificacionSegundoPlano.claveUsuarioId);
   }
 
   String _mensajeError(DioException error) {

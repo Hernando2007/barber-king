@@ -12,40 +12,82 @@ import 'package:workmanager/workmanager.dart';
 import '../core/config/api_config.dart';
 
 part 'notificacion_segundo_plano_aviso.dart';
+part 'notificacion_segundo_plano_revisa.dart';
 
+/// Revisa el chat aunque la app esté cerrada y avisa con una notificación local.
 class NotificacionSegundoPlano {
   NotificacionSegundoPlano._();
 
   static const String claveUltimo = 'chat_aviso_ultimo_';
-  static const String _nombreTarea = 'barber-king-chat';
-  static const String _tarea = 'barberKingChatSegundoPlano';
-  static const String _canalId = 'chat_mensajes';
+  static const String claveToken = 'sesion_token';
+  static const String claveUsuarioId = 'sesion_usuario_id';
+  static const String claveAppAbierta = 'chat_app_abierta';
+  static const String claveAppAbiertaEn = 'chat_app_abierta_en';
+  static const String canalId = 'chat_mensajes';
 
+  static const String _nombrePeriodico = 'barber-king-chat';
+  static const String _nombreCadena = 'barber-king-chat-cadena';
+  static const String _tarea = 'barberKingChatSegundoPlano';
+
+  /// Revisa el chat apenas se guarda la sesión y deja programada la cadena.
   static Future<void> iniciar() async {
-    if (defaultTargetPlatform != TargetPlatform.android) return;
+    if (!_esAndroid()) return;
 
     try {
       await Workmanager().initialize(notificacionSegundoPlanoDispatcher);
+    } catch (_) {}
+
+    try {
       await Workmanager().registerPeriodicTask(
-        _nombreTarea,
+        _nombrePeriodico,
         _tarea,
         frequency: const Duration(minutes: 15),
-        initialDelay: const Duration(minutes: 15),
+        initialDelay: const Duration(seconds: 20),
         existingWorkPolicy: ExistingPeriodicWorkPolicy.update,
         constraints: Constraints(networkType: NetworkType.connected),
       );
-    } catch (_) {
-      // Si el sistema no permite programarla, queda el aviso en primer plano.
-    }
+    } catch (_) {}
+
+    await encolar(const Duration(seconds: 10));
+  }
+
+  /// Se llama al pasar la app a segundo plano: fuerza una revisión inmediata.
+  static Future<void> encenderAhora() async {
+    if (!_esAndroid()) return;
+
+    final prefs = await SharedPreferences.getInstance();
+
+    if ((prefs.getString(claveToken) ?? '').isEmpty) return;
+
+    await encolar(const Duration(seconds: 5));
   }
 
   static Future<void> detener() async {
-    if (defaultTargetPlatform != TargetPlatform.android) return;
+    if (!_esAndroid()) return;
 
     try {
-      await Workmanager().cancelByUniqueName(_nombreTarea);
+      await Workmanager().cancelByUniqueName(_nombrePeriodico);
+      await Workmanager().cancelByUniqueName(_nombreCadena);
     } catch (_) {}
   }
+
+  /// Programa la siguiente revisión; al encadenarse repite el ciclo cada minuto.
+  static Future<void> encolar(Duration retardo) async {
+    if (!_esAndroid()) return;
+
+    try {
+      await Workmanager().registerOneOffTask(
+        _nombreCadena,
+        _tarea,
+        initialDelay: retardo,
+        existingWorkPolicy: ExistingWorkPolicy.replace,
+        constraints: Constraints(networkType: NetworkType.connected),
+      );
+    } catch (_) {}
+  }
+
+  static bool _esAndroid() =>
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 }
 
 @pragma('vm:entry-point')
@@ -54,85 +96,8 @@ void notificacionSegundoPlanoDispatcher() {
     WidgetsFlutterBinding.ensureInitialized();
     DartPluginRegistrant.ensureInitialized();
 
-    try {
-      await _revisarChat();
-    } catch (_) {}
+    await _revisarChat();
 
     return true;
   });
-}
-
-Future<void> _revisarChat() async {
-  const storage = FlutterSecureStorage();
-  final token = await storage.read(key: 'token');
-  final crudo = await storage.read(key: 'usuario');
-
-  if (token == null || token.isEmpty || crudo == null) return;
-
-  final decodificado = jsonDecode(crudo);
-  final usuarioId = decodificado is Map
-      ? int.tryParse('${decodificado['id']}') ?? 0
-      : 0;
-
-  if (usuarioId <= 0) return;
-
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.reload();
-
-  final clave = '${NotificacionSegundoPlano.claveUltimo}$usuarioId';
-  final ultimo = prefs.getInt(clave) ?? 0;
-  final abiertaHasta = prefs.getInt('chat_app_abierta_en') ?? 0;
-  final appAbierta =
-      (prefs.getBool('chat_app_abierta') ?? false) &&
-      DateTime.now().millisecondsSinceEpoch - abiertaHasta < 180000;
-
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: ApiConfig.baseUrl,
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 30),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    ),
-  );
-
-  final respuesta = await dio.get(
-    '/chat/directo/novedades',
-    queryParameters: {'desde_id': ultimo},
-  );
-
-  final data = respuesta.data is Map ? respuesta.data['data'] : null;
-
-  if (data is! Map) return;
-
-  final mensajes = (data['mensajes'] as List? ?? [])
-      .whereType<Map>()
-      .map((item) => Map<String, dynamic>.from(item))
-      .toList();
-
-  final nuevo = int.tryParse('${data['ultimo_id']}') ?? ultimo;
-
-  if (mensajes.isNotEmpty && !appAbierta && ultimo > 0) {
-    final plugin = FlutterLocalNotificationsPlugin();
-
-    await plugin.initialize(
-      settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      ),
-    );
-
-    final visibles = mensajes.length > 3
-        ? mensajes.sublist(mensajes.length - 3)
-        : mensajes;
-
-    for (final mensaje in visibles) {
-      await _avisarChat(plugin, mensaje);
-    }
-  }
-
-  if (nuevo != ultimo) {
-    await prefs.setInt(clave, nuevo);
-  }
 }

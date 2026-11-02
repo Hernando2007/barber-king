@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_service.dart';
 import 'chat_directo_service.dart';
+import 'notificacion_segundo_plano.dart';
 
+part 'chat_notificacion_estado.dart';
 part 'chat_notificacion_plugin.dart';
 
 class ChatNotificacionService with WidgetsBindingObserver {
@@ -55,9 +57,7 @@ class ChatNotificacionService with WidgetsBindingObserver {
     await _prepararPlugin();
 
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('chat_app_abierta', true);
-    _ultimoLatido = DateTime.now().millisecondsSinceEpoch;
-    await prefs.setInt('chat_app_abierta_en', _ultimoLatido);
+    await _marcarAppAbierta(true);
     final guardado = prefs.getInt(_clave);
 
     if (guardado == null) {
@@ -90,26 +90,6 @@ class ChatNotificacionService with WidgetsBindingObserver {
     await _marcarAppAbierta(false);
   }
 
-  Future<void> _marcarAppAbierta(bool abierta) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('chat_app_abierta', abierta);
-
-    if (!abierta) return;
-
-    _ultimoLatido = DateTime.now().millisecondsSinceEpoch;
-    await prefs.setInt('chat_app_abierta_en', _ultimoLatido);
-  }
-
-  Future<void> _latir() async {
-    final ahora = DateTime.now().millisecondsSinceEpoch;
-
-    if (ahora - _ultimoLatido < 60000) return;
-
-    _ultimoLatido = ahora;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('chat_app_abierta_en', ahora);
-  }
-
   void marcarLeidos() {
     noLeidos.value = 0;
   }
@@ -123,16 +103,7 @@ class ChatNotificacionService with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (!_activo) return;
 
-    if (state == AppLifecycleState.resumed) {
-      _marcarAppAbierta(true);
-      _reiniciarTimer();
-      _consultar();
-      return;
-    }
-
-    if (state == AppLifecycleState.paused) {
-      _marcarAppAbierta(false);
-    }
+    _alCambiarCiclo(state);
   }
 
   Future<void> _consultar() async {
