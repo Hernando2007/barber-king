@@ -155,6 +155,7 @@ El script de datos de prueba requiere que existan usuarios con id `2` (barbero) 
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | No | Servidor de correo saliente |
 | `EMAIL_USER`, `EMAIL_PASS` | No | Credenciales de correo |
 | `EMAIL_FROM` | No | Remitente (`Barber King <no-reply@tudominio.com>`) |
+| `EMAIL_LOGO_URL` | No | Logo de los correos; por defecto `https://barber-king.onrender.com/public/logo-blanco.png` |
 | `RESEND_API_KEY` o `BREVO_API_KEY` | No | API de correo; necesaria en Render, que bloquea SMTP |
 | `GROQ_API_KEY` | No | Habilita el chat IA y la recomendación de cortes |
 | `GOOGLE_CLIENT_ID` | No | Habilita el inicio de sesión con Google |
@@ -200,6 +201,19 @@ Ya están declarados en:
 
 En iOS, si cambias los textos de los permisos, vuelve a compilar la app.
 
+### Marca e iconos
+
+El logo real está en `design/logo/original.png`. De él se generan los iconos de
+Android (clásico, adaptativo y monocromo), los de iOS y web, las marcas de
+`assets/logo/`, los PNG que sirven los correos y las marcas del paquete de Figma:
+
+```bash
+python tools/generar_logo.py                  # regenera desde design/logo/original.png
+python tools/generar_logo.py ruta-del-logo.png  # sustituye el original y regenera
+```
+
+El icono nuevo no aparece sobre un APK ya instalado hasta que lo reinstales.
+
 ### Inicio de sesión con Google
 
 La app no usa `google-services.json`: lee el `GOOGLE_CLIENT_ID` en tiempo real
@@ -212,18 +226,45 @@ la app en Google Cloud Console (una sola vez, con tu cuenta):
    esto Google rechaza el acceso.
 2. **Credenciales → Crear credenciales → ID de cliente OAuth → tipo Android** con:
    - Nombre del paquete: `com.example.barber_king_app`
-   - Huella SHA-1 del `debug.keystore` (también firma el `apk` de release):
-     `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
+   - Huella SHA-1 del keystore que firma el APK instalado. El de depuración y,
+     mientras no configures el tuyo, también el de release salen del
+     `debug.keystore`: `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
      ```bash
-     keytool -list -v -keystore %USERPROFILE%\.android\debug.keystore \
+     keytool -list -v -keystore "$USERPROFILE/.android/debug.keystore" \
        -storepass android -alias androiddebugkey
      ```
+     En PowerShell la ruta se escribe `%USERPROFILE%\.android\debug.keystore`.
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
    (el que ya está). El cliente de tipo Android no se pone en la app.
 4. Reinstala el APK. Si cambias de keystore, registra la nueva huella SHA-1.
 
 Síntoma típico de faltar el paso 1 o 2: se abre el selector, eliges la cuenta y
 la app vuelve sin sesión (Google lo reporta como *cancelado*).
+
+### Firmar el APK de release con tu propio keystore
+
+Sin `android/key.properties`, `flutter build apk --release` firma con la clave de
+depuración: sirve para probar, pero Google Play la rechaza y la huella SHA-1 solo
+existe en tu PC. Para firmar de verdad:
+
+```bash
+keytool -genkeypair -v -storetype PKCS12 -alias barber-king \
+  -keystore barber-king-release.keystore -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Guarda el `.keystore` fuera del repositorio y crea `android/key.properties`
+(tampoco se sube, ya está en `.gitignore`):
+
+```properties
+storePassword=LA_CONTRASEÑA
+keyPassword=LA_CONTRASEÑA
+keyAlias=barber-king
+storeFile=C:/keystores/barber-king-release.keystore
+```
+
+Con ese archivo, el release se firma con tu keystore automáticamente. La huella
+SHA-1 cambia, así que regístrala en el cliente OAuth de Android. Un APK firmado
+con otra clave no actualiza al anterior: hay que desinstalar primero.
 
 ### Notificaciones con la app cerrada
 
@@ -232,11 +273,22 @@ Firebase): revisa el chat unos segundos después de pasar a segundo plano,
 repasa cada minuto mientras la cadena siga viva y conserva un respaldo
 periódico cada 15 minutos. Los avisos usan el canal `chat_mensajes`.
 
+La tarea se crea la primera vez que entras al panel después de iniciar sesión.
+El permiso `RECEIVE_BOOT_COMPLETED` es lo que permite que ese respaldo sobreviva
+a un reinicio del teléfono; sin él, el trabajo se pierde hasta volver a abrir
+la app.
+
 Android puede posponer esas revisiones; si aún así no llegan:
 
 - Permite las notificaciones cuando la app lo pida (Android 13+).
 - Ajustes → Aplicaciones → Barber King → Batería: **Sin restricciones**
   (Samsung, Xiaomi, Huawei y OPPO cierran el segundo plano por defecto).
+
+Con el teléfono conectado por USB puedes comprobar que el trabajo está agendado:
+
+```bash
+adb shell dumpsys jobscheduler | grep -i barber-king
+```
 
 ---
 
