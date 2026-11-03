@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Barber King App</string>
+	<string>Barber King</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>barber_king_app</string>
+	<string>Barber King</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Barber King usa tu ubicación para mostrar barberos cercanos y compartir tu zona con los clientes.</string>
 	<key>CFBundlePackageType</key>

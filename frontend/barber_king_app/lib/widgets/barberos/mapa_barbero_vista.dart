@@ -38,7 +38,7 @@ class MapaBarberoVista extends StatelessWidget {
       children: [
         TileLayer(
           urlTemplate: _teselas,
-          userAgentPackageName: 'com.example.barber_king_app',
+          userAgentPackageName: 'com.barberking.app',
           maxZoom: 19,
         ),
         MarkerLayer(
