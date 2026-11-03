@@ -153,6 +153,8 @@ class _BarberosScreenState extends State<BarberosScreen> {
                           BarberosAcciones.abrirChat(context, barbero),
                       onReservar: (barbero) =>
                           BarberosAcciones.reservar(context, barbero),
+                      onMapa: (barbero) =>
+                          BarberosAcciones.abrirMapa(context, barbero),
                     ),
                   ],
                 ),

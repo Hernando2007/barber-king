@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../common/app_ui.dart';
+import 'login_google_acceso.dart';
 
 class LoginFormCard extends StatelessWidget {
   final TextEditingController correo;
@@ -11,6 +12,7 @@ class LoginFormCard extends StatelessWidget {
   final bool cargando;
   final VoidCallback onTogglePassword;
   final VoidCallback onLogin;
+  final VoidCallback onGoogleExito;
 
   const LoginFormCard({
     super.key,
@@ -20,6 +22,7 @@ class LoginFormCard extends StatelessWidget {
     required this.cargando,
     required this.onTogglePassword,
     required this.onLogin,
+    required this.onGoogleExito,
   });
 
   @override
@@ -97,6 +100,8 @@ class LoginFormCard extends StatelessWidget {
             loading: cargando,
             onPressed: onLogin,
           ),
+          const SizedBox(height: 20),
+          LoginGoogleAcceso(onExito: onGoogleExito),
         ],
       ),
     );

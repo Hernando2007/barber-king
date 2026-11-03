@@ -7,6 +7,7 @@ import {
     obtenerUsuarioPorId,
 } from "../models/usuariosModel.js";
 import { httpError } from "../utils/httpError.js";
+import { enviarBienvenida } from "../services/emailService.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -81,6 +82,7 @@ export const autenticarConGoogle = async (req, res) => {
         let usuarioFinal = null;
         let mensaje = "Inicio de sesión exitoso con Google.";
         let usuarioId = existente?.id || null;
+        let esNuevo = false;
 
         if (existente) {
             if (existente.estado === false) {
@@ -122,6 +124,7 @@ export const autenticarConGoogle = async (req, res) => {
 
             usuarioId = nuevo.id;
             mensaje = "Registro exitoso con Google.";
+            esNuevo = true;
         }
 
         const { data: completo, error: errorPerfil } =
@@ -148,6 +151,17 @@ export const autenticarConGoogle = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "8h" }
         );
+
+        if (esNuevo) {
+            try {
+                await enviarBienvenida(correo, nombres);
+            } catch (error) {
+                console.error(
+                    "No fue posible enviar el correo de bienvenida:",
+                    error.message
+                );
+            }
+        }
 
         return res.status(200).json({
             success: true,

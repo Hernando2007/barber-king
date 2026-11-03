@@ -50,6 +50,15 @@ export const login = async (req, res, next) => {
     }
 };
  
+export const googleConfig = (req, res) => {
+    const clientId = (process.env.GOOGLE_CLIENT_ID || "").trim();
+
+    return res.status(200).json({
+        success: true,
+        data: { clientId: clientId || null }
+    });
+};
+
 export const forgotPassword = async (req, res, next) => {
     try {
         const { correo } = req.body;

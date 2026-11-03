@@ -1,23 +1,42 @@
+import {
+    codigoCorreo,
+    disenoCorreo,
+    escaparCorreo,
+    notaCorreo,
+    textoCorreo,
+} from "./emailDiseno.js";
+
 export const ASUNTO = "Código de recuperación";
 
-export const contenido = (codigo) => ({
-    text: `
-Tu código de recuperación es:
+export const contenido = (codigo, nombre = "") => {
+    const saludo = nombre
+        ? `Hola ${escaparCorreo(nombre)},`
+        : "Hola,";
 
-${codigo}
+    return {
+        text: `Barber King
 
-Este código expira en 15 minutos.
-`,
-    html: `
-<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
-    <h2>Recuperación de contraseña</h2>
-    <p>Has solicitado recuperar tu contraseña.</p>
-    <p>Utiliza el siguiente código:</p>
-    <div style="font-size:32px;font-weight:bold;letter-spacing:8px;padding:20px;background:#f5f5f5;text-align:center;border-radius:8px;">
-        ${codigo}
-    </div>
-    <p style="margin-top:20px;">Este código expira en <strong>15 minutos</strong>.</p>
-    <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
-</div>
-`,
-});
+${saludo}
+
+Recibimos una solicitud para restablecer la contraseña de tu cuenta.
+
+Tu código de recuperación es: ${codigo}
+
+El código vence en 15 minutos. Si no solicitaste este cambio, ignora este mensaje y tu contraseña seguirá igual.
+
+CORTE · ESTILO · EXPERIENCIA`,
+        html: disenoCorreo({
+            titulo: "Recupera tu contraseña",
+            contenido: `
+                ${textoCorreo(`${saludo} recibimos una solicitud para restablecer la contraseña de tu cuenta.`)}
+                ${textoCorreo("Ingresa este código en la app para crear una contraseña nueva:")}
+                ${codigoCorreo(codigo)}
+                ${textoCorreo(`<span style="color:#D6B25E;font-weight:600;">El código vence en 15 minutos.</span>`)}
+            `,
+            nota: notaCorreo(
+                "Si no solicitaste este cambio, ignora este mensaje. Tu contraseña actual seguirá funcionando."
+            ),
+            pie: "Este código fue enviado desde la app Barber King.",
+        }),
+    };
+};

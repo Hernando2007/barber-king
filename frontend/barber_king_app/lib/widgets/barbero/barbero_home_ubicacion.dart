@@ -160,7 +160,7 @@ class _BarberoUbicacionCardState extends State<_BarberoUbicacionCard> {
           if (_activo) ...[
             const SizedBox(height: 10),
             const Text(
-              'Se actualiza cada 3 minutos mientras la app esté abierta. Los clientes solo ven la distancia aproximada.',
+              'Se actualiza cada 3 minutos mientras la app esté abierta. Los clientes ven tu ubicación exacta en el mapa.',
               style: TextStyle(
                 color: AppColors.muted,
                 fontSize: 10.5,

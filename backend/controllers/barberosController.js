@@ -11,6 +11,7 @@ import {
     listarBarberosCercanos,
     listarBarberosDestacados
 } from "../services/barberosRankingService.js";
+import { obtenerUbicacionBarbero } from "../services/barberosUbicacionService.js";
  
 export const obtenerTodos = async (req, res, next) => {
     try {
@@ -95,6 +96,19 @@ export const cercanos = async (req, res, next) => {
             success: true,
             total: barberos.length,
             data: barberos
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const ubicacion = async (req, res, next) => {
+    try {
+        const barbero = await obtenerUbicacionBarbero(req.params.id);
+
+        return res.status(200).json({
+            success: true,
+            data: barbero
         });
     } catch (error) {
         next(error);

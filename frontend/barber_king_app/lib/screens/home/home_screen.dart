@@ -4,6 +4,7 @@ import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../services/chat_notificacion_service.dart';
+import '../../services/notificacion_segundo_plano.dart';
 import '../admin/admin_home_screen.dart';
 import '../barbero/barbero_home_screen.dart';
 import '../cliente/cliente_home_screen.dart';
@@ -51,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
       usuario = data;
       cargando = false;
     });
+
+    NotificacionSegundoPlano.iniciar();
   }
 
   @override

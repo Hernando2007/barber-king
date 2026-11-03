@@ -154,6 +154,8 @@ El script de datos de prueba requiere que existan usuarios con id `2` (barbero) 
 | `JWT_SECRET` | Sí | Secreto para firmar tokens |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | No | Servidor de correo saliente |
 | `EMAIL_USER`, `EMAIL_PASS` | No | Credenciales de correo |
+| `EMAIL_FROM` | No | Remitente (`Barber King <no-reply@tudominio.com>`) |
+| `RESEND_API_KEY` o `BREVO_API_KEY` | No | API de correo; necesaria en Render, que bloquea SMTP |
 | `GROQ_API_KEY` | No | Habilita el chat IA y la recomendación de cortes |
 | `GOOGLE_CLIENT_ID` | No | Habilita el inicio de sesión con Google |
 | `CLOUDINARY_*` | No | Configuración opcional de Cloudinary |
@@ -197,6 +199,44 @@ Ya están declarados en:
 - `ios/Runner/Info.plist`
 
 En iOS, si cambias los textos de los permisos, vuelve a compilar la app.
+
+### Inicio de sesión con Google
+
+La app no usa `google-services.json`: lee el `GOOGLE_CLIENT_ID` en tiempo real
+de `GET /api/auth/google/config` y lo pasa como `serverClientId`. Para que
+Google muestre el selector de cuentas y entregue un `idToken` hay que registrar
+la app en Google Cloud Console (una sola vez, con tu cuenta):
+
+1. **APIs y servicios → Pantalla de consentimiento**: agrega el Gmail que vas a
+   usar en *Cuentas de prueba* (o publica la app en modo *En producción*). Sin
+   esto Google rechaza el acceso.
+2. **Credenciales → Crear credenciales → ID de cliente OAuth → tipo Android** con:
+   - Nombre del paquete: `com.example.barber_king_app`
+   - Huella SHA-1 del `debug.keystore` (también firma el `apk` de release):
+     `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
+     ```bash
+     keytool -list -v -keystore %USERPROFILE%\.android\debug.keystore \
+       -storepass android -alias androiddebugkey
+     ```
+3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
+   (el que ya está). El cliente de tipo Android no se pone en la app.
+4. Reinstala el APK. Si cambias de keystore, registra la nueva huella SHA-1.
+
+Síntoma típico de faltar el paso 1 o 2: se abre el selector, eliges la cuenta y
+la app vuelve sin sesión (Google lo reporta como *cancelado*).
+
+### Notificaciones con la app cerrada
+
+Al iniciar sesión, la app programa una tarea en **WorkManager** (no requiere
+Firebase): revisa el chat unos segundos después de pasar a segundo plano,
+repasa cada minuto mientras la cadena siga viva y conserva un respaldo
+periódico cada 15 minutos. Los avisos usan el canal `chat_mensajes`.
+
+Android puede posponer esas revisiones; si aún así no llegan:
+
+- Permite las notificaciones cuando la app lo pida (Android 13+).
+- Ajustes → Aplicaciones → Barber King → Batería: **Sin restricciones**
+  (Samsung, Xiaomi, Huawei y OPPO cierran el segundo plano por defecto).
 
 ---
 
