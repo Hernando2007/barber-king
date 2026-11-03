@@ -2,6 +2,7 @@ const { C } = require("../sistema/tokens");
 const { fondo, barraEstado } = require("../sistema/base");
 const { texto, parrafo } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
+const { emblema } = require("../sistema/marca");
 const { tarjeta, boton, campo } = require("../sistema/componentes");
 
 module.exports = {
@@ -15,8 +16,7 @@ ${barraEstado()}
   ${icono("back", 20, 58, 18, C.primary, 2)}
   ${texto(46, 72, "Atrás", { tam: 13, peso: 500, color: C.primary })}
 </g>
-<circle cx="195" cy="150" r="39" fill="${C.backgroundSoft}" stroke="${C.primary}" stroke-width="1.5"/>
-${icono("scissors", 178, 133, 34, C.primary, 1.7)}
+${emblema(195, 150, 36)}
 ${texto(195, 234, "BARBER KING", { tam: 32, peso: 900, color: C.primary, ancla: "middle", familia: "'Playfair Display', Georgia, serif" })}
 ${texto(195, 260, "Recupera tu contraseña", { tam: 13, color: C.subtitle, ancla: "middle" })}
 ${tarjeta(20, 292, 350, 300)}

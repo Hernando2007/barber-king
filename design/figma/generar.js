@@ -7,9 +7,11 @@ const hoja = require("./sistema/hoja");
 const salida = path.join(__dirname, "salida");
 fs.mkdirSync(salida, { recursive: true });
 
+const NS = 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"';
+
 fs.writeFileSync(
   path.join(salida, "00-sistema-diseno.svg"),
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${hoja.W}" height="${hoja.H}" viewBox="0 0 ${hoja.W} ${hoja.H}">${hoja.render()}</svg>`
+  `<svg ${NS} width="${hoja.W}" height="${hoja.H}" viewBox="0 0 ${hoja.W} ${hoja.H}">${hoja.render()}</svg>`
 );
 console.log("✓ 00-sistema-diseno.svg — Sistema de diseño");
 
@@ -18,7 +20,7 @@ for (const pantalla of pantallas) {
   const alto = pantalla.alto || H;
   fs.writeFileSync(
     archivo,
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${alto}" viewBox="0 0 ${W} ${alto}">${pantalla.render()}</svg>`
+    `<svg ${NS} width="${W}" height="${alto}" viewBox="0 0 ${W} ${alto}">${pantalla.render()}</svg>`
   );
   console.log(`✓ ${pantalla.id}.svg — ${pantalla.nombre}`);
 }
