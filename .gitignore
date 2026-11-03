@@ -33,6 +33,8 @@ build/
 frontend/barber_king_app/android/local.properties
 frontend/barber_king_app/android/.gradle/
 frontend/barber_king_app/android/key.properties
+*.keystore
+*.jks
 frontend/barber_king_app/ios/Pods/
 frontend/barber_king_app/ios/.symlinks/
 frontend/barber_king_app/ios/Flutter/ephemeral/
