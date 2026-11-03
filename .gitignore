@@ -1,10 +1,11 @@
 # Entorno y secretos
 .env
 .env.*
-!.env.example
-!backend/.env.example
 backend/.env
 backend/.env.*
+# La plantilla sin secretos si se comparte.
+!.env.example
+!backend/.env.example
 
 # Node.js
 node_modules/

@@ -13,7 +13,8 @@ El sistema cubre el flujo completo: registro e inicio de sesión, reserva de cit
 - Registro e inicio de sesión con correo o Google.
 - Recuperación y cambio de contraseña.
 - Catálogo de servicios y barberos.
-- Reserva de citas según disponibilidad y horarios.
+- Reserva de citas según disponibilidad y horarios. Las horas que ya pasaron
+  aparecen en gris y no se pueden elegir.
 - Historial y estado de sus citas.
 - Calificación de barberos.
 - Chat directo con barberos, con envío de imágenes.
@@ -41,8 +42,16 @@ El sistema cubre el flujo completo: registro e inicio de sesión, reserva de cit
 - Chat directo entre clientes y barberos con historial persistente.
 - Sesiones deterministas por pareja de usuarios para evitar duplicados.
 - Mensajes de texto e imágenes.
-- Asistente virtual para consultas sobre servicios, precios y reservas.
+- Asistente virtual para consultas sobre servicios, precios y reservas: solo
+  responde temas de la barbería y usa el catálogo real para precios y duraciones.
 - Recomendación de cortes con visión artificial a partir de la cámara o galería.
+
+El asistente de texto solo responde temas de barbería: toma precios y duraciones
+del catálogo real, no confirma disponibilidad de un barbero (remite a la sección
+"Citas"), corrige precios inventados y rechaza temas ajenos o diagnósticos
+médicos. Si le piden algo que en una barbería no aplica, por ejemplo "cortes
+para calvos", contesta con lógica: rapado a cero, perfilado de barba o cuidado
+del cuero cabelludo. Las reglas están en `backend/services/chatPrompt.js`.
 
 ---
 
@@ -158,10 +167,28 @@ El script de datos de prueba requiere que existan usuarios con id `2` (barbero) 
 | `EMAIL_LOGO_URL` | No | Logo de los correos; por defecto `https://barber-king.onrender.com/public/logo-blanco.png` |
 | `RESEND_API_KEY` o `BREVO_API_KEY` | No | API de correo; necesaria en Render, que bloquea SMTP |
 | `GROQ_API_KEY` | No | Habilita el chat IA y la recomendación de cortes |
+| `GROQ_MODELO_TEXTO` | No | Modelo del chat de texto; por defecto `openai/gpt-oss-20b` |
+| `BARBERIA_ZONA_HORARIA` | No | Zona horaria de la barbería para validar reservas; por defecto `America/Bogota` |
 | `GOOGLE_CLIENT_ID` | No | Habilita el inicio de sesión con Google |
 | `CLOUDINARY_*` | No | Configuración opcional de Cloudinary |
 
 > `backend/.env` está excluido de Git. Nunca subas credenciales reales al repositorio.
+
+### La agenda se mide en la hora de la barbería
+
+Los horarios de los barberos son horas de pared (`08:00`–`18:00`), así que para
+saber si una hora ya pasó hay que comparar contra la hora **local de la
+barbería**, nunca contra la del servidor. Render corre en UTC, cinco horas por
+delante de Colombia, y con la hora del servidor se aceptaban reservas de horas
+que ya habían pasado.
+
+- Backend: `backend/utils/horaBarberia.js` expone `instanteLocal()`,
+  `hoyEnBarberia()` y `yaPasó(fecha, hora)`. `registrarCita` rechaza cualquier
+  cita cuya hora ya corra, con `BARBERIA_ZONA_HORARIA` como zona configurable.
+- App: `lib/core/hora_local.dart` pinta de gris y desactiva las horas que ya
+  pasaron según el reloj del teléfono, y vuelve a comprobar antes de enviar.
+- La API de disponibilidad **sí** devuelve las horas pasadas: la app las
+  necesita para mostrarlas en gris en lugar de esconderlas.
 
 ---
 
