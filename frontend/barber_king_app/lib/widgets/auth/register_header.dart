@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../common/brand_logo.dart';
 
 class RegisterHeader extends StatelessWidget {
   const RegisterHeader({super.key});
@@ -10,10 +11,9 @@ class RegisterHeader extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Icon(
-          Icons.content_cut_rounded,
-          color: AppColors.primary,
-          size: 46,
+        Align(
+          alignment: Alignment.center,
+          child: BrandLogo(size: 74),
         ),
         SizedBox(height: 12),
         Text(

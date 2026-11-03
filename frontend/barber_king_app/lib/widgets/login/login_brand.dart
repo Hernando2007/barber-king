@@ -1,36 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../common/brand_logo.dart';
 
 class LoginBrand extends StatelessWidget {
   const LoginBrand({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        Container(
-          width: 82,
-          height: 82,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: AppColors.goldGradient,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: .28),
-                blurRadius: 30,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: const Icon(
-            Icons.content_cut_rounded,
-            color: AppColors.black,
-            size: 37,
-          ),
-        ),
-        const SizedBox(height: 18),
-        const Text(
+        BrandLogo(size: 92),
+        SizedBox(height: 18),
+        Text(
           'BARBER KING',
           style: TextStyle(
             color: AppColors.white,
@@ -39,8 +21,8 @@ class LoginBrand extends StatelessWidget {
             letterSpacing: 5,
           ),
         ),
-        const SizedBox(height: 6),
-        const Text(
+        SizedBox(height: 6),
+        Text(
           'Gestión profesional para tu barbería',
           style: TextStyle(
             color: AppColors.subtitle,
