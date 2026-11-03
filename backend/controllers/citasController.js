@@ -1,11 +1,10 @@
+import { registrarCita } from "../services/citasService.js";
 import {
-    registrarCita,
-    obtenerTodasLasCitas,
     obtenerUnaCita,
     obtenerCitasUsuario,
     editarCita,
     borrarCita
-} from "../services/citasService.js";
+} from "../services/citasGestionService.js";
  
 export const crearCita = async (req, res, next) => {
     try {

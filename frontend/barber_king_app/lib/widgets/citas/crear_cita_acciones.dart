@@ -64,6 +64,17 @@ extension _CrearCitaAcciones on _CrearCitaScreenState {
       return;
     }
 
+    if (horaYaPaso(_fecha, _hora!)) {
+      // ignore: invalid_use_of_protected_member
+      setState(() => _hora = null);
+      showAppSnack(
+        context,
+        'Esa hora ya pasó. Elige una hora futura.',
+        error: true,
+      );
+      return;
+    }
+
     // ignore: invalid_use_of_protected_member
     setState(() => _creando = true);
 
