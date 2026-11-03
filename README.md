@@ -192,6 +192,20 @@ Para usar una IP distinta sin tocar el código:
 flutter run --dart-define=API_URL=http://192.168.1.50:3000
 ```
 
+Android solo acepta HTTP en `localhost`, `127.0.0.1` y `10.0.2.2` (ver
+`android/app/src/main/res/xml/network_security_config.xml`). Si pruebas contra la
+IP de tu PC, agrega esa IP exacta a ese archivo o usa HTTPS; si no, las peticiones
+fallan con `CLEARTEXT communication to ... not permitted`.
+
+### Identificador de la app
+
+El paquete es `com.barberking.app` en Android (`applicationId` y `namespace`) y en
+iOS (`PRODUCT_BUNDLE_IDENTIFIER`). Es el nombre que ve Google Cloud, la Play
+Store y el propio teléfono, así que ya no se puede cambiar sin consecuencias: una
+app con otro `applicationId` se instala como programa distinto y no actualiza la
+anterior. Si venías usando el viejo `com.example.barber_king_app`, desinstálalo
+antes de instalar este APK.
+
 ### Permisos de cámara y galería
 
 Ya están declarados en:
@@ -225,7 +239,7 @@ la app en Google Cloud Console (una sola vez, con tu cuenta):
    usar en *Cuentas de prueba* (o publica la app en modo *En producción*). Sin
    esto Google rechaza el acceso.
 2. **Credenciales → Crear credenciales → ID de cliente OAuth → tipo Android** con:
-   - Nombre del paquete: `com.example.barber_king_app`
+   - Nombre del paquete: `com.barberking.app`
    - Huella SHA-1 del keystore que firma el APK instalado. El de depuración y,
      mientras no configures el tuyo, también el de release salen del
      `debug.keystore`: `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
