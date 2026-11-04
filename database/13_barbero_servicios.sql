@@ -47,6 +47,9 @@ CREATE INDEX IF NOT EXISTS idx_barbero_servicios_servicio
 
 -- Precio y duracion ya resueltos, para no repetir el COALESCE
 -- en cada consulta del backend y de la app.
+-- precio_propio / duracion_propia vienen directos de la tabla: la app
+-- del barbero los necesita para pintar el campo vacio cuando el
+-- servicio se cobra al precio del catalogo.
 CREATE OR REPLACE VIEW vista_servicios_barbero AS
 SELECT
     bs.barbero_id,
@@ -55,6 +58,10 @@ SELECT
     s.descripcion,
     s.imagen,
     s.estado AS servicio_activo,
+    s.precio AS precio_catalogo,
+    s.duracion AS duracion_catalogo,
+    bs.precio AS precio_propio,
+    bs.duracion AS duracion_propia,
     COALESCE(bs.precio, s.precio) AS precio,
     COALESCE(bs.duracion, s.duracion) AS duracion,
     bs.precio IS NULL AS precio_del_catalogo,
@@ -87,4 +94,10 @@ SELECT (SELECT COUNT(*) FROM barberos) AS barberos,
        (SELECT COUNT(*) FROM barbero_servicios) AS enlaces,
        (SELECT COUNT(*) FROM barbero_servicios WHERE precio IS NOT NULL)
            AS con_precio_propio;
+
+-- Las columnas nuevas de la vista (precio_propio / duracion_propia):
+SELECT column_name
+FROM information_schema.columns
+WHERE table_name = 'vista_servicios_barbero'
+ORDER BY ordinal_position;
 */

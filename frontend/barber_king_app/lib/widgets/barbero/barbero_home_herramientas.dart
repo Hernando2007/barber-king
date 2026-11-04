@@ -34,9 +34,9 @@ class _BarberoHerramientasGrid extends StatelessWidget {
             onTap: () => onAcceso(AppRoutes.horarios),
           ),
           _BarberoAcceso(
-            'Servicios',
+            'Servicios que atiendo',
             Icons.content_cut_outlined,
-            onTap: () => onAcceso(AppRoutes.servicios),
+            onTap: () => onAcceso(AppRoutes.misServicios),
           ),
           _BarberoAcceso(
             'Mi perfil',

@@ -5,10 +5,13 @@ import 'api_service.dart';
 class BarberoService {
   final ApiService _api = ApiService();
 
-  Future<List<dynamic>> obtenerBarberos() async {
+  Future<List<dynamic>> obtenerBarberos({int? servicioId}) async {
     try {
       final response = await _api.dio.get(
         "/barberos/obtener",
+        queryParameters: servicioId == null
+            ? null
+            : {"servicio_id": servicioId},
       );
 
       return response.data["data"] ?? [];

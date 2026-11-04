@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../core/formatters.dart';
 import '../../core/hora_local.dart';
+import '../../services/barbero_servicio_service.dart';
 import '../../services/barbero_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/disponibilidad_service.dart';
@@ -11,6 +12,7 @@ import '../../widgets/common/app_ui.dart';
 
 part '../../widgets/citas/crear_cita_campos.dart';
 part '../../widgets/citas/crear_cita_agenda.dart';
+part '../../widgets/citas/crear_cita_filtros.dart';
 part '../../widgets/citas/crear_cita_horarios.dart';
 part '../../widgets/citas/crear_cita_acciones.dart';
 
@@ -18,11 +20,7 @@ class CrearCitaScreen extends StatefulWidget {
   final int? servicioInicial;
   final int? barberoInicial;
 
-  const CrearCitaScreen({
-    super.key,
-    this.servicioInicial,
-    this.barberoInicial,
-  });
+  const CrearCitaScreen({super.key, this.servicioInicial, this.barberoInicial});
 
   @override
   State<CrearCitaScreen> createState() => _CrearCitaScreenState();
@@ -31,11 +29,13 @@ class CrearCitaScreen extends StatefulWidget {
 class _CrearCitaScreenState extends State<CrearCitaScreen> {
   final ServicioService _servicios = ServicioService();
   final BarberoService _barberos = BarberoService();
+  final BarberoServicioService _serviciosBarbero = BarberoServicioService();
   final CitaService _citas = CitaService();
   final DisponibilidadService _disponibilidad = DisponibilidadService();
 
   List<Map<String, dynamic>> _listaServicios = [];
   List<Map<String, dynamic>> _listaBarberos = [];
+  List<Map<String, dynamic>> _serviciosDelBarbero = [];
   List<String> _horarios = [];
 
   int? _servicioId;
@@ -63,11 +63,7 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
         .map((item) => Map<String, dynamic>.from(item as Map))
         .toList();
 
-    final listaBarberos = barberos
-        .whereType<Map>()
-        .map((item) => Map<String, dynamic>.from(item))
-        .where((item) => item['disponible'] != false)
-        .toList();
+    final listaBarberos = _mapearBarberos(barberos);
 
     setState(() {
       _listaServicios = listaServicios;
@@ -84,30 +80,14 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
       _cargando = false;
     });
 
-    if (_servicioId != null && _barberoId != null) {
-      await _consultarDisponibilidad();
+    if (_barberoId != null) {
+      await _cargarServiciosDelBarbero(_barberoId);
+    } else if (_servicioId != null) {
+      await _filtrarBarberosPorServicio(_servicioId);
     }
   }
 
   String get _fechaIso => _fecha.toIso8601String().split('T').first;
-
-  Map<String, dynamic>? get _servicioSeleccionado {
-    for (final servicio in _listaServicios) {
-      if (servicio['id'] == _servicioId) return servicio;
-    }
-    return null;
-  }
-
-
-  void _onServicioChanged(int? value) {
-    setState(() => _servicioId = value);
-    _consultarDisponibilidad();
-  }
-
-  void _onBarberoChanged(int? value) {
-    setState(() => _barberoId = value);
-    _consultarDisponibilidad();
-  }
 
   void _onSeleccionarHora(String hora) {
     if (horaYaPaso(_fecha, hora)) {
@@ -135,7 +115,7 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
                   const _CrearCitaHero(),
                   const SizedBox(height: 22),
                   _CrearCitaServicioField(
-                    servicios: _listaServicios,
+                    servicios: _serviciosVisibles,
                     servicioId: _servicioId,
                     onChanged: _onServicioChanged,
                   ),

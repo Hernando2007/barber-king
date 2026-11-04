@@ -75,8 +75,6 @@ export const reemplazarServiciosDelBarbero = async (barberoId, lista) => {
         .select();
 };
 
-const vigenteError = (resultado) => resultado.error || null;
-
 const precioOrNull = (valor) => {
     const numero = Number(valor);
     return Number.isFinite(numero) && numero > 0 ? numero : null;
