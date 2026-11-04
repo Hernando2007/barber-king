@@ -50,7 +50,14 @@ CREATE INDEX IF NOT EXISTS idx_barbero_servicios_servicio
 -- precio_propio / duracion_propia vienen directos de la tabla: la app
 -- del barbero los necesita para pintar el campo vacio cuando el
 -- servicio se cobra al precio del catalogo.
-CREATE OR REPLACE VIEW vista_servicios_barbero AS
+--
+-- Postgres no deja cambiar el ORDEN de las columnas de una vista con
+-- CREATE OR REPLACE (lo lee como renombrar y da 42P16), asi que se bota
+-- y se vuelve a crear. Nadie mas depende de esta vista: el backend la
+-- consulta por nombre y no hay reglas ni vistas encimadas.
+DROP VIEW IF EXISTS vista_servicios_barbero;
+
+CREATE VIEW vista_servicios_barbero AS
 SELECT
     bs.barbero_id,
     bs.servicio_id,
