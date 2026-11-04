@@ -267,20 +267,32 @@ la app en Google Cloud Console (una sola vez, con tu cuenta):
    esto Google rechaza el acceso.
 2. **Credenciales → Crear credenciales → ID de cliente OAuth → tipo Android** con:
    - Nombre del paquete: `com.barberking.app`
-   - Huella SHA-1 del keystore que firma el APK instalado. El de depuración y,
+   - Huella SHA-1 **del keystore que firma el APK instalado**. El de depuración y,
      mientras no configures el tuyo, también el de release salen del
-     `debug.keystore`: `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
+     `debug.keystore`. Léela siempre del APK real, porque el `debug.keystore` se
+     regenera si borras `%USERPROFILE%\.android` y la huella cambia:
      ```bash
+     # la huella del APK que tienes instalado (la que Google exige registrar)
+     ~/AppData/Local/Android/Sdk/build-tools/37.0.0/apksigner.bat \
+       verify --print-certs build/app/outputs/flutter-apk/app-release.apk
+
+     # la huella del keystore de depuración de esta máquina
      keytool -list -v -keystore "$USERPROFILE/.android/debug.keystore" \
        -storepass android -alias androiddebugkey
      ```
      En PowerShell la ruta se escribe `%USERPROFILE%\.android\debug.keystore`.
+     Ambos deben coincidir; en el `debug.keystore` actual (nov-2026) es
+     `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`.
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
    (el que ya está). El cliente de tipo Android no se pone en la app.
 4. Reinstala el APK. Si cambias de keystore, registra la nueva huella SHA-1.
 
 Síntoma típico de faltar el paso 1 o 2: se abre el selector, eliges la cuenta y
-la app vuelve sin sesión (Google lo reporta como *cancelado*).
+la app vuelve sin sesión (Google lo reporta como *cancelado*). El plugin
+`google_sign_in` 7.x no distingue el motivo en Android, así que un SHA-1 viejo o
+un paquete mal escrito también salen como "Se canceló el acceso con Google".
+`GET /api/auth/google/config` confirma el paso 3: si devuelve un `clientId`,
+Render sí lo tiene.
 
 ### Firmar el APK de release con tu propio keystore
 
