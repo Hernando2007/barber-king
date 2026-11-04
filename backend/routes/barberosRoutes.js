@@ -23,6 +23,10 @@ import {
     subirMisFotos,
 } from "../controllers/portafolioController.js";
 import { uploadPortafolio } from "../config/multer.js";
+import {
+    decidirPendiente,
+    pendientesRevision,
+} from "../controllers/revisionBarberosController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 import { verificarRol } from "../middlewares/rolMiddleware.js";
  
@@ -55,6 +59,20 @@ router.delete(
     borrarMiFotoController
 );
 router.get("/portafolio/barbero/:barberoId", fotosDelBarbero);
+
+// Bandeja del administrador: los barberos que esperan el sello de verificado.
+router.get(
+    "/revision",
+    verificarToken,
+    verificarRol("Administrador"),
+    pendientesRevision
+);
+router.post(
+    "/revision/:id",
+    verificarToken,
+    verificarRol("Administrador"),
+    decidirPendiente
+);
  
 router.put(
     "/perfil",

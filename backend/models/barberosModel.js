@@ -115,3 +115,24 @@ export const obtenerCalificacionesBarberos = async () => {
         .from("resenas")
         .select("barbero_id, calificacion");
 };
+
+// La bandeja del administrador. El IS NULL va explícito porque en SQL
+// "verificacion_estado <> 'aprobado'" tampoco incluye los nulos.
+export const obtenerBarberosPendientesRevision = async ({ limite = 100 } = {}) => {
+    return await supabase
+        .from("barberos")
+        .select(`
+            *,
+            usuarios(
+                id,
+                nombres,
+                apellidos,
+                correo,
+                telefono,
+                foto
+            )
+        `)
+        .or("verificacion_estado.is.null,verificacion_estado.neq.aprobado")
+        .order("id", { ascending: true })
+        .limit(Number(limite));
+};

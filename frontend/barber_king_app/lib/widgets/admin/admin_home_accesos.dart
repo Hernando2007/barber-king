@@ -2,8 +2,12 @@ part of '../../screens/admin/admin_home_screen.dart';
 
 class _AdminHomeAccesos extends StatelessWidget {
   final VoidCallback onRefresh;
+  final int revisionPendiente;
 
-  const _AdminHomeAccesos({required this.onRefresh});
+  const _AdminHomeAccesos({
+    required this.onRefresh,
+    required this.revisionPendiente,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,44 +23,59 @@ class _AdminHomeAccesos extends StatelessWidget {
           );
           onRefresh();
         },
+        0,
+      ),
+      (
+        'Verificar barberos',
+        'Diplomas y cuentas sin sello',
+        Icons.verified_outlined,
+        () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AdminRevisionScreen()),
+          );
+          onRefresh();
+        },
+        revisionPendiente,
       ),
       (
         'Servicios',
         'Catálogo y precios',
         Icons.design_services_outlined,
         () => Navigator.pushNamed(context, AppRoutes.servicios),
+        0,
       ),
       (
         'Citas',
         'Agenda general',
         Icons.event_note_outlined,
         () => Navigator.pushNamed(context, AppRoutes.citas),
+        0,
       ),
       (
         'Mensajes',
         'Conversaciones con clientes',
         Icons.forum_outlined,
         () => Navigator.pushNamed(context, AppRoutes.chatContactos),
+        -1,
       ),
       (
         'Barberos',
         'Equipo profesional',
         Icons.content_cut_outlined,
         () => Navigator.pushNamed(context, AppRoutes.barberos),
+        0,
       ),
     ];
 
     return ValueListenableBuilder<int>(
       valueListenable: ChatNotificacionService.instance.noLeidos,
-      builder: (context, pendientes, _) => Column(
+      builder: (context, mensajes, _) => Column(
         children: [
           for (final item in items)
             AppCard(
               margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 14,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
               radius: 16,
               onTap: item.$4,
               child: Row(
@@ -93,27 +112,8 @@ class _AdminHomeAccesos extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (item.$1 == 'Mensajes' && pendientes > 0) ...[
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.error,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        pendientes > 9 ? '9+' : '$pendientes',
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                  ],
+                  _Contador(item.$5 == -1 ? mensajes : item.$5),
+                  const SizedBox(width: 6),
                   const Icon(
                     Icons.chevron_right_rounded,
                     color: AppColors.muted,
@@ -122,6 +122,33 @@ class _AdminHomeAccesos extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _Contador extends StatelessWidget {
+  final int total;
+
+  const _Contador(this.total);
+
+  @override
+  Widget build(BuildContext context) {
+    if (total <= 0) return const SizedBox.shrink();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: AppColors.error,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        total > 9 ? '9+' : '$total',
+        style: const TextStyle(
+          color: AppColors.white,
+          fontSize: 10.5,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

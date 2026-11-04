@@ -69,3 +69,42 @@ export const listarVerificaciones = async ({ limite = 50, desde = 0 } = {}) => {
 
     return { data: data || [], error: null };
 };
+
+/// Las últimas opiniones de la IA para varios usuarios a la vez, así la
+/// bandeja del administrador no hace una consulta por barbero.
+export const listarVerificacionesPorUsuarios = async (usuarioIds) => {
+    if (!usuarioIds?.length) {
+        return { data: [], error: null };
+    }
+
+    const { data, error } = await supabase
+        .from(TABLA)
+        .select("*")
+        .in("usuario_id", usuarioIds)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        if (esTablaInexistente(error)) {
+            return { data: [], error: null };
+        }
+
+        return { data: null, error };
+    }
+
+    return { data: data || [], error: null };
+};
+
+/// La decisión del administrador pisa el estado, pero la opinión de la IA
+/// (es_valido, confianza, motivo) queda intacta en la misma fila.
+export const decidirVerificacion = async ({ id, estado, revisorId, nota }) =>
+    await supabase
+        .from(TABLA)
+        .update({
+            estado,
+            revisado_por: revisorId || null,
+            revisado_at: new Date().toISOString(),
+            nota_administrador: nota || null,
+        })
+        .eq("id", id)
+        .select()
+        .maybeSingle();

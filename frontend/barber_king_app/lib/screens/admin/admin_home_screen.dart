@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../core/formatters.dart';
 import '../../routes/app_routes.dart';
+import '../../services/admin_revision_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/chat_notificacion_service.dart';
 import '../../services/dashboard_service.dart';
 import '../../widgets/common/app_ui.dart';
+import 'admin_revision_screen.dart';
 import 'admin_usuarios_screen.dart';
 
 part '../../widgets/admin/admin_home_hero.dart';
@@ -27,8 +29,10 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final DashboardService _dashboard = DashboardService();
   final AuthService _auth = AuthService();
+  final AdminRevisionService _revision = AdminRevisionService();
 
   Map<String, dynamic>? _data;
+  int _revisionPendiente = 0;
   bool _cargando = true;
 
   @override
@@ -39,11 +43,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   Future<void> _cargar() async {
     final data = await _dashboard.obtenerAdmin();
+    final pendientes = await _revision.pendientes();
 
     if (!mounted) return;
 
     setState(() {
       _data = data;
+      _revisionPendiente = pendientes?.length ?? 0;
       _cargando = false;
     });
   }
@@ -113,7 +119,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       subtitle: 'Gestiona la operación del negocio',
                     ),
                     const SizedBox(height: 14),
-                    _AdminHomeAccesos(onRefresh: _cargar),
+                    _AdminHomeAccesos(
+                      onRefresh: _cargar,
+                      revisionPendiente: _revisionPendiente,
+                    ),
                     const SizedBox(height: 24),
                     SectionHeader(
                       title: 'Estado de las citas',
