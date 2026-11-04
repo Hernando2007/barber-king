@@ -10,3 +10,4 @@ export 'show_app_snack.dart';
 export 'show_confirm_dialog.dart';
 export 'stat_tile.dart';
 export 'status_pill.dart';
+export 'visor_foto.dart';

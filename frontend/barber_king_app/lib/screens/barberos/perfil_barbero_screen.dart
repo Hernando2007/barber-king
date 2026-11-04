@@ -10,6 +10,7 @@ import '../../widgets/barberos/barbero_servicios_panel.dart';
 import '../../widgets/barberos/barberos_acciones.dart';
 import '../../widgets/barberos/perfil_barbero_acciones.dart';
 import '../../widgets/barberos/perfil_barbero_hero.dart';
+import '../../widgets/barberos/portafolio_galeria.dart';
 import '../../widgets/common/app_ui.dart';
 import '../../widgets/resenas/resena_sheet.dart';
 import '../../widgets/resenas/resenas_panel.dart';
@@ -123,6 +124,10 @@ class _PerfilBarberoScreenState extends State<PerfilBarberoScreen> {
                 ),
                 const SizedBox(height: 12),
                 BarberoServiciosPanel(servicios: _servicios),
+              ],
+              if (barberoId != null) ...[
+                const SizedBox(height: 22),
+                BarberoPortafolioPanel(barberoId: barberoId),
               ],
               if (barberoId != null) ...[
                 const SizedBox(height: 24),

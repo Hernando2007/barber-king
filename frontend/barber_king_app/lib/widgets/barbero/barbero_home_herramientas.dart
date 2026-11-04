@@ -39,6 +39,11 @@ class _BarberoHerramientasGrid extends StatelessWidget {
             onTap: () => onAcceso(AppRoutes.misServicios),
           ),
           _BarberoAcceso(
+            'Mis fotos',
+            Icons.photo_library_outlined,
+            onTap: () => onAcceso(AppRoutes.misFotos),
+          ),
+          _BarberoAcceso(
             'Mi perfil',
             Icons.badge_outlined,
             onTap: () => onAcceso(AppRoutes.perfil),
