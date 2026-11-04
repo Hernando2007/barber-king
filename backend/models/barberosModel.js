@@ -1,10 +1,25 @@
 import supabase from "../config/supabase.js";
 import { asegurarHorariosPorDefecto } from "./horariosModel.js";
  
-export const obtenerBarberos = async () => {
-    return await supabase
-        .from("barberos")
-        .select(`
+export const obtenerBarberos = async ({ servicioId = null } = {}) => {
+    // Con servicioId solo salen los barberos que lo prestan. El !inner
+    // es lo que descarta al resto en lugar de devolverlos con el dato vacío.
+    const seleccion = servicioId
+        ? `
+            *,
+            barbero_servicios!inner(
+                servicio_id
+            ),
+            usuarios(
+                id,
+                nombres,
+                apellidos,
+                correo,
+                telefono,
+                foto
+            )
+        `
+        : `
             *,
             usuarios(
                 id,
@@ -14,8 +29,21 @@ export const obtenerBarberos = async () => {
                 telefono,
                 foto
             )
-        `)
+        `;
+
+    let consulta = supabase
+        .from("barberos")
+        .select(seleccion)
         .order("id", { ascending: true });
+
+    if (servicioId) {
+        consulta = consulta.eq(
+            "barbero_servicios.servicio_id",
+            servicioId
+        );
+    }
+
+    return await consulta;
 };
  
 export const obtenerBarberoPorId = async (id) => {

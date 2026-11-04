@@ -11,6 +11,11 @@ import {
     destacados,
     eliminar
 } from "../controllers/barberosController.js";
+import {
+    obtenerDeBarbero,
+    obtenerMis,
+    guardarMis,
+} from "../controllers/barberoServiciosController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 import { verificarRol } from "../middlewares/rolMiddleware.js";
  
@@ -21,6 +26,11 @@ router.get("/obtener/:id", obtenerPorId);
 router.get("/cercanos", verificarToken, cercanos);
 router.get("/ubicacion/:id", verificarToken, ubicacion);
 router.get("/destacados", verificarToken, destacados);
+
+// Los servicios que atiende cada barbero y lo que cobra por ellos.
+router.get("/servicios/mis", verificarToken, obtenerMis);
+router.put("/servicios/mis", verificarToken, verificarRol("Barbero"), guardarMis);
+router.get("/servicios/barbero/:barberoId", obtenerDeBarbero);
  
 router.put(
     "/perfil",

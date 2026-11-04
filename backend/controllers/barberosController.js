@@ -15,7 +15,9 @@ import { obtenerUbicacionBarbero } from "../services/barberosUbicacionService.js
  
 export const obtenerTodos = async (req, res, next) => {
     try {
-        const barberos = await listarBarberos();
+        // ?servicio_id=N deja solo los barberos que prestan ese servicio.
+        const servicioId = Number(req.query.servicio_id) || null;
+        const barberos = await listarBarberos({ servicioId });
  
         return res.status(200).json({
             success: true,

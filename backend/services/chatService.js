@@ -29,6 +29,9 @@ const obtenerBarberos = async () => {
         .select(`
             especialidad,
             disponible,
+            barbero_servicios(
+                servicios(nombre)
+            ),
             usuarios(nombres, apellidos)
         `)
         .eq("disponible", true);
@@ -45,7 +48,12 @@ const obtenerBarberos = async () => {
             const nombre = usuario
                 ? `${usuario.nombres || ""} ${usuario.apellidos || ""}`.trim()
                 : "Barbero";
-            return `- ${nombre}: ${barbero.especialidad || "corte y estilo"}`;
+            const hace = (barbero.barbero_servicios || [])
+                .map((fila) => fila?.servicios?.nombre)
+                .filter(Boolean)
+                .join(", ");
+            const servicios = hace ? ` Hace: ${hace}.` : "";
+            return `- ${nombre}: ${barbero.especialidad || "corte y estilo"}.${servicios}`;
         })
         .join("\n");
 };

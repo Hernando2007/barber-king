@@ -1,4 +1,5 @@
-import { obtenerHorarioBarbero, obtenerServicio, obtenerCitas } from "../models/citasModel.js";
+import { obtenerHorarioBarbero, obtenerCitas } from "../models/citasModel.js";
+import { condicionesDelServicio } from "./barberoServiciosService.js";
 import { generarBloques } from "../utils/horarios.js";
 import { httpError } from "../utils/httpError.js";
 
@@ -90,29 +91,12 @@ export const obtenerDisponibilidad = async (
 
     }
 
-    const {
-        data: servicio,
-        error: errorServicio
-    } =
-        await obtenerServicio(
-            servicioId
-        );
-
-    if (errorServicio) {
-
-        throw new Error(
-            errorServicio.message
-        );
-
-    }
-
-    if (!servicio) {
-
-        throw new Error(
-            "Servicio no encontrado."
-        );
-
-    }
+    // Los bloques se arman con la duración que fija este barbero, no con
+    // la del catálogo. Si el par no existe, falla con un mensaje claro.
+    const servicio = await condicionesDelServicio(
+        barberoId,
+        servicioId
+    );
 
     const {
         data: citas,

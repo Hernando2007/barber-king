@@ -54,8 +54,8 @@ export const asegurarPerfilBarbero = async (usuarioId) => {
     return data;
 };
 
-export const listarBarberos = async () => {
-    const { data, error } = await obtenerBarberos();
+export const listarBarberos = async ({ servicioId = null } = {}) => {
+    const { data, error } = await obtenerBarberos({ servicioId });
 
     if (error) {
         throw new Error(error.message);

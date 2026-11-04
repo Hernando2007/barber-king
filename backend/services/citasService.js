@@ -1,8 +1,8 @@
 import {
     crearNuevaCita,
-    obtenerServicio,
     obtenerCitas
 } from "../models/citasModel.js";
+import { condicionesDelServicio } from "./barberoServiciosService.js";
 import { horaAMinutos } from "../utils/horarios.js";
 import { yaPasó } from "../utils/horaBarberia.js";
 
@@ -55,12 +55,12 @@ export const registrarCita = async (datos) => {
         );
     }
 
-    const { data: servicio, error: errorServicio } =
-        await obtenerServicio(servicio_id);
-
-    if (errorServicio || !servicio) {
-        throw new Error("Servicio no encontrado.");
-    }
+    // Verifica que este barbero preste este servicio y trae el precio
+    // y la duración que él haya fijado, no las del catálogo general.
+    const servicio = await condicionesDelServicio(
+        barbero_id,
+        servicio_id
+    );
 
     const { data: citasExistentes, error: errorCitas } =
         await obtenerCitas(barbero_id, fecha);
