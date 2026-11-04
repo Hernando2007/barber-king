@@ -3,10 +3,10 @@
 PROYECTO: BARBER KING
 ARCHIVO: 15_revision_verificaciones.sql
 =========================================================
-Cuando el diplom no convence a la IA (o el barbero sube sin
-documento) la bandeja de administrador decide. Estas columnas
-guardan quin tom la decisin, cundo y con qu nota, para que
-la auditora de verificaciones_barberos no dependa solo del modelo.
+Cuando el diploma no convence a la IA, o el barbero se registra
+sin documento, la bandeja del administrador decide. Estas columnas
+guardan quién tomó la decisión, cuándo y con qué nota, para que la
+auditoría de verificaciones_barberos no dependa solo del modelo.
 
 Es aditivo e idempotente: no cambia datos existentes.
 =========================================================
@@ -20,22 +20,23 @@ ALTER TABLE verificaciones_barberos
 
     ADD COLUMN IF NOT EXISTS nota_administrador TEXT;
 
--- El estado ya exista ('aprobado' / 'rechazado' segn la IA). Ahora el
--- administrador lo puede corregir desde la bandeja.
+-- El estado ya existía ('aprobado' / 'rechazado' según la IA). Ahora el
+-- administrador lo puede corregir desde la bandeja y la consulta frecuente
+-- es justamente por estado.
 CREATE INDEX IF NOT EXISTS idx_verificaciones_estado
     ON verificaciones_barberos (estado, created_at DESC);
 
 /*
--- Verificacion despues de ejecutar:
+-- Verificación después de ejecutar:
 SELECT column_name
 FROM information_schema.columns
 WHERE table_name = 'verificaciones_barberos'
 ORDER BY ordinal_position;
 
--- Las que esperan una decision:
-SELECT id, barbero_id, es_valido, confianza, estado, motivo
-FROM verificaciones_barberos
-WHERE estado <> 'aprobado'
-ORDER BY created_at DESC
-LIMIT 20;
+-- Los barberos que esperan el sello (lo que lee la bandeja):
+SELECT id, usuario_id, especialidad, verificacion_estado
+FROM barberos
+WHERE verificacion_estado IS NULL
+   OR verificacion_estado <> 'aprobado'
+ORDER BY id;
 */
