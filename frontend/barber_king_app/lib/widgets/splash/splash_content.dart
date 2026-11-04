@@ -80,26 +80,7 @@ class _SplashBrand extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 108,
-            height: 108,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: AppColors.goldGradient,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: .3),
-                  blurRadius: 36,
-                  spreadRadius: 3,
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.content_cut_rounded,
-              color: AppColors.black,
-              size: 48,
-            ),
-          ),
+          const BrandLogo(size: 112),
           const SizedBox(height: 26),
           const Text(
             'BARBER KING',

@@ -1,9 +1,9 @@
 import fs from "fs/promises";
 import {
     enviarMensaje,
-    recomendarCorte,
     obtenerHistorial,
 } from "../services/chatService.js";
+import { recomendarCorte } from "../services/chatVisionService.js";
 import { httpError } from "../utils/httpError.js";
 
 export const chatearConBarberKing = async (req, res, next) => {

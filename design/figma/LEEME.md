@@ -4,6 +4,10 @@
 Tamaño base 390 × 844. Las pantallas de formularios largos usan un marco más alto
 para mostrar todo el contenido (03 = 1180, 16 = 940).
 
+Ya incluyen el logo real de Barber King: emblema dorado en splash, login,
+registro, recuperación y cargando, y la sección **04 · Marca** de la hoja de
+sistema de diseño con las tres variantes (dorada, sobre oscuro, sobre claro).
+
 ## Cómo importar a Figma
 
 1. Instala la fuente **Poppins** (Google Fonts) en tu equipo. Figma usa la fuente
@@ -15,7 +19,9 @@ para mostrar todo el contenido (03 = 1180, 16 = 940).
    `Ctrl + Shift + G` para desagrupar y editar.
 4. Los textos son capas de texto reales (no vectores): puedes cambiar el copy,
    el tamaño y el color desde el panel derecho.
-5. Para reutilizar botones, campos o tarjetas, conviértelos en componentes con
+5. El logo entra como capa de imagen (PNG incrustado en el SVG). Si tu versión de
+   Figma no la trae, arrastra el PNG correspondiente desde `marca/` encima.
+6. Para reutilizar botones, campos o tarjetas, conviértelos en componentes con
    `Ctrl + Alt + K` y reemplaza las copias existentes.
 
 ## Contenido
@@ -48,11 +54,16 @@ para mostrar todo el contenido (03 = 1180, 16 = 940).
 ## Regenerar
 
 ```bash
+# 1. Vuelve a crear las marcas a partir de design/logo/original.png
+python ../../tools/generar_logo.py
+
+# 2. Vuelve a generar los SVG
 cd design/figma
 node generar.js
 ```
 
 - `salida/` contiene los 22 SVG listos para Figma.
+- `marca/` tiene el logo en PNG (512 px) y los recortados que se incrustan en los SVG.
 - `index.html` es una vista previa local de todas las pantallas (ábrelo en el navegador).
 - `_verificacion/` guarda capturas de control; no forma parte de la entrega.
 
@@ -61,6 +72,7 @@ node generar.js
 - `sistema/tokens.js` — colores, tipografía y degradados de la app.
 - `sistema/texto.js` — texto, párrafos y medición aproximada.
 - `sistema/iconos.js` — set de iconos de trazo 24 × 24.
+- `sistema/marca.js` — logo real: emblema dorado, marca suelta y variante de la hoja.
 - `sistema/base.js` — fondo, barra de estado, app bar y elementos comunes.
 - `sistema/componentes.js` — botones, campos, chips, insignias, tarjetas, avatar.
 - `sistema/chat.js` — burbujas, separador de fecha y compositor de mensajes.

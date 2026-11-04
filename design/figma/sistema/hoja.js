@@ -1,7 +1,7 @@
 const { C, F } = require("./tokens");
 const { degradado, etiqueta } = require("./base");
 const { texto } = require("./texto");
-const { icono } = require("./iconos");
+const { emblema, variantes } = require("./marca");
 const {
   boton,
   campo,
@@ -11,11 +11,10 @@ const {
   avatar,
   switchControl,
   barraProgreso,
-  tarjeta,
 } = require("./componentes");
 
 const W = 780;
-const H = 1140;
+const H = 1290;
 
 const colores = [
   ["primary", C.primary],
@@ -60,7 +59,7 @@ module.exports = {
 ${texto(48, 58, "SISTEMA DE DISEÑO", { tam: 10.5, peso: 600, color: C.primary, espaciado: 1.8 })}
 ${texto(48, 100, "Barber King", { tam: 34, peso: 700, espaciado: -0.6 })}
 ${texto(48, 124, "Colores, tipografía y componentes usados en las 21 pantallas.", { tam: 12.5, color: C.subtitle })}
-${icono("scissors", 682, 66, 46, C.primary, 1.4)}
+${emblema(705, 89, 33)}
 ${texto(48, 202, "Mockups 390 × 844 · tema oscuro · Material 3", { tam: 11, color: C.muted })}
 ${etiqueta(48, 290, "01 · Color")}
 ${colores
@@ -87,7 +86,8 @@ ${avatar(378, 1062, 48, { iniciales: "MR", activo: true })}
 ${switchControl(440, 1073, { on: true })}
 ${barraProgreso(504, 1078, 160, { valor: 0.68 })}
 ${texto(504, 1066, "Progreso del día", { tam: 10, color: C.subtitle })}
-${tarjeta(694, 1062, 38, 48, { radio: 12, gradiente: "gold", borde: null })}
-${icono("scissors", 703, 1072, 20, C.black)}
+${emblema(713, 1086, 19, { halo: false })}
+${etiqueta(48, 1166, "04 · Marca")}
+${variantes(48, 1184)}
 `,
 };

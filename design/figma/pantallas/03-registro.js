@@ -2,6 +2,7 @@ const { C } = require("../sistema/tokens");
 const { fondo, barraEstado, appBar } = require("../sistema/base");
 const { texto } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
+const { emblema } = require("../sistema/marca");
 const { tarjeta, campo, cuadroIcono, boton } = require("../sistema/componentes");
 
 const tipoCuenta = (x, activo, etiqueta, nombreIcono) => `
@@ -20,7 +21,7 @@ module.exports = {
 ${fondo("", 1180)}
 ${barraEstado()}
 ${appBar({ titulo: "Crear cuenta" })}
-${icono("scissors", 172, 124, 46, C.primary, 1.6)}
+${emblema(195, 148, 30)}
 ${texto(195, 200, "ÚNETE A BARBER KING", { tam: 23, peso: 700, color: C.primary, ancla: "middle", espaciado: 2.4 })}
 ${texto(195, 224, "Crea tu cuenta y vive la experiencia premium.", { tam: 13, color: C.subtitle, ancla: "middle" })}
 ${tarjeta(20, 248, 350, 900)}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../core/formatters.dart';
+import '../../core/hora_local.dart';
 import '../../services/barbero_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/disponibilidad_service.dart';
@@ -10,6 +11,7 @@ import '../../widgets/common/app_ui.dart';
 
 part '../../widgets/citas/crear_cita_campos.dart';
 part '../../widgets/citas/crear_cita_agenda.dart';
+part '../../widgets/citas/crear_cita_horarios.dart';
 part '../../widgets/citas/crear_cita_acciones.dart';
 
 class CrearCitaScreen extends StatefulWidget {
@@ -108,6 +110,12 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
   }
 
   void _onSeleccionarHora(String hora) {
+    if (horaYaPaso(_fecha, hora)) {
+      setState(() => _hora = null);
+      showAppSnack(context, 'Esa hora ya pasó. Elige una futura.', error: true);
+      return;
+    }
+
     setState(() => _hora = hora);
   }
 
@@ -145,6 +153,7 @@ class _CrearCitaScreenState extends State<CrearCitaScreen> {
                   ),
                   const SizedBox(height: 22),
                   _CrearCitaHorariosSection(
+                    fecha: _fecha,
                     seleccionIncompleta:
                         _barberoId == null || _servicioId == null,
                     consultando: _consultando,

@@ -212,6 +212,20 @@ app.use(
     )
 );
  
+app.use(
+    "/public",
+    express.static(
+        path.join(
+            __dirname,
+            "public"
+        ),
+        {
+            maxAge: "30d",
+            etag: true
+        }
+    )
+);
+ 
 app.use((req, res) => {
  
     res.status(404).json({

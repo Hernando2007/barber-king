@@ -10,6 +10,13 @@ const COLORES = {
     apagado: "#64748B",
 };
 
+// Se lee al construir el correo: dotenv aún no había cargado al importar.
+const logoCorreo = () =>
+    (
+        process.env.EMAIL_LOGO_URL ||
+        "https://barber-king.onrender.com/public/logo-blanco.png"
+    ).trim();
+
 export const escaparCorreo = (valor) =>
     String(valor ?? "")
         .replace(/&/g, "&amp;")
@@ -71,13 +78,9 @@ export const disenoCorreo = ({ titulo, contenido, nota = "", pie = "" }) => {
                         <td style="height:4px;background:${COLORES.oro};font-size:0;line-height:0;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td align="center" style="padding:36px 36px 6px;">
-                            <table role="presentation" cellpadding="0" cellspacing="0" align="center">
-                                <tr>
-                                    <td width="52" height="52" align="center" valign="middle" style="width:52px;height:52px;background:${COLORES.oro};border-radius:16px;font-family:Arial,sans-serif;font-size:26px;line-height:52px;color:${COLORES.fondo};">&#9986;</td>
-                                </tr>
-                            </table>
-                            <div style="margin-top:14px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:20px;font-weight:800;letter-spacing:5px;color:${COLORES.blanco};">BARBER KING</div>
+                        <td align="center" style="padding:34px 36px 6px;">
+                            <img src="${logoCorreo()}" width="72" height="72" alt="Barber King" style="display:block;margin:0 auto 14px;border:0;">
+                            <div style="margin-top:0;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:20px;font-weight:800;letter-spacing:5px;color:${COLORES.blanco};">BARBER KING</div>
                             <div style="margin-top:6px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:3px;color:${COLORES.oroOscuro};">CORTE &middot; ESTILO &middot; EXPERIENCIA</div>
                         </td>
                     </tr>

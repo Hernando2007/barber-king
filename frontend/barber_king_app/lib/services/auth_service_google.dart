@@ -100,7 +100,7 @@ extension AuthServiceGoogle on AuthService {
       case GoogleSignInExceptionCode.clientConfigurationError:
         return conDetalle(
           'Google no reconoció a esta app. Registra el paquete '
-          'com.example.barber_king_app con su huella SHA-1 en Google Cloud.',
+          'com.barberking.app con su huella SHA-1 en Google Cloud.',
         );
       case GoogleSignInExceptionCode.providerConfigurationError:
         return conDetalle(

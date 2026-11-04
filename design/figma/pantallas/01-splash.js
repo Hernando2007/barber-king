@@ -1,7 +1,7 @@
 const { C } = require("../sistema/tokens");
 const { fondo, barraEstado } = require("../sistema/base");
 const { texto } = require("../sistema/texto");
-const { icono } = require("../sistema/iconos");
+const { emblema } = require("../sistema/marca");
 
 const halos = `
 <defs>
@@ -19,10 +19,8 @@ module.exports = {
 ${fondo()}
 ${barraEstado()}
 ${halos}
-<circle cx="195" cy="330" r="66" fill="${C.primary}" opacity="0.10"/>
-<circle cx="195" cy="330" r="54" fill="url(#gold)"/>
+${emblema(195, 330, 54)}
 <circle cx="195" cy="330" r="62" fill="none" stroke="${C.primary}" stroke-opacity="0.35"/>
-${icono("scissors", 171, 306, 48, C.black, 1.6)}
 ${texto(195, 458, "BARBER KING", { tam: 29, peso: 800, ancla: "middle", espaciado: 5.5 })}
 ${texto(195, 486, "CORTE  •  ESTILO  •  EXPERIENCIA", { tam: 10.5, color: C.subtitle, ancla: "middle", espaciado: 2.4 })}
 <rect x="151" y="742" width="88" height="3" rx="1.5" fill="${C.border}"/>

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
+import '../../widgets/common/brand_logo.dart';
 
 part '../../widgets/splash/splash_content.dart';
 

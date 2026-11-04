@@ -1,10 +1,11 @@
 # Entorno y secretos
 .env
 .env.*
-!.env.example
-!backend/.env.example
 backend/.env
 backend/.env.*
+# La plantilla sin secretos si se comparte.
+!.env.example
+!backend/.env.example
 
 # Node.js
 node_modules/
@@ -33,6 +34,8 @@ build/
 frontend/barber_king_app/android/local.properties
 frontend/barber_king_app/android/.gradle/
 frontend/barber_king_app/android/key.properties
+*.keystore
+*.jks
 frontend/barber_king_app/ios/Pods/
 frontend/barber_king_app/ios/.symlinks/
 frontend/barber_king_app/ios/Flutter/ephemeral/

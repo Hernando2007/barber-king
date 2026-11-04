@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/colors.dart';
+import '../common/brand_logo.dart';
 
 class BrandHeader extends StatelessWidget {
   final String subtitle;
@@ -12,15 +13,7 @@ class BrandHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 78,
-          height: 78,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.primary, width: 1.5),
-          ),
-          child: const Icon(Icons.content_cut, color: AppColors.primary, size: 34),
-        ),
+        const BrandLogo(size: 80),
         const SizedBox(height: 18),
         Text(
           'BARBER KING',
