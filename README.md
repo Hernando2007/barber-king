@@ -262,9 +262,16 @@ de `GET /api/auth/google/config` y lo pasa como `serverClientId`. Para que
 Google muestre el selector de cuentas y entregue un `idToken` hay que registrar
 la app en Google Cloud Console (una sola vez, con tu cuenta):
 
-1. **APIs y servicios → Pantalla de consentimiento**: agrega el Gmail que vas a
-   usar en *Cuentas de prueba* (o publica la app en modo *En producción*). Sin
-   esto Google rechaza el acceso.
+Todo vive en el proyecto **`micro-handler-415020`** (número `607283190256`), que
+es al que esta cuenta tiene acceso. `GOOGLE_CLIENT_ID` es el cliente Web
+llamado **backend** y el cliente **Barber King Android** es el que autoriza el
+APK; ambos deben quedar en el mismo proyecto. Antes se usaba el proyecto
+`271099574115`, al que ya no hay acceso: si ves ese prefijo en alguna variable,
+está vieja.
+
+1. **Google Auth Platform → Público → Usuarios de prueba**: agrega el Gmail que
+   vas a usar (o publica la app en modo *En producción*). Con el estado en
+   *Prueba* y la lista vacía, Google rechaza el acceso.
 2. **Credenciales → Crear credenciales → ID de cliente OAuth → tipo Android** con:
    - Nombre del paquete: `com.barberking.app`
    - Huella SHA-1 **del keystore que firma el APK instalado**. El de depuración y,
@@ -284,8 +291,10 @@ la app en Google Cloud Console (una sola vez, con tu cuenta):
      Ambos deben coincidir; en el `debug.keystore` actual (nov-2026) es
      `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`.
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
-   (el que ya está). El cliente de tipo Android no se pone en la app.
+   llamado **backend**: `607283190256-1ilbmorioqnhv2f6fgjpsc23mf2h8if0.apps.googleusercontent.com`.
+   El cliente de tipo Android no se pone en la app ni en el backend.
 4. Reinstala el APK. Si cambias de keystore, registra la nueva huella SHA-1.
+   Cambiar `GOOGLE_CLIENT_ID` no exige recompilar: la app lo vuelve a leer.
 
 Síntoma típico de faltar el paso 1 o 2: se abre el selector, eliges la cuenta y
 la app vuelve sin sesión (Google lo reporta como *cancelado*). El plugin
