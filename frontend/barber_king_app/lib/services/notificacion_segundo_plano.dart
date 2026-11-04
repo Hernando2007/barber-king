@@ -10,8 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 import '../core/config/api_config.dart';
+import '../core/formatters.dart';
 
 part 'notificacion_segundo_plano_aviso.dart';
+part 'notificacion_segundo_plano_citas.dart';
 part 'notificacion_segundo_plano_revisa.dart';
 
 /// Revisa el chat aunque la app esté cerrada y avisa con una notificación local.
@@ -24,6 +26,7 @@ class NotificacionSegundoPlano {
   static const String claveAppAbierta = 'chat_app_abierta';
   static const String claveAppAbiertaEn = 'chat_app_abierta_en';
   static const String canalId = 'chat_mensajes';
+  static const String canalRecordatorioId = 'citas_recordatorios';
 
   static const String _nombrePeriodico = 'barber-king-chat';
   static const String _nombreCadena = 'barber-king-chat-cadena';
@@ -97,6 +100,7 @@ void notificacionSegundoPlanoDispatcher() {
     DartPluginRegistrant.ensureInitialized();
 
     await _revisarChat();
+    await _avisarCitasCercanas();
 
     return true;
   });

@@ -335,6 +335,15 @@ Firebase): revisa el chat unos segundos después de pasar a segundo plano,
 repasa cada minuto mientras la cadena siga viva y conserva un respaldo
 periódico cada 15 minutos. Los avisos usan el canal `chat_mensajes`.
 
+En esa misma pasada la tarea pide `GET /citas/proximas` y avisa de las citas
+pendientes o confirmadas de las próximas 72 horas por el canal
+`citas_recordatorios`: una vez dentro de las 24 horas y otra dentro de las 2.
+El aviso sale para el cliente ("tu cita mañana a las 14:30 con X") y para el
+barbero ("llega un cliente en menos de 2 horas"). Cada pareja cita+ventana se
+marca en `SharedPreferences` (`recordatorio_cita_<id>_<24h|2h>`) para no
+repetirse, y esas marcas se borran a los 15 días. El administrador no recibe
+avisos de citas.
+
 La tarea se crea la primera vez que entras al panel después de iniciar sesión.
 El permiso `RECEIVE_BOOT_COMPLETED` es lo que permite que ese respaldo sobreviva
 a un reinicio del teléfono; sin él, el trabajo se pierde hasta volver a abrir

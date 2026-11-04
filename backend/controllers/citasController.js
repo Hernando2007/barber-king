@@ -1,4 +1,5 @@
 import { registrarCita } from "../services/citasService.js";
+import { obtenerCitasProximas } from "../services/citasRecordatorioService.js";
 import {
     obtenerUnaCita,
     obtenerCitasUsuario,
@@ -26,6 +27,20 @@ export const crearCita = async (req, res, next) => {
 export const obtenerTodas = async (req, res, next) => {
     try {
         const citas = await obtenerCitasUsuario(req.usuario);
+ 
+        return res.status(200).json({
+            success: true,
+            total: citas.length,
+            data: citas
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+ 
+export const obtenerProximas = async (req, res, next) => {
+    try {
+        const citas = await obtenerCitasProximas(req.usuario);
  
         return res.status(200).json({
             success: true,
