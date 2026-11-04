@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
-import '../../core/config/api_config.dart';
 import '../common/app_ui.dart';
 import 'barberos_calificacion.dart';
 import 'barberos_screen_acciones.dart';
@@ -10,18 +9,18 @@ class BarberosScreenCard extends StatelessWidget {
   final Map<String, dynamic> barbero;
   final bool puedeChatear;
   final bool puedeReservar;
+  final VoidCallback onAbrirPerfil;
   final VoidCallback onChat;
   final VoidCallback onReservar;
-  final VoidCallback onMapa;
 
   const BarberosScreenCard({
     super.key,
     required this.barbero,
     required this.puedeChatear,
     required this.puedeReservar,
+    required this.onAbrirPerfil,
     required this.onChat,
     required this.onReservar,
-    required this.onMapa,
   });
 
   Map<String, dynamic> _usuario(Map<String, dynamic> barbero) {
@@ -43,10 +42,9 @@ class BarberosScreenCard extends StatelessWidget {
     final especialidad = barbero['especialidad']?.toString().isNotEmpty == true
         ? barbero['especialidad'].toString()
         : 'Barbero profesional';
-    final descripcion = barbero['descripcion']?.toString();
+    final descripcion = barbero['descripcion']?.toString().trim();
     final experiencia = int.tryParse('${barbero['experiencia'] ?? 0}') ?? 0;
     final disponible = barbero['disponible'] != false;
-    final foto = usuario['foto']?.toString() ?? barbero['foto_trabajo']?.toString();
     final promedio =
         (barbero['calificacion_promedio'] as num?)?.toDouble() ?? 0;
     final totalResenas =
@@ -56,6 +54,7 @@ class BarberosScreenCard extends StatelessWidget {
     return AppCard(
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(16),
+      onTap: onAbrirPerfil,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,7 +64,7 @@ class BarberosScreenCard extends StatelessWidget {
                 children: [
                   AppAvatar(
                     name: nombre,
-                    photoUrl: foto,
+                    photoUrl: usuario['foto']?.toString(),
                     radius: 29,
                     fallbackIcon: Icons.content_cut_rounded,
                   ),
@@ -138,17 +137,18 @@ class BarberosScreenCard extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(width: 8),
               StatusPill(
                 label: disponible ? 'Disponible' : 'Ocupado',
                 color: disponible ? AppColors.success : AppColors.muted,
               ),
             ],
           ),
-          if (descripcion != null && descripcion.trim().isNotEmpty) ...[
+          if (descripcion != null && descripcion.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(
               descripcion,
-              maxLines: 3,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.subtitle,
@@ -157,29 +157,13 @@ class BarberosScreenCard extends StatelessWidget {
               ),
             ),
           ],
-          if (foto != null && ApiConfig.resolveMedia(foto) != null) ...[
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(14),
-              child: Image.network(
-                ApiConfig.resolveMedia(foto)!,
-                height: 130,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => const SizedBox.shrink(),
-              ),
-            ),
-          ],
           const SizedBox(height: 14),
           BarberosScreenAcciones(
-            ubicacionVigente: barbero['tiene_ubicacion'] == true &&
-                barbero['ubicacion_vigente'] == true,
             puedeChatear: puedeChatear,
             puedeReservar: puedeReservar,
             disponible: disponible,
             onChat: onChat,
             onReservar: onReservar,
-            onMapa: onMapa,
           ),
         ],
       ),

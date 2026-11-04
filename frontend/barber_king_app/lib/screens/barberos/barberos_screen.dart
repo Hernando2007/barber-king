@@ -117,12 +117,12 @@ class _BarberosScreenState extends State<BarberosScreen> {
                             decoration: InputDecoration(
                               hintText: _cercaDeMi
                                   ? 'Buscar en barberos cercanos'
-                                  : 'Buscar por nombre, especialidad o zona',
+                                  : 'Buscar barbero o zona',
                               prefixIcon: const Icon(Icons.search_rounded),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 12),
                         BarberosCercaBoton(
                           activo: _cercaDeMi,
                           onCerca: (lista) => setState(() {
@@ -153,8 +153,8 @@ class _BarberosScreenState extends State<BarberosScreen> {
                           BarberosAcciones.abrirChat(context, barbero),
                       onReservar: (barbero) =>
                           BarberosAcciones.reservar(context, barbero),
-                      onMapa: (barbero) =>
-                          BarberosAcciones.abrirMapa(context, barbero),
+                      onAbrirPerfil: (barbero) =>
+                          BarberosAcciones.abrirPerfil(context, barbero),
                     ),
                   ],
                 ),

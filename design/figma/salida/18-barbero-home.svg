@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="390" height="844" viewBox="0 0 390 844">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="390" height="1164" viewBox="0 0 390 1164">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="1164" fill="url(#bg)"/>
 
 <g>
   <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
@@ -98,5 +98,33 @@
   <g transform="translate(217 764) scale(0.9166666666666666)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></g>
   <text x="217" y="804" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Servicios</text>
   
+</g>
+<text x="20" y="878" font-family="Poppins, Arial, sans-serif" font-size="18" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Reseñas recibidas</text>
+<text x="20" y="898" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">124 reseñas · promedio 4.8</text>
+
+<g>
+  <rect x="20" y="916" width="350" height="116" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="54" cy="950" r="18" fill="#1D2940" stroke="#354563"/>
+    <text x="54" y="954.32" font-family="Poppins, Arial, sans-serif" font-size="12.24" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">LP</text>
+    
+  </g>
+  <text x="84" y="946" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Luis Pérez</text>
+  <text x="84" y="963" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">hoy</text>
+  <g transform="translate(290 942) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(305 942) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(320 942) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(335 942) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(350 942) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+  <text x="36" y="996" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Excelente servicio, salió justo como lo quería.</text>
+</g>
+
+<g>
+  <rect x="20" y="1042" width="350" height="116" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="54" cy="1076" r="18" fill="#1D2940" stroke="#354563"/>
+    <text x="54" y="1080.32" font-family="Poppins, Arial, sans-serif" font-size="12.24" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">CR</text>
+    
+  </g>
+  <text x="84" y="1072" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Camila Rodríguez</text>
+  <text x="84" y="1089" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">ayer</text>
+  <g transform="translate(290 1068) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(305 1068) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(320 1068) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(335 1068) scale(0.5)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(350 1068) scale(0.5)" fill="none" stroke="#354563" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#354563"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+  <text x="36" y="1122" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Buen fade y muy puntual, repetiré.</text>
 </g>
 </svg>

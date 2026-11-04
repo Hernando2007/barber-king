@@ -95,6 +95,25 @@ extension _CitasScreenLogic on _CitasScreenState {
     );
   }
 
+  Future<void> _calificar(Map<String, dynamic> cita) async {
+    final citaId = int.tryParse('${cita['id']}') ?? 0;
+    final barbero = cita['barberos'];
+    final barberoId = barbero is Map
+        ? int.tryParse('${barbero['id']}') ?? 0
+        : 0;
+
+    final publicada = await mostrarHojaResena(
+      context,
+      nombreBarbero: _nombresBarberos[barberoId] ?? 'tu barbero',
+      citaId: citaId,
+      barberoId: barberoId,
+    );
+
+    if (publicada) {
+      await _cargar();
+    }
+  }
+
   Future<void> _nuevaCita() async {
     final creada = await Navigator.push<bool>(
       context,

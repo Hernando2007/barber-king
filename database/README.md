@@ -17,10 +17,13 @@ Ejecuta los archivos en el editor SQL de Supabase, uno por uno y en este orden:
 9. `09_datos_prueba.sql` (opcional)
 10. `10_verificacion_barberos.sql` (verificación anti-fraude de barberos)
 11. `11_limpieza_tablas.sql` (elimina tablas legadas sin uso)
+12. `12_resenas_por_cita.sql` (una reseña por cita)
 
 Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecutarse sobre una base con información que quieras conservar.
 
 `10_verificacion_barberos.sql` es una migración incremental (no borra datos): agrega `barberos.verificacion_estado`, la tabla de auditoría `verificaciones_barberos` y marca como aprobados a los barberos existentes.
+
+`12_resenas_por_cita.sql` también es incremental: agrega `resenas.cita_id` si falta y lo marca único, de modo que cada cita completada admite una sola reseña.
 
 ## Datos iniciales
 

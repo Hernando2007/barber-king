@@ -5,7 +5,9 @@ import '../../core/formatters.dart';
 import '../../services/auth_service.dart';
 import '../../services/barbero_service.dart';
 import '../../services/cita_service.dart';
+import '../../services/resena_service.dart';
 import '../../widgets/common/app_ui.dart';
+import '../../widgets/resenas/resena_sheet.dart';
 import '../chat/chat_conversacion_screen.dart';
 import 'crear_cita_screen.dart';
 
@@ -25,9 +27,11 @@ class _CitasScreenState extends State<CitasScreen> {
   final CitaService _service = CitaService();
   final BarberoService _barberos = BarberoService();
   final AuthService _auth = AuthService();
+  final ResenaService _resenas = ResenaService();
 
   List<Map<String, dynamic>> _citas = [];
   Map<int, String> _nombresBarberos = {};
+  Set<int> _citasCalificadas = {};
 
   int _rol = 3;
   String _filtro = 'Todas';
@@ -49,7 +53,19 @@ class _CitasScreenState extends State<CitasScreen> {
     final rol = int.tryParse('${usuario?['rol_id'] ?? 3}') ?? 3;
 
     final data = await _service.obtenerCitas();
-    final perfiles = rol == 3 ? await _barberos.obtenerBarberos() : [];
+
+    List<dynamic> perfiles = [];
+    List<dynamic> propias = [];
+
+    if (rol == 3) {
+      final resultados = await Future.wait([
+        _barberos.obtenerBarberos(),
+        _resenas.obtenerMias(),
+      ]);
+
+      perfiles = resultados[0];
+      propias = resultados[1];
+    }
 
     if (!mounted) return;
 
@@ -66,6 +82,16 @@ class _CitasScreenState extends State<CitasScreen> {
           '${usuarioBarbero['apellidos'] ?? ''}'.trim();
     }
 
+    final calificadas = <int>{};
+
+    for (final item in propias.whereType<Map>()) {
+      final citaId = int.tryParse('${item['cita_id']}');
+
+      if (citaId != null) {
+        calificadas.add(citaId);
+      }
+    }
+
     setState(() {
       _rol = rol;
       _citas = data
@@ -73,6 +99,7 @@ class _CitasScreenState extends State<CitasScreen> {
           .map((item) => Map<String, dynamic>.from(item))
           .toList();
       _nombresBarberos = mapa;
+      _citasCalificadas = calificadas;
       _cargando = false;
     });
   }
@@ -141,10 +168,12 @@ class _CitasScreenState extends State<CitasScreen> {
                           esBarbero: _esBarbero,
                           esAdmin: _esAdmin,
                           nombresBarberos: _nombresBarberos,
+                          citasCalificadas: _citasCalificadas,
                           onCambiarEstado: _cambiarEstado,
                           onCancelar: _cancelar,
                           onChatCliente: _chatCliente,
                           onChatBarbero: _chatBarbero,
+                          onCalificar: _calificar,
                         ),
                       ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/colors.dart';
 import '../../services/barbero_service.dart';
 import '../../services/ubicacion_service.dart';
 import '../common/app_ui.dart';
@@ -69,20 +70,40 @@ class _BarberosCercaBotonState extends State<BarberosCercaBoton> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton.filledTonal(
-      tooltip: widget.activo ? 'Ver todos' : 'Barberos cerca de mí',
-      onPressed: _cargando ? null : _alternar,
-      icon: _cargando
-          ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : Icon(
-              widget.activo
-                  ? Icons.people_alt_outlined
-                  : Icons.my_location_rounded,
+    final color = widget.activo ? AppColors.primary : AppColors.primaryLight;
+
+    return Tooltip(
+      message: widget.activo ? 'Ver todos' : 'Barberos cerca de mí',
+      child: Material(
+        color: AppColors.primary.withValues(alpha: widget.activo ? .28 : .13),
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          onTap: _cargando ? null : _alternar,
+          borderRadius: BorderRadius.circular(14),
+          child: SizedBox(
+            width: 52,
+            height: 52,
+            child: Center(
+              child: _cargando
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primary,
+                      ),
+                    )
+                  : Icon(
+                      widget.activo
+                          ? Icons.people_alt_outlined
+                          : Icons.location_on_rounded,
+                      color: color,
+                      size: 23,
+                    ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verificarToken } from "../middlewares/authMiddleware.js";
-import { obtenerTodas, obtenerPorId, obtenerPorBarbero, crear, actualizar, eliminar } from "../controllers/resenasController.js";
+import { obtenerTodas, obtenerMias, obtenerPorId, obtenerPorBarbero, crear, actualizar, eliminar } from "../controllers/resenasController.js";
 
 const router = Router();
 
@@ -8,6 +8,12 @@ router.get(
     "/",
     verificarToken,
     obtenerTodas
+);
+
+router.get(
+    "/mias",
+    verificarToken,
+    obtenerMias
 );
 
 router.get(

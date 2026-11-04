@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../screens/barberos/mapa_barbero_screen.dart';
+import '../../screens/barberos/perfil_barbero_screen.dart';
 import '../../screens/chat/chat_conversacion_screen.dart';
 import '../../screens/citas/crear_cita_screen.dart';
 import '../common/app_ui.dart';
@@ -37,6 +38,18 @@ class BarberosAcciones {
             'especialidad': barbero['especialidad'],
           },
         ),
+      ),
+    );
+  }
+
+  static Future<void> abrirPerfil(
+    BuildContext context,
+    Map<String, dynamic> barbero,
+  ) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PerfilBarberoScreen(barbero: barbero),
       ),
     );
   }

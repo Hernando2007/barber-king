@@ -43,7 +43,10 @@ CREATE TABLE resenas (
         ON DELETE CASCADE,
 
     CONSTRAINT chk_resena_calificacion
-        CHECK (calificacion BETWEEN 1 AND 5)
+        CHECK (calificacion BETWEEN 1 AND 5),
+
+    CONSTRAINT uq_resena_cita
+        UNIQUE (cita_id)
 );
 
 CREATE INDEX idx_resenas_barbero

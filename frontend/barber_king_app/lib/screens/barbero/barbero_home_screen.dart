@@ -12,11 +12,15 @@ import '../../services/cita_service.dart';
 import '../../services/dashboard_service.dart';
 import '../../services/ubicacion_service.dart';
 import '../../services/usuario_service.dart';
+import '../../widgets/barberos/barberos_calificacion.dart';
 import '../../widgets/common/app_ui.dart';
+import '../../widgets/resenas/resenas_panel.dart';
+import '../barberos/perfil_barbero_screen.dart';
 
 part '../../widgets/barbero/barbero_home_header.dart';
 part '../../widgets/barbero/barbero_home_info.dart';
 part '../../widgets/barbero/barbero_home_herramientas.dart';
+part '../../widgets/barbero/barbero_home_resenas.dart';
 part '../../widgets/barbero/barbero_home_ubicacion.dart';
 
 class BarberoHomeScreen extends StatefulWidget {
@@ -134,6 +138,11 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
                     const _BarberoUbicacionCard(),
                     const SizedBox(height: 20),
                     _BarberoStatsGrid(resumen: _resumen),
+                    if (int.tryParse('${barberoMap['id']}') != null)
+                      _BarberoHomeResenas(
+                        barberoId: int.parse('${barberoMap['id']}'),
+                        resumen: _resumen,
+                      ),
                     const SizedBox(height: 24),
                     const SectionHeader(
                       title: 'Herramientas',

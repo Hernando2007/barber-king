@@ -43,7 +43,9 @@ const cita = (y, nombre, servicio, estado, tipo, iconoColor, fecha, hora, precio
   ${dato(134, y + 68, "Hora", hora)}
   ${dato(232, y + 68, "Precio", precio)}
   ${boton(36, y + 130, 152, "Barbero", { tipo: "contorno", alto: 40, icono: "chat" })}
-  ${boton(202, y + 130, 152, "Cancelar", { tipo: "peligro", alto: 40 })}
+  ${estado === "Completada"
+    ? boton(202, y + 130, 152, "Calificar", { tipo: "suave", alto: 40, icono: "star" })
+    : boton(202, y + 130, 152, "Cancelar", { tipo: "peligro", alto: 40 })}
 </g>`;
 
 module.exports = {

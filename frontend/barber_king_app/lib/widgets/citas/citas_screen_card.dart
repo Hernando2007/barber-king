@@ -5,20 +5,24 @@ class _CitasScreenCard extends StatelessWidget {
   final bool esBarbero;
   final bool esAdmin;
   final Map<int, String> nombresBarberos;
+  final Set<int> citasCalificadas;
   final void Function(Map<String, dynamic>, String) onCambiarEstado;
   final Future<void> Function(Map<String, dynamic>) onCancelar;
   final Future<void> Function(Map<String, dynamic>) onChatCliente;
   final Future<void> Function(Map<String, dynamic>) onChatBarbero;
+  final Future<void> Function(Map<String, dynamic>) onCalificar;
 
   const _CitasScreenCard({
     required this.cita,
     required this.esBarbero,
     required this.esAdmin,
     required this.nombresBarberos,
+    required this.citasCalificadas,
     required this.onCambiarEstado,
     required this.onCancelar,
     required this.onChatCliente,
     required this.onChatBarbero,
+    required this.onCalificar,
   });
 
   @override
@@ -53,6 +57,12 @@ class _CitasScreenCard extends StatelessWidget {
         (esBarbero || esAdmin) &&
         estado.toLowerCase() != 'cancelada' &&
         estado.toLowerCase() != 'completada';
+
+    final puedeCalificar =
+        !esBarbero &&
+        !esAdmin &&
+        estado.toLowerCase() == 'completada' &&
+        !citasCalificadas.contains(int.tryParse('${cita['id']}'));
 
     return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
@@ -148,6 +158,17 @@ class _CitasScreenCard extends StatelessWidget {
               onCancelar: onCancelar,
               onChatCliente: onChatCliente,
               onChatBarbero: onChatBarbero,
+            ),
+          ],
+          if (puedeCalificar) ...[
+            const SizedBox(height: 13),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => onCalificar(cita),
+                icon: const Icon(Icons.star_outline_rounded, size: 17),
+                label: const Text('Calificar'),
+              ),
             ),
           ],
         ],

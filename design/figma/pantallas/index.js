@@ -20,4 +20,6 @@ module.exports = [
   require("./19-chat-contactos"),
   require("./20-chat-conversacion"),
   require("./21-chat-ia"),
+  require("./22-perfil-barbero"),
+  require("./23-resena"),
 ];

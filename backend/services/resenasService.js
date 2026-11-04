@@ -2,6 +2,8 @@ import {
     obtenerResenas,
     obtenerResenaPorId,
     obtenerResenasPorBarbero,
+    obtenerResenasPorCliente,
+    obtenerResenaPorCita,
     crearResena,
     actualizarResena,
     eliminarResena,
@@ -43,6 +45,14 @@ export const obtenerUnaResena = async (id) => {
 
 export const listarResenasPorBarbero = async (id) => {
     const { data, error } = await obtenerResenasPorBarbero(id);
+
+    if (error) throw new Error(error.message);
+
+    return data || [];
+};
+
+export const listarResenasMias = async (usuario) => {
+    const { data, error } = await obtenerResenasPorCliente(usuario.id);
 
     if (error) throw new Error(error.message);
 
@@ -99,28 +109,21 @@ export const registrarResena = async (datos, usuario) => {
         );
     }
 
-    const { data: existentes, error: errorExistentes } =
-        await obtenerResenasPorBarbero(barbero_id);
+    const { data: publicada, error: errorPublicada } =
+        await obtenerResenaPorCita(cita_id);
 
-    if (errorExistentes) {
-        throw new Error(errorExistentes.message);
+    if (errorPublicada) {
+        throw new Error(errorPublicada.message);
     }
 
-    const yaCalifico = (existentes || []).some(
-        (resena) =>
-            Number(resena.cliente_id) === Number(usuario.id)
-    );
-
-    if (yaCalifico) {
-        throw httpError(
-            409,
-            "Ya tienes una reseña publicada para este barbero."
-        );
+    if (publicada) {
+        throw httpError(409, "Esta cita ya fue calificada.");
     }
 
     const { data, error } = await crearResena({
         cliente_id: usuario.id,
         barbero_id,
+        cita_id,
         calificacion: Number(calificacion),
         comentario: comentario || null,
     });

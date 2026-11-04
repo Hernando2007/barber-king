@@ -50,6 +50,8 @@ sistema de diseño con las tres variantes (dorada, sobre oscuro, sobre claro).
 | `19-chat-contactos.svg` | Chat · contactos | Cliente |
 | `20-chat-conversacion.svg` | Chat · conversación | Cliente |
 | `21-chat-ia.svg` | Asistente IA | Cliente |
+| `22-perfil-barbero.svg` | Perfil del barbero | Cliente |
+| `23-resena.svg` | Dejar reseña | Cliente |
 
 ## Regenerar
 

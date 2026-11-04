@@ -2,7 +2,7 @@ const { C } = require("../sistema/tokens");
 const { fondo, barraEstado } = require("../sistema/base");
 const { texto } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
-const { tarjeta, insignia, switchControl } = require("../sistema/componentes");
+const { tarjeta, insignia, switchControl, avatar, estrellas } = require("../sistema/componentes");
 
 const metrica = (x, y, valor, etiqueta, nombreIcono, color) => `
 <g>
@@ -11,6 +11,16 @@ const metrica = (x, y, valor, etiqueta, nombreIcono, color) => `
   ${icono(nombreIcono, x + 22, y + 21, 16, color)}
   ${texto(x + 14, y + 62, valor, { tam: 21, peso: 700 })}
   ${texto(x + 14, y + 78, etiqueta, { tam: 10, color: C.subtitle })}
+</g>`;
+
+const resena = (y, iniciales, nombre, fecha, nota, comentario) => `
+<g>
+  ${tarjeta(20, y, 350, 116, { radio: 18 })}
+  ${avatar(36, y + 16, 36, { iniciales })}
+  ${texto(84, y + 30, nombre, { tam: 13, peso: 600 })}
+  ${texto(84, y + 47, fecha, { tam: 10, color: C.muted })}
+  ${estrellas(290, y + 26, nota, { tam: 12, separacion: 3 })}
+  ${texto(36, y + 80, comentario, { tam: 11.5, color: C.subtitle })}
 </g>`;
 
 const herramienta = (x, y, etiqueta, nombreIcono, badge) => `
@@ -25,8 +35,9 @@ module.exports = {
   id: "18-barbero-home",
   nombre: "Panel del barbero",
   rol: "Barbero",
+  alto: 1164,
   render: () => `
-${fondo()}
+${fondo("", 1164)}
 ${barraEstado()}
 ${texto(20, 62, "PANEL PROFESIONAL", { tam: 10.5, peso: 600, color: C.primary, espaciado: 1.8 })}
 ${texto(20, 92, "Hola, Marco", { tam: 25, peso: 700 })}
@@ -60,5 +71,9 @@ ${herramienta(20, 664, "Mis citas", "calendar")}
 ${herramienta(203, 664, "Chats de clientes", "chat", "9+")}
 ${herramienta(20, 750, "Mis horarios", "clock")}
 ${herramienta(203, 750, "Servicios", "tag")}
+${texto(20, 878, "Reseñas recibidas", { tam: 18, peso: 600 })}
+${texto(20, 898, "124 reseñas · promedio 4.8", { tam: 12, color: C.subtitle })}
+${resena(916, "LP", "Luis Pérez", "hoy", 5, "Excelente servicio, salió justo como lo quería.")}
+${resena(1042, "CR", "Camila Rodríguez", "ayer", 4, "Buen fade y muy puntual, repetiré.")}
 `,
 };
