@@ -14,6 +14,8 @@ extension _PerfilBarberoDatos on _PerfilBarberoScreenState {
 
   bool get _disponible => _datos['disponible'] != false;
 
+  bool get _verificado => _datos['verificacion_estado'] == 'aprobado';
+
   int get _experiencia => int.tryParse('${_datos['experiencia'] ?? 0}') ?? 0;
 
   double get _promedio =>

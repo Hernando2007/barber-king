@@ -4,6 +4,7 @@ import '../../core/colors.dart';
 import '../common/app_ui.dart';
 import 'barberos_calificacion.dart';
 import 'barberos_screen_acciones.dart';
+import 'sello_verificado.dart';
 
 class BarberosScreenCard extends StatelessWidget {
   final Map<String, dynamic> barbero;
@@ -30,8 +31,8 @@ class BarberosScreenCard extends StatelessWidget {
 
   String _nombre(Map<String, dynamic> barbero) {
     final usuario = _usuario(barbero);
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
     return nombre.isEmpty ? 'Barbero profesional' : nombre;
   }
 
@@ -47,8 +48,7 @@ class BarberosScreenCard extends StatelessWidget {
     final disponible = barbero['disponible'] != false;
     final promedio =
         (barbero['calificacion_promedio'] as num?)?.toDouble() ?? 0;
-    final totalResenas =
-        int.tryParse('${barbero['total_resenas'] ?? 0}') ?? 0;
+    final totalResenas = int.tryParse('${barbero['total_resenas'] ?? 0}') ?? 0;
     final distancia = double.tryParse('${barbero['distancia_km'] ?? ''}');
 
     return AppCard(
@@ -75,14 +75,9 @@ class BarberosScreenCard extends StatelessWidget {
                       width: 13,
                       height: 13,
                       decoration: BoxDecoration(
-                        color: disponible
-                            ? AppColors.success
-                            : AppColors.muted,
+                        color: disponible ? AppColors.success : AppColors.muted,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.card,
-                          width: 2,
-                        ),
+                        border: Border.all(color: AppColors.card, width: 2),
                       ),
                     ),
                   ),
@@ -93,15 +88,24 @@ class BarberosScreenCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      nombre,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            nombre,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        SelloVerificado(
+                          visible: barbero['verificacion_estado'] == 'aprobado',
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 3),
                     Text(

@@ -100,6 +100,7 @@ class _PerfilBarberoScreenState extends State<PerfilBarberoScreen> {
                 promedio: _promedio,
                 totalResenas: _totalResenas,
                 disponible: _disponible,
+                verificado: _verificado,
                 lugar: _lugar,
                 experiencia: _experiencia,
                 distancia: _distancia,

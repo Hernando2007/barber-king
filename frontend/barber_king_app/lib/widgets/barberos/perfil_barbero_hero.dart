@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/colors.dart';
 import '../common/app_ui.dart';
 import 'barberos_calificacion.dart';
+import 'sello_verificado.dart';
 
 /// La tarjeta grande del perfil: quién es y dónde trabaja.
 class PerfilBarberoHero extends StatelessWidget {
@@ -12,6 +13,7 @@ class PerfilBarberoHero extends StatelessWidget {
   final double promedio;
   final int totalResenas;
   final bool disponible;
+  final bool verificado;
   final String lugar;
   final int experiencia;
   final double? distancia;
@@ -25,6 +27,7 @@ class PerfilBarberoHero extends StatelessWidget {
     required this.promedio,
     required this.totalResenas,
     required this.disponible,
+    required this.verificado,
     required this.lugar,
     required this.experiencia,
     required this.distancia,
@@ -81,13 +84,20 @@ class PerfilBarberoHero extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      nombre,
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 19,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            nombre,
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        SelloVerificado(visible: verificado, size: 20),
+                      ],
                     ),
                     const SizedBox(height: 3),
                     Text(
