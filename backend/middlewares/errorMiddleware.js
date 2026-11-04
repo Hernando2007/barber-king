@@ -11,7 +11,9 @@ export const errorHandler = (err, req, res, _next) => {
         message =
             err.code === "LIMIT_FILE_SIZE"
                 ? "El archivo supera el tamaño máximo permitido."
-                : "No fue posible procesar el archivo.";
+                : err.code === "LIMIT_UNEXPECTED_FILE"
+                  ? "Sube como máximo 6 fotos de una vez."
+                  : "No fue posible procesar el archivo.";
     }
 
     if (err.name === "TokenExpiredError") {

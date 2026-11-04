@@ -81,3 +81,21 @@ export const uploadDocumento = multer({
         cb(null, true);
     }
 });
+
+// Las fotos del portafolio no tocan el disco: se envían a Cloudinary
+// desde memoria, porque en Render el filesystem es efímero.
+export const uploadPortafolio = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 8 * 1024 * 1024, fileCount: 6 },
+    fileFilter: (_req, file, cb) => {
+        const permitidos = ["image/jpeg", "image/png", "image/webp"];
+
+        if (!permitidos.includes(file.mimetype)) {
+            return cb(
+                errorFormato("Cada foto debe ser JPG, PNG o WEBP.")
+            );
+        }
+
+        cb(null, true);
+    }
+});

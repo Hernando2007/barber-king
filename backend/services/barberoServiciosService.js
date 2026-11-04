@@ -14,7 +14,7 @@ const MAX_PRECIO = 10_000_000;
 const MAX_DURACION = 600;
 
 // El barbero nace con su perfil al registrarse; si falta, se crea.
-const perfilDelUsuario = async (usuarioId) => {
+export const perfilDelUsuario = async (usuarioId) => {
     const { data, error } = await obtenerBarberoPorUsuario(usuarioId);
 
     if (error) {

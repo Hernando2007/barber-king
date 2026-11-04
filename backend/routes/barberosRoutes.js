@@ -16,6 +16,13 @@ import {
     obtenerMis,
     guardarMis,
 } from "../controllers/barberoServiciosController.js";
+import {
+    borrarMiFotoController,
+    misFotosController,
+    fotosDelBarbero,
+    subirMisFotos,
+} from "../controllers/portafolioController.js";
+import { uploadPortafolio } from "../config/multer.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 import { verificarRol } from "../middlewares/rolMiddleware.js";
  
@@ -31,6 +38,23 @@ router.get("/destacados", verificarToken, destacados);
 router.get("/servicios/mis", verificarToken, obtenerMis);
 router.put("/servicios/mis", verificarToken, verificarRol("Barbero"), guardarMis);
 router.get("/servicios/barbero/:barberoId", obtenerDeBarbero);
+
+// El portafolio de fotos vive en Cloudinary.
+router.get("/portafolio/mis", verificarToken, verificarRol("Barbero"), misFotosController);
+router.post(
+    "/portafolio/mis",
+    verificarToken,
+    verificarRol("Barbero"),
+    uploadPortafolio.array("fotos", 6),
+    subirMisFotos
+);
+router.delete(
+    "/portafolio/mis/:fotoId",
+    verificarToken,
+    verificarRol("Barbero"),
+    borrarMiFotoController
+);
+router.get("/portafolio/barbero/:barberoId", fotosDelBarbero);
  
 router.put(
     "/perfil",
