@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/colors.dart';
+import '../../core/config/api_config.dart';
 import '../../core/formatters.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
@@ -14,6 +15,7 @@ part '../../widgets/perfil/perfil_screen_acciones.dart';
 part '../../widgets/perfil/perfil_screen_password.dart';
 part '../../widgets/perfil/perfil_screen_header.dart';
 part '../../widgets/perfil/perfil_screen_info.dart';
+part '../../widgets/perfil/perfil_screen_diploma.dart';
 part '../../widgets/perfil/perfil_screen_ubicacion.dart';
 part '../../widgets/perfil/perfil_screen_edit.dart';
 part '../../widgets/perfil/perfil_screen_edit_view.dart';
@@ -82,7 +84,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
         respuesta['success'] == true
             ? 'Ubicación compartida. Los clientes ya pueden encontrarte.'
             : respuesta['message']?.toString() ??
-                'No fue posible compartir tu ubicación.',
+                  'No fue posible compartir tu ubicación.',
         error: respuesta['success'] != true,
       );
 
@@ -114,8 +116,6 @@ class _PerfilScreenState extends State<PerfilScreen> {
     }
 
     final barbero = _barbero;
-    final diplomaUrl = barbero['diploma_url']?.toString();
-    final diplomaNombre = barbero['diploma_nombre']?.toString();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -158,17 +158,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   cargando: _actualizandoUbicacion,
                   onCompartir: _compartirUbicacion,
                 ),
-                const SizedBox(height: 22),
-                const SectionHeader(
-                  title: 'Documento profesional',
-                  icon: Icons.verified_outlined,
-                ),
-                const SizedBox(height: 12),
-                _DiplomaCard(
-                  url: diplomaUrl,
-                  nombre: diplomaNombre,
-                  onSubir: _subirDiploma,
-                ),
+                _PerfilBloqueDiploma(barbero: barbero, onSubir: _subirDiploma),
               ],
               const SizedBox(height: 26),
               OutlinedButton.icon(

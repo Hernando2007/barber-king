@@ -57,9 +57,7 @@ extension _PerfilAcciones on _PerfilScreenState {
 
     if (respuesta['success'] == true) {
       final data = respuesta['data'];
-      final foto = data is Map
-          ? data['foto']?.toString()
-          : data?.toString();
+      final foto = data is Map ? data['foto']?.toString() : data?.toString();
 
       if (foto != null) {
         await _auth.actualizarUsuarioLocal({'foto': foto});
@@ -81,10 +79,7 @@ extension _PerfilAcciones on _PerfilScreenState {
 
     if (!mounted) return;
 
-    final respuesta = await _usuarios.subirDiploma(
-      bytes,
-      filename: file.name,
-    );
+    final respuesta = await _usuarios.subirDiploma(bytes, filename: file.name);
 
     if (!mounted) return;
 
@@ -94,9 +89,9 @@ extension _PerfilAcciones on _PerfilScreenState {
       error: respuesta['success'] != true,
     );
 
-    if (respuesta['success'] == true) {
-      await _cargar();
-    }
+    // Un rechazo de la IA también mueve el sello a "rechazado",
+    // así que el estado se vuelve a leer pase lo que pase.
+    await _cargar();
   }
 
   Future<void> _editarPerfil() async {
@@ -104,10 +99,8 @@ extension _PerfilAcciones on _PerfilScreenState {
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.card,
-      builder: (_) => _PerfilEditSheet(
-        usuario: _usuario ?? {},
-        esBarbero: _esBarbero,
-      ),
+      builder: (_) =>
+          _PerfilEditSheet(usuario: _usuario ?? {}, esBarbero: _esBarbero),
     );
 
     if (guardado == true) {

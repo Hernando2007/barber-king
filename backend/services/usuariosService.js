@@ -875,15 +875,27 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
 
     const urlDiploma = `/uploads/documents/${archivo.filename}`;
 
-    await verificarDiplomaBarbero({
-        rutaArchivo: archivo.path,
-        urlPublica: urlDiploma,
-        mimetype: archivo.mimetype,
-        nombreOriginal: archivo.originalname,
-        origen: "actualizacion",
-        usuarioId: usuario.id,
-        barberoId: barbero.id,
-    });
+    let motivoRechazo = null;
+
+    try {
+        await verificarDiplomaBarbero({
+            rutaArchivo: archivo.path,
+            urlPublica: urlDiploma,
+            mimetype: archivo.mimetype,
+            nombreOriginal: archivo.originalname,
+            origen: "actualizacion",
+            usuarioId: usuario.id,
+            barberoId: barbero.id,
+        });
+    } catch (error) {
+        // Un 422 es la IA diciendo "esto no es un diploma". El documento
+        // se guarda igual: la bandeja del administrador necesita abrirlo.
+        if (error?.statusCode !== 422) {
+            throw error;
+        }
+
+        motivoRechazo = error.message;
+    }
 
     const portafolio = Array.isArray(barbero.portafolio)
         ? barbero.portafolio.filter(
@@ -903,6 +915,14 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
 
     if (error) {
         throw new Error(error.message);
+    }
+
+    if (motivoRechazo) {
+        await actualizarBarbero(barbero.id, {
+            verificacion_estado: "rechazado",
+        }).catch(() => null);
+
+        throw httpError(422, motivoRechazo);
     }
 
     await marcarBarberoVerificado(barbero.id);
