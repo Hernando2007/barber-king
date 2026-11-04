@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/colors.dart';
+import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/auth/register_account_type.dart';
 import '../../widgets/auth/register_barber_fields.dart';
@@ -11,6 +12,8 @@ import '../../widgets/auth/register_fields_sections.dart';
 import '../../widgets/auth/register_header.dart';
 import '../../widgets/auth/register_submit_buttons.dart';
 import '../../widgets/common/app_ui.dart';
+
+part '../../widgets/auth/register_logica.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -39,6 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _ocultarPassword = true;
   bool _ocultarConfirmar = true;
   XFile? _diploma;
+  List<XFile> _fotos = [];
 
   @override
   void dispose() {
@@ -58,76 +62,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     super.dispose();
   }
-
-  Future<void> _registrar() async {
-    FocusScope.of(context).unfocus();
-
-    if (!_formKey.currentState!.validate()) return;
-
-    if (_password.text != _confirmar.text) {
-      showAppSnack(context, 'Las contraseñas no coinciden.', error: true);
-      return;
-    }
-
-    setState(() => _cargando = true);
-
-    Uint8List? diplomaBytes;
-    if (_rol == 2 && _diploma != null) {
-      diplomaBytes = await _diploma!.readAsBytes();
-    }
-
-    final respuesta = await _auth.registrar(
-      rolId: _rol,
-      nombres: _nombres.text,
-      apellidos: _apellidos.text,
-      correo: _correo.text,
-      telefono: _telefono.text,
-      fechaNacimiento: _fecha.text,
-      password: _password.text,
-      especialidad: _rol == 2 ? _especialidad.text : null,
-      experiencia:
-          _rol == 2 ? int.tryParse(_experiencia.text.trim()) : null,
-      descripcion: _rol == 2 ? _descripcion.text : null,
-      diplomaBytes: diplomaBytes,
-      diplomaNombre: _diploma?.name,
-    );
-
-    if (!mounted) return;
-
-    setState(() => _cargando = false);
-
-    if (respuesta['success'] == true) {
-      showAppSnack(
-        context,
-        'Cuenta creada correctamente. Ya puedes iniciar sesión.',
-      );
-      Navigator.pop(context);
-    } else {
-      showAppSnack(
-        context,
-        respuesta['message'] ?? 'No se pudo crear la cuenta.',
-        error: true,
-      );
-    }
-  }
-
-  void _onChangedRol(int value) {
-    setState(() {
-      _rol = value;
-      if (_rol != 2) {
-        _diploma = null;
-        _especialidad.clear();
-        _experiencia.clear();
-        _descripcion.clear();
-      }
-    });
-  }
-
-  void _togglePassword() =>
-      setState(() => _ocultarPassword = !_ocultarPassword);
-  void _toggleConfirmar() =>
-      setState(() => _ocultarConfirmar = !_ocultarConfirmar);
-  void _onDiplomaChanged(XFile? file) => setState(() => _diploma = file);
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +110,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             descripcion: _descripcion,
                             diplomaName: _diploma?.name,
                             onDiplomaChanged: _onDiplomaChanged,
+                            fotos: _fotos,
+                            onFotosChanged: _onFotosChanged,
                           ),
                           const SizedBox(height: 26),
                           RegisterSubmitButtons(

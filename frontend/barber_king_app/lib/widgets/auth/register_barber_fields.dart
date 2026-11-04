@@ -10,6 +10,8 @@ class RegisterBarberFields extends StatefulWidget {
   final TextEditingController descripcion;
   final String? diplomaName;
   final ValueChanged<XFile?> onDiplomaChanged;
+  final List<XFile> fotos;
+  final ValueChanged<List<XFile>> onFotosChanged;
 
   const RegisterBarberFields({
     super.key,
@@ -19,6 +21,8 @@ class RegisterBarberFields extends StatefulWidget {
     required this.descripcion,
     required this.diplomaName,
     required this.onDiplomaChanged,
+    required this.fotos,
+    required this.onFotosChanged,
   });
 
   @override
@@ -26,6 +30,8 @@ class RegisterBarberFields extends StatefulWidget {
 }
 
 class _RegisterBarberFieldsState extends State<RegisterBarberFields> {
+  static const int _limiteFotos = 6;
+
   final _picker = ImagePicker();
 
   Future<void> _seleccionarDiploma() async {
@@ -37,6 +43,28 @@ class _RegisterBarberFieldsState extends State<RegisterBarberFields> {
     if (file == null || !mounted) return;
 
     widget.onDiplomaChanged(file);
+  }
+
+  Future<void> _seleccionarFotos() async {
+    final restantes = _limiteFotos - widget.fotos.length;
+
+    if (restantes <= 0) return;
+
+    final elegidas = await _picker.pickMultiImage(
+      imageQuality: 88,
+      maxWidth: 1400,
+      maxHeight: 1400,
+    );
+
+    if (elegidas.isEmpty || !mounted) return;
+
+    widget.onFotosChanged([...widget.fotos, ...elegidas.take(restantes)]);
+  }
+
+  void _quitarFoto(XFile archivo) {
+    widget.onFotosChanged(
+      widget.fotos.where((foto) => foto.path != archivo.path).toList(),
+    );
   }
 
   @override
@@ -56,6 +84,10 @@ class _RegisterBarberFieldsState extends State<RegisterBarberFields> {
           diplomaName: widget.diplomaName,
           onPickDiploma: _seleccionarDiploma,
           onRemoveDiploma: () => widget.onDiplomaChanged(null),
+          fotos: widget.fotos,
+          limiteFotos: _limiteFotos,
+          onPickFotos: _seleccionarFotos,
+          onQuitarFoto: _quitarFoto,
         ),
       ],
     );

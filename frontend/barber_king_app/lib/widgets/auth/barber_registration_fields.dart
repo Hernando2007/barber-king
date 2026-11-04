@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../core/colors.dart';
+import 'register_fotos_portafolio.dart';
 
 class BarberRegistrationFields extends StatelessWidget {
   final TextEditingController specialtyController;
@@ -9,6 +11,10 @@ class BarberRegistrationFields extends StatelessWidget {
   final String? diplomaName;
   final VoidCallback onPickDiploma;
   final VoidCallback onRemoveDiploma;
+  final List<XFile> fotos;
+  final int limiteFotos;
+  final VoidCallback onPickFotos;
+  final ValueChanged<XFile> onQuitarFoto;
 
   const BarberRegistrationFields({
     super.key,
@@ -18,6 +24,10 @@ class BarberRegistrationFields extends StatelessWidget {
     required this.diplomaName,
     required this.onPickDiploma,
     required this.onRemoveDiploma,
+    required this.fotos,
+    required this.limiteFotos,
+    required this.onPickFotos,
+    required this.onQuitarFoto,
   });
 
   @override
@@ -99,15 +109,16 @@ class BarberRegistrationFields extends StatelessWidget {
             icon: const Icon(Icons.upload_file_outlined, size: 19),
             label: Text(
               diplomaName == null
-                  ? 'Adjuntar diploma o certificado *'
+                  ? 'Adjuntar diploma o certificado'
                   : 'Cambiar documento',
             ),
           ),
           const SizedBox(height: 8),
           const Text(
-            'Obligatorio para cuentas de barbero. La IA verifica que sea un '
-            'diploma real de barbería; las cuentas con documentos falsos son '
-            'rechazadas. Solo imágenes JPG, PNG o WEBP.',
+            'Opcional. Si lo subes, la IA comprueba que sea un diploma real '
+            'de barbería y te damos la insignia de verificado; si no convence '
+            'o no tienes, un administrador revisa y igual puedes trabajar. '
+            'Solo imágenes JPG, PNG o WEBP.',
             style: TextStyle(
               color: AppColors.muted,
               fontSize: 11.5,
@@ -151,6 +162,12 @@ class BarberRegistrationFields extends StatelessWidget {
               ),
             ),
           ],
+          RegistroFotosPortafolio(
+            fotos: fotos,
+            limite: limiteFotos,
+            onPick: onPickFotos,
+            onQuitar: onQuitarFoto,
+          ),
         ],
       ),
     );

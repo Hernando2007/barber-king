@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { buscarPorCorreo, actualizarUltimoLogin } from "../models/authModel.js";
 import { httpError } from "../utils/httpError.js";
-import { nombreRol, quitarDatosSensibles } from "./authComun.js";
+import { crearSesion } from "./authComun.js";
 
 export const iniciarSesion = async ({ correo, password }) => {
     if (!correo || !password) {
@@ -51,23 +50,5 @@ export const iniciarSesion = async ({ correo, password }) => {
 
     await actualizarUltimoLogin(usuario.id);
 
-    const rol_nombre = nombreRol(usuario.rol_id);
-
-    const token = jwt.sign(
-        {
-            id: usuario.id,
-            rol_id: usuario.rol_id,
-            rol: rol_nombre,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "8h" }
-    );
-
-    return {
-        token,
-        usuario: {
-            ...quitarDatosSensibles(usuario),
-            rol_nombre,
-        },
-    };
+    return crearSesion(usuario);
 };

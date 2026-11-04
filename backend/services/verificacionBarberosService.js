@@ -169,8 +169,8 @@ export const verificarDiplomaBarbero = async ({
     });
 
     if (!resultado.esValido) {
-        await fs.unlink(ruta).catch(() => {});
-
+        // El archivo se queda en el disco: la bandeja de administrador
+        // necesita poder abrir el documento que la IA no reconoció.
         throw httpError(
             422,
             `El documento no pasó la verificación: ${

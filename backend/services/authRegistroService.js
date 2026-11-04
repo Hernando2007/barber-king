@@ -1,17 +1,18 @@
 import bcrypt from "bcrypt";
 import { buscarPorCorreo, crearUsuario } from "../models/authModel.js";
 import { enviarBienvenida } from "./emailService.js";
-import { verificarDiplomaBarbero } from "./verificacionBarberosService.js";
 import { httpError } from "../utils/httpError.js";
 import {
     CORREO_REGEX,
     ROL_BARBERO,
     ROL_CLIENTE,
-    nombreRol,
-    quitarDatosSensibles,
+    crearSesion,
     texto,
 } from "./authComun.js";
-import { crearPerfilBarbero } from "./authBarberoRegistro.js";
+import {
+    crearPerfilBarbero,
+    resolverVerificacion,
+} from "./authBarberoRegistro.js";
 
 export const registrarUsuario = async (datos) => {
     const {
@@ -113,22 +114,6 @@ export const registrarUsuario = async (datos) => {
         }
     }
 
-    if (rolId === ROL_BARBERO && !diploma_url) {
-        throw httpError(
-            400,
-            "Adjunta tu diploma o certificado de barbería para crear la cuenta."
-        );
-    }
-
-    if (rolId === ROL_BARBERO) {
-        await verificarDiplomaBarbero({
-            urlPublica: diploma_url,
-            mimetype: diploma_mimetype,
-            nombreOriginal: diploma_nombre,
-            origen: "registro",
-        });
-    }
-
     const passwordHash = await bcrypt.hash(String(password), 10);
 
     const { data, error } = await crearUsuario({
@@ -150,6 +135,18 @@ export const registrarUsuario = async (datos) => {
         throw new Error(error.message);
     }
 
+    // El diploma es opcional y nunca bloquea el registro: si la IA no lo
+    // reconoce la cuenta nace "rechazada" o "pendiente" y un
+    // administrador lo revisa desde su bandeja.
+    const verificacionEstado = rolId === ROL_BARBERO
+        ? await resolverVerificacion({
+            diplomaUrl: diploma_url,
+            diplomaNombre: diploma_nombre,
+            diplomaMimetype: diploma_mimetype,
+            usuarioId: data.id,
+        })
+        : null;
+
     if (rolId === ROL_BARBERO) {
         await crearPerfilBarbero({
             usuarioId: data.id,
@@ -159,6 +156,7 @@ export const registrarUsuario = async (datos) => {
             direccion,
             diplomaUrl: diploma_url,
             diplomaNombre: diploma_nombre,
+            verificacionEstado,
         });
     }
 
@@ -171,8 +169,5 @@ export const registrarUsuario = async (datos) => {
         );
     }
 
-    return {
-        ...quitarDatosSensibles(data),
-        rol_nombre: nombreRol(rolId),
-    };
+    return crearSesion(data);
 };

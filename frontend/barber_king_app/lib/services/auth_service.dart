@@ -8,9 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api_service.dart';
 import 'notificacion_segundo_plano.dart';
+import 'portafolio_service.dart';
 
 part 'auth_service_google.dart';
 part 'auth_service_recuperacion.dart';
+part 'auth_service_registro.dart';
 
 bool _googleInicializado = false;
 
@@ -25,10 +27,7 @@ class AuthService {
     try {
       final response = await _api.dio.post(
         '/auth/login',
-        data: {
-          'correo': correo.trim(),
-          'password': contrasena,
-        },
+        data: {'correo': correo.trim(), 'password': contrasena},
       );
 
       final data = Map<String, dynamic>.from(response.data);
@@ -39,76 +38,9 @@ class AuthService {
 
       return data;
     } on DioException catch (e) {
-      return {
-        'success': false,
-        'message': _mensajeError(e),
-      };
+      return {'success': false, 'message': _mensajeError(e)};
     } catch (e) {
-      return {
-        'success': false,
-        'message': e.toString(),
-      };
-    }
-  }
-
-  Future<Map<String, dynamic>> registrar({
-    required int rolId,
-    required String nombres,
-    required String apellidos,
-    required String correo,
-    required String telefono,
-    required String fechaNacimiento,
-    required String password,
-    String? especialidad,
-    int? experiencia,
-    String? descripcion,
-    String? direccion,
-    Uint8List? diplomaBytes,
-    String? diplomaNombre,
-  }) async {
-    try {
-      final mapData = <String, dynamic>{
-        'rol_id': rolId.toString(),
-        'nombres': nombres.trim(),
-        'apellidos': apellidos.trim(),
-        'correo': correo.trim(),
-        'telefono': telefono.trim(),
-        'fecha_nacimiento': fechaNacimiento.trim(),
-        'password': password,
-        if (especialidad != null && especialidad.trim().isNotEmpty)
-          'especialidad': especialidad.trim(),
-        if (experiencia != null) 'experiencia': experiencia.toString(),
-        if (descripcion != null && descripcion.trim().isNotEmpty)
-          'descripcion': descripcion.trim(),
-        if (direccion != null && direccion.trim().isNotEmpty)
-          'direccion': direccion.trim(),
-      };
-
-      if (diplomaBytes != null && diplomaBytes.isNotEmpty) {
-        mapData['diploma'] = MultipartFile.fromBytes(
-          diplomaBytes,
-          filename: diplomaNombre ?? 'diploma.pdf',
-        );
-      }
-
-      final form = FormData.fromMap(mapData);
-
-      final response = await _api.dio.post(
-        '/auth/registro',
-        data: form,
-      );
-
-      return Map<String, dynamic>.from(response.data);
-    } on DioException catch (e) {
-      return {
-        'success': false,
-        'message': _mensajeError(e),
-      };
-    } catch (e) {
-      return {
-        'success': false,
-        'message': e.toString(),
-      };
+      return {'success': false, 'message': e.toString()};
     }
   }
 
@@ -137,10 +69,7 @@ class AuthService {
 
   Future<void> actualizarUsuarioLocal(Map<String, dynamic> usuario) async {
     final actual = await obtenerUsuario();
-    final combinado = {
-      ...?actual,
-      ...usuario,
-    };
+    final combinado = {...?actual, ...usuario};
 
     await _storage.write(key: 'usuario', value: jsonEncode(combinado));
   }

@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 export const ROL_BARBERO = 2;
 export const ROL_CLIENTE = 3;
 
@@ -33,4 +35,27 @@ export const quitarDatosSensibles = (usuario) => {
     } = usuario;
 
     return seguro;
+};
+
+/// La sesión que devuelven el login y el registro: mismo token, mismo usuario.
+export const crearSesion = (usuario) => {
+    const rol_nombre = nombreRol(usuario.rol_id);
+
+    const token = jwt.sign(
+        {
+            id: usuario.id,
+            rol_id: usuario.rol_id,
+            rol: rol_nombre,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "8h" }
+    );
+
+    return {
+        token,
+        usuario: {
+            ...quitarDatosSensibles(usuario),
+            rol_nombre,
+        },
+    };
 };

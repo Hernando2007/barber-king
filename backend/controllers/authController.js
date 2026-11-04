@@ -18,12 +18,14 @@ export const registrar = async (req, res, next) => {
                 : {})
         };
  
-        const usuario = await registrarUsuario(datos);
+        const sesion = await registrarUsuario(datos);
  
+        // Se devuelve la sesión igual que en el login: la cuenta recién
+        // creada entra directo a la app y puede subir sus fotos.
         return res.status(201).json({
             success: true,
             message: "Usuario registrado correctamente.",
-            data: usuario
+            ...sesion
         });
     } catch (error) {
         next(error);

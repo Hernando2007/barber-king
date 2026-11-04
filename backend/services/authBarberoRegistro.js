@@ -3,8 +3,43 @@ import { eliminarUsuario } from "../models/usuariosModel.js";
 import {
     esColumnaEstadoFaltante,
     marcarBarberoVerificado,
+    verificarDiplomaBarbero,
 } from "./verificacionBarberosService.js";
 import { texto } from "./authComun.js";
+
+/// Ningún diploma bloquea un registro: la IA rechaza -> "rechazado", el
+/// servicio falla o no hay documento -> "pendiente", y un administrador
+/// puede corregirlo desde la bandeja de verificaciones.
+export const resolverVerificacion = async ({
+    diplomaUrl,
+    diplomaNombre,
+    diplomaMimetype,
+    usuarioId = null,
+}) => {
+    if (!diplomaUrl) {
+        return "pendiente";
+    }
+
+    try {
+        await verificarDiplomaBarbero({
+            urlPublica: diplomaUrl,
+            mimetype: diplomaMimetype,
+            nombreOriginal: diplomaNombre,
+            origen: "registro",
+            usuarioId,
+        });
+
+        return "aprobado";
+    } catch (error) {
+        if (error?.statusCode === 422) {
+            return "rechazado";
+        }
+
+        console.warn("⚠️ Diploma sin verificar:", error?.message);
+
+        return "pendiente";
+    }
+};
 
 export const crearPerfilBarbero = async ({
     usuarioId,
@@ -14,14 +49,17 @@ export const crearPerfilBarbero = async ({
     direccion,
     diplomaUrl,
     diplomaNombre,
+    verificacionEstado = "pendiente",
 }) => {
-    const portafolio = [
-        {
-            tipo: "diploma",
-            url: diplomaUrl,
-            nombre: diplomaNombre || "diploma",
-        },
-    ];
+    const portafolio = diplomaUrl
+        ? [
+            {
+                tipo: "diploma",
+                url: diplomaUrl,
+                nombre: diplomaNombre || "diploma",
+            },
+        ]
+        : [];
 
     let datosBarbero = {
         usuario_id: usuarioId,
@@ -31,7 +69,7 @@ export const crearPerfilBarbero = async ({
         direccion: texto(direccion),
         disponible: true,
         portafolio,
-        verificacion_estado: "aprobado",
+        verificacion_estado: verificacionEstado,
     };
 
     let { data: barberoCreado, error: barberoError } =
@@ -54,7 +92,7 @@ export const crearPerfilBarbero = async ({
         );
     }
 
-    if (barberoCreado?.id) {
+    if (barberoCreado?.id && verificacionEstado === "aprobado") {
         await marcarBarberoVerificado(barberoCreado.id);
     }
 };
