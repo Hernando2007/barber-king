@@ -16,29 +16,9 @@ class _ClienteHomeAccesos extends StatelessWidget {
       childAspectRatio: 1.55,
       children: [
         _ClienteHomeAcceso(
-          'Reservar cita',
-          Icons.calendar_month_outlined,
-          () => onIr(AppRoutes.citas),
-        ),
-        _ClienteHomeAcceso(
-          'Nuestros barberos',
-          Icons.content_cut_rounded,
-          () => onIr(AppRoutes.barberos),
-        ),
-        _ClienteHomeAcceso(
           'Servicios',
           Icons.design_services_outlined,
           () => onIr(AppRoutes.servicios),
-        ),
-        _ClienteHomeAcceso(
-          'Mis citas',
-          Icons.event_available_outlined,
-          () => onIr(AppRoutes.citas),
-        ),
-        _ClienteHomeAcceso(
-          'Chat con barbero',
-          Icons.forum_outlined,
-          () => onIr(AppRoutes.chatContactos),
         ),
         _ClienteHomeAcceso(
           'Mi perfil',

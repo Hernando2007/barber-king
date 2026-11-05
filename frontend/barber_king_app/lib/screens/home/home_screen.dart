@@ -6,8 +6,7 @@ import '../../services/auth_service.dart';
 import '../../services/chat_notificacion_service.dart';
 import '../../services/notificacion_segundo_plano.dart';
 import '../admin/admin_home_screen.dart';
-import '../barbero/barbero_home_screen.dart';
-import '../cliente/cliente_home_screen.dart';
+import 'tabs_home_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -76,10 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return AdminHomeScreen(usuario: usuario!);
     }
 
-    if (rolId == 2) {
-      return BarberoHomeScreen(usuario: usuario!);
-    }
-
-    return ClienteHomeScreen(usuario: usuario!);
+    // El administrador trabaja desde una consola con muchos accesos; los
+    // otros dos roles viven en cuatro destinos fijos.
+    return TabsHomeScreen(
+      pestanas: rolId == 2
+          ? pestanasBarbero(usuario!)
+          : pestanasCliente(usuario!),
+    );
   }
 }
