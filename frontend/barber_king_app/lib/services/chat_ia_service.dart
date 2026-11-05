@@ -75,10 +75,7 @@ class ChatIaService {
     final data = error.response?.data;
 
     if (data is Map && data['message'] != null) {
-      return {
-        'success': false,
-        'message': data['message'].toString(),
-      };
+      return {'success': false, 'message': data['message'].toString()};
     }
 
     if (error.type == DioExceptionType.connectionError) {
@@ -91,7 +88,8 @@ class ChatIaService {
     if (error.type == DioExceptionType.receiveTimeout) {
       return {
         'success': false,
-        'message': 'El asistente tardó demasiado en responder. Intenta de nuevo.',
+        'message':
+            'El asistente tardó demasiado en responder. Intenta de nuevo.',
       };
     }
 

@@ -76,9 +76,7 @@ class _ResenasBarberoPanelState extends State<ResenasBarberoPanel> {
       );
     }
 
-    final visibles = _expandida
-        ? _lista
-        : _lista.take(widget.limite).toList();
+    final visibles = _expandida ? _lista : _lista.take(widget.limite).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,9 +93,7 @@ class _ResenasBarberoPanelState extends State<ResenasBarberoPanel> {
                 size: 18,
               ),
               label: Text(
-                _expandida
-                    ? 'Ver menos'
-                    : 'Ver las ${_lista.length} reseñas',
+                _expandida ? 'Ver menos' : 'Ver las ${_lista.length} reseñas',
               ),
             ),
           ),

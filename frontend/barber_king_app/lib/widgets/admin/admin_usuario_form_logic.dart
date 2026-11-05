@@ -54,8 +54,11 @@ extension _AdminUsuarioFormLogic on _AdminUsuarioFormScreenState {
     if (!_formKey.currentState!.validate()) return;
 
     if (!_esEdicion && _password.text.trim().length < 6) {
-      showAppSnack(context, 'La contraseña debe tener mínimo 6 caracteres.',
-          error: true);
+      showAppSnack(
+        context,
+        'La contraseña debe tener mínimo 6 caracteres.',
+        error: true,
+      );
       return;
     }
 

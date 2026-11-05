@@ -15,8 +15,8 @@ class ResenaCard extends StatelessWidget {
     final cliente = resena['usuarios'] is Map
         ? Map<String, dynamic>.from(resena['usuarios'] as Map)
         : <String, dynamic>{};
-    final nombre =
-        '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'.trim();
+    final nombre = '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'
+        .trim();
     final foto = cliente['foto']?.toString();
     final calificacion = int.tryParse('${resena['calificacion'] ?? 0}') ?? 0;
     final comentario = resena['comentario']?.toString().trim();

@@ -4,10 +4,7 @@ class _ChatIaWelcome extends StatelessWidget {
   final bool disabled;
   final void Function(String sugerencia) onSuggestion;
 
-  const _ChatIaWelcome({
-    required this.disabled,
-    required this.onSuggestion,
-  });
+  const _ChatIaWelcome({required this.disabled, required this.onSuggestion});
 
   @override
   Widget build(BuildContext context) {

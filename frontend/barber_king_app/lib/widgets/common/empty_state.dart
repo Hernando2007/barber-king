@@ -56,10 +56,7 @@ class EmptyState extends StatelessWidget {
           ),
           if (actionLabel != null && onAction != null) ...[
             const SizedBox(height: 18),
-            OutlinedButton(
-              onPressed: onAction,
-              child: Text(actionLabel!),
-            ),
+            OutlinedButton(onPressed: onAction, child: Text(actionLabel!)),
           ],
         ],
       ),

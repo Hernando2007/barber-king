@@ -14,8 +14,7 @@ part 'chat_notificacion_plugin.dart';
 class ChatNotificacionService with WidgetsBindingObserver {
   ChatNotificacionService._();
 
-  static final ChatNotificacionService instance =
-      ChatNotificacionService._();
+  static final ChatNotificacionService instance = ChatNotificacionService._();
 
   static const _canalId = 'chat_mensajes';
   static const _intervalo = Duration(seconds: 15);
@@ -156,8 +155,7 @@ class ChatNotificacionService with WidgetsBindingObserver {
         noLeidos.value += lista.length;
       }
 
-      final nuevoUltimo =
-          int.tryParse('${data['ultimo_id']}') ?? _ultimoId;
+      final nuevoUltimo = int.tryParse('${data['ultimo_id']}') ?? _ultimoId;
 
       if (nuevoUltimo != _ultimoId || esPrimera) {
         _ultimoId = nuevoUltimo;

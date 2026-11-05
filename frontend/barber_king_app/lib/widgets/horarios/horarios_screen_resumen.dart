@@ -17,10 +17,7 @@ class _ResumenCard extends StatelessWidget {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
-          AppColors.primary.withValues(alpha: .16),
-          AppColors.card,
-        ],
+        colors: [AppColors.primary.withValues(alpha: .16), AppColors.card],
       ),
       borderColor: AppColors.primary.withValues(alpha: .26),
       child: Row(
@@ -58,7 +55,7 @@ class _ResumenCard extends StatelessWidget {
                   jornadasActivas == 0
                       ? 'Agrega tu primera jornada para recibir reservas.'
                       : '$jornadasActivas '
-                          '${jornadasActivas == 1 ? 'jornada configurada' : 'jornadas configuradas'}',
+                            '${jornadasActivas == 1 ? 'jornada configurada' : 'jornadas configuradas'}',
                   style: const TextStyle(
                     color: AppColors.subtitle,
                     fontSize: 12,

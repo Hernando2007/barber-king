@@ -4,10 +4,7 @@ class _AdminHomeEstadoCitas extends StatelessWidget {
   final Map<String, dynamic> citas;
   final dynamic totalCitas;
 
-  const _AdminHomeEstadoCitas({
-    required this.citas,
-    required this.totalCitas,
-  });
+  const _AdminHomeEstadoCitas({required this.citas, required this.totalCitas});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +15,11 @@ class _AdminHomeEstadoCitas extends StatelessWidget {
     return AppCard(
       child: Column(
         children: [
-          _barra(
-            'Pendientes',
-            pendientes,
-            AppColors.warning,
-          ),
+          _barra('Pendientes', pendientes, AppColors.warning),
           const SizedBox(height: 14),
-          _barra(
-            'Completadas',
-            completadas,
-            AppColors.success,
-          ),
+          _barra('Completadas', completadas, AppColors.success),
           const SizedBox(height: 14),
-          _barra(
-            'Canceladas',
-            canceladas,
-            AppColors.error,
-          ),
+          _barra('Canceladas', canceladas, AppColors.error),
         ],
       ),
     );

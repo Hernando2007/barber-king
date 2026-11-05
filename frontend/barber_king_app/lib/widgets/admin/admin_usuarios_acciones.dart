@@ -15,8 +15,8 @@ extension _AdminUsuariosAcciones on _AdminUsuariosScreenState {
   }
 
   Future<void> _eliminar(Map<String, dynamic> usuario) async {
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
     final id = int.tryParse('${usuario['id']}') ?? 0;
 
     if (id == 0) return;

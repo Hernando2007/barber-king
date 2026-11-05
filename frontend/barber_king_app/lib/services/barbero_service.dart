@@ -20,17 +20,11 @@ class BarberoService {
     }
   }
 
-  Future<Map<String, dynamic>?> obtenerBarbero(
-    int id,
-  ) async {
+  Future<Map<String, dynamic>?> obtenerBarbero(int id) async {
     try {
-      final response = await _api.dio.get(
-        "/barberos/obtener/$id",
-      );
+      final response = await _api.dio.get("/barberos/obtener/$id");
 
-      return Map<String, dynamic>.from(
-        response.data["data"],
-      );
+      return Map<String, dynamic>.from(response.data["data"]);
     } catch (_) {
       return null;
     }
@@ -53,15 +47,11 @@ class BarberoService {
         },
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
       return {
         "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al crear barbero.",
+        "message": e.response?.data["message"] ?? "Error al crear barbero.",
       };
     }
   }
@@ -76,36 +66,24 @@ class BarberoService {
         data: datos,
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
       return {
         "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al actualizar.",
+        "message": e.response?.data["message"] ?? "Error al actualizar.",
       };
     }
   }
 
-  Future<Map<String, dynamic>> eliminarBarbero(
-    int id,
-  ) async {
+  Future<Map<String, dynamic>> eliminarBarbero(int id) async {
     try {
-      final response = await _api.dio.delete(
-        "/barberos/eliminar/$id",
-      );
+      final response = await _api.dio.delete("/barberos/eliminar/$id");
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
       return {
         "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al eliminar.",
+        "message": e.response?.data["message"] ?? "Error al eliminar.",
       };
     }
   }
@@ -146,9 +124,7 @@ class BarberoService {
 
   Future<Map<String, dynamic>> obtenerUbicacion(int id) async {
     try {
-      final response = await _api.dio.get(
-        "/barberos/ubicacion/$id",
-      );
+      final response = await _api.dio.get("/barberos/ubicacion/$id");
 
       return {
         "success": true,

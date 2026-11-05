@@ -43,7 +43,7 @@ class _HorarioFormSheetState extends State<_HorarioFormSheet> {
     _activo = widget.horario == null
         ? true
         : (widget.horario!['activo'] == true ||
-            '${widget.horario!['activo']}' == 'true');
+              '${widget.horario!['activo']}' == 'true');
   }
 
   TimeOfDay _parseHora(dynamic value, TimeOfDay fallback) {
@@ -66,9 +66,7 @@ class _HorarioFormSheetState extends State<_HorarioFormSheet> {
 
   int _minutos(TimeOfDay value) => value.hour * 60 + value.minute;
 
-  Future<void> _seleccionarHora({
-    required bool inicio,
-  }) async {
+  Future<void> _seleccionarHora({required bool inicio}) async {
     final value = await showTimePicker(
       context: context,
       initialTime: inicio ? _inicio : _fin,

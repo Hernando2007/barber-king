@@ -44,10 +44,7 @@ class LoginFormCard extends StatelessWidget {
           const SizedBox(height: 6),
           const Text(
             'Ingresa para gestionar tus citas y servicios.',
-            style: TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 12.5,
-            ),
+            style: TextStyle(color: AppColors.subtitle, fontSize: 12.5),
           ),
           const SizedBox(height: 24),
           TextField(
@@ -83,10 +80,8 @@ class LoginFormCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () => Navigator.pushNamed(
-                context,
-                AppRoutes.forgotPassword,
-              ),
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutes.forgotPassword),
               child: const Text(
                 '¿Olvidaste tu contraseña?',
                 style: TextStyle(fontSize: 12),

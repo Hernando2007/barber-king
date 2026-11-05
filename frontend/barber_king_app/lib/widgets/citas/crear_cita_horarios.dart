@@ -49,10 +49,7 @@ class _CrearCitaHorariosSection extends StatelessWidget {
           )
         else if (horarios.isEmpty)
           AppCard(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-              vertical: 22,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 22),
             child: Column(
               children: [
                 const Icon(
@@ -150,9 +147,7 @@ class _ChipHora extends StatelessWidget {
       ),
       selectedColor: AppColors.primary,
       backgroundColor: pasada ? AppColors.card : AppColors.surface,
-      side: BorderSide(
-        color: pasada ? AppColors.border : Colors.transparent,
-      ),
+      side: BorderSide(color: pasada ? AppColors.border : Colors.transparent),
     );
   }
 }

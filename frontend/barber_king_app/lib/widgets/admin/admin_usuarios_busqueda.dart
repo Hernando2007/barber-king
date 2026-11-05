@@ -35,10 +35,7 @@ class _AdminUsuariosFiltros extends StatelessWidget {
   final int filtro;
   final ValueChanged<int> onFiltro;
 
-  const _AdminUsuariosFiltros({
-    required this.filtro,
-    required this.onFiltro,
-  });
+  const _AdminUsuariosFiltros({required this.filtro, required this.onFiltro});
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +71,7 @@ class _AdminUsuariosContador extends StatelessWidget {
   final int filtrados;
   final int total;
 
-  const _AdminUsuariosContador({
-    required this.filtrados,
-    required this.total,
-  });
+  const _AdminUsuariosContador({required this.filtrados, required this.total});
 
   @override
   Widget build(BuildContext context) {
@@ -86,18 +80,12 @@ class _AdminUsuariosContador extends StatelessWidget {
         Expanded(
           child: Text(
             '$filtrados usuario${filtrados == 1 ? '' : 's'}',
-            style: const TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 12.5,
-            ),
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 12.5),
           ),
         ),
         Text(
           'Total: $total',
-          style: const TextStyle(
-            color: AppColors.muted,
-            fontSize: 12,
-          ),
+          style: const TextStyle(color: AppColors.muted, fontSize: 12),
         ),
       ],
     );

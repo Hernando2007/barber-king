@@ -15,8 +15,8 @@ List<Widget> _ultimosUsuarios(_AdminHomeScreenState state) {
 
   return lista.take(4).map((item) {
     final usuario = Map<String, dynamic>.from(item as Map);
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
 
     return AppCard(
       margin: const EdgeInsets.only(bottom: 9),
@@ -131,10 +131,7 @@ List<Widget> _ultimasCitas(_AdminHomeScreenState state) {
               ],
             ),
           ),
-          StatusPill(
-            label: estado,
-            color: AppFormat.statusColor(estado),
-          ),
+          StatusPill(label: estado, color: AppFormat.statusColor(estado)),
         ],
       ),
     );

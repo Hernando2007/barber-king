@@ -39,8 +39,7 @@ extension _PerfilPassword on _PerfilScreenState {
 
             showAppSnack(
               sheetContext,
-              respuesta['message']?.toString() ??
-                  'Contraseña actualizada.',
+              respuesta['message']?.toString() ?? 'Contraseña actualizada.',
               error: respuesta['success'] != true,
             );
 

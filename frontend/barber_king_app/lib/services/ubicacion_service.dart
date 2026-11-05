@@ -15,10 +15,7 @@ class PosicionUsuario {
   final double latitud;
   final double longitud;
 
-  const PosicionUsuario({
-    required this.latitud,
-    required this.longitud,
-  });
+  const PosicionUsuario({required this.latitud, required this.longitud});
 }
 
 class UbicacionService {

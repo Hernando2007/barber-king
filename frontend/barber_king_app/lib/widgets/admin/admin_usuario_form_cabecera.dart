@@ -22,11 +22,7 @@ class _AdminUsuarioFormCabecera extends StatelessWidget {
       borderColor: AppColors.primary.withValues(alpha: .3),
       child: Row(
         children: [
-          AppAvatar(
-            name: nombreCompleto,
-            photoUrl: foto,
-            radius: 28,
-          ),
+          AppAvatar(name: nombreCompleto, photoUrl: foto, radius: 28),
           const SizedBox(width: 14),
           Expanded(
             child: Column(

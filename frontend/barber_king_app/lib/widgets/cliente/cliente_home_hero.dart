@@ -96,10 +96,7 @@ class _ClienteHomeHeroCita extends StatelessWidget {
                   ),
                 ),
               ),
-              StatusPill(
-                label: estado,
-                color: AppFormat.statusColor(estado),
-              ),
+              StatusPill(label: estado, color: AppFormat.statusColor(estado)),
             ],
           ),
           const SizedBox(height: 13),
@@ -117,10 +114,7 @@ class _ClienteHomeHeroCita extends StatelessWidget {
           Text(
             '${AppFormat.dateLong(cita!['fecha'])} · '
             '${AppFormat.time(cita!['hora'])}',
-            style: const TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 12.5,
-            ),
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 12.5),
           ),
           const SizedBox(height: 15),
           OutlinedButton.icon(

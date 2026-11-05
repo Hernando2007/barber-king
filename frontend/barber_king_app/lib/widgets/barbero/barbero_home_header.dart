@@ -47,10 +47,7 @@ class _BarberoHomeHeader extends StatelessWidget {
                 especialidad,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: AppColors.subtitle,
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: AppColors.subtitle, fontSize: 12),
               ),
             ],
           ),
@@ -66,10 +63,7 @@ class _BarberoHomeHeader extends StatelessWidget {
         IconButton(
           tooltip: 'Cerrar sesión',
           onPressed: onSalir,
-          icon: const Icon(
-            Icons.logout_outlined,
-            color: AppColors.primary,
-          ),
+          icon: const Icon(Icons.logout_outlined, color: AppColors.primary),
         ),
       ],
     );

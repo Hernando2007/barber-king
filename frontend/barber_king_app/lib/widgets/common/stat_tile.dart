@@ -57,10 +57,7 @@ class StatTile extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 11.5,
-            ),
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 11.5),
           ),
         ],
       ),

@@ -41,13 +41,7 @@ class _ResenaSheet extends StatefulWidget {
 }
 
 class _ResenaSheetState extends State<_ResenaSheet> {
-  static const _etiquetas = [
-    'Muy mal',
-    'Mal',
-    'Regular',
-    'Bien',
-    'Excelente',
-  ];
+  static const _etiquetas = ['Muy mal', 'Mal', 'Regular', 'Bien', 'Excelente'];
 
   final ResenaService _resenas = ResenaService();
   final TextEditingController _comentario = TextEditingController();
@@ -129,10 +123,7 @@ class _ResenaSheetState extends State<_ResenaSheet> {
           const SizedBox(height: 6),
           Text(
             '¿Cómo te fue con ${widget.nombreBarbero}?',
-            style: const TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 13,
-            ),
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 13),
           ),
           const SizedBox(height: 18),
           Center(

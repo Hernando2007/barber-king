@@ -10,10 +10,7 @@ extension AuthServiceRecuperacion on AuthService {
 
       return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {
-        'success': false,
-        'message': _mensajeError(e),
-      };
+      return {'success': false, 'message': _mensajeError(e)};
     }
   }
 
@@ -34,10 +31,7 @@ extension AuthServiceRecuperacion on AuthService {
 
       return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
-      return {
-        'success': false,
-        'message': _mensajeError(e),
-      };
+      return {'success': false, 'message': _mensajeError(e)};
     }
   }
 }

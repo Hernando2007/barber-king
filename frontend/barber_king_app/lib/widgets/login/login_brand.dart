@@ -24,10 +24,7 @@ class LoginBrand extends StatelessWidget {
         SizedBox(height: 6),
         Text(
           'Gestión profesional para tu barbería',
-          style: TextStyle(
-            color: AppColors.subtitle,
-            fontSize: 12.5,
-          ),
+          style: TextStyle(color: AppColors.subtitle, fontSize: 12.5),
         ),
       ],
     );

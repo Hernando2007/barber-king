@@ -13,8 +13,8 @@ class _AdminUsuariosCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
     final rolId = int.tryParse('${usuario['rol_id']}') ?? 0;
     final rol = usuario['rol']?.toString() ?? AppFormat.role(rolId);
     final activo = usuario['estado'] != false;
@@ -154,10 +154,7 @@ class _AdminUsuariosCard extends StatelessWidget {
               const Spacer(),
               Text(
                 usuario['telefono']?.toString() ?? 'Sin teléfono',
-                style: const TextStyle(
-                  color: AppColors.muted,
-                  fontSize: 11,
-                ),
+                style: const TextStyle(color: AppColors.muted, fontSize: 11),
               ),
             ],
           ),

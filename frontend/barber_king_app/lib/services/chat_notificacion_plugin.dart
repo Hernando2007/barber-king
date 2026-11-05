@@ -36,8 +36,7 @@ extension _ChatNotificacionPlugin on ChatNotificacionService {
 
   Future<void> _mostrar(Map<String, dynamic> mensaje) async {
     final nombre = mensaje['emisor_nombre']?.toString() ?? 'Usuario';
-    final tieneImagen =
-        mensaje['imagen_url']?.toString().isNotEmpty ?? false;
+    final tieneImagen = mensaje['imagen_url']?.toString().isNotEmpty ?? false;
     final texto = tieneImagen
         ? 'Te envió una imagen.'
         : mensaje['mensaje']?.toString() ?? 'Nuevo mensaje';

@@ -41,10 +41,7 @@ class BarberosCalificacion extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             '($total)',
-            style: TextStyle(
-              color: AppColors.muted,
-              fontSize: fontSize - 0.5,
-            ),
+            style: TextStyle(color: AppColors.muted, fontSize: fontSize - 0.5),
           ),
         ],
       ],
@@ -77,9 +74,10 @@ class BarberosUbicacionLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lugar = [ciudad, zona]
-        .where((valor) => valor != null && valor.trim().isNotEmpty)
-        .join(', ');
+    final lugar = [
+      ciudad,
+      zona,
+    ].where((valor) => valor != null && valor.trim().isNotEmpty).join(', ');
 
     final texto = [
       if (lugar.isNotEmpty) lugar,
@@ -106,10 +104,7 @@ class BarberosUbicacionLine extends StatelessWidget {
               texto,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.muted,
-                fontSize: 11,
-              ),
+              style: const TextStyle(color: AppColors.muted, fontSize: 11),
             ),
           ),
         ],

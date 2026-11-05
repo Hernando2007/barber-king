@@ -54,10 +54,7 @@ class _AdminHomeHero extends StatelessWidget {
           const SizedBox(height: 18),
           Row(
             children: [
-              _heroStat(
-                '${resumen['totalResenas'] ?? 0}',
-                'Reseñas',
-              ),
+              _heroStat('${resumen['totalResenas'] ?? 0}', 'Reseñas'),
               const SizedBox(width: 26),
               _heroStat('${citas['pendientes'] ?? 0}', 'Pendientes'),
               const SizedBox(width: 26),

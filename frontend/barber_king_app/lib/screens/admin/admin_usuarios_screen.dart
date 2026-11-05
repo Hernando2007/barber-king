@@ -76,9 +76,8 @@ class _AdminUsuariosScreenState extends State<AdminUsuariosScreen> {
         return true;
       }
 
-      final nombre =
-          '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
-              .toLowerCase();
+      final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+          .toLowerCase();
       final correo = '${usuario['correo'] ?? ''}'.toLowerCase();
 
       return nombre.contains(texto) || correo.contains(texto);

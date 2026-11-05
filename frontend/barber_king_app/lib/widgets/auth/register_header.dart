@@ -11,10 +11,7 @@ class RegisterHeader extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Align(
-          alignment: Alignment.center,
-          child: BrandLogo(size: 74),
-        ),
+        Align(alignment: Alignment.center, child: BrandLogo(size: 74)),
         SizedBox(height: 12),
         Text(
           'ÚNETE A BARBER KING',
@@ -30,10 +27,7 @@ class RegisterHeader extends StatelessWidget {
         Text(
           'Crea tu cuenta y vive la experiencia premium.',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: AppColors.subtitle,
-            fontSize: 14,
-          ),
+          style: TextStyle(color: AppColors.subtitle, fontSize: 14),
         ),
       ],
     );

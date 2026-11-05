@@ -62,7 +62,8 @@ class _HorariosScreenState extends State<HorariosScreen> {
         if (!mounted) return;
         setState(() {
           _cargando = false;
-          _error = 'No encontramos tu perfil de barbero. '
+          _error =
+              'No encontramos tu perfil de barbero. '
               'Actualiza tus datos desde Mi perfil.';
         });
         return;
@@ -151,7 +152,8 @@ class _HorariosScreenState extends State<HorariosScreen> {
                 children: [
                   PageHeading(
                     title: 'Tu semana de trabajo',
-                    subtitle: 'Define los días y horas en que tus clientes '
+                    subtitle:
+                        'Define los días y horas en que tus clientes '
                         'pueden reservar.',
                   ),
                   const SizedBox(height: 16),

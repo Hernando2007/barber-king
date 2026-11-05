@@ -11,16 +11,10 @@ class AdminService {
       final data = response.data['data'];
 
       if (data is Map) {
-        return {
-          'success': true,
-          'data': Map<String, dynamic>.from(data),
-        };
+        return {'success': true, 'data': Map<String, dynamic>.from(data)};
       }
 
-      return {
-        'success': false,
-        'message': 'No se pudo cargar el panel.',
-      };
+      return {'success': false, 'message': 'No se pudo cargar el panel.'};
     } on DioException catch (error) {
       return _error(error, 'No se pudo cargar el panel.');
     }
@@ -39,9 +33,7 @@ class AdminService {
     }
   }
 
-  Future<Map<String, dynamic>> crearUsuario(
-    Map<String, dynamic> datos,
-  ) async {
+  Future<Map<String, dynamic>> crearUsuario(Map<String, dynamic> datos) async {
     try {
       final response = await _api.dio.post('/usuarios/crear', data: datos);
       return Map<String, dynamic>.from(response.data);

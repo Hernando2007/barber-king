@@ -29,10 +29,8 @@ class BrandLogo extends StatelessWidget {
         'assets/logo/logo_negro.png',
         fit: BoxFit.contain,
         filterQuality: FilterQuality.medium,
-        errorBuilder: (context, error, stackTrace) => Icon(
-          Icons.content_cut_rounded,
-          color: AppColors.black,
-        ),
+        errorBuilder: (context, error, stackTrace) =>
+            Icon(Icons.content_cut_rounded, color: AppColors.black),
       ),
     );
   }

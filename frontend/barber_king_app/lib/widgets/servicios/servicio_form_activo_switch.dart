@@ -27,10 +27,7 @@ class ServicioFormActivoSwitch extends StatelessWidget {
         ),
         subtitle: const Text(
           'Los servicios inactivos no aparecen en las reservas.',
-          style: TextStyle(
-            color: AppColors.subtitle,
-            fontSize: 11.5,
-          ),
+          style: TextStyle(color: AppColors.subtitle, fontSize: 11.5),
         ),
       ),
     );

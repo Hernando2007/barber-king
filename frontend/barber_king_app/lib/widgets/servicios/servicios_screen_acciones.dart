@@ -4,9 +4,7 @@ extension _ServiciosAcciones on _ServiciosScreenState {
   Future<void> _abrirFormulario([Map<String, dynamic>? servicio]) async {
     final guardado = await Navigator.push<bool>(
       context,
-      MaterialPageRoute(
-        builder: (_) => ServicioFormScreen(servicio: servicio),
-      ),
+      MaterialPageRoute(builder: (_) => ServicioFormScreen(servicio: servicio)),
     );
 
     if (guardado == true) {
@@ -36,7 +34,9 @@ extension _ServiciosAcciones on _ServiciosScreenState {
 
     if (respuesta['statusCode'] == 409) {
       final detalles = respuesta['detalles'];
-      final citas = detalles is Map ? int.tryParse('${detalles['citas']}') : null;
+      final citas = detalles is Map
+          ? int.tryParse('${detalles['citas']}')
+          : null;
 
       final forzar = await showConfirmDialog(
         context,

@@ -78,10 +78,7 @@ class _HorarioFormView extends StatelessWidget {
                   const SizedBox(height: 2),
                   const Text(
                     'Elige el día y el rango de atención.',
-                    style: TextStyle(
-                      color: AppColors.subtitle,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: AppColors.subtitle, fontSize: 12),
                   ),
                 ],
               ),
@@ -97,10 +94,7 @@ class _HorarioFormView extends StatelessWidget {
             prefixIcon: Icon(Icons.calendar_today_rounded),
           ),
           items: List.generate(dias.length, (index) {
-            return DropdownMenuItem(
-              value: index + 1,
-              child: Text(dias[index]),
-            );
+            return DropdownMenuItem(value: index + 1, child: Text(dias[index]));
           }),
           onChanged: (value) {
             if (value != null) {
@@ -130,10 +124,7 @@ class _HorarioFormView extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 4,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(14),
@@ -153,10 +144,7 @@ class _HorarioFormView extends StatelessWidget {
             ),
             subtitle: const Text(
               'Los clientes solo pueden reservar en jornadas activas.',
-              style: TextStyle(
-                color: AppColors.subtitle,
-                fontSize: 11,
-              ),
+              style: TextStyle(color: AppColors.subtitle, fontSize: 11),
             ),
             activeThumbColor: AppColors.primary,
           ),
@@ -165,10 +153,7 @@ class _HorarioFormView extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             error!,
-            style: const TextStyle(
-              color: AppColors.error,
-              fontSize: 12,
-            ),
+            style: const TextStyle(color: AppColors.error, fontSize: 12),
           ),
         ],
         const SizedBox(height: 20),

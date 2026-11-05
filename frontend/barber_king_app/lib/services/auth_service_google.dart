@@ -92,9 +92,8 @@ extension AuthServiceGoogle on AuthService {
   String _mensajeGoogle(GoogleSignInException error) {
     final detalle = error.description;
 
-    String conDetalle(String texto) => detalle == null || detalle.isEmpty
-        ? texto
-        : '$texto — $detalle';
+    String conDetalle(String texto) =>
+        detalle == null || detalle.isEmpty ? texto : '$texto — $detalle';
 
     switch (error.code) {
       case GoogleSignInExceptionCode.clientConfigurationError:

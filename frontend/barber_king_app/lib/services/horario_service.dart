@@ -13,9 +13,7 @@ class HorarioService {
 
       if (lista is! List) return [];
 
-      return lista
-          .map((item) => Map<String, dynamic>.from(item))
-          .toList();
+      return lista.map((item) => Map<String, dynamic>.from(item)).toList();
     } on DioException catch (e) {
       throw Exception(_mensaje(e));
     }

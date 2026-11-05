@@ -69,30 +69,21 @@ class RegisterFieldsSections extends StatelessWidget {
         TextFormField(
           controller: nombres,
           textCapitalization: TextCapitalization.words,
-          decoration: _decoration(
-            'Nombres',
-            Icons.person_outline_rounded,
-          ),
+          decoration: _decoration('Nombres', Icons.person_outline_rounded),
           validator: _requerido,
         ),
         const SizedBox(height: 14),
         TextFormField(
           controller: apellidos,
           textCapitalization: TextCapitalization.words,
-          decoration: _decoration(
-            'Apellidos',
-            Icons.badge_outlined,
-          ),
+          decoration: _decoration('Apellidos', Icons.badge_outlined),
           validator: _requerido,
         ),
         const SizedBox(height: 14),
         TextFormField(
           controller: correo,
           keyboardType: TextInputType.emailAddress,
-          decoration: _decoration(
-            'Correo electrónico',
-            Icons.email_outlined,
-          ),
+          decoration: _decoration('Correo electrónico', Icons.email_outlined),
           validator: (value) {
             final text = value?.trim() ?? '';
             if (text.isEmpty) return 'Ingresa tu correo.';
@@ -106,10 +97,7 @@ class RegisterFieldsSections extends StatelessWidget {
         TextFormField(
           controller: telefono,
           keyboardType: TextInputType.phone,
-          decoration: _decoration(
-            'Teléfono',
-            Icons.phone_outlined,
-          ),
+          decoration: _decoration('Teléfono', Icons.phone_outlined),
         ),
         const SizedBox(height: 14),
         TextFormField(
@@ -130,19 +118,17 @@ class RegisterFieldsSections extends StatelessWidget {
         TextFormField(
           controller: password,
           obscureText: ocultarPassword,
-          decoration: _decoration(
-            'Contraseña',
-            Icons.lock_outline_rounded,
-          ).copyWith(
-            suffixIcon: IconButton(
-              onPressed: onTogglePassword,
-              icon: Icon(
-                ocultarPassword
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+          decoration: _decoration('Contraseña', Icons.lock_outline_rounded)
+              .copyWith(
+                suffixIcon: IconButton(
+                  onPressed: onTogglePassword,
+                  icon: Icon(
+                    ocultarPassword
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                  ),
+                ),
               ),
-            ),
-          ),
           validator: (value) {
             if (value == null || value.length < 6) {
               return 'Mínimo 6 caracteres.';
@@ -154,19 +140,20 @@ class RegisterFieldsSections extends StatelessWidget {
         TextFormField(
           controller: confirmar,
           obscureText: ocultarConfirmar,
-          decoration: _decoration(
-            'Confirmar contraseña',
-            Icons.lock_reset_outlined,
-          ).copyWith(
-            suffixIcon: IconButton(
-              onPressed: onToggleConfirmar,
-              icon: Icon(
-                ocultarConfirmar
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+          decoration:
+              _decoration(
+                'Confirmar contraseña',
+                Icons.lock_reset_outlined,
+              ).copyWith(
+                suffixIcon: IconButton(
+                  onPressed: onToggleConfirmar,
+                  icon: Icon(
+                    ocultarConfirmar
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                  ),
+                ),
               ),
-            ),
-          ),
           validator: _requerido,
         ),
       ],

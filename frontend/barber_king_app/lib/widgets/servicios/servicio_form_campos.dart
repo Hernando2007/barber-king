@@ -31,8 +31,9 @@ class ServicioFormCampos extends StatelessWidget {
                   prefixIcon: Icon(Icons.payments_outlined),
                 ),
                 validator: (value) {
-                  final precio =
-                      double.tryParse((value ?? '').replaceAll(',', '.'));
+                  final precio = double.tryParse(
+                    (value ?? '').replaceAll(',', '.'),
+                  );
                   if (precio == null || precio <= 0) {
                     return 'Precio inválido.';
                   }

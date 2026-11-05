@@ -42,9 +42,11 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
   Future<void> _adjuntarImagen() async {
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
-      builder: (_) => ImageSourceSheet(onSelected: (value) {
-        Navigator.pop(context, value);
-      }),
+      builder: (_) => ImageSourceSheet(
+        onSelected: (value) {
+          Navigator.pop(context, value);
+        },
+      ),
     );
 
     if (source == null) return;
@@ -63,11 +65,7 @@ extension _ChatConversacionEnvio on _ChatConversacionScreenState {
     if (subida == null || subida.isEmpty) {
       // ignore: invalid_use_of_protected_member
       setState(() => _enviando = false);
-      showAppSnack(
-        context,
-        'No se pudo subir la imagen.',
-        error: true,
-      );
+      showAppSnack(context, 'No se pudo subir la imagen.', error: true);
       return;
     }
 

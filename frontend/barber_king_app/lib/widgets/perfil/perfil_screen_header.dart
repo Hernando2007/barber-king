@@ -52,10 +52,7 @@ class _PerfilHeaderCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: AppColors.goldGradient,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.card,
-                        width: 2,
-                      ),
+                      border: Border.all(color: AppColors.card, width: 2),
                     ),
                     child: subiendoFoto
                         ? const Padding(
@@ -86,19 +83,13 @@ class _PerfilHeaderCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          StatusPill(
-            label: rolLabel,
-            color: AppColors.primary,
-          ),
+          StatusPill(label: rolLabel, color: AppColors.primary),
           if (esBarbero && especialidad?.isNotEmpty == true) ...[
             const SizedBox(height: 7),
             Text(
               especialidad!,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppColors.subtitle,
-                fontSize: 12.5,
-              ),
+              style: const TextStyle(color: AppColors.subtitle, fontSize: 12.5),
             ),
           ],
           const SizedBox(height: 16),

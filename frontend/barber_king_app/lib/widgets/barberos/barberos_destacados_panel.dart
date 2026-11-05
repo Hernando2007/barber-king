@@ -16,8 +16,8 @@ class BarberosDestacadosPanel extends StatelessWidget {
 
   String _nombre(Map<String, dynamic> barbero) {
     final usuario = _usuario(barbero);
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
     return nombre.isEmpty ? 'Barbero profesional' : nombre;
   }
 
@@ -64,10 +64,7 @@ class BarberosDestacadosPanel extends StatelessWidget {
                       ),
                       Text(
                         'Elegidos por los clientes',
-                        style: TextStyle(
-                          color: AppColors.muted,
-                          fontSize: 11,
-                        ),
+                        style: TextStyle(color: AppColors.muted, fontSize: 11),
                       ),
                     ],
                   ),
@@ -118,7 +115,8 @@ class BarberosDestacadosPanel extends StatelessWidget {
                     const SizedBox(width: 9),
                     AppAvatar(
                       name: _nombre(barbero),
-                      photoUrl: usuario['foto']?.toString() ??
+                      photoUrl:
+                          usuario['foto']?.toString() ??
                           barbero['foto_trabajo']?.toString(),
                       radius: 18,
                       fallbackIcon: Icons.content_cut_rounded,

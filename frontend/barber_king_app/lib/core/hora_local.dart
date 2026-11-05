@@ -8,13 +8,7 @@ bool horaYaPaso(DateTime fecha, String hora, {DateTime? ahora}) {
   final minutos = int.tryParse(partes[1]);
   if (horas == null || minutos == null) return false;
 
-  final inicio = DateTime(
-    fecha.year,
-    fecha.month,
-    fecha.day,
-    horas,
-    minutos,
-  );
+  final inicio = DateTime(fecha.year, fecha.month, fecha.day, horas, minutos);
 
   return !inicio.isAfter(ahora ?? DateTime.now());
 }

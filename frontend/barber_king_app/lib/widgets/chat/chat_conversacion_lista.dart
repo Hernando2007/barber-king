@@ -43,17 +43,13 @@ class _ChatConversacionBurbuja extends StatelessWidget {
   Widget build(BuildContext context) {
     final esMio = mensaje['esMio'] == true;
     final texto = mensaje['mensaje']?.toString() ?? '';
-    final imagen = ApiConfig.resolveMedia(
-      mensaje['imagen_url']?.toString(),
-    );
+    final imagen = ApiConfig.resolveMedia(mensaje['imagen_url']?.toString());
     final hora = mensaje['created_at'] == null
         ? ''
         : AppFormat.time(
-            AppFormat.toDate(mensaje['created_at'])
-                ?.toLocal()
-                .toIso8601String()
-                .split('T')
-                .last,
+            AppFormat.toDate(
+              mensaje['created_at'],
+            )?.toLocal().toIso8601String().split('T').last,
           );
 
     return Align(

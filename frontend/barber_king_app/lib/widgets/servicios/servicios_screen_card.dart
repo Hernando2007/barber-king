@@ -126,18 +126,11 @@ class _ServiciosCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 14),
-              Icon(
-                Icons.schedule_rounded,
-                color: AppColors.muted,
-                size: 15,
-              ),
+              Icon(Icons.schedule_rounded, color: AppColors.muted, size: 15),
               const SizedBox(width: 5),
               Text(
                 '$duracion min',
-                style: const TextStyle(
-                  color: AppColors.subtitle,
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: AppColors.subtitle, fontSize: 12),
               ),
               const Spacer(),
               StatusPill(

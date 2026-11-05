@@ -27,10 +27,7 @@ class RegisterAccountType extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        AccountTypeSelector(
-          value: value,
-          onChanged: onChanged,
-        ),
+        AccountTypeSelector(value: value, onChanged: onChanged),
       ],
     );
   }

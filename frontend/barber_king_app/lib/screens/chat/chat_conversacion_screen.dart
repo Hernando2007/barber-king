@@ -39,13 +39,13 @@ class _ChatConversacionScreenState extends State<ChatConversacionScreen> {
   bool _cargando = true;
   bool _enviando = false;
 
-  int get _contactoId =>
-      int.tryParse('${widget.contacto['usuario_id']}') ?? 0;
+  int get _contactoId => int.tryParse('${widget.contacto['usuario_id']}') ?? 0;
 
   String get _nombre {
     final nombre =
         '${widget.contacto['nombres'] ?? ''} '
-        '${widget.contacto['apellidos'] ?? ''}'.trim();
+                '${widget.contacto['apellidos'] ?? ''}'
+            .trim();
     return nombre.isEmpty ? 'Conversación' : nombre;
   }
 

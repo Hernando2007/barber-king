@@ -5,7 +5,8 @@ import 'package:latlong2/latlong.dart';
 import '../../core/colors.dart';
 
 class MapaBarberoVista extends StatelessWidget {
-  static const String _teselas = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  static const String _teselas =
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
   final LatLng barbero;
   final LatLng? cliente;

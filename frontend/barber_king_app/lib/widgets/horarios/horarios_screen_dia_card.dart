@@ -70,10 +70,7 @@ class _DiaCardView extends StatelessWidget {
                     ),
                     if (esHoy) ...[
                       const SizedBox(width: 8),
-                      const StatusPill(
-                        label: 'Hoy',
-                        color: AppColors.primary,
-                      ),
+                      const StatusPill(label: 'Hoy', color: AppColors.primary),
                     ],
                   ],
                 ),

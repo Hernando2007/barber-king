@@ -23,10 +23,7 @@ class _TimeBox extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(
-              color: AppColors.muted,
-              fontSize: 10.5,
-            ),
+            style: const TextStyle(color: AppColors.muted, fontSize: 10.5),
           ),
           const SizedBox(height: 7),
           Row(

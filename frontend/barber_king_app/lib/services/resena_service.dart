@@ -5,13 +5,9 @@ import 'api_service.dart';
 class ResenaService {
   final ApiService _api = ApiService();
 
-  Future<List<dynamic>> obtenerPorBarbero(
-    int barberoId,
-  ) async {
+  Future<List<dynamic>> obtenerPorBarbero(int barberoId) async {
     try {
-      final response = await _api.dio.get(
-        "/resenas/barbero/$barberoId",
-      );
+      final response = await _api.dio.get("/resenas/barbero/$barberoId");
 
       return response.data["data"] ?? [];
     } catch (_) {
@@ -21,9 +17,7 @@ class ResenaService {
 
   Future<List<dynamic>> obtenerMias() async {
     try {
-      final response = await _api.dio.get(
-        "/resenas/mias",
-      );
+      final response = await _api.dio.get("/resenas/mias");
 
       return response.data["data"] ?? [];
     } catch (_) {

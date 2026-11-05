@@ -76,7 +76,8 @@ Future<void> _podarRecordatoriosVistos(
 ) async {
   final corte = ahora.subtract(_vidaRecordatorios).millisecondsSinceEpoch;
 
-  final viejos = prefs.getKeys()
+  final viejos = prefs
+      .getKeys()
       .where((clave) => clave.startsWith(_prefijoRecordatorio))
       .where((clave) => (prefs.getInt(clave) ?? 0) < corte)
       .toList();
@@ -192,10 +193,7 @@ Future<List<Map<String, dynamic>>> _pedirCitasProximas(String token) async {
       baseUrl: ApiConfig.baseUrl,
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 20),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
+      headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token'},
     ),
   );
 

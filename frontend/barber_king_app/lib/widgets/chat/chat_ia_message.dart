@@ -70,7 +70,9 @@ class _ChatMessageItem extends StatelessWidget {
           border: esUsuario
               ? null
               : Border.all(
-                  color: error ? AppColors.error.withValues(alpha: .4) : AppColors.border,
+                  color: error
+                      ? AppColors.error.withValues(alpha: .4)
+                      : AppColors.border,
                 ),
         ),
         child: Text(

@@ -22,9 +22,7 @@ class RegisterSubmitButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         PrimaryGradientButton(
-          label: esBarbero
-              ? 'REGISTRARME COMO BARBERO'
-              : 'CREAR CUENTA',
+          label: esBarbero ? 'REGISTRARME COMO BARBERO' : 'CREAR CUENTA',
           icon: Icons.person_add_alt_1_rounded,
           loading: cargando,
           onPressed: cargando ? null : onRegister,

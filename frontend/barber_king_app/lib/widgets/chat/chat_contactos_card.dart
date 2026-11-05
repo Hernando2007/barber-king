@@ -16,8 +16,8 @@ class ChatContactosCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nombre =
-        '${contacto['nombres'] ?? ''} ${contacto['apellidos'] ?? ''}'.trim();
+    final nombre = '${contacto['nombres'] ?? ''} ${contacto['apellidos'] ?? ''}'
+        .trim();
     final ultimo = contacto['ultimo_mensaje'];
     final ultimoMap = ultimo is Map ? Map<String, dynamic>.from(ultimo) : null;
     final mensaje = ultimoMap == null
@@ -39,8 +39,9 @@ class ChatContactosCard extends StatelessWidget {
             name: nombre.isEmpty ? 'Usuario' : nombre,
             photoUrl: contacto['foto']?.toString(),
             radius: 24,
-            fallbackIcon:
-                esBarbero ? Icons.content_cut_rounded : Icons.person_rounded,
+            fallbackIcon: esBarbero
+                ? Icons.content_cut_rounded
+                : Icons.person_rounded,
           ),
           const SizedBox(width: 13),
           Expanded(
@@ -102,10 +103,7 @@ class ChatContactosCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 6),
-          const Icon(
-            Icons.chevron_right_rounded,
-            color: AppColors.muted,
-          ),
+          const Icon(Icons.chevron_right_rounded, color: AppColors.muted),
         ],
       ),
     );

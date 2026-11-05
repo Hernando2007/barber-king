@@ -7,9 +7,7 @@ class CitaService {
 
   Future<List<dynamic>> obtenerCitas() async {
     try {
-      final response = await _api.dio.get(
-        "/citas/obtenerTodas",
-      );
+      final response = await _api.dio.get("/citas/obtenerTodas");
 
       return response.data["data"] ?? [];
     } catch (_) {
@@ -17,17 +15,11 @@ class CitaService {
     }
   }
 
-  Future<Map<String, dynamic>?> obtenerCita(
-    int id,
-  ) async {
+  Future<Map<String, dynamic>?> obtenerCita(int id) async {
     try {
-      final response = await _api.dio.get(
-        "/citas/obtenerPorId/$id",
-      );
+      final response = await _api.dio.get("/citas/obtenerPorId/$id");
 
-      return Map<String, dynamic>.from(
-        response.data["data"],
-      );
+      return Map<String, dynamic>.from(response.data["data"]);
     } catch (_) {
       return null;
     }
@@ -54,15 +46,11 @@ class CitaService {
         },
       );
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
       return {
         "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al crear la cita.",
+        "message": e.response?.data["message"] ?? "Error al crear la cita.",
       };
     }
   }
@@ -72,41 +60,26 @@ class CitaService {
     required Map<String, dynamic> datos,
   }) async {
     try {
-      final response = await _api.dio.put(
-        "/citas/actualizar/$id",
-        data: datos,
-      );
+      final response = await _api.dio.put("/citas/actualizar/$id", data: datos);
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
       return {
         "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al actualizar.",
+        "message": e.response?.data["message"] ?? "Error al actualizar.",
       };
     }
   }
 
-  Future<Map<String, dynamic>> eliminarCita(
-    int id,
-  ) async {
+  Future<Map<String, dynamic>> eliminarCita(int id) async {
     try {
-      final response = await _api.dio.delete(
-        "/citas/delete/$id",
-      );
+      final response = await _api.dio.delete("/citas/delete/$id");
 
-      return Map<String, dynamic>.from(
-        response.data,
-      );
+      return Map<String, dynamic>.from(response.data);
     } on DioException catch (e) {
       return {
         "success": false,
-        "message":
-            e.response?.data["message"] ??
-            "Error al eliminar.",
+        "message": e.response?.data["message"] ?? "Error al eliminar.",
       };
     }
   }

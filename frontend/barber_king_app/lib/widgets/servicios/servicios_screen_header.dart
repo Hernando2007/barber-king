@@ -23,9 +23,7 @@ class _ServiciosHeaderCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  esAdmin
-                      ? 'Catálogo de servicios'
-                      : 'Servicios premium',
+                  esAdmin ? 'Catálogo de servicios' : 'Servicios premium',
                   style: const TextStyle(
                     color: AppColors.white,
                     fontSize: 16,
@@ -56,10 +54,7 @@ class _ServiciosBuscador extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
 
-  const _ServiciosBuscador({
-    required this.controller,
-    required this.onChanged,
-  });
+  const _ServiciosBuscador({required this.controller, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

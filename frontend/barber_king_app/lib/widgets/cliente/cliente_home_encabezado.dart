@@ -54,10 +54,7 @@ class _ClienteHomeEncabezado extends StatelessWidget {
         IconButton(
           tooltip: 'Cerrar sesión',
           onPressed: onCerrarSesion,
-          icon: const Icon(
-            Icons.logout_outlined,
-            color: AppColors.primary,
-          ),
+          icon: const Icon(Icons.logout_outlined, color: AppColors.primary),
         ),
       ],
     );

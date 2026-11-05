@@ -6,9 +6,7 @@ extension _SplashLayout on _SplashScreenState {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: Stack(
           children: [
             Positioned(
@@ -62,9 +60,7 @@ extension _SplashLayout on _SplashScreenState {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [color, Colors.transparent],
-        ),
+        gradient: RadialGradient(colors: [color, Colors.transparent]),
       ),
     );
   }

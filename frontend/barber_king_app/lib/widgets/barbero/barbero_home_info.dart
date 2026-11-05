@@ -84,7 +84,8 @@ class _BarberoHomeHero extends StatelessWidget {
                 final servicio = cita['servicios'];
                 final nombreCliente = cliente is Map
                     ? '${cliente['nombres'] ?? ''} '
-                          '${cliente['apellidos'] ?? ''}'.trim()
+                              '${cliente['apellidos'] ?? ''}'
+                          .trim()
                     : 'Cliente';
                 final nombreServicio = servicio is Map
                     ? servicio['nombre']?.toString() ?? 'Servicio'
@@ -93,19 +94,14 @@ class _BarberoHomeHero extends StatelessWidget {
               }(),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.subtitle,
-                fontSize: 12.5,
-              ),
+              style: const TextStyle(color: AppColors.subtitle, fontSize: 12.5),
             ),
             const SizedBox(height: 14),
             Row(
               children: [
                 StatusPill(
                   label: cita['estado']?.toString() ?? 'Pendiente',
-                  color: AppFormat.statusColor(
-                    cita['estado']?.toString(),
-                  ),
+                  color: AppFormat.statusColor(cita['estado']?.toString()),
                 ),
                 const Spacer(),
                 TextButton(

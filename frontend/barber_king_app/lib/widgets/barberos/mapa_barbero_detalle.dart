@@ -128,10 +128,7 @@ class MapaBarberoDetalle extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 _ultima,
-                style: const TextStyle(
-                  color: AppColors.muted,
-                  fontSize: 10.5,
-                ),
+                style: const TextStyle(color: AppColors.muted, fontSize: 10.5),
               ),
             ],
           ),

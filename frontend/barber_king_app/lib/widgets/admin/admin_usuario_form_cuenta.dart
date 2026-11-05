@@ -112,9 +112,7 @@ class _AdminUsuarioFormCuenta extends StatelessWidget {
           controller: password,
           obscureText: true,
           decoration: InputDecoration(
-            labelText: esEdicion
-                ? 'Nueva contraseña (opcional)'
-                : 'Contraseña',
+            labelText: esEdicion ? 'Nueva contraseña (opcional)' : 'Contraseña',
             prefixIcon: const Icon(Icons.lock_outline_rounded),
             helperText: esEdicion
                 ? 'Déjala vacía para conservar la actual.'

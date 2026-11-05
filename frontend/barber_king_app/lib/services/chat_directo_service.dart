@@ -83,10 +83,7 @@ class ChatDirectoService {
     final data = error.response?.data;
 
     if (data is Map && data['message'] != null) {
-      return {
-        'success': false,
-        'message': data['message'].toString(),
-      };
+      return {'success': false, 'message': data['message'].toString()};
     }
 
     if (error.type == DioExceptionType.connectionError) {

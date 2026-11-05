@@ -8,10 +8,7 @@ extension _HorariosAcciones on _HorariosScreenState {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _HorarioFormSheet(
-        diaInicial: dia ?? 1,
-        dias: _dias,
-      ),
+      builder: (_) => _HorarioFormSheet(diaInicial: dia ?? 1, dias: _dias),
     );
 
     if (guardado == true) {
@@ -66,7 +63,8 @@ extension _HorariosAcciones on _HorariosScreenState {
     final confirmar = await showConfirmDialog(
       context,
       title: 'Eliminar horario',
-      message: 'Se eliminará la jornada del '
+      message:
+          'Se eliminará la jornada del '
           '${_dias[(int.tryParse('${horario['dia_semana']}') ?? 1) - 1]}. '
           'Esta acción no se puede deshacer.',
       confirmLabel: 'Eliminar',
@@ -76,9 +74,7 @@ extension _HorariosAcciones on _HorariosScreenState {
     if (!confirmar) return;
 
     try {
-      await _horariosService.eliminarHorario(
-        int.parse('${horario['id']}'),
-      );
+      await _horariosService.eliminarHorario(int.parse('${horario['id']}'));
 
       await _cargar();
 

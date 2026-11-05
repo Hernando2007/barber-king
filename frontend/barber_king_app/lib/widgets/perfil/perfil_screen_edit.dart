@@ -4,10 +4,7 @@ class _PerfilEditSheet extends StatefulWidget {
   final Map<String, dynamic> usuario;
   final bool esBarbero;
 
-  const _PerfilEditSheet({
-    required this.usuario,
-    required this.esBarbero,
-  });
+  const _PerfilEditSheet({required this.usuario, required this.esBarbero});
 
   @override
   State<_PerfilEditSheet> createState() => _PerfilEditSheetState();
@@ -62,15 +59,9 @@ class _PerfilEditSheetState extends State<_PerfilEditSheet> {
     _descripcion = TextEditingController(
       text: barbero['descripcion']?.toString(),
     );
-    _direccion = TextEditingController(
-      text: barbero['direccion']?.toString(),
-    );
-    _ciudad = TextEditingController(
-      text: barbero['ciudad']?.toString(),
-    );
-    _zona = TextEditingController(
-      text: barbero['zona']?.toString(),
-    );
+    _direccion = TextEditingController(text: barbero['direccion']?.toString());
+    _ciudad = TextEditingController(text: barbero['ciudad']?.toString());
+    _zona = TextEditingController(text: barbero['zona']?.toString());
   }
 
   @override

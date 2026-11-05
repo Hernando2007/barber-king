@@ -18,15 +18,10 @@ class DisponibilidadService {
         },
       );
 
-      final data =
-          Map<String, dynamic>.from(
-        response.data,
-      );
+      final data = Map<String, dynamic>.from(response.data);
 
       if (data["success"] == true) {
-        return List<dynamic>.from(
-          data["data"] ?? [],
-        );
+        return List<dynamic>.from(data["data"] ?? []);
       }
 
       return [];

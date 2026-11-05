@@ -57,8 +57,7 @@ Future<void> _adjuntar(_ChatIAScreenState state) async {
     } else {
       state._items.add(
         _ChatItem.botText(
-          respuesta['message']?.toString() ??
-              'No se pudo analizar la imagen.',
+          respuesta['message']?.toString() ?? 'No se pudo analizar la imagen.',
           error: true,
         ),
       );

@@ -65,9 +65,7 @@ class _CrearCitaServicioField extends StatelessWidget {
         DropdownButtonFormField<int>(
           initialValue: servicioId,
           isExpanded: true,
-          decoration: const InputDecoration(
-            hintText: 'Selecciona un servicio',
-          ),
+          decoration: const InputDecoration(hintText: 'Selecciona un servicio'),
           items: servicios
               .map(
                 (item) => DropdownMenuItem<int>(
@@ -112,9 +110,7 @@ class _CrearCitaBarberoField extends StatelessWidget {
         DropdownButtonFormField<int>(
           initialValue: barberoId,
           isExpanded: true,
-          decoration: const InputDecoration(
-            hintText: 'Selecciona un barbero',
-          ),
+          decoration: const InputDecoration(hintText: 'Selecciona un barbero'),
           items: barberos
               .map(
                 (item) => DropdownMenuItem<int>(
@@ -137,8 +133,8 @@ class _CrearCitaBarberoField extends StatelessWidget {
 String _nombreBarbero(Map<String, dynamic> barbero) {
   final usuario = barbero['usuarios'];
   if (usuario is Map) {
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
     if (nombre.isNotEmpty) return nombre;
   }
   return 'Barbero';

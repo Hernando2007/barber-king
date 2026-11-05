@@ -41,8 +41,8 @@ class _MapaBarberoScreenState extends State<MapaBarberoScreen> {
 
   String get _nombre {
     final usuario = _usuario;
-    final nombre =
-        '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'.trim();
+    final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
+        .trim();
     return nombre.isEmpty ? 'Barbero profesional' : nombre;
   }
 
@@ -88,7 +88,8 @@ class _MapaBarberoScreenState extends State<MapaBarberoScreen> {
       if (!mounted) return;
 
       if (respuesta['success'] != true) {
-        final mensaje = respuesta['message']?.toString() ??
+        final mensaje =
+            respuesta['message']?.toString() ??
             'No fue posible obtener la ubicación.';
 
         if (_datos == null) {

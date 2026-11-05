@@ -109,9 +109,7 @@ class _JornadaRow extends StatelessWidget {
                     color: AppColors.primary,
                     size: 19,
                   ),
-                  title: Text(
-                    activo ? 'Desactivar' : 'Activar',
-                  ),
+                  title: Text(activo ? 'Desactivar' : 'Activar'),
                 ),
               ),
               const PopupMenuItem(

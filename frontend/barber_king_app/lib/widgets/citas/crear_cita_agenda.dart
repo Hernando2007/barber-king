@@ -19,17 +19,11 @@ class _CrearCitaFechaCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SectionHeader(
-          title: 'Fecha',
-          icon: Icons.event_outlined,
-        ),
+        const SectionHeader(title: 'Fecha', icon: Icons.event_outlined),
         const SizedBox(height: 12),
         AppCard(
           onTap: onElegirFecha,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 15,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           radius: 14,
           child: Row(
             children: [
@@ -48,10 +42,7 @@ class _CrearCitaFechaCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.muted,
-              ),
+              const Icon(Icons.chevron_right_rounded, color: AppColors.muted),
             ],
           ),
         ),
@@ -60,10 +51,7 @@ class _CrearCitaFechaCard extends StatelessWidget {
           Text(
             '${AppFormat.money(servicio['precio'])} · '
             '${servicio['duracion'] ?? 0} min',
-            style: const TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 12.5,
-            ),
+            style: const TextStyle(color: AppColors.subtitle, fontSize: 12.5),
           ),
         ],
       ],

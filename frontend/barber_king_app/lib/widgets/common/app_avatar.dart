@@ -49,11 +49,7 @@ class AppAvatar extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: _initials.isEmpty
-          ? Icon(
-              fallbackIcon,
-              color: AppColors.black,
-              size: radius * .9,
-            )
+          ? Icon(fallbackIcon, color: AppColors.black, size: radius * .9)
           : Text(
               _initials,
               style: TextStyle(

@@ -36,20 +36,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _password.text;
 
     if (correo.isEmpty || password.isEmpty) {
-      showAppSnack(
-        context,
-        'Completa tu correo y contraseña.',
-        error: true,
-      );
+      showAppSnack(context, 'Completa tu correo y contraseña.', error: true);
       return;
     }
 
     setState(() => _cargando = true);
 
-    final respuesta = await _auth.login(
-      correo: correo,
-      contrasena: password,
-    );
+    final respuesta = await _auth.login(correo: correo, contrasena: password);
 
     if (!mounted) return;
 
@@ -78,9 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: Stack(
           children: [
             Positioned(
@@ -160,9 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [color, Colors.transparent],
-        ),
+        gradient: RadialGradient(colors: [color, Colors.transparent]),
       ),
     );
   }
