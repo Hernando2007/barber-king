@@ -14,6 +14,8 @@ import {
     actualizarUsuario,
     eliminarUsuario,
     contarUsuariosPorRol,
+} from "../models/usuariosModel.js";
+import {
     contarCitasCliente,
     contarCitasBarbero,
     contarResenasCliente,
@@ -25,7 +27,7 @@ import {
     eliminarCitasDeUsuario,
     eliminarMensajesDeUsuario,
     eliminarHorariosDeBarbero,
-} from "../models/usuariosModel.js";
+} from "../models/usuariosDependenciasModel.js";
 import {
     obtenerBarberoPorUsuario,
     crearBarbero,
