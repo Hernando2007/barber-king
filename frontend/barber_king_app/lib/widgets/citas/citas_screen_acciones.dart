@@ -10,6 +10,7 @@ class _CitasScreenAcciones extends StatelessWidget {
   final Future<void> Function(Map<String, dynamic>) onCancelar;
   final Future<void> Function(Map<String, dynamic>) onChatCliente;
   final Future<void> Function(Map<String, dynamic>) onChatBarbero;
+  final Future<void> Function(Map<String, dynamic>) onReprogramar;
 
   const _CitasScreenAcciones({
     required this.cita,
@@ -21,6 +22,7 @@ class _CitasScreenAcciones extends StatelessWidget {
     required this.onCancelar,
     required this.onChatCliente,
     required this.onChatBarbero,
+    required this.onReprogramar,
   });
 
   @override
@@ -39,13 +41,21 @@ class _CitasScreenAcciones extends StatelessWidget {
             onPressed: () => onCambiarEstado(cita, 'Completada'),
             child: const Text('Completar'),
           ),
-        if (esBarbero)
+        if (Funcionalidades.chatDirectoActivo && esBarbero)
           TextButton.icon(
             onPressed: () => onChatCliente(cita),
             icon: const Icon(Icons.forum_outlined, size: 17),
             label: const Text('Chatear'),
           ),
         if (!esBarbero && estado.toLowerCase() != 'cancelada')
+          TextButton.icon(
+            onPressed: () => onReprogramar(cita),
+            icon: const Icon(Icons.update_rounded, size: 17),
+            label: const Text('Reprogramar'),
+          ),
+        if (Funcionalidades.chatDirectoActivo &&
+            !esBarbero &&
+            estado.toLowerCase() != 'cancelada')
           TextButton.icon(
             onPressed: () => onChatBarbero(cita),
             icon: const Icon(Icons.forum_outlined, size: 17),
@@ -85,10 +95,7 @@ Widget _dato(IconData icon, String label, String value) {
             const SizedBox(width: 4),
             Text(
               label,
-              style: const TextStyle(
-                color: AppColors.muted,
-                fontSize: 9.5,
-              ),
+              style: const TextStyle(color: AppColors.muted, fontSize: 9.5),
             ),
           ],
         ),

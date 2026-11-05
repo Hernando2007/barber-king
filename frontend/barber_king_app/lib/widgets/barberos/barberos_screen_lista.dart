@@ -5,20 +5,20 @@ import 'barberos_screen_card.dart';
 
 class BarberosLista extends StatelessWidget {
   final List<Map<String, dynamic>> barberos;
-  final bool puedeChatear;
+  final bool puedeSolicitar;
   final bool puedeReservar;
   final bool cercaActiva;
-  final void Function(Map<String, dynamic>) onChat;
+  final void Function(Map<String, dynamic>) onSolicitar;
   final void Function(Map<String, dynamic>) onReservar;
   final void Function(Map<String, dynamic>) onAbrirPerfil;
 
   const BarberosLista({
     super.key,
     required this.barberos,
-    required this.puedeChatear,
+    required this.puedeSolicitar,
     required this.puedeReservar,
     required this.cercaActiva,
-    required this.onChat,
+    required this.onSolicitar,
     required this.onReservar,
     required this.onAbrirPerfil,
   });
@@ -42,9 +42,9 @@ class BarberosLista extends StatelessWidget {
           .map(
             (barbero) => BarberosScreenCard(
               barbero: barbero,
-              puedeChatear: puedeChatear,
+              puedeSolicitar: puedeSolicitar,
               puedeReservar: puedeReservar,
-              onChat: () => onChat(barbero),
+              onSolicitar: () => onSolicitar(barbero),
               onReservar: () => onReservar(barbero),
               onAbrirPerfil: () => onAbrirPerfil(barbero),
             ),

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class BarberosScreenAcciones extends StatelessWidget {
-  final bool puedeChatear;
+  final bool puedeSolicitar;
   final bool puedeReservar;
   final bool disponible;
-  final VoidCallback onChat;
+  final VoidCallback onSolicitar;
   final VoidCallback onReservar;
 
   const BarberosScreenAcciones({
     super.key,
-    required this.puedeChatear,
+    required this.puedeSolicitar,
     required this.puedeReservar,
     required this.disponible,
-    required this.onChat,
+    required this.onSolicitar,
     required this.onReservar,
   });
 
@@ -22,9 +22,9 @@ class BarberosScreenAcciones extends StatelessWidget {
       children: [
         Expanded(
           child: OutlinedButton.icon(
-            onPressed: puedeChatear ? onChat : null,
-            icon: const Icon(Icons.forum_outlined, size: 17),
-            label: const Text('Chatear'),
+            onPressed: puedeSolicitar ? onSolicitar : null,
+            icon: const Icon(Icons.send_outlined, size: 17),
+            label: const Text('Solicitar'),
           ),
         ),
         if (puedeReservar) ...[
@@ -32,10 +32,7 @@ class BarberosScreenAcciones extends StatelessWidget {
           Expanded(
             child: ElevatedButton.icon(
               onPressed: disponible ? onReservar : null,
-              icon: const Icon(
-                Icons.calendar_month_outlined,
-                size: 17,
-              ),
+              icon: const Icon(Icons.calendar_month_outlined, size: 17),
               label: const Text('Reservar'),
             ),
           ),

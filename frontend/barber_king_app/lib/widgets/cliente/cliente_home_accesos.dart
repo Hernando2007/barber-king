@@ -36,9 +36,9 @@ class _ClienteHomeAccesos extends StatelessWidget {
           () => onIr(AppRoutes.citas),
         ),
         _ClienteHomeAcceso(
-          'Chat con barbero',
-          Icons.forum_outlined,
-          () => onIr(AppRoutes.chatContactos),
+          'Mis solicitudes',
+          Icons.mark_chat_unread_outlined,
+          () => onIr(AppRoutes.solicitudes),
         ),
         _ClienteHomeAcceso(
           'Mi perfil',

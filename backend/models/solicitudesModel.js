@@ -2,9 +2,18 @@ import supabase from "../config/supabase.js";
 
 // Todo lo que la app necesita para pintar una solicitud sin hacer
 // segundas consultas: quién la envió, de qué barbero es y el contexto.
+// barberos solo tiene una FK con usuarios, así que el anidado no necesita
+// Hint.
 const SELECCION = `
     *,
-    barberos(id, usuario_id, especialidad, ciudad, zona),
+    barberos(
+        id,
+        usuario_id,
+        especialidad,
+        ciudad,
+        zona,
+        usuarios(nombres, apellidos, foto)
+    ),
     usuarios!solicitudes_cliente_cliente_id_fkey(
         id,
         nombres,

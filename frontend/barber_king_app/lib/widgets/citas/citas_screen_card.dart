@@ -10,6 +10,7 @@ class _CitasScreenCard extends StatelessWidget {
   final Future<void> Function(Map<String, dynamic>) onCancelar;
   final Future<void> Function(Map<String, dynamic>) onChatCliente;
   final Future<void> Function(Map<String, dynamic>) onChatBarbero;
+  final Future<void> Function(Map<String, dynamic>) onReprogramar;
   final Future<void> Function(Map<String, dynamic>) onCalificar;
 
   const _CitasScreenCard({
@@ -22,6 +23,7 @@ class _CitasScreenCard extends StatelessWidget {
     required this.onCancelar,
     required this.onChatCliente,
     required this.onChatBarbero,
+    required this.onReprogramar,
     required this.onCalificar,
   });
 
@@ -32,13 +34,12 @@ class _CitasScreenCard extends StatelessWidget {
     final barbero = cita['barberos'];
     final estado = cita['estado']?.toString() ?? 'Pendiente';
     final color = AppFormat.statusColor(estado);
-    final barberoId = barbero is Map
-        ? int.tryParse('${barbero['id']}')
-        : null;
+    final barberoId = barbero is Map ? int.tryParse('${barbero['id']}') : null;
 
     final titulo = esBarbero || esAdmin
         ? cliente is Map
-              ? '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'.trim()
+              ? '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'
+                    .trim()
               : 'Cliente'
         : (nombresBarberos[barberoId]?.isNotEmpty == true
               ? nombresBarberos[barberoId]!
@@ -139,9 +140,7 @@ class _CitasScreenCard extends StatelessWidget {
                 child: _dato(
                   Icons.payments_outlined,
                   'Precio',
-                  servicio is Map
-                      ? AppFormat.money(servicio['precio'])
-                      : '-',
+                  servicio is Map ? AppFormat.money(servicio['precio']) : '-',
                 ),
               ),
             ],
@@ -158,6 +157,7 @@ class _CitasScreenCard extends StatelessWidget {
               onCancelar: onCancelar,
               onChatCliente: onChatCliente,
               onChatBarbero: onChatBarbero,
+              onReprogramar: onReprogramar,
             ),
           ],
           if (puedeCalificar) ...[

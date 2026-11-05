@@ -110,7 +110,7 @@ class _PerfilBarberoScreenState extends State<PerfilBarberoScreen> {
               PerfilBarberoAcciones(
                 barbero: _datos,
                 puedeReservar: puedeComprarCita,
-                puedeChatear: puedeComprarCita,
+                puedeSolicitar: puedeComprarCita,
                 disponible: _disponible,
                 puedeCalificar: _rol == 3 && _citaPendiente != null,
                 onReservar: _reservar,

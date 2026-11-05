@@ -132,9 +132,7 @@ class _ClienteHomeScreenState extends State<ClienteHomeScreen> {
               const SizedBox(height: 22),
               _ClienteHomePromoIA(onAbrir: () => _ir(AppRoutes.chatIA)),
               const SizedBox(height: 22),
-              _ClienteHomeSoporte(
-                onAbrir: () => _ir(AppRoutes.chatContactos),
-              ),
+              _ClienteHomeSoporte(onAbrir: () => _ir(AppRoutes.solicitudes)),
             ],
           ),
         ),

@@ -52,10 +52,7 @@ class _ClienteHomePromoIA extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
-            Icons.chevron_right_rounded,
-            color: AppColors.primary,
-          ),
+          const Icon(Icons.chevron_right_rounded, color: AppColors.primary),
         ],
       ),
     );
@@ -74,14 +71,14 @@ class _ClienteHomeSoporte extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            Icons.support_agent_rounded,
+            Icons.mark_chat_unread_outlined,
             color: AppColors.primary.withValues(alpha: .9),
           ),
           const SizedBox(width: 13),
           const Expanded(
             child: Text(
-              'Chatea directamente con tu barbero para resolver dudas '
-              'antes de tu cita.',
+              'Pide hora, presupuesto o mueve una cita con un toque. '
+              'El barbero responde igual de rápido.',
               style: TextStyle(
                 color: AppColors.subtitle,
                 fontSize: 12,
@@ -89,10 +86,7 @@ class _ClienteHomeSoporte extends StatelessWidget {
               ),
             ),
           ),
-          TextButton(
-            onPressed: onAbrir,
-            child: const Text('Abrir'),
-          ),
+          TextButton(onPressed: onAbrir, child: const Text('Ver solicitudes')),
         ],
       ),
     );

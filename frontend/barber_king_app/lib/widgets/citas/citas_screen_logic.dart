@@ -95,6 +95,35 @@ extension _CitasScreenLogic on _CitasScreenState {
     );
   }
 
+  /// Proponer otra hora sin escribir: manda una solicitud 'reprogramar' con
+  /// la cita ya puesta.
+  Future<void> _reprogramar(Map<String, dynamic> cita) async {
+    final barbero = cita['barberos'];
+
+    if (barbero is! Map) return;
+
+    final barberoId = int.tryParse('${barbero['id']}');
+
+    if (barberoId == null) return;
+
+    final enviada = await NuevaSolicitudSheet.mostrar(
+      context,
+      barberoId: barberoId,
+      barberoNombre: _nombresBarberos[barberoId] ?? 'tu barbero',
+      citaId: int.tryParse('${cita['id']}'),
+      motivoInicial: 'reprogramar',
+    );
+
+    if (!mounted) return;
+
+    if (enviada?['success'] == true) {
+      showAppSnack(
+        context,
+        'Propuesta enviada. La cita sigue en pie hasta que responda.',
+      );
+    }
+  }
+
   Future<void> _calificar(Map<String, dynamic> cita) async {
     final citaId = int.tryParse('${cita['id']}') ?? 0;
     final barbero = cita['barberos'];

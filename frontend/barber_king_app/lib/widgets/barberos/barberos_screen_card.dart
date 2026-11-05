@@ -8,19 +8,19 @@ import 'sello_verificado.dart';
 
 class BarberosScreenCard extends StatelessWidget {
   final Map<String, dynamic> barbero;
-  final bool puedeChatear;
+  final bool puedeSolicitar;
   final bool puedeReservar;
   final VoidCallback onAbrirPerfil;
-  final VoidCallback onChat;
+  final VoidCallback onSolicitar;
   final VoidCallback onReservar;
 
   const BarberosScreenCard({
     super.key,
     required this.barbero,
-    required this.puedeChatear,
+    required this.puedeSolicitar,
     required this.puedeReservar,
     required this.onAbrirPerfil,
-    required this.onChat,
+    required this.onSolicitar,
     required this.onReservar,
   });
 
@@ -163,10 +163,10 @@ class BarberosScreenCard extends StatelessWidget {
           ],
           const SizedBox(height: 14),
           BarberosScreenAcciones(
-            puedeChatear: puedeChatear,
+            puedeSolicitar: puedeSolicitar,
             puedeReservar: puedeReservar,
             disponible: disponible,
-            onChat: onChat,
+            onSolicitar: onSolicitar,
             onReservar: onReservar,
           ),
         ],

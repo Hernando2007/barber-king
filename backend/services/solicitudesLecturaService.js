@@ -11,6 +11,12 @@ import { contar, leer } from "../utils/solicitudesValidacion.js";
 
 // Cada solicitud viaja con sus botones ya resueltos: la app no duplica el
 // catálogo de respuestas y cliente y barbero siempre leen el mismo texto.
+const nombre = (persona) =>
+    [persona?.nombres, persona?.apellidos]
+        .filter(Boolean)
+        .join(" ")
+        .trim();
+
 const pintar = (fila) => {
     const opciones = fila.estado === "pendiente" ? opcionesPara(fila.motivo) : [];
     const respondida =
@@ -23,6 +29,8 @@ const pintar = (fila) => {
         motivo_etiqueta:
             listarMotivos().find((motivo) => motivo.clave === fila.motivo)
                 ?.etiqueta || fila.motivo,
+        barbero_nombre: nombre(fila.barberos?.usuarios),
+        cliente_nombre: nombre(fila.usuarios),
         opciones,
         respuesta_texto:
             respondida || fila.respuesta_nota || fila.nota || null,

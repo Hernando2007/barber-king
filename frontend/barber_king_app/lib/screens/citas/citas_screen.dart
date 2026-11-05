@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../../core/config/funcionalidades.dart';
 import '../../core/formatters.dart';
 import '../../services/auth_service.dart';
 import '../../services/barbero_service.dart';
@@ -8,6 +9,7 @@ import '../../services/cita_service.dart';
 import '../../services/resena_service.dart';
 import '../../widgets/common/app_ui.dart';
 import '../../widgets/resenas/resena_sheet.dart';
+import '../../widgets/solicitudes/nueva_solicitud_sheet.dart';
 import '../chat/chat_conversacion_screen.dart';
 import 'crear_cita_screen.dart';
 
@@ -79,7 +81,8 @@ class _CitasScreenState extends State<CitasScreen> {
 
       mapa[id] =
           '${usuarioBarbero['nombres'] ?? ''} '
-          '${usuarioBarbero['apellidos'] ?? ''}'.trim();
+                  '${usuarioBarbero['apellidos'] ?? ''}'
+              .trim();
     }
 
     final calificadas = <int>{};
@@ -108,8 +111,7 @@ class _CitasScreenState extends State<CitasScreen> {
     if (_filtro == 'Todas') return _citas;
 
     return _citas.where((cita) {
-      return '${cita['estado'] ?? ''}'.toLowerCase() ==
-          _filtro.toLowerCase();
+      return '${cita['estado'] ?? ''}'.toLowerCase() == _filtro.toLowerCase();
     }).toList();
   }
 
@@ -173,6 +175,7 @@ class _CitasScreenState extends State<CitasScreen> {
                           onCancelar: _cancelar,
                           onChatCliente: _chatCliente,
                           onChatBarbero: _chatBarbero,
+                          onReprogramar: _reprogramar,
                           onCalificar: _calificar,
                         ),
                       ),
