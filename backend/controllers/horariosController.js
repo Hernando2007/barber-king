@@ -1,9 +1,11 @@
 import {
     listarHorarios,
-    crearHorarioBarbero,
+    crearHorarioBarbero
+} from "../services/horariosService.js";
+import {
     editarHorarioBarbero,
     eliminarHorarioBarbero
-} from "../services/horariosService.js";
+} from "../services/horariosGestionService.js";
  
 export const obtenerHorarios = async (req, res, next) => {
     try {
