@@ -1,9 +1,9 @@
 import {
-    obtenerContactosDirectos,
     obtenerConversacion,
     obtenerNovedadesChat,
     enviarMensajeDirecto,
 } from "../services/chatDirectoService.js";
+import { obtenerContactosDirectos } from "../services/chatDirectoContactos.js";
 
 export const contactosDirectos = async (req, res, next) => {
     try {
