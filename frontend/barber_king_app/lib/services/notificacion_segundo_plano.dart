@@ -14,6 +14,7 @@ import '../core/formatters.dart';
 
 part 'notificacion_segundo_plano_aviso.dart';
 part 'notificacion_segundo_plano_citas.dart';
+part 'notificacion_segundo_plano_recordatorio.dart';
 part 'notificacion_segundo_plano_revisa.dart';
 
 /// Revisa los avisos del servidor aunque la app esté cerrada y avisa con una
