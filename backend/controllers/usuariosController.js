@@ -2,13 +2,17 @@ import {
     listarUsuarios,
     buscarUsuario,
     obtenerPerfilCompleto,
+} from "../services/usuariosLecturaService.js";
+import {
     crearUsuarioAdmin,
-    actualizarUsuarioAdmin,
     eliminarUsuarioAdmin,
+} from "../services/usuariosAdminService.js";
+import { actualizarUsuarioAdmin } from "../services/usuariosEdicionAdminService.js";
+import {
     actualizarMiPerfil,
     guardarFotoPerfil,
-    guardarDiplomaBarbero,
-} from "../services/usuariosService.js";
+} from "../services/usuariosPerfilService.js";
+import { guardarDiplomaBarbero } from "../services/usuariosDiplomaService.js";
 
 export const getUsuarios = async (req, res, next) => {
     try {
