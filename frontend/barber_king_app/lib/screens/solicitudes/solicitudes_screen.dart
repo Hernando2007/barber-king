@@ -8,6 +8,7 @@ import '../../services/solicitudes_service.dart';
 import '../../widgets/common/app_field.dart';
 import '../../widgets/common/app_ui.dart';
 import '../barberos/perfil_barbero_screen.dart';
+import '../home/pestana_scope.dart';
 
 part '../../widgets/solicitudes/solicitud_card.dart';
 part '../../widgets/solicitudes/solicitud_nota_dialogo.dart';

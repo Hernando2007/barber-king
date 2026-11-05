@@ -30,6 +30,11 @@ extension _SolicitudesHoja on _SolicitudesScreenState {
   }
 
   void _elegirBarbero() {
+    // La bandeja vive en una pestaña, así que "Barberos" puede estar a un
+    // toque de distancia en la barra en vez de apilarse sobre sí misma.
+    final barra = PestanaScope.maybeOf(context);
+    if (barra != null && barra.irARuta(AppRoutes.barberos)) return;
+
     Navigator.pushNamed(context, AppRoutes.barberos);
   }
 
