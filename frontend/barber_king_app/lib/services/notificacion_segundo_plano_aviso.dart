@@ -23,9 +23,9 @@ Future<FlutterLocalNotificationsPlugin?> _prepararCanalAviso() async {
 
   await android.createNotificationChannel(
     const AndroidNotificationChannel(
-      NotificacionSegundoPlano.canalId,
-      'Mensajes de clientes',
-      description: 'Avisos de mensajes nuevos en el chat',
+      NotificacionSegundoPlano.canalAvisosId,
+      'Avisos de solicitudes',
+      description: 'Novedades de tus solicitudes y respuestas',
       importance: Importance.high,
     ),
   );
@@ -33,40 +33,32 @@ Future<FlutterLocalNotificationsPlugin?> _prepararCanalAviso() async {
   return plugin;
 }
 
-Future<void> _avisarChat(
+Future<void> _avisarAviso(
   FlutterLocalNotificationsPlugin plugin,
-  Map<String, dynamic> mensaje,
+  Map<String, dynamic> aviso,
 ) async {
-  final nombre = mensaje['emisor_nombre']?.toString() ?? 'Usuario';
-  final tieneImagen =
-      mensaje['imagen_url']?.toString().isNotEmpty ?? false;
-  final texto = tieneImagen
-      ? 'Te envió una imagen.'
-      : mensaje['mensaje']?.toString() ?? 'Nuevo mensaje';
-
   const detalles = NotificationDetails(
     android: AndroidNotificationDetails(
-      NotificacionSegundoPlano.canalId,
-      'Mensajes de clientes',
-      channelDescription: 'Avisos de mensajes nuevos en el chat',
+      NotificacionSegundoPlano.canalAvisosId,
+      'Avisos de solicitudes',
+      channelDescription: 'Novedades de tus solicitudes y respuestas',
       importance: Importance.high,
       priority: Priority.high,
-      category: AndroidNotificationCategory.message,
       visibility: NotificationVisibility.public,
     ),
   );
 
   final id =
-      int.tryParse('${mensaje['id']}') ??
+      int.tryParse('${aviso['id']}') ??
       DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
   try {
     await plugin.show(
       id: id,
-      title: 'Nuevo mensaje de $nombre',
-      body: texto,
+      title: aviso['titulo']?.toString() ?? 'Nuevo aviso',
+      body: aviso['cuerpo']?.toString() ?? '',
       notificationDetails: detalles,
-      payload: '${mensaje['usuario_id']}',
+      payload: aviso['tipo']?.toString(),
     );
   } catch (_) {
     // El canal puede no existir aún en el primer ciclo tras la instalación.

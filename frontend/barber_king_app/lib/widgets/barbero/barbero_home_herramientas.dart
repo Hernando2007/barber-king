@@ -8,7 +8,7 @@ class _BarberoHerramientasGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-      valueListenable: ChatNotificacionService.instance.noLeidos,
+      valueListenable: AvisosNotificacionService.instance.solicitudesPendientes,
       builder: (context, pendientes, _) => GridView.count(
         crossAxisCount: 2,
         shrinkWrap: true,
@@ -23,10 +23,10 @@ class _BarberoHerramientasGrid extends StatelessWidget {
             onTap: () => onAcceso(AppRoutes.citas),
           ),
           _BarberoAcceso(
-            'Chats de clientes',
-            Icons.forum_outlined,
+            'Solicitudes',
+            Icons.mark_chat_unread_outlined,
             badge: pendientes,
-            onTap: () => onAcceso(AppRoutes.chatContactos),
+            onTap: () => onAcceso(AppRoutes.solicitudes),
           ),
           _BarberoAcceso(
             'Mis horarios',

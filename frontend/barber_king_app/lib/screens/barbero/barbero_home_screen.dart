@@ -7,7 +7,7 @@ import '../../core/formatters.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../services/barbero_service.dart';
-import '../../services/chat_notificacion_service.dart';
+import '../../services/avisos_notificacion_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/dashboard_service.dart';
 import '../../services/ubicacion_service.dart';
@@ -83,9 +83,7 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
 
     if (citas.isEmpty) return null;
 
-    citas.sort(
-      (a, b) => '${a['hora']}'.compareTo('${b['hora']}'),
-    );
+    citas.sort((a, b) => '${a['hora']}'.compareTo('${b['hora']}'));
 
     return citas.first;
   }

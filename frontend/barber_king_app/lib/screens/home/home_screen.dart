@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../routes/app_routes.dart';
+import '../../services/avisos_notificacion_service.dart';
 import '../../services/auth_service.dart';
-import '../../services/chat_notificacion_service.dart';
 import '../../services/notificacion_segundo_plano.dart';
 import '../admin/admin_home_screen.dart';
 import '../barbero/barbero_home_screen.dart';
@@ -25,12 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _cargarUsuario();
-    ChatNotificacionService.instance.iniciar();
+    AvisosNotificacionService.instance.iniciar();
   }
 
   @override
   void dispose() {
-    ChatNotificacionService.instance.detener();
+    AvisosNotificacionService.instance.detener();
     super.dispose();
   }
 
@@ -40,11 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!mounted) return;
 
     if (data == null) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        AppRoutes.login,
-        (_) => false,
-      );
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
       return;
     }
 
@@ -61,16 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (cargando) {
       return const Scaffold(
         backgroundColor: AppColors.background,
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    final rolId = int.tryParse(
-          '${usuario?['rol_id'] ?? 3}',
-        ) ??
-        3;
+    final rolId = int.tryParse('${usuario?['rol_id'] ?? 3}') ?? 3;
 
     if (rolId == 1) {
       return AdminHomeScreen(usuario: usuario!);

@@ -16,23 +16,25 @@ part 'notificacion_segundo_plano_aviso.dart';
 part 'notificacion_segundo_plano_citas.dart';
 part 'notificacion_segundo_plano_revisa.dart';
 
-/// Revisa el chat aunque la app esté cerrada y avisa con una notificación local.
+/// Revisa los avisos del servidor aunque la app esté cerrada y avisa con una
+/// notificación local.
 class NotificacionSegundoPlano {
   NotificacionSegundoPlano._();
 
-  static const String claveUltimo = 'chat_aviso_ultimo_';
+  static const String claveUltimo = 'aviso_ultimo_';
   static const String claveToken = 'sesion_token';
   static const String claveUsuarioId = 'sesion_usuario_id';
   static const String claveAppAbierta = 'chat_app_abierta';
   static const String claveAppAbiertaEn = 'chat_app_abierta_en';
   static const String canalId = 'chat_mensajes';
+  static const String canalAvisosId = 'avisos_solicitudes';
   static const String canalRecordatorioId = 'citas_recordatorios';
 
   static const String _nombrePeriodico = 'barber-king-chat';
   static const String _nombreCadena = 'barber-king-chat-cadena';
   static const String _tarea = 'barberKingChatSegundoPlano';
 
-  /// Revisa el chat apenas se guarda la sesión y deja programada la cadena.
+  /// Revisa los avisos apenas se guarda la sesión y deja programada la cadena.
   static Future<void> iniciar() async {
     if (!_esAndroid()) return;
 
@@ -99,7 +101,7 @@ void notificacionSegundoPlanoDispatcher() {
     WidgetsFlutterBinding.ensureInitialized();
     DartPluginRegistrant.ensureInitialized();
 
-    await _revisarChat();
+    await _revisarAvisos();
     await _avisarCitasCercanas();
 
     return true;

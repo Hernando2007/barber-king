@@ -18,9 +18,9 @@ class _Sesion {
   final int usuarioId;
 }
 
-Future<void> _revisarChat() async {
+Future<void> _revisarAvisos() async {
   // Un fallo puntual (sin red, token corrupto) no debe romper la cadena.
-  final ciclo = await _avisarMensajesNuevos().catchError((_) => _Ciclo.lento);
+  final ciclo = await _avisarAvisosNuevos().catchError((_) => _Ciclo.lento);
 
   switch (ciclo) {
     case _Ciclo.cerrar:
@@ -32,7 +32,7 @@ Future<void> _revisarChat() async {
   }
 }
 
-Future<_Ciclo> _avisarMensajesNuevos() async {
+Future<_Ciclo> _avisarAvisosNuevos() async {
   final sesion = await _leerSesion();
 
   if (sesion == null) return _Ciclo.cerrar;
@@ -40,7 +40,7 @@ Future<_Ciclo> _avisarMensajesNuevos() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.reload();
 
-  // Con la app visible ya avisa ChatNotificacionService; no duplicar.
+  // Con la app visible ya avisa AvisosNotificacionService; no duplicar.
   if (_appEnPrimerPlano(prefs)) return _Ciclo.lento;
 
   final clave = '${NotificacionSegundoPlano.claveUltimo}${sesion.usuarioId}';
@@ -56,9 +56,9 @@ Future<_Ciclo> _avisarMensajesNuevos() async {
     await prefs.setInt(clave, nuevoUltimo);
   }
 
-  final crudos = (data['mensajes'] as List? ?? [])
+  final crudos = (data['avisos'] as List? ?? [])
       .whereType<Map>()
-      .map((item) => Map<String, dynamic>.from(item))
+      .map((aviso) => Map<String, dynamic>.from(aviso))
       .toList();
 
   final pendientes = ultimo <= 0 ? _soloRecientes(crudos) : crudos;
@@ -73,8 +73,8 @@ Future<_Ciclo> _avisarMensajesNuevos() async {
       ? pendientes.sublist(pendientes.length - 3)
       : pendientes;
 
-  for (final mensaje in visibles) {
-    await _avisarChat(plugin, mensaje);
+  for (final aviso in visibles) {
+    await _avisarAviso(plugin, aviso);
   }
 
   return _Ciclo.seguir;
@@ -85,8 +85,7 @@ Future<_Sesion?> _leerSesion() async {
   await prefs.reload();
 
   final token = prefs.getString(NotificacionSegundoPlano.claveToken) ?? '';
-  final usuarioId =
-      prefs.getInt(NotificacionSegundoPlano.claveUsuarioId) ?? 0;
+  final usuarioId = prefs.getInt(NotificacionSegundoPlano.claveUsuarioId) ?? 0;
 
   if (token.isNotEmpty && usuarioId > 0) {
     return _Sesion(token, usuarioId);
@@ -101,8 +100,9 @@ Future<_Sesion?> _leerSesion() async {
   }
 
   final decodificado = jsonDecode(crudo);
-  final id =
-      decodificado is Map ? int.tryParse('${decodificado['id']}') ?? 0 : 0;
+  final id = decodificado is Map
+      ? int.tryParse('${decodificado['id']}') ?? 0
+      : 0;
 
   if (id <= 0) return null;
 
@@ -127,16 +127,13 @@ Future<Map<String, dynamic>?> _pedirNovedades(String token, int desdeId) async {
       baseUrl: ApiConfig.baseUrl,
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 20),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
+      headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token'},
     ),
   );
 
   try {
     final respuesta = await dio.get(
-      '/chat/directo/novedades',
+      '/avisos/novedades',
       queryParameters: {'desde_id': desdeId},
     );
 
@@ -154,12 +151,12 @@ Future<Map<String, dynamic>?> _pedirNovedades(String token, int desdeId) async {
   }
 }
 
-/// Sin marcador previo avisa solo lo último, para no spam de mensajes viejos.
-List<Map<String, dynamic>> _soloRecientes(List<Map<String, dynamic>> mensajes) {
+/// Sin marcador previo avisa solo lo último, para no spam de avisos viejos.
+List<Map<String, dynamic>> _soloRecientes(List<Map<String, dynamic>> avisos) {
   final limite = DateTime.now().subtract(const Duration(minutes: 20));
 
-  return mensajes.where((mensaje) {
-    final fecha = DateTime.tryParse('${mensaje['created_at']}');
+  return avisos.where((aviso) {
+    final fecha = DateTime.tryParse('${aviso['creado']}');
 
     return fecha != null && fecha.toLocal().isAfter(limite);
   }).toList();
