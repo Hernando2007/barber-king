@@ -4,6 +4,7 @@ import {
     verificarDiplomaBarbero,
     marcarBarberoVerificado,
 } from "./verificacionBarberosService.js";
+import { subirImagenCloudinary } from "./cloudinaryService.js";
 import {
     obtenerUsuarios,
     obtenerUsuarioPorId,
@@ -844,7 +845,10 @@ export const guardarFotoPerfil = async (usuario, archivo) => {
         throw httpError(400, "Selecciona una imagen.");
     }
 
-    const foto = `/uploads/${archivo.filename}`;
+    const { url: foto } = await subirImagenCloudinary(
+        archivo,
+        "barber-king/perfil"
+    );
 
     const { error } = await actualizarUsuario(usuario.id, { foto });
 
@@ -873,13 +877,15 @@ export const guardarDiplomaBarbero = async (usuario, archivo) => {
         );
     }
 
-    const urlDiploma = `/uploads/documents/${archivo.filename}`;
+    const { url: urlDiploma } = await subirImagenCloudinary(
+        archivo,
+        "barber-king/documentos"
+    );
 
     let motivoRechazo = null;
 
     try {
         await verificarDiplomaBarbero({
-            rutaArchivo: archivo.path,
             urlPublica: urlDiploma,
             mimetype: archivo.mimetype,
             nombreOriginal: archivo.originalname,

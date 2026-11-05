@@ -4,14 +4,22 @@ import {
     solicitarRecuperacion,
     cambiarPassword
 } from "../services/authService.js";
+import { subirImagenCloudinary } from "../services/cloudinaryService.js";
  
 export const registrar = async (req, res, next) => {
     try {
+        const diploma = req.file
+            ? await subirImagenCloudinary(
+                req.file,
+                "barber-king/documentos"
+            )
+            : null;
+
         const datos = {
             ...req.body,
-            ...(req.file
+            ...(diploma
                 ? {
-                    diploma_url: `/uploads/documents/${req.file.filename}`,
+                    diploma_url: diploma.url,
                     diploma_nombre: req.file.originalname,
                     diploma_mimetype: req.file.mimetype
                 }

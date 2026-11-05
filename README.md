@@ -63,7 +63,7 @@ del cuero cabelludo. Las reglas están en `backend/services/chatPrompt.js`.
 | Frontend | Flutter 3.44+, Dart 3.12+, Material 3, Dio, flutter_secure_storage, image_picker, cached_network_image, Google Fonts |
 | Base de datos | PostgreSQL en Supabase |
 | IA | Groq (texto y visión) |
-| Almacenamiento | Disco local (`backend/uploads`) |
+| Almacenamiento | Cloudinary (`barber-king/perfil`, `/portafolio`, `/documentos`, `/chat`) |
 
 ---
 

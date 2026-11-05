@@ -1,7 +1,4 @@
-import fs from "fs/promises";
-import path from "path";
 import Groq from "groq-sdk";
-import { documentsDir } from "../config/multer.js";
 import { crearVerificacion } from "../models/verificacionesModel.js";
 import { actualizarBarbero } from "../models/barberosModel.js";
 import { httpError } from "../utils/httpError.js";
@@ -26,18 +23,25 @@ Responde ÚNICAMENTE con este JSON (sin markdown):
 "tipo_documento": "texto corto", "titular": "nombre si aparece",
 "institucion": "nombre si aparece", "motivo": "explicación breve"}`;
 
-const resolverRutaArchivo = (referencia) => {
-    if (!referencia) return null;
-    const valor = String(referencia);
-    if (/^[a-zA-Z]:[\\/]/.test(valor)) return valor;
-    return path.join(documentsDir, path.basename(valor));
-};
+// El diploma ya no toca el disco: se bajan los bytes desde Cloudinary.
+const descargarBase64 = async (url) => {
+    if (!/^https?:\/\//i.test(String(url || ""))) {
+        return null;
+    }
 
-const leerImagenBase64 = async (ruta) => {
     try {
-        const buffer = await fs.readFile(ruta);
-        return buffer.toString("base64");
-    } catch {
+        const respuesta = await fetch(url);
+
+        if (!respuesta.ok) {
+            throw new Error(`HTTP ${respuesta.status}`);
+        }
+
+        return (
+            Buffer.from(await respuesta.arrayBuffer())
+        ).toString("base64");
+    } catch (error) {
+        console.warn("⚠️ No se pudo descargar el documento:", error.message);
+
         throw httpError(
             500, "No fue posible leer el documento adjunto. Intenta de nuevo."
         );
@@ -133,7 +137,6 @@ const registrarAuditoria = async (resultado, contexto) => {
 };
 
 export const verificarDiplomaBarbero = async ({
-    rutaArchivo,
     urlPublica,
     mimetype,
     nombreOriginal,
@@ -147,13 +150,12 @@ export const verificarDiplomaBarbero = async ({
         );
     }
 
-    const ruta = resolverRutaArchivo(rutaArchivo || urlPublica);
+    const base64 = await descargarBase64(urlPublica);
 
-    if (!ruta) {
+    if (!base64) {
         throw httpError(400, "Adjunta el diploma o certificado de barbería.");
     }
 
-    const base64 = await leerImagenBase64(ruta);
     const mime = mimetype || "image/jpeg";
     const dataUri = `data:${mime};base64,${base64}`;
 
@@ -169,8 +171,8 @@ export const verificarDiplomaBarbero = async ({
     });
 
     if (!resultado.esValido) {
-        // El archivo se queda en el disco: la bandeja de administrador
-        // necesita poder abrir el documento que la IA no reconoció.
+        // El documento se guarda en Cloudinary aunque la IA lo rechace:
+        // la bandeja del administrador necesita poder abrirlo.
         throw httpError(
             422,
             `El documento no pasó la verificación: ${

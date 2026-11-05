@@ -1,9 +1,9 @@
-import fs from "fs/promises";
 import {
     enviarMensaje,
     obtenerHistorial,
 } from "../services/chatService.js";
 import { recomendarCorte } from "../services/chatVisionService.js";
+import { subirImagenCloudinary } from "../services/cloudinaryService.js";
 import { httpError } from "../utils/httpError.js";
 
 export const chatearConBarberKing = async (req, res, next) => {
@@ -50,10 +50,13 @@ export const recomendarCorteConIA = async (req, res, next) => {
             throw httpError(401, "Sesión inválida o expirada.");
         }
 
-        const buffer = await fs.readFile(req.file.path);
+        const imagen = await subirImagenCloudinary(
+            req.file,
+            "barber-king/chat"
+        );
 
-        const imagenDataUri = `data:${req.file.mimetype};base64,${buffer.toString("base64")}`;
-        const imagenUrl = `/uploads/${req.file.filename}`;
+        const imagenDataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+        const imagenUrl = imagen.url;
 
         const resultado = await recomendarCorte(
             imagenDataUri,

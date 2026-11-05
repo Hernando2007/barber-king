@@ -1,3 +1,5 @@
+import { subirImagenCloudinary } from "../services/cloudinaryService.js";
+
 export const subirImagen = async (
     req,
     res,
@@ -11,25 +13,27 @@ export const subirImagen = async (
                     "Debe seleccionar una imagen."
             });
         }
-        const urlImagen =
-            `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+
+        const imagen = await subirImagenCloudinary(
+            req.file,
+            "barber-king/chat"
+        );
+
         return res.status(200).json({
             success: true,
             message:
                 "Imagen subida correctamente.",
             data: {
                 nombre:
-                    req.file.filename,
-                original:
                     req.file.originalname,
                 tipo:
                     req.file.mimetype,
                 peso:
                     req.file.size,
-                ruta:
-                    `/uploads/${req.file.filename}`,
+                publicId:
+                    imagen.publicId,
                 url:
-                    urlImagen
+                    imagen.url
             }
         });
     } catch (error) {
