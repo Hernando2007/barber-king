@@ -44,4 +44,4 @@ El detalle de cada variable está en [`.env.example`](.env.example) y en el [REA
 
 ## Almacenamiento de archivos
 
-Las imágenes y documentos se guardan en `uploads/` por defecto. La carpeta se crea automáticamente al iniciar el servidor y su contenido no se versiona.
+Las fotos de perfil, el portafolio del barbero, los diplomas y las imágenes del chat se suben a Cloudinary con las credenciales `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` y `CLOUDINARY_API_SECRET`. multer solo trabaja en memoria: en Render el disco es efímero, así que cualquier archivo guardado localmente deja de existir al volver a desplegar.

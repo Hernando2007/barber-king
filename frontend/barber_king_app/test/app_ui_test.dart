@@ -9,9 +9,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.darkTheme,
-        home: const Scaffold(
-          body: AppCard(child: Text('Barber King')),
-        ),
+        home: const Scaffold(body: AppCard(child: Text('Barber King'))),
       ),
     );
 

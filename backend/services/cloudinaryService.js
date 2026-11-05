@@ -15,7 +15,9 @@ export const subirImagenCloudinary = (
         const stream = cloudinary.uploader.upload_stream(
             {
                 folder: carpeta,
-                resource_type: "image"
+                // auto: las fotos van como imagen y el diploma en PDF como
+                // raw, que es lo único que deja abrirlo en el navegador.
+                resource_type: "auto"
             },
             (error, resultado) => {
 

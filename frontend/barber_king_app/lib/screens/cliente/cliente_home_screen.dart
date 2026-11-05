@@ -7,6 +7,8 @@ import '../../services/auth_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/servicios_service.dart';
 import '../../widgets/common/app_ui.dart';
+import '../citas/crear_cita_screen.dart';
+import '../home/pestana_scope.dart';
 
 part '../../widgets/cliente/cliente_home_hero.dart';
 part '../../widgets/cliente/cliente_home_encabezado.dart';
@@ -53,8 +55,22 @@ class _ClienteHomeScreenState extends State<ClienteHomeScreen> {
   }
 
   Future<void> _ir(String ruta) async {
+    // Si la ruta es una pestaña, cambiar de pestaña: apilarla produciría una
+    // copia de esta misma pantalla encima de la barra.
+    final barra = PestanaScope.maybeOf(context);
+    if (barra != null && barra.irARuta(ruta)) return;
+
     await Navigator.pushNamed(context, ruta);
     _cargar();
+  }
+
+  Future<void> _reservar() async {
+    final creada = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (_) => const CrearCitaScreen()),
+    );
+
+    if (creada == true) await _cargar();
   }
 
   Map<String, dynamic>? get _proximaCita {
@@ -138,7 +154,7 @@ class _ClienteHomeScreenState extends State<ClienteHomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _ir(AppRoutes.citas),
+        onPressed: _reservar,
         icon: const Icon(Icons.add_rounded),
         label: const Text('Reservar'),
       ),

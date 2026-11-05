@@ -7,7 +7,6 @@ import '../../core/formatters.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../services/barbero_service.dart';
-import '../../services/avisos_notificacion_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/dashboard_service.dart';
 import '../../services/ubicacion_service.dart';
@@ -16,6 +15,7 @@ import '../../widgets/barberos/barberos_calificacion.dart';
 import '../../widgets/common/app_ui.dart';
 import '../../widgets/resenas/resenas_panel.dart';
 import '../barberos/perfil_barbero_screen.dart';
+import '../home/pestana_scope.dart';
 
 part '../../widgets/barbero/barbero_home_header.dart';
 part '../../widgets/barbero/barbero_home_info.dart';
@@ -89,6 +89,10 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
   }
 
   Future<void> _ir(String ruta) async {
+    // Es una pestaña: cambiar de pestaña en lugar de apilar otra copia.
+    final barra = PestanaScope.maybeOf(context);
+    if (barra != null && barra.irARuta(ruta)) return;
+
     await Navigator.pushNamed(context, ruta);
     _cargar();
   }
