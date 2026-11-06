@@ -28,16 +28,3 @@ export const limiteAutenticacion = rateLimit({
         message: "Demasiados intentos. Espera unos minutos."
     }
 });
-
-// Escribir solicitudes es lo único que cualquier cliente puede crear sin
-// pagar: sin límite propio, se puede llenar la bandeja de un barbero.
-export const limiteSolicitudes = rateLimit({
-    windowMs: VENTANA,
-    max: 60,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: {
-        success: false,
-        message: "Estás enviando muchas solicitudes. Espera un rato."
-    }
-});

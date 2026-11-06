@@ -7,12 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'auth_service.dart';
 import 'avisos_service.dart';
 import 'notificacion_segundo_plano.dart';
-import 'solicitudes_service.dart';
 
 part 'avisos_notificacion_piezas.dart';
 
-/// Avisos con la app abierta: notifica lo que manda el servidor y sostiene
-/// el contador de solicitudes pendientes del ícono de la bandeja.
+/// Avisos con la app abierta: notifica lo que manda el servidor.
 class AvisosNotificacionService with WidgetsBindingObserver {
   AvisosNotificacionService._();
 
@@ -22,13 +20,11 @@ class AvisosNotificacionService with WidgetsBindingObserver {
   static const _intervalo = Duration(seconds: 15);
 
   final AvisosService _avisos = AvisosService();
-  final SolicitudesService _solicitudes = SolicitudesService();
   final AuthService _auth = AuthService();
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
 
   final ValueNotifier<int> noLeidos = ValueNotifier<int>(0);
-  final ValueNotifier<int> solicitudesPendientes = ValueNotifier<int>(0);
 
   Timer? _timer;
   int _usuarioId = 0;
@@ -39,7 +35,7 @@ class AvisosNotificacionService with WidgetsBindingObserver {
   bool _consultando = false;
   bool _listo = false;
 
-  /// Marcador propio: los ids de avisos no tienen nada que ver con los del chat.
+  /// Marcador propio por usuario: el último id de aviso ya notificado.
   String get _clave => '${NotificacionSegundoPlano.claveUltimo}$_usuarioId';
 
   Future<void> iniciar() async {
@@ -86,7 +82,6 @@ class AvisosNotificacionService with WidgetsBindingObserver {
     _primeraConsulta = true;
     _consultando = false;
     noLeidos.value = 0;
-    solicitudesPendientes.value = 0;
     await _marcarAppAbierta(false);
   }
 
@@ -147,8 +142,6 @@ class AvisosNotificacionService with WidgetsBindingObserver {
         _ultimoId = nuevoUltimo;
         await prefs.setInt(_clave, _ultimoId);
       }
-
-      await _refrescarPendientes();
     } finally {
       _consultando = false;
     }

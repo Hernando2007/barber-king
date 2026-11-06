@@ -22,6 +22,7 @@ Ejecuta los archivos en el editor SQL de Supabase, uno por uno y en este orden:
 14. `14_portafolio_barbero.sql` (fotos del barbero)
 15. `15_revision_verificaciones.sql` (trazabilidad de la revisión de barberos)
 16. `16_solicitudes_cliente.sql` (solicitudes de un toque y bandeja de avisos)
+17. `17_eliminar_solicitudes.sql` (elimina las solicitudes; conserva los avisos)
 
 Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecutarse sobre una base con información que quieras conservar.
 
@@ -47,6 +48,9 @@ sin dañar datos: crean sus tablas con `IF NOT EXISTS` y agregan columnas con
 - `16_solicitudes_cliente.sql` crea `solicitudes_cliente` (el toque de "resérvame")
   y `avisos_usuario`, el buzón que la app lee con `GET /api/avisos/novedades`
   guardando el último id leído.
+- `17_eliminar_solicitudes.sql` elimina `solicitudes_cliente` y los avisos viejos
+  de solicitudes: la cita ya se confirma al reservar. `avisos_usuario` se
+  conserva porque es el buzón que notifica las citas nuevas.
 
 Si vas a aplicar solo algunos, respeta el orden: `16` depende de `citas` y de los
 barberos, y `13` debe ir antes de cualquier reserva nueva porque `citas.precio`

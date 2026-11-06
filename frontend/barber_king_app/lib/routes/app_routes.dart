@@ -13,7 +13,6 @@ import '../screens/horarios/horarios_screen.dart';
 import '../screens/login/login_screen.dart';
 import '../screens/perfil/perfil_screen.dart';
 import '../screens/servicios/servicios_screen.dart';
-import '../screens/solicitudes/solicitudes_screen.dart';
 import '../screens/splash/splash_screen.dart';
 
 class AppRoutes {
@@ -27,7 +26,6 @@ class AppRoutes {
   static const misFotos = "/mis-fotos";
   static const barberos = "/barberos";
   static const citas = "/citas";
-  static const solicitudes = "/solicitudes";
   static const perfil = "/perfil";
   static const chatIA = "/chat-ia";
   static const horarios = "/horarios";
@@ -45,7 +43,6 @@ class AppRoutes {
     misFotos: (context) => const MisFotosScreen(),
     barberos: (context) => const BarberosScreen(),
     citas: (context) => const CitasScreen(),
-    solicitudes: (context) => const SolicitudesScreen(),
     perfil: (context) => const PerfilScreen(),
     chatIA: (context) => const ChatIAScreen(),
     horarios: (context) => const HorariosScreen(),

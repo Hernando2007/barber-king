@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
-import '../../services/avisos_notificacion_service.dart';
 import 'pestana_scope.dart';
 import 'tabs_home_pestanas.dart';
 
@@ -21,7 +20,7 @@ class _TabsHomeScreenState extends State<TabsHomeScreen> {
   int _indice = 0;
 
   /// IndexedStack construye todo de una sola vez si lo dejamos, y eso haría
-  /// las peticiones de las cuatro pestañas en el arranque. La primera visita
+  /// las peticiones de todas las pestañas en el arranque. La primera visita
   /// es la que carga cada una.
   final Set<int> _abiertas = {0};
 
@@ -86,7 +85,7 @@ class _TabsHomeScreenState extends State<TabsHomeScreen> {
   }
 }
 
-/// Icono de la barra, con la pastilla de solicitudes sin respuesta encima.
+/// Icono de la barra: la variante sólida marca la pestaña activa.
 class _IconoPestana extends StatelessWidget {
   const _IconoPestana({required this.pestana, required this.activa});
 
@@ -95,45 +94,10 @@ class _IconoPestana extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icono = Icon(
+    return Icon(
       activa && pestana.iconoActivo != null
           ? pestana.iconoActivo
           : pestana.icono,
-    );
-
-    if (!pestana.conPendientes) return icono;
-
-    return ValueListenableBuilder<int>(
-      valueListenable: AvisosNotificacionService.instance.solicitudesPendientes,
-      builder: (context, pendientes, _) {
-        if (pendientes <= 0) return icono;
-
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            icono,
-            Positioned(
-              right: -6,
-              top: -3,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                decoration: BoxDecoration(
-                  color: AppColors.error,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child: Text(
-                  pendientes > 9 ? '9+' : '$pendientes',
-                  style: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

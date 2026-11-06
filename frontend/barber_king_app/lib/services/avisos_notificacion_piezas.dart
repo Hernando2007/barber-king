@@ -38,8 +38,8 @@ extension _AvisosNotificacionPiezas on AvisosNotificacionService {
         ?.createNotificationChannel(
           const AndroidNotificationChannel(
             NotificacionSegundoPlano.canalAvisosId,
-            'Avisos de solicitudes',
-            description: 'Novedades de tus solicitudes y respuestas',
+            'Avisos',
+            description: 'Novedades de tus citas y reservas',
             importance: Importance.high,
           ),
         );
@@ -72,8 +72,8 @@ extension _AvisosNotificacionPiezas on AvisosNotificacionService {
     const detalles = NotificationDetails(
       android: AndroidNotificationDetails(
         NotificacionSegundoPlano.canalAvisosId,
-        'Avisos de solicitudes',
-        channelDescription: 'Novedades de tus solicitudes y respuestas',
+        'Avisos',
+        channelDescription: 'Novedades de tus citas y reservas',
         importance: Importance.high,
         priority: Priority.high,
       ),
@@ -94,10 +94,6 @@ extension _AvisosNotificacionPiezas on AvisosNotificacionService {
     } catch (_) {
       // El canal puede no existir aún en el primer ciclo tras la instalación.
     }
-  }
-
-  Future<void> _refrescarPendientes() async {
-    solicitudesPendientes.value = await _solicitudes.pendientes();
   }
 
   Future<void> _marcarAppAbierta(bool abierta) async {

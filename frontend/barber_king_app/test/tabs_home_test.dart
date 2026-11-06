@@ -65,16 +65,15 @@ List<Pestana> _pestanasDeEnsayo() => [
     construir: _construirCitas,
   ),
   const Pestana(
-    etiqueta: 'Solicitudes',
-    ruta: '/solicitudes',
-    icono: Icons.assignment_outlined,
-    conPendientes: true,
-    construir: _construirSolicitudes,
+    etiqueta: 'Barberos',
+    ruta: '/barberos',
+    icono: Icons.content_cut_outlined,
+    construir: _construirBarberos,
   ),
 ];
 
 Widget _construirCitas(_) => const _ContadorPestana('Citas');
-Widget _construirSolicitudes(_) => const _ContadorPestana('Solicitudes');
+Widget _construirBarberos(_) => const _ContadorPestana('Barberos');
 
 void main() {
   setUp(() => _ContadorPestanaState.construcciones.clear());
@@ -107,19 +106,19 @@ void main() {
   ) async {
     await montar(tester);
 
-    await tester.tap(find.text('Solicitudes'));
+    await tester.tap(find.text('Barberos'));
     await tester.pumpAndSettle();
-    expect(find.text('Solicitudes:1_'), findsOneWidget);
+    expect(find.text('Barberos:1_'), findsOneWidget);
 
     await tester.tap(find.text('Citas'));
     await tester.pumpAndSettle();
     expect(find.text('Citas:1_'), findsOneWidget);
 
-    // Volver a Solicitudes no vuelve a construir: conserva su estado.
-    await tester.tap(find.text('Solicitudes'));
+    // Volver a Barberos no vuelve a construir: conserva su estado.
+    await tester.tap(find.text('Barberos'));
     await tester.pumpAndSettle();
-    expect(find.text('Solicitudes:1_'), findsOneWidget);
-    expect(_ContadorPestanaState.construcciones['Solicitudes'], 1);
+    expect(find.text('Barberos:1_'), findsOneWidget);
+    expect(_ContadorPestanaState.construcciones['Barberos'], 1);
   });
 
   testWidgets('irARuta salta de pestaña en vez de apilar una pantalla', (

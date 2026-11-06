@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import '../common/app_ui.dart';
 import 'barberos_acciones.dart';
 
-/// Los botones de acción del perfil: reservar, solicitar, ver ubicación y
-/// calificar la última cita.
+/// Los botones de acción del perfil: reservar, ver ubicación y calificar
+/// la última cita.
 class PerfilBarberoAcciones extends StatelessWidget {
   final Map<String, dynamic> barbero;
   final bool puedeReservar;
-  final bool puedeSolicitar;
   final bool disponible;
   final bool puedeCalificar;
   final Future<void> Function() onReservar;
@@ -18,7 +17,6 @@ class PerfilBarberoAcciones extends StatelessWidget {
     super.key,
     required this.barbero,
     required this.puedeReservar,
-    required this.puedeSolicitar,
     required this.disponible,
     required this.puedeCalificar,
     required this.onReservar,
@@ -39,16 +37,6 @@ class PerfilBarberoAcciones extends StatelessWidget {
         ],
         Row(
           children: [
-            if (puedeSolicitar) ...[
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => BarberosAcciones.solicitar(context, barbero),
-                  icon: const Icon(Icons.send_outlined, size: 17),
-                  label: const Text('Solicitar'),
-                ),
-              ),
-              const SizedBox(width: 10),
-            ],
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () => BarberosAcciones.abrirMapa(context, barbero),

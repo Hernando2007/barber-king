@@ -58,37 +58,3 @@ class _ClienteHomePromoIA extends StatelessWidget {
     );
   }
 }
-
-class _ClienteHomeSoporte extends StatelessWidget {
-  final VoidCallback onAbrir;
-
-  const _ClienteHomeSoporte({required this.onAbrir});
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Icon(
-            Icons.mark_chat_unread_outlined,
-            color: AppColors.primary.withValues(alpha: .9),
-          ),
-          const SizedBox(width: 13),
-          const Expanded(
-            child: Text(
-              'Pide hora, presupuesto o mueve una cita con un toque. '
-              'El barbero responde igual de rápido.',
-              style: TextStyle(
-                color: AppColors.subtitle,
-                fontSize: 12,
-                height: 1.45,
-              ),
-            ),
-          ),
-          TextButton(onPressed: onAbrir, child: const Text('Ver solicitudes')),
-        ],
-      ),
-    );
-  }
-}

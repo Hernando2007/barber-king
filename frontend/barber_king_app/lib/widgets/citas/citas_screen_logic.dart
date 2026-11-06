@@ -50,33 +50,49 @@ extension _CitasScreenLogic on _CitasScreenState {
     }
   }
 
-  /// Proponer otra hora sin escribir: manda una solicitud 'reprogramar' con
-  /// la cita ya puesta.
+  /// Reprogramar es reservar otra vez con el mismo barbero y servicio: la
+  /// nueva cita nace confirmada y la anterior solo se cancela si la nueva
+  /// quedó guardada y seguía vigente.
   Future<void> _reprogramar(Map<String, dynamic> cita) async {
     final barbero = cita['barberos'];
-
-    if (barbero is! Map) return;
-
-    final barberoId = int.tryParse('${barbero['id']}');
+    final barberoId = barbero is Map ? int.tryParse('${barbero['id']}') : null;
 
     if (barberoId == null) return;
 
-    final enviada = await NuevaSolicitudSheet.mostrar(
+    final creada = await Navigator.push<bool>(
       context,
-      barberoId: barberoId,
-      barberoNombre: _nombresBarberos[barberoId] ?? 'tu barbero',
-      citaId: int.tryParse('${cita['id']}'),
-      motivoInicial: 'reprogramar',
+      MaterialPageRoute(
+        builder: (_) => CrearCitaScreen(
+          barberoInicial: barberoId,
+          servicioInicial: int.tryParse('${cita['servicio_id']}'),
+        ),
+      ),
     );
 
-    if (!mounted) return;
+    if (!mounted || creada != true) return;
 
-    if (enviada?['success'] == true) {
+    final estado = '${cita['estado'] ?? ''}'.toLowerCase();
+
+    if (estado != 'cancelada' && estado != 'completada') {
+      final respuesta = await _service.eliminarCita(
+        int.tryParse('${cita['id']}') ?? 0,
+      );
+
+      if (!mounted) return;
+
       showAppSnack(
         context,
-        'Propuesta enviada. La cita sigue en pie hasta que responda.',
+        respuesta['success'] == true
+            ? 'Cita reprogramada: la anterior quedó cancelada.'
+            : 'Nueva cita confirmada, pero la anterior no se pudo cancelar. '
+                  'Cancélala desde Mis citas.',
+        error: respuesta['success'] != true,
       );
+    } else {
+      showAppSnack(context, 'Nueva cita confirmada. ¡Te esperamos!');
     }
+
+    await _cargar();
   }
 
   Future<void> _calificar(Map<String, dynamic> cita) async {

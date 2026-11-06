@@ -32,7 +32,7 @@ class _CitasScreenAcciones extends StatelessWidget {
             onPressed: () => onCambiarEstado(cita, 'Completada'),
             child: const Text('Completar'),
           ),
-        if (!esBarbero && estado.toLowerCase() != 'cancelada')
+        if (!esBarbero && !esAdmin && estado.toLowerCase() != 'cancelada')
           TextButton.icon(
             onPressed: () => onReprogramar(cita),
             icon: const Icon(Icons.update_rounded, size: 17),

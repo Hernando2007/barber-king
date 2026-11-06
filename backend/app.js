@@ -12,7 +12,6 @@ import { middlewareCors } from "./config/corsConfig.js";
 import {
     limiteAutenticacion,
     limiteGeneral,
-    limiteSolicitudes,
 } from "./config/limitePeticiones.js";
 
 import authRoutes from "./routes/authRoutes.js";
@@ -27,7 +26,6 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import horariosRoutes from "./routes/horariosRoutes.js";
 import verificacionesRoutes from "./routes/verificacionesRoutes.js";
-import solicitudesRoutes from "./routes/solicitudesRoutes.js";
 import avisosRoutes from "./routes/avisosRoutes.js";
  
 import {
@@ -82,7 +80,6 @@ app.use("/api/auth/forgot-password", limiteAutenticacion);
 app.use("/api/auth/reset-password", limiteAutenticacion);
 app.use("/api/auth/google", limiteAutenticacion);
 app.use("/api/auth/registro", limiteAutenticacion);
-app.use("/api/solicitudes/crear", limiteSolicitudes);
  
 app.use(express.json({
     limit: "10mb"
@@ -127,7 +124,6 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/horarios", horariosRoutes);
 app.use("/api/verificaciones", verificacionesRoutes);
-app.use("/api/solicitudes", solicitudesRoutes);
 app.use("/api/avisos", avisosRoutes);
  
 app.use(

@@ -1,4 +1,4 @@
-import { leerNovedadesAvisos } from "../services/solicitudesLecturaService.js";
+import { leerNovedadesAvisos } from "../services/avisosService.js";
 
 export const novedadesAvisos = async (req, res, next) => {
     try {

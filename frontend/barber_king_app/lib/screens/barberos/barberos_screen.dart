@@ -146,11 +146,8 @@ class _BarberosScreenState extends State<BarberosScreen> {
                     const SizedBox(height: 18),
                     BarberosLista(
                       barberos: filtrados,
-                      puedeSolicitar: _rol != 1,
                       puedeReservar: _rol != 1,
                       cercaActiva: _cercaDeMi,
-                      onSolicitar: (barbero) =>
-                          BarberosAcciones.solicitar(context, barbero),
                       onReservar: (barbero) =>
                           BarberosAcciones.reservar(context, barbero),
                       onAbrirPerfil: (barbero) =>

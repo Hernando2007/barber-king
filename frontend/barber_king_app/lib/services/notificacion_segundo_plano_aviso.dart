@@ -24,8 +24,8 @@ Future<FlutterLocalNotificationsPlugin?> _prepararCanalAviso() async {
   await android.createNotificationChannel(
     const AndroidNotificationChannel(
       NotificacionSegundoPlano.canalAvisosId,
-      'Avisos de solicitudes',
-      description: 'Novedades de tus solicitudes y respuestas',
+      'Avisos',
+      description: 'Novedades de tus citas y reservas',
       importance: Importance.high,
     ),
   );
@@ -40,8 +40,8 @@ Future<void> _avisarAviso(
   const detalles = NotificationDetails(
     android: AndroidNotificationDetails(
       NotificacionSegundoPlano.canalAvisosId,
-      'Avisos de solicitudes',
-      channelDescription: 'Novedades de tus solicitudes y respuestas',
+      'Avisos',
+      channelDescription: 'Novedades de tus citas y reservas',
       importance: Importance.high,
       priority: Priority.high,
       visibility: NotificationVisibility.public,

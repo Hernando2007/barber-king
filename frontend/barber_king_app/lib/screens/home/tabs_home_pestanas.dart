@@ -6,7 +6,6 @@ import '../barberos/barberos_screen.dart';
 import '../citas/citas_screen.dart';
 import '../cliente/cliente_home_screen.dart';
 import '../horarios/horarios_screen.dart';
-import '../solicitudes/solicitudes_screen.dart';
 
 /// Un destino fijo de la barra inferior.
 class Pestana {
@@ -16,7 +15,6 @@ class Pestana {
     required this.construir,
     this.ruta = '',
     this.iconoActivo,
-    this.conPendientes = false,
   });
 
   /// Ruta de la pestaña; vacía en el panel, que no se navega por nombre.
@@ -27,13 +25,10 @@ class Pestana {
 
   /// Se llama solo la primera vez que la pestaña se abre.
   final WidgetBuilder construir;
-
-  /// Muestra sobre el icono las solicitudes que siguen sin respuesta.
-  final bool conPendientes;
 }
 
-/// Pestañas del cliente: el panel de inicio manda, los cuatro destinos
-/// frecuentes quedan a un toque sin salir a ningún lado.
+/// Pestañas del cliente: el panel de inicio manda y los destinos frecuentes
+/// quedan a un toque sin salir a ningún lado.
 List<Pestana> pestanasCliente(Map<String, dynamic> usuario) => [
   Pestana(
     etiqueta: 'Inicio',
@@ -55,17 +50,9 @@ List<Pestana> pestanasCliente(Map<String, dynamic> usuario) => [
     iconoActivo: Icons.content_cut,
     construir: _conBarberos,
   ),
-  const Pestana(
-    etiqueta: 'Solicitudes',
-    ruta: AppRoutes.solicitudes,
-    icono: Icons.assignment_outlined,
-    iconoActivo: Icons.assignment,
-    conPendientes: true,
-    construir: _conSolicitudes,
-  ),
 ];
 
-/// Pestañas del barbero: la agenda y las solicitudes son su día a día.
+/// Pestañas del barbero: la agenda y los horarios son su día a día.
 List<Pestana> pestanasBarbero(Map<String, dynamic> usuario) => [
   Pestana(
     etiqueta: 'Inicio',
@@ -81,14 +68,6 @@ List<Pestana> pestanasBarbero(Map<String, dynamic> usuario) => [
     construir: _conCitas,
   ),
   const Pestana(
-    etiqueta: 'Solicitudes',
-    ruta: AppRoutes.solicitudes,
-    icono: Icons.assignment_outlined,
-    iconoActivo: Icons.assignment,
-    conPendientes: true,
-    construir: _conSolicitudes,
-  ),
-  const Pestana(
     etiqueta: 'Horarios',
     ruta: AppRoutes.horarios,
     icono: Icons.schedule_outlined,
@@ -99,5 +78,4 @@ List<Pestana> pestanasBarbero(Map<String, dynamic> usuario) => [
 
 Widget _conCitas(_) => const CitasScreen();
 Widget _conBarberos(_) => const BarberosScreen();
-Widget _conSolicitudes(_) => const SolicitudesScreen();
 Widget _conHorarios(_) => const HorariosScreen();

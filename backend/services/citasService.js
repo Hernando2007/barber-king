@@ -3,7 +3,7 @@ import {
 } from "../models/citasModel.js";
 import { obtenerUsuarioPorId } from "../models/usuariosModel.js";
 import { validarSlotDisponible } from "./citasReservaService.js";
-import { avisar } from "../utils/solicitudesValidacion.js";
+import { avisar } from "./avisosService.js";
 import { yaPasó } from "../utils/horaBarberia.js";
 
 const FORMATO_FECHA = /^\d{4}-\d{2}-\d{2}$/;
