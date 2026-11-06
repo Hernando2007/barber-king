@@ -67,7 +67,7 @@ List<Pestana> _pestanasDeEnsayo() => [
   const Pestana(
     etiqueta: 'Solicitudes',
     ruta: '/solicitudes',
-    icono: Icons.mark_chat_unread_outlined,
+    icono: Icons.assignment_outlined,
     conPendientes: true,
     construir: _construirSolicitudes,
   ),

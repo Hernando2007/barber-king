@@ -58,8 +58,8 @@ List<Pestana> pestanasCliente(Map<String, dynamic> usuario) => [
   const Pestana(
     etiqueta: 'Solicitudes',
     ruta: AppRoutes.solicitudes,
-    icono: Icons.mark_chat_unread_outlined,
-    iconoActivo: Icons.mark_chat_unread,
+    icono: Icons.assignment_outlined,
+    iconoActivo: Icons.assignment,
     conPendientes: true,
     construir: _conSolicitudes,
   ),
@@ -83,8 +83,8 @@ List<Pestana> pestanasBarbero(Map<String, dynamic> usuario) => [
   const Pestana(
     etiqueta: 'Solicitudes',
     ruta: AppRoutes.solicitudes,
-    icono: Icons.mark_chat_unread_outlined,
-    iconoActivo: Icons.mark_chat_unread,
+    icono: Icons.assignment_outlined,
+    iconoActivo: Icons.assignment,
     conPendientes: true,
     construir: _conSolicitudes,
   ),

@@ -6,7 +6,6 @@ import '../screens/auth/reset_password_screen.dart';
 import '../screens/barbero/mis_fotos_screen.dart';
 import '../screens/barbero/mis_servicios_screen.dart';
 import '../screens/barberos/barberos_screen.dart';
-import '../screens/chat/chat_contactos_screen.dart';
 import '../screens/chat/chat_ia_screen.dart';
 import '../screens/citas/citas_screen.dart';
 import '../screens/home/home_screen.dart';
@@ -31,7 +30,6 @@ class AppRoutes {
   static const solicitudes = "/solicitudes";
   static const perfil = "/perfil";
   static const chatIA = "/chat-ia";
-  static const chatContactos = "/chat-contactos";
   static const horarios = "/horarios";
 
   static const forgotPassword = "/forgot-password";
@@ -50,7 +48,6 @@ class AppRoutes {
     solicitudes: (context) => const SolicitudesScreen(),
     perfil: (context) => const PerfilScreen(),
     chatIA: (context) => const ChatIAScreen(),
-    chatContactos: (context) => const ChatContactosScreen(),
     horarios: (context) => const HorariosScreen(),
     forgotPassword: (context) => const ForgotPasswordScreen(),
     resetPassword: (context) => const ResetPasswordScreen(),

@@ -4,40 +4,10 @@ import {
     recomendarCorteConIA,
     obtenerHistorialBarberKing,
 } from "../controllers/chatController.js";
-import {
-    contactosDirectos,
-    mensajesDirectos,
-    novedadesDirectas,
-    enviarDirecto,
-} from "../controllers/chatDirectoController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 import { subirImagen } from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
-
-router.get(
-    "/directo/contactos",
-    verificarToken,
-    contactosDirectos
-);
-
-router.get(
-    "/directo/novedades",
-    verificarToken,
-    novedadesDirectas
-);
-
-router.get(
-    "/directo/mensajes/:contactoId",
-    verificarToken,
-    mensajesDirectos
-);
-
-router.post(
-    "/directo/mensajes",
-    verificarToken,
-    enviarDirecto
-);
 
 router.post("/chatear", verificarToken, chatearConBarberKing);
 
