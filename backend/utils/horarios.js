@@ -31,6 +31,25 @@ export const sumarMinutos = (hora, minutos) => {
 
 };
 
+// Día de la semana en formato barbería: lunes=1 ... domingo=7.
+export const diaDeLaSemana = (fecha) => {
+
+    const [anio, mes, dia] = String(fecha)
+        .split("-")
+        .map(Number);
+
+    const local = new Date(anio, mes - 1, dia);
+
+    if (Number.isNaN(local.getTime())) {
+        throw new Error("La fecha es inválida.");
+    }
+
+    const js = local.getDay();
+
+    return js === 0 ? 7 : js;
+
+};
+
 // Genera bloques de tiempo
 export const generarBloques = (
     horaInicio,

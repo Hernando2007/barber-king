@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
-import '../../core/config/funcionalidades.dart';
 import '../../core/formatters.dart';
 import '../../services/auth_service.dart';
 import '../../services/barbero_service.dart';
@@ -10,7 +9,6 @@ import '../../services/resena_service.dart';
 import '../../widgets/common/app_ui.dart';
 import '../../widgets/resenas/resena_sheet.dart';
 import '../../widgets/solicitudes/nueva_solicitud_sheet.dart';
-import '../chat/chat_conversacion_screen.dart';
 import 'crear_cita_screen.dart';
 
 part '../../widgets/citas/citas_screen_logic.dart';
@@ -173,8 +171,6 @@ class _CitasScreenState extends State<CitasScreen> {
                           citasCalificadas: _citasCalificadas,
                           onCambiarEstado: _cambiarEstado,
                           onCancelar: _cancelar,
-                          onChatCliente: _chatCliente,
-                          onChatBarbero: _chatBarbero,
                           onReprogramar: _reprogramar,
                           onCalificar: _calificar,
                         ),

@@ -30,7 +30,7 @@ class CitaService {
     required int servicioId,
     required String fecha,
     required String hora,
-    String estado = "Pendiente",
+    String estado = "Confirmada",
     String? observaciones,
   }) async {
     try {

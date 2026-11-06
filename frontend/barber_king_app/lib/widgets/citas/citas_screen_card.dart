@@ -8,8 +8,6 @@ class _CitasScreenCard extends StatelessWidget {
   final Set<int> citasCalificadas;
   final void Function(Map<String, dynamic>, String) onCambiarEstado;
   final Future<void> Function(Map<String, dynamic>) onCancelar;
-  final Future<void> Function(Map<String, dynamic>) onChatCliente;
-  final Future<void> Function(Map<String, dynamic>) onChatBarbero;
   final Future<void> Function(Map<String, dynamic>) onReprogramar;
   final Future<void> Function(Map<String, dynamic>) onCalificar;
 
@@ -21,8 +19,6 @@ class _CitasScreenCard extends StatelessWidget {
     required this.citasCalificadas,
     required this.onCambiarEstado,
     required this.onCancelar,
-    required this.onChatCliente,
-    required this.onChatBarbero,
     required this.onReprogramar,
     required this.onCalificar,
   });
@@ -155,8 +151,6 @@ class _CitasScreenCard extends StatelessWidget {
               puedeCancelar: puedeCancelar,
               onCambiarEstado: onCambiarEstado,
               onCancelar: onCancelar,
-              onChatCliente: onChatCliente,
-              onChatBarbero: onChatBarbero,
               onReprogramar: onReprogramar,
             ),
           ],

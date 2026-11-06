@@ -75,7 +75,7 @@ class BarberosScreenCard extends StatelessWidget {
                       width: 13,
                       height: 13,
                       decoration: BoxDecoration(
-                        color: disponible ? AppColors.success : AppColors.muted,
+                        color: disponible ? AppColors.success : AppColors.error,
                         shape: BoxShape.circle,
                         border: Border.all(color: AppColors.card, width: 2),
                       ),
@@ -143,8 +143,8 @@ class BarberosScreenCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               StatusPill(
-                label: disponible ? 'Disponible' : 'Ocupado',
-                color: disponible ? AppColors.success : AppColors.muted,
+                label: disponible ? 'Activo' : 'Inactivo',
+                color: disponible ? AppColors.success : AppColors.error,
               ),
             ],
           ),

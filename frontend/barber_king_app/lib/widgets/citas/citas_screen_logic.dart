@@ -50,51 +50,6 @@ extension _CitasScreenLogic on _CitasScreenState {
     }
   }
 
-  Future<void> _chatCliente(Map<String, dynamic> cita) async {
-    final cliente = cita['usuarios'];
-
-    if (cliente is! Map) return;
-
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChatConversacionScreen(
-          contacto: {
-            'usuario_id': cliente['id'],
-            'nombres': cliente['nombres'],
-            'apellidos': cliente['apellidos'],
-            'rol_id': 3,
-          },
-        ),
-      ),
-    );
-  }
-
-  Future<void> _chatBarbero(Map<String, dynamic> cita) async {
-    final barbero = cita['barberos'];
-
-    if (barbero is! Map) return;
-
-    final barberoId = int.tryParse('${barbero['id']}');
-    final usuarioId = int.tryParse('${barbero['usuario_id']}');
-
-    if (usuarioId == null) return;
-
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChatConversacionScreen(
-          contacto: {
-            'usuario_id': usuarioId,
-            'nombres': _nombresBarberos[barberoId] ?? 'Barbero',
-            'rol_id': 2,
-            'especialidad': barbero['especialidad'],
-          },
-        ),
-      ),
-    );
-  }
-
   /// Proponer otra hora sin escribir: manda una solicitud 'reprogramar' con
   /// la cita ya puesta.
   Future<void> _reprogramar(Map<String, dynamic> cita) async {

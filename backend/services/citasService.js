@@ -1,9 +1,9 @@
 import {
     crearNuevaCita,
-    obtenerCitas
 } from "../models/citasModel.js";
-import { condicionesDelServicio } from "./barberoServiciosService.js";
-import { horaAMinutos } from "../utils/horarios.js";
+import { obtenerUsuarioPorId } from "../models/usuariosModel.js";
+import { validarSlotDisponible } from "./citasReservaService.js";
+import { avisar } from "../utils/solicitudesValidacion.js";
 import { yaPasó } from "../utils/horaBarberia.js";
 
 const FORMATO_FECHA = /^\d{4}-\d{2}-\d{2}$/;
@@ -18,6 +18,15 @@ const fechaReal = (fecha) => {
 const horaValida = (hora) =>
     FORMATO_HORA.test(String(hora).slice(0, 5));
 
+const nombreCliente = async (clienteId) => {
+    const { data } = await obtenerUsuarioPorId(clienteId);
+    return `${data?.nombres ?? ""} ${data?.apellidos ?? ""}`.trim() ||
+        "Un cliente";
+};
+
+// La cita nace confirmada: si el bloque está libre no hace falta que el
+// barbero la apruebe. Él recibe un aviso de "cita agendada" y la ve en su
+// agenda; el recordatorio de "llega un cliente" sigue saliendo aparte.
 export const registrarCita = async (datos) => {
     const {
         cliente_id,
@@ -25,7 +34,6 @@ export const registrarCita = async (datos) => {
         servicio_id,
         fecha,
         hora,
-        estado,
         observaciones
     } = datos;
 
@@ -55,58 +63,44 @@ export const registrarCita = async (datos) => {
         );
     }
 
-    // Verifica que este barbero preste este servicio y trae el precio
-    // y la duración que él haya fijado, no las del catálogo general.
-    const servicio = await condicionesDelServicio(
-        barbero_id,
-        servicio_id
-    );
+    const { barbero, servicio, hora: horaLibre } =
+        await validarSlotDisponible({
+            barberoId: barbero_id,
+            servicioId: servicio_id,
+            fecha,
+            hora,
+        });
 
-    const { data: citasExistentes, error: errorCitas } =
-        await obtenerCitas(barbero_id, fecha);
-
-    if (errorCitas) {
-        throw new Error(errorCitas.message);
-    }
-
-    const inicioNueva = horaAMinutos(String(hora));
-    const finNueva = inicioNueva + Number(servicio.duracion);
-
-    for (const cita of citasExistentes || []) {
-        if (["Cancelada", "cancelada"].includes(cita.estado)) {
-            continue;
-        }
-
-        const inicioExistente = horaAMinutos(cita.hora);
-        const duracion =
-            Number(cita.duracion_minutos) || Number(servicio.duracion);
-        const finExistente = inicioExistente + duracion;
-
-        if (
-            inicioNueva < finExistente &&
-            finNueva > inicioExistente
-        ) {
-            throw new Error(
-                "El barbero ya tiene una cita en ese horario."
-            );
-        }
-    }
-
-    const { data, error: errorCrear } = await crearNuevaCita({
+    const { data, error } = await crearNuevaCita({
         cliente_id,
         barbero_id,
         servicio_id,
         fecha,
-        hora,
+        hora: horaLibre,
         duracion_minutos: servicio.duracion,
         precio: servicio.precio,
-        estado: estado || "Pendiente",
+        estado: "Confirmada",
         observaciones: observaciones || null
     });
 
-    if (errorCrear) {
-        throw new Error(errorCrear.message);
+    if (error) {
+        throw new Error(error.message);
     }
+
+    const cliente = await nombreCliente(cliente_id);
+
+    await avisar(
+        barbero.usuario_id,
+        "cita_nueva",
+        "Nueva cita agendada",
+        `${cliente} reservó ${servicio.nombre} para el ${fecha} a las ${horaLibre}.`,
+        {
+            cita_id: data.id,
+            cliente_id,
+            fecha,
+            hora: horaLibre,
+        }
+    );
 
     return data;
 };

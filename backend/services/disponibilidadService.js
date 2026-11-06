@@ -1,6 +1,7 @@
 import { obtenerHorarioBarbero, obtenerCitas } from "../models/citasModel.js";
+import { obtenerBarberoPorId } from "../models/barberosModel.js";
 import { condicionesDelServicio } from "./barberoServiciosService.js";
-import { generarBloques } from "../utils/horarios.js";
+import { generarBloques, diaDeLaSemana } from "../utils/horarios.js";
 import { httpError } from "../utils/httpError.js";
 
 export const obtenerDisponibilidad = async (
@@ -34,39 +35,19 @@ export const obtenerDisponibilidad = async (
 
     }
 
-    const [
-        anio,
-        mes,
-        dia
-    ] = fecha
-        .split("-")
-        .map(Number);
+    const { data: barbero, error: errorBarbero } =
+        await obtenerBarberoPorId(barberoId);
 
-    const fechaLocal =
-        new Date(
-            anio,
-            mes - 1,
-            dia
-        );
-
-    if (
-        Number.isNaN(
-            fechaLocal.getTime()
-        )
-    ) {
-
-        throw new Error(
-            "La fecha es inválida."
-        );
-
+    if (errorBarbero) {
+        throw new Error(errorBarbero.message);
     }
 
-    const diaSemanaJS = fechaLocal.getDay();
+    // Un barbero inactivo no ofrece horas: el cliente no ve bloques libres.
+    if (!barbero || barbero.disponible === false) {
+        return [];
+    }
 
-    const diaSemana =
-        diaSemanaJS === 0
-        ? 7
-        : diaSemanaJS;
+    const diaSemana = diaDeLaSemana(fecha);
 
     const {
         data: horario,

@@ -8,8 +8,6 @@ class _CitasScreenAcciones extends StatelessWidget {
   final bool puedeCancelar;
   final void Function(Map<String, dynamic>, String) onCambiarEstado;
   final Future<void> Function(Map<String, dynamic>) onCancelar;
-  final Future<void> Function(Map<String, dynamic>) onChatCliente;
-  final Future<void> Function(Map<String, dynamic>) onChatBarbero;
   final Future<void> Function(Map<String, dynamic>) onReprogramar;
 
   const _CitasScreenAcciones({
@@ -20,8 +18,6 @@ class _CitasScreenAcciones extends StatelessWidget {
     required this.puedeCancelar,
     required this.onCambiarEstado,
     required this.onCancelar,
-    required this.onChatCliente,
-    required this.onChatBarbero,
     required this.onReprogramar,
   });
 
@@ -31,35 +27,16 @@ class _CitasScreenAcciones extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        if (esBarbero && estado.toLowerCase() == 'pendiente')
-          OutlinedButton(
-            onPressed: () => onCambiarEstado(cita, 'Confirmada'),
-            child: const Text('Confirmar'),
-          ),
         if (esBarbero || esAdmin)
           ElevatedButton(
             onPressed: () => onCambiarEstado(cita, 'Completada'),
             child: const Text('Completar'),
-          ),
-        if (Funcionalidades.chatDirectoActivo && esBarbero)
-          TextButton.icon(
-            onPressed: () => onChatCliente(cita),
-            icon: const Icon(Icons.forum_outlined, size: 17),
-            label: const Text('Chatear'),
           ),
         if (!esBarbero && estado.toLowerCase() != 'cancelada')
           TextButton.icon(
             onPressed: () => onReprogramar(cita),
             icon: const Icon(Icons.update_rounded, size: 17),
             label: const Text('Reprogramar'),
-          ),
-        if (Funcionalidades.chatDirectoActivo &&
-            !esBarbero &&
-            estado.toLowerCase() != 'cancelada')
-          TextButton.icon(
-            onPressed: () => onChatBarbero(cita),
-            icon: const Icon(Icons.forum_outlined, size: 17),
-            label: const Text('Barbero'),
           ),
         if (puedeCancelar)
           TextButton.icon(

@@ -19,6 +19,7 @@ part '../../widgets/perfil/perfil_screen_diploma.dart';
 part '../../widgets/perfil/perfil_screen_ubicacion.dart';
 part '../../widgets/perfil/perfil_screen_edit.dart';
 part '../../widgets/perfil/perfil_screen_edit_view.dart';
+part '../../widgets/perfil/perfil_screen_disponibilidad.dart';
 
 class PerfilScreen extends StatefulWidget {
   const PerfilScreen({super.key});
@@ -147,6 +148,13 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 onEditar: _editarPerfil,
                 onCambiarPassword: _cambiarPassword,
               ),
+              if (_esBarbero) ...[
+                const SizedBox(height: 18),
+                _PerfilDisponibilidadCard(
+                  disponible: barbero['disponible'] != false,
+                  onCambiar: _cambiarDisponibilidad,
+                ),
+              ],
               const SizedBox(height: 22),
               _PerfilInfoPersonal(usuario: _usuario),
               if (_esBarbero) ...[
