@@ -170,6 +170,19 @@ class _PerfilScreenState extends State<PerfilScreen> {
               ],
               const SizedBox(height: 26),
               OutlinedButton.icon(
+                onPressed: () =>
+                    Navigator.pushNamed(context, AppRoutes.manualUsuario),
+                icon: const Icon(Icons.menu_book_outlined),
+                label: const Text('MANUAL DE USUARIO'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  side: BorderSide(
+                    color: AppColors.primary.withValues(alpha: .5),
+                  ),
+                  minimumSize: const Size(48, 52),
+                ),
+              ),
+              OutlinedButton.icon(
                 onPressed: _cerrarSesion,
                 icon: const Icon(Icons.logout_outlined),
                 label: const Text('CERRAR SESIÓN'),

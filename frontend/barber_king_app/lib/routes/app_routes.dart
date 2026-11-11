@@ -12,6 +12,7 @@ import '../screens/citas/citas_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/horarios/horarios_screen.dart';
 import '../screens/login/login_screen.dart';
+import '../screens/manual/manual_screen.dart';
 import '../screens/perfil/perfil_screen.dart';
 import '../screens/servicios/servicios_screen.dart';
 import '../screens/splash/splash_screen.dart';
@@ -34,6 +35,7 @@ class AppRoutes {
 
   static const forgotPassword = "/forgot-password";
   static const resetPassword = "/reset-password";
+  static const manualUsuario = "/manual-usuario";
 
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => const SplashScreen(),
@@ -51,5 +53,6 @@ class AppRoutes {
     horarios: (context) => const HorariosScreen(),
     forgotPassword: (context) => const ForgotPasswordScreen(),
     resetPassword: (context) => const ResetPasswordScreen(),
+    manualUsuario: (context) => const ManualScreen(),
   };
 }
