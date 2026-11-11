@@ -2,12 +2,17 @@ const { C, W, H, gradientes } = require("./tokens");
 const { texto } = require("./texto");
 const { icono } = require("./iconos");
 
-const NAV = [
+// Pestañas reales de la barra inferior (tabs_home_pestanas.dart).
+const NAV_CLIENTE = [
   { id: "inicio", etiqueta: "Inicio", icono: "home" },
-  { id: "barberos", etiqueta: "Barberos", icono: "scissors" },
   { id: "citas", etiqueta: "Citas", icono: "calendar" },
-  { id: "chat", etiqueta: "Chat", icono: "chat" },
-  { id: "perfil", etiqueta: "Perfil", icono: "user" },
+  { id: "barberos", etiqueta: "Barberos", icono: "scissors" },
+];
+
+const NAV_BARBERO = [
+  { id: "inicio", etiqueta: "Inicio", icono: "home" },
+  { id: "agenda", etiqueta: "Agenda", icono: "calendar" },
+  { id: "horarios", etiqueta: "Horarios", icono: "clock" },
 ];
 
 const degradado = (id, colores, x1 = 0, y1 = 0, x2 = 0, y2 = 1) =>
@@ -50,21 +55,37 @@ const appBar = ({ titulo, subtitulo, atras = true, acciones = [] }) => {
 </g>`;
 };
 
-const barraInferior = (activo, items = NAV) => {
+// NavigationBar de Material 3: 80 dp fijos, pegados al borde inferior del lienzo.
+const ALTO_BARRA = 80;
+
+const barraInferior = (activo, items = NAV_CLIENTE, o = {}) => {
+  const alto = o.alto || H;
+  const base = alto - ALTO_BARRA;
   const ancho = W / items.length;
   return `
 <g>
-  <rect x="0" y="776" width="${W}" height="68" fill="${C.backgroundSoft}" opacity="0.98"/>
-  <rect x="0" y="776" width="${W}" height="1" fill="${C.border}"/>
+  <rect x="0" y="${base}" width="${W}" height="${ALTO_BARRA}" fill="${C.backgroundSoft}" opacity="0.98"/>
+  <rect x="0" y="${base}" width="${W}" height="1" fill="${C.border}"/>
   ${items
     .map((item, i) => {
       const cx = ancho * i + ancho / 2;
       const on = item.id === activo;
       const color = on ? C.primary : C.muted;
+      const anchoInsignia = item.badge ? (String(item.badge).length > 1 ? 26 : 18) : 0;
+      const insignia = item.badge
+        ? `<rect x="${cx + 6}" y="${base + 4}" width="${anchoInsignia}" height="17" rx="8.5" fill="${C.error}"/>` +
+          texto(cx + 6 + anchoInsignia / 2, base + 16, item.badge, {
+            tam: 9.5,
+            peso: 700,
+            color: C.white,
+            ancla: "middle",
+          })
+        : "";
       return `<g>
-    ${on ? `<rect x="${cx - 22}" y="786" width="44" height="30" rx="15" fill="${C.primary}" opacity="0.14"/>` : ""}
-    ${icono(item.icono, cx - 11, 790, 22, color)}
-    ${texto(cx, 834, item.etiqueta, { tam: 9.5, peso: on ? 600 : 500, color, ancla: "middle" })}
+    ${on ? `<rect x="${cx - 32}" y="${base + 6}" width="64" height="36" rx="18" fill="${C.primary}" opacity="0.14"/>` : ""}
+    ${icono(item.icono, cx - 12, base + 12, 24, color)}
+    ${texto(cx, base + 66, item.etiqueta, { tam: 11, peso: on ? 600 : 500, color, ancla: "middle" })}
+    ${insignia}
   </g>`;
     })
     .join("")}
@@ -98,7 +119,9 @@ const punto = (x, y, color = C.success, tam = 7) =>
 module.exports = {
   W,
   H,
-  NAV,
+  ALTO_BARRA,
+  NAV_CLIENTE,
+  NAV_BARBERO,
   degradado,
   defs,
   fondo,

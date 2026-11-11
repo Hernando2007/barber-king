@@ -76,3 +76,53 @@ export const generarBloques = (
     return bloques;
 
 };
+
+// Estados que dejan el bloque libre aunque la cita siga en la tabla.
+const ESTADOS_CANCELADOS = ["Cancelada", "cancelada"];
+
+// Dos intervalos se pisan cuando uno empieza antes de que el otro termine.
+export const haySolapamiento = (inicioA, finA, inicioB, finB) => {
+
+    return inicioA < finB && finA > inicioB;
+
+};
+
+// Una cita ocupa el bloque [inicio, fin). Se usa igual al listar horas
+// libres y al reservar, para que ambas vistas coincidan siempre.
+export const bloqueaHorario = (
+    cita,
+    inicio,
+    fin,
+    duracionPorDefecto = 0
+) => {
+
+    if (ESTADOS_CANCELADOS.includes(cita.estado)) {
+
+        return false;
+
+    }
+
+    const inicioCita = horaAMinutos(cita.hora);
+
+    const duracion =
+        Number(cita.duracion_minutos) ||
+        Number(duracionPorDefecto);
+
+    if (
+        !Number.isFinite(inicioCita) ||
+        !Number.isFinite(duracion) ||
+        duracion <= 0
+    ) {
+
+        return false;
+
+    }
+
+    return haySolapamiento(
+        inicio,
+        fin,
+        inicioCita,
+        inicioCita + duracion
+    );
+
+};

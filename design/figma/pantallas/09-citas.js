@@ -1,5 +1,5 @@
 const { C } = require("../sistema/tokens");
-const { fondo, barraEstado, appBar } = require("../sistema/base");
+const { fondo, barraEstado, appBar, barraInferior, NAV_CLIENTE } = require("../sistema/base");
 const { texto, anchoTexto } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
 const { tarjeta, chip, insignia, boton, fab } = require("../sistema/componentes");
@@ -42,7 +42,7 @@ const cita = (y, nombre, servicio, estado, tipo, iconoColor, fecha, hora, precio
   ${dato(36, y + 68, "Fecha", fecha)}
   ${dato(134, y + 68, "Hora", hora)}
   ${dato(232, y + 68, "Precio", precio)}
-  ${boton(36, y + 130, 152, "Barbero", { tipo: "contorno", alto: 40, icono: "chat" })}
+  ${boton(36, y + 130, 152, "Reprogramar", { tipo: "contorno", alto: 40, icono: "refresh" })}
   ${estado === "Completada"
     ? boton(202, y + 130, 152, "Calificar", { tipo: "suave", alto: 40, icono: "star" })
     : boton(202, y + 130, 152, "Cancelar", { tipo: "peligro", alto: 40 })}
@@ -57,9 +57,10 @@ ${fondo()}
 ${barraEstado()}
 ${appBar({ titulo: "Mis citas", atras: false, acciones: ["refresh"] })}
 ${filaChips()}
-${cita(158, "Andrés Ramírez", "Corte + Barba", "Confirmada", "success", C.success, "23 oct 2026", "15:30", "$ 40.000")}
-${cita(356, "Sebastián Torres", "Fade", "Pendiente", "warning", C.warning, "24 oct 2026", "10:00", "$ 30.000")}
-${cita(554, "Mateo Herrera", "Corte Clásico", "Completada", "neutral", C.info, "18 oct 2026", "09:00", "$ 20.000")}
-${fab("Nueva cita", "plus")}
+${cita(140, "Andrés Ramírez", "Corte + Barba", "Confirmada", "success", C.success, "23 oct 2026", "15:30", "$ 40.000")}
+${cita(332, "Sebastián Torres", "Fade", "Pendiente", "warning", C.warning, "24 oct 2026", "10:00", "$ 30.000")}
+${cita(524, "Mateo Herrera", "Corte Clásico", "Completada", "neutral", C.info, "18 oct 2026", "09:00", "$ 20.000")}
+${fab("Nueva cita", "plus", 700)}
+${barraInferior("citas", NAV_CLIENTE)}
 `,
 };

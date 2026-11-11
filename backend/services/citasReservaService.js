@@ -9,9 +9,8 @@ import {
     diaDeLaSemana,
     generarBloques,
     horaAMinutos,
+    bloqueaHorario,
 } from "../utils/horarios.js";
-
-const CANCELADAS = ["Cancelada", "cancelada"];
 
 // Reglas de disponibilidad que comparten la reserva y el catálogo de horas:
 // el barbero debe estar activo, atender ese día y tener el bloque libre.
@@ -78,22 +77,15 @@ export const validarSlotDisponible = async ({
     const inicio = horaAMinutos(horaNormalizada);
     const fin = inicio + Number(servicio.duracion);
 
-    for (const cita of citas || []) {
-        if (CANCELADAS.includes(cita.estado)) {
-            continue;
-        }
+    const ocupado = (citas || []).some((cita) =>
+        bloqueaHorario(cita, inicio, fin, servicio.duracion)
+    );
 
-        const inicioExistente = horaAMinutos(cita.hora);
-        const duracion =
-            Number(cita.duracion_minutos) || Number(servicio.duracion);
-        const finExistente = inicioExistente + duracion;
-
-        if (inicio < finExistente && fin > inicioExistente) {
-            throw httpError(
-                409,
-                "El barbero ya tiene una cita en ese horario."
-            );
-        }
+    if (ocupado) {
+        throw httpError(
+            409,
+            "El barbero ya tiene una cita en ese horario."
+        );
     }
 
     return { barbero, servicio, hora: horaNormalizada };

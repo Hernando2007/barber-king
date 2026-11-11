@@ -1,7 +1,12 @@
 import { obtenerHorarioBarbero, obtenerCitas } from "../models/citasModel.js";
 import { obtenerBarberoPorId } from "../models/barberosModel.js";
 import { condicionesDelServicio } from "./barberoServiciosService.js";
-import { generarBloques, diaDeLaSemana } from "../utils/horarios.js";
+import {
+    generarBloques,
+    diaDeLaSemana,
+    horaAMinutos,
+    bloqueaHorario
+} from "../utils/horarios.js";
 import { httpError } from "../utils/httpError.js";
 
 export const obtenerDisponibilidad = async (
@@ -112,11 +117,19 @@ export const obtenerDisponibilidad = async (
             bloques.filter(
                 hora => {
 
+                    const inicio =
+                        horaAMinutos(hora);
+
+                    const fin =
+                        inicio + Number(servicio.duracion);
+
                     return !citas.some(
-                        cita =>
-                            cita.hora
-                                .slice(0, 5) ===
-                            hora
+                        cita => bloqueaHorario(
+                            cita,
+                            inicio,
+                            fin,
+                            servicio.duracion
+                        )
                     );
 
                 }

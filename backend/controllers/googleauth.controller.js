@@ -94,8 +94,8 @@ export const autenticarConGoogle = async (req, res) => {
 
             const cambios = {};
 
-            if (!existente.googleId) {
-                cambios.googleId = googleId;
+            if (!existente.google_id) {
+                cambios.google_id = googleId;
             }
 
             if (!existente.avatar && avatar) {

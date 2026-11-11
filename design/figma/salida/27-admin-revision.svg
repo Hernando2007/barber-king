@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="390" height="1000" viewBox="0 0 390 1000">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="1000" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  
+  <text x="24" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Verificación de barberos</text>
+  
+  <g transform="translate(346 58) scale(0.9166666666666666)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g>
+</g>
+<text x="24" y="138" font-family="Poppins, Arial, sans-serif" font-size="24" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Bandeja de verificación</text>
+<text x="24" y="162" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Tú decides quién lleva el sello.</text>
+<g>
+    <rect x="20" y="182" width="122" height="32" rx="16" fill="#172033" stroke="#26324A"/>
+    <g transform="translate(31 190) scale(0.6666666666666666)" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#94A3B8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></g>
+    <text x="52" y="202" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">2 pendientes</text>
+  </g>
+
+<g>
+  <rect x="20" y="232" width="350" height="250" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="62" cy="276" r="26" fill="#1D2940" stroke="#354563"/>
+    <text x="62" y="282.24" font-family="Poppins, Arial, sans-serif" font-size="17.68" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">MR</text>
+    
+  </g>
+  <text x="100" y="268" font-family="Poppins, Arial, sans-serif" font-size="16" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Marco Ruiz</text>
+  <text x="100" y="287" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">marco@barberking.com</text>
+  <g>
+    <rect x="286" y="250" width="66.17" height="20" rx="10" fill="#FBBF24" opacity="0.14"/>
+    <text x="319.085" y="263.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#FBBF24" text-anchor="middle" opacity="1" letter-spacing="0">Pendiente</text>
+  </g>
+  <text x="36" y="324" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Especialidad: Fade · 6 años de experiencia</text>
+  <rect x="36" y="338" width="318" height="52" rx="14" fill="#172033" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g transform="translate(50 354) scale(0.8333333333333334)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+  <text x="80" y="362" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">diploma-mr.jpg</text>
+  <text x="80" y="380" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Cloudinary · barber-king/documentos</text>
+  <g transform="translate(330 354) scale(0.8333333333333334)" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#94A3B8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g>
+  <rect x="36" y="398" width="318" height="42" rx="12" fill="#172033" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g transform="translate(48 409) scale(0.75)" fill="none" stroke="#4ADE80" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#4ADE80"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></g>
+  <text x="72" y="415" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#4ADE80" text-anchor="start" opacity="1" letter-spacing="0">La IA lo vio válido con 82% de confianza.</text>
+<text x="72" y="429" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#4ADE80" text-anchor="start" opacity="1" letter-spacing="0">Diploma legible.</text>
+  <g><rect x="36" y="450" width="152" height="40" rx="14" fill="url(#gold)"/><g transform="translate(71.595 461)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="m20 6-11 11-5-5"/></g></g><text x="97.595" y="475" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">APROBAR</text></g>
+  <g><rect x="202" y="450" width="152" height="40" rx="14" fill="#F87171" opacity="0.13"/><rect x="202" y="450" width="152" height="40" rx="14" fill="none" stroke="#F87171" opacity="0.35"/><g transform="translate(233.68 461)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F87171" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F87171"><path d="M18 6 6 18M6 6l12 12"/></g></g><text x="259.68" y="475" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F87171" text-anchor="start" opacity="1" letter-spacing="0">RECHAZAR</text></g>
+</g>
+
+<g>
+  <rect x="20" y="502" width="350" height="250" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g>
+    <circle cx="62" cy="546" r="26" fill="#1D2940" stroke="#354563"/>
+    <text x="62" y="552.24" font-family="Poppins, Arial, sans-serif" font-size="17.68" font-weight="600" fill="#F8FAFC" text-anchor="middle" opacity="1" letter-spacing="0">JP</text>
+    
+  </g>
+  <text x="100" y="538" font-family="Poppins, Arial, sans-serif" font-size="16" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Jorge Peña</text>
+  <text x="100" y="557" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">jorge@correo.com</text>
+  <g>
+    <rect x="286" y="520" width="66.17" height="20" rx="10" fill="#FBBF24" opacity="0.14"/>
+    <text x="319.085" y="533.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#FBBF24" text-anchor="middle" opacity="1" letter-spacing="0">Pendiente</text>
+  </g>
+  <text x="36" y="594" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Sin perfil profesional cargado.</text>
+  <rect x="36" y="608" width="318" height="52" rx="14" fill="#172033" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g transform="translate(50 624) scale(0.8333333333333334)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+  <text x="80" y="632" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">diploma-jp.jpg</text>
+  <text x="80" y="650" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Cloudinary · barber-king/documentos</text>
+  <g transform="translate(330 624) scale(0.8333333333333334)" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#94A3B8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g>
+  <rect x="36" y="668" width="318" height="42" rx="12" fill="#172033" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <g transform="translate(48 679) scale(0.75)" fill="none" stroke="#FBBF24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#FBBF24"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></g>
+  <text x="72" y="685" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#FBBF24" text-anchor="start" opacity="1" letter-spacing="0">Se registró sin diploma: solo tú puedes darle</text>
+<text x="72" y="699" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#FBBF24" text-anchor="start" opacity="1" letter-spacing="0">el sello.</text>
+  <g><rect x="36" y="720" width="152" height="40" rx="14" fill="url(#gold)"/><g transform="translate(71.595 731)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="m20 6-11 11-5-5"/></g></g><text x="97.595" y="745" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">APROBAR</text></g>
+  <g><rect x="202" y="720" width="152" height="40" rx="14" fill="#F87171" opacity="0.13"/><rect x="202" y="720" width="152" height="40" rx="14" fill="none" stroke="#F87171" opacity="0.35"/><g transform="translate(233.68 731)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F87171" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F87171"><path d="M18 6 6 18M6 6l12 12"/></g></g><text x="259.68" y="745" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F87171" text-anchor="start" opacity="1" letter-spacing="0">RECHAZAR</text></g>
+</g>
+<text x="195" y="940" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Al rechazar puedes escribir una nota: el barbero la ve en su app y vuelve a intentar.</text>
+</svg>

@@ -2,7 +2,7 @@ const { C, W } = require("../sistema/tokens");
 const { fondo, barraEstado } = require("../sistema/base");
 const { texto, parrafo } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
-const { tarjeta, cuadroIcono } = require("../sistema/componentes");
+const { tarjeta } = require("../sistema/componentes");
 const { compositor } = require("../sistema/chat");
 
 const sugerencia = (y, contenido) => {
@@ -34,12 +34,6 @@ ${parrafo(195, 288, "Pregunta lo que quieras o sube una foto y la IA te recomend
 ${sugerencia(356, "¿Qué corte me recomiendas para cabello rizado?")}
 ${sugerencia(429, "¿Qué servicios ofrece Barber King?")}
 ${sugerencia(488, "¿Cómo puedo reservar una cita?")}
-${tarjeta(20, 556, 350, 76, { radio: 16, borde: C.primary, opacidadBorde: 0.35 })}
-${cuadroIcono(36, 577, 34, { icono: "camera" })}
-${texto(82, 592, "Analiza tu foto", { tam: 13, peso: 600 })}
-${texto(82, 610, "La IA sugiere el corte ideal para tu rostro.", { tam: 11, color: C.subtitle })}
-${icono("forward", 340, 590, 16, C.primary)}
-${texto(195, 728, "La IA puede equivocarse. Verifica antes de reservar.", { tam: 9.5, color: C.muted, ancla: "middle" })}
 ${compositor({ y: 760, placeholder: "Pregunta o sube una foto...", icono: "camera" })}
 `,
 };

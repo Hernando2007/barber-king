@@ -83,49 +83,52 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             : RefreshIndicator(
                 onRefresh: _cargar,
                 child: ListView(
-                  padding: const EdgeInsets.all(20),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 40),
                   children: [
-                    PageHeading(
-                      title: 'Hola, $nombre',
-                      subtitle: 'Control total de Barber King',
-                      actions: [
-                        IconButton(
-                          tooltip: 'Mi perfil',
-                          onPressed: () =>
-                              Navigator.pushNamed(context, AppRoutes.perfil),
-                          icon: const Icon(
-                            Icons.person_outline_rounded,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        IconButton(
-                          tooltip: 'Cerrar sesión',
-                          onPressed: _salir,
-                          icon: const Icon(
-                            Icons.logout_outlined,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ],
+                    _AdminHomeCabecera(
+                      nombre: nombre,
+                      onPerfil: () =>
+                          Navigator.pushNamed(context, AppRoutes.perfil),
+                      onSalir: _salir,
                     ),
                     const SizedBox(height: 20),
-                    _AdminHomeHero(resumen: _resumen, citas: _citas),
-                    const SizedBox(height: 22),
-                    _AdminHomeStatsGrid(resumen: _resumen),
-                    const SizedBox(height: 24),
-                    const SectionHeader(
-                      title: 'Accesos rápidos',
-                      subtitle: 'Gestiona la operación del negocio',
+                    _AdminHomeKpis(
+                      resumen: _resumen,
+                      citas: _citas,
+                      onUsuarios: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const AdminUsuariosScreen(),
+                          ),
+                        );
+                        _cargar();
+                      },
+                      onBarberos: () =>
+                          Navigator.pushNamed(context, AppRoutes.barberos),
+                      onServicios: () =>
+                          Navigator.pushNamed(context, AppRoutes.servicios),
+                      onCitas: () =>
+                          Navigator.pushNamed(context, AppRoutes.citas),
                     ),
-                    const SizedBox(height: 14),
-                    _AdminHomeAccesos(
-                      onRefresh: _cargar,
-                      revisionPendiente: _revisionPendiente,
+                    const SizedBox(height: 16),
+                    _AdminHomeVerificacion(
+                      pendientes: _revisionPendiente,
+                      onRevisar: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const AdminRevisionScreen(),
+                          ),
+                        );
+                        _cargar();
+                      },
                     ),
                     const SizedBox(height: 24),
                     SectionHeader(
-                      title: 'Estado de las citas',
-                      subtitle: 'Resumen general',
+                      title: 'Operación de citas',
+                      subtitle: 'Distribución por estado',
                       actionLabel: 'Ver todas',
                       onAction: () =>
                           Navigator.pushNamed(context, AppRoutes.citas),
@@ -136,8 +139,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       totalCitas: _resumen['totalCitas'],
                     ),
                     const SizedBox(height: 24),
+                    const SectionHeader(
+                      title: 'Gestión del negocio',
+                      subtitle: 'Todo lo que administras en un solo lugar',
+                    ),
+                    const SizedBox(height: 14),
+                    _AdminHomeAccesos(
+                      onRefresh: _cargar,
+                      revisionPendiente: _revisionPendiente,
+                    ),
+                    const SizedBox(height: 24),
                     SectionHeader(
                       title: 'Últimos usuarios',
+                      subtitle: 'Altas recientes en la plataforma',
                       actionLabel: 'Gestionar',
                       onAction: () async {
                         await Navigator.push(
@@ -150,16 +164,17 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       },
                     ),
                     const SizedBox(height: 14),
-                    ..._ultimosUsuarios(this),
+                    _AdminHomeUltimosUsuarios(data: _data),
                     const SizedBox(height: 24),
                     SectionHeader(
                       title: 'Últimas reservas',
+                      subtitle: 'Movimiento reciente de la agenda',
                       actionLabel: 'Ver agenda',
                       onAction: () =>
                           Navigator.pushNamed(context, AppRoutes.citas),
                     ),
                     const SizedBox(height: 14),
-                    ..._ultimasCitas(this),
+                    _AdminHomeUltimasCitas(data: _data),
                     const SizedBox(height: 24),
                   ],
                 ),

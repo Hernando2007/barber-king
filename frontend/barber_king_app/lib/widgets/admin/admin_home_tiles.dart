@@ -1,30 +1,56 @@
 part of '../../screens/admin/admin_home_screen.dart';
 
-List<Widget> _ultimosUsuarios(_AdminHomeScreenState state) {
-  final lista = state._data?['ultimosUsuarios'];
+class _AdminHomeUltimosUsuarios extends StatelessWidget {
+  final Map<String, dynamic>? data;
 
-  if (lista is! List || lista.isEmpty) {
-    return const [
-      EmptyState(
+  const _AdminHomeUltimosUsuarios({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    final lista = data?['ultimosUsuarios'];
+
+    if (lista is! List || lista.isEmpty) {
+      return const EmptyState(
         icon: Icons.people_outline,
         title: 'Sin usuarios registrados',
         message: 'Los nuevos usuarios aparecerán aquí.',
+      );
+    }
+
+    final usuarios = lista
+        .take(4)
+        .map((item) => Map<String, dynamic>.from(item as Map))
+        .toList();
+
+    return AppCard(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      radius: 18,
+      child: Column(
+        children: [
+          for (var i = 0; i < usuarios.length; i++) ...[
+            _fila(usuarios[i]),
+            if (i < usuarios.length - 1)
+              const Divider(
+                height: 1,
+                indent: 14,
+                endIndent: 14,
+                color: AppColors.border,
+              ),
+          ],
+        ],
       ),
-    ];
+    );
   }
 
-  return lista.take(4).map((item) {
-    final usuario = Map<String, dynamic>.from(item as Map);
+  Widget _fila(Map<String, dynamic> usuario) {
     final nombre = '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
         .trim();
 
-    return AppCard(
-      margin: const EdgeInsets.only(bottom: 9),
-      padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
-      radius: 15,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
       child: Row(
         children: [
-          AppAvatar(name: nombre, radius: 18),
+          AppAvatar(name: nombre, radius: 17),
           const SizedBox(width: 11),
           Expanded(
             child: Column(
@@ -40,6 +66,7 @@ List<Widget> _ultimosUsuarios(_AdminHomeScreenState state) {
                     fontSize: 13,
                   ),
                 ),
+                const SizedBox(height: 2),
                 Text(
                   usuario['correo']?.toString() ?? '',
                   maxLines: 1,
@@ -52,6 +79,7 @@ List<Widget> _ultimosUsuarios(_AdminHomeScreenState state) {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           Text(
             AppFormat.date(usuario['created_at']),
             style: const TextStyle(color: AppColors.muted, fontSize: 10.5),
@@ -59,51 +87,90 @@ List<Widget> _ultimosUsuarios(_AdminHomeScreenState state) {
         ],
       ),
     );
-  }).toList();
+  }
 }
 
-List<Widget> _ultimasCitas(_AdminHomeScreenState state) {
-  final lista = state._data?['ultimasCitas'];
+class _AdminHomeUltimasCitas extends StatelessWidget {
+  final Map<String, dynamic>? data;
 
-  if (lista is! List || lista.isEmpty) {
-    return const [
-      EmptyState(
+  const _AdminHomeUltimasCitas({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    final lista = data?['ultimasCitas'];
+
+    if (lista is! List || lista.isEmpty) {
+      return const EmptyState(
         icon: Icons.event_busy_outlined,
         title: 'Aún no hay reservas',
         message: 'Las citas recientes se mostrarán aquí.',
-      ),
-    ];
-  }
+      );
+    }
 
-  return lista.take(4).map((item) {
-    final cita = Map<String, dynamic>.from(item as Map);
-    final cliente = cita['usuarios'];
-    final servicio = cita['servicios'];
-    final nombre = cliente is Map
-        ? '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'.trim()
-        : 'Cliente';
-    final estado = cita['estado']?.toString() ?? 'Pendiente';
+    final citas = lista
+        .take(4)
+        .map((item) => Map<String, dynamic>.from(item as Map))
+        .toList();
 
     return AppCard(
-      margin: const EdgeInsets.only(bottom: 9),
-      padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
-      radius: 15,
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      radius: 18,
+      child: Column(
+        children: [
+          for (var i = 0; i < citas.length; i++) ...[
+            _fila(citas[i]),
+            if (i < citas.length - 1)
+              const Divider(
+                height: 1,
+                indent: 14,
+                endIndent: 14,
+                color: AppColors.border,
+              ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _fila(Map<String, dynamic> cita) {
+    final cliente = cita['usuarios'];
+    final nombre = cliente is Map
+        ? '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'.trim()
+        : '';
+    final servicio = cita['servicios'];
+    final estado = cita['estado']?.toString() ?? 'Pendiente';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
       child: Row(
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: .12),
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: const Icon(
-              Icons.event_available_outlined,
-              color: AppColors.primary,
-              size: 18,
+          SizedBox(
+            width: 54,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppFormat.time(cita['hora']),
+                  style: const TextStyle(
+                    color: AppColors.white,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  AppFormat.date(cita['fecha']),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 9.5,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 11),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,9 +185,11 @@ List<Widget> _ultimasCitas(_AdminHomeScreenState state) {
                     fontSize: 13,
                   ),
                 ),
+                const SizedBox(height: 2),
                 Text(
-                  '${servicio is Map ? servicio['nombre'] ?? 'Servicio' : 'Servicio'} · '
-                  '${AppFormat.date(cita['fecha'])} ${AppFormat.time(cita['hora'])}',
+                  servicio is Map
+                      ? servicio['nombre']?.toString() ?? 'Servicio'
+                      : 'Servicio',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -131,9 +200,10 @@ List<Widget> _ultimasCitas(_AdminHomeScreenState state) {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           StatusPill(label: estado, color: AppFormat.statusColor(estado)),
         ],
       ),
     );
-  }).toList();
+  }
 }

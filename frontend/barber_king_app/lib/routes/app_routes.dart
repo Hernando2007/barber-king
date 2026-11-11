@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/auth/reset_password_screen.dart';
+import '../screens/barbero/agenda_screen.dart';
 import '../screens/barbero/mis_fotos_screen.dart';
 import '../screens/barbero/mis_servicios_screen.dart';
 import '../screens/barberos/barberos_screen.dart';
@@ -26,6 +27,7 @@ class AppRoutes {
   static const misFotos = "/mis-fotos";
   static const barberos = "/barberos";
   static const citas = "/citas";
+  static const agenda = "/agenda";
   static const perfil = "/perfil";
   static const chatIA = "/chat-ia";
   static const horarios = "/horarios";
@@ -43,6 +45,7 @@ class AppRoutes {
     misFotos: (context) => const MisFotosScreen(),
     barberos: (context) => const BarberosScreen(),
     citas: (context) => const CitasScreen(),
+    agenda: (context) => const AgendaScreen(),
     perfil: (context) => const PerfilScreen(),
     chatIA: (context) => const ChatIAScreen(),
     horarios: (context) => const HorariosScreen(),

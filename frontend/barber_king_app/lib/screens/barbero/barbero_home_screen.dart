@@ -134,7 +134,7 @@ class _BarberoHomeScreenState extends State<BarberoHomeScreen> {
                     const SizedBox(height: 20),
                     _BarberoHomeHero(
                       cita: _citaHoy,
-                      onVerCitas: () => _ir(AppRoutes.citas),
+                      onVerCitas: () => _ir(AppRoutes.agenda),
                     ),
                     const SizedBox(height: 20),
                     const _BarberoUbicacionCard(),

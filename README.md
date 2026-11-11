@@ -96,6 +96,15 @@ barber-king/
 
 ---
 
+## Documentación
+
+- Manual de usuario de la aplicación (8 secciones, 27 tareas, mapa de navegación,
+  interfaz señalizada, solución de problemas y FAQ):  
+  [`documentacion/manual-usuario.html`](documentacion/manual-usuario.html) ·
+  [`documentacion/pdf/manual-usuario.pdf`](documentacion/pdf/manual-usuario.pdf)
+
+---
+
 ## Requisitos
 
 - Node.js 20 o superior.

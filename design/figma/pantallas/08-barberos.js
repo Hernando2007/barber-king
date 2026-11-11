@@ -1,5 +1,5 @@
 const { C } = require("../sistema/tokens");
-const { fondo, barraEstado, appBar } = require("../sistema/base");
+const { fondo, barraEstado, appBar, barraInferior, NAV_CLIENTE } = require("../sistema/base");
 const { texto, parrafo } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
 const { tarjeta, campo, avatar, insignia, boton } = require("../sistema/componentes");
@@ -46,13 +46,11 @@ ${texto(124, 495, "Bogotá, Chapinero · a 2.4 km", { tam: 10.5, color: C.subtit
 ${texto(108, 515, "7 años de experiencia", { tam: 10.5, color: C.muted })}
 ${insignia(284, 408, "Disponible", { tipo: "success" })}
 ${parrafo(36, 548, "Especialista en fades y diseños personalizados. Trabaja con productos premium para cuidar tu estilo.", { tam: 12, ancho: 318, color: C.subtitle })}
-${boton(36, 620, 150, "Chatear", { tipo: "contorno", alto: 44, icono: "chat" })}
-${boton(194, 620, 160, "Reservar", { alto: 44, icono: "calendar" })}
-${tarjeta(20, 694, 350, 288)}
-${avatar(36, 712, 58, { iniciales: "JP", activo: true })}
-${texto(108, 732, "Juan Pablo Gómez", { tam: 16, peso: 600 })}
-${texto(108, 752, "Corte clásico", { tam: 12, peso: 500, color: C.primary })}
-${icono("star", 108, 766, 12, C.primary, 0)}
-${texto(124, 777, "4.6 (58)", { tam: 11.5, peso: 600, color: C.primary })}
+${boton(36, 620, 318, "Reservar", { alto: 44, icono: "calendar" })}
+${tarjeta(20, 694, 350, 160)}
+${avatar(36, 708, 52, { iniciales: "JP", activo: true })}
+${texto(102, 730, "Juan Pablo Gómez", { tam: 16, peso: 600 })}
+${texto(102, 750, "Corte clásico", { tam: 12, peso: 500, color: C.primary })}
+${barraInferior("barberos", NAV_CLIENTE)}
 `,
 };

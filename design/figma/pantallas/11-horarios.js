@@ -1,5 +1,5 @@
 const { C } = require("../sistema/tokens");
-const { fondo, barraEstado, appBar } = require("../sistema/base");
+const { fondo, barraEstado, appBar, barraInferior, NAV_BARBERO } = require("../sistema/base");
 const { texto } = require("../sistema/texto");
 const { icono } = require("../sistema/iconos");
 const { tarjeta, insignia, fab } = require("../sistema/componentes");
@@ -9,7 +9,6 @@ const DIAS = [
   ["Martes", "14:00 - 20:00", "Activo", "success", false],
   ["Miércoles", "Día libre", null, null, false],
   ["Jueves", "09:00 - 18:00", "Activo", "success", false],
-  ["Viernes", "08:00 - 12:00", "Activo", "success", false],
 ];
 
 const dia = (y, [nombre, horario, estado, tipo, hoy]) => `
@@ -49,6 +48,7 @@ ${icono("plus", 321, 233, 18, C.primary)}
 ${texto(24, 330, "Disponibilidad semanal", { tam: 15.5, peso: 600 })}
 ${texto(24, 348, "Puedes tener varias jornadas por día.", { tam: 11.5, color: C.muted })}
 ${DIAS.map((d, i) => dia(364 + i * 74, d)).join("")}
-${fab("Agregar jornada", "plus")}
+${fab("Agregar jornada", "plus", 700)}
+${barraInferior("horarios", NAV_BARBERO)}
 `,
 };

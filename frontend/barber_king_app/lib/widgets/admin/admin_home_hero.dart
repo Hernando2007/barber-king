@@ -1,86 +1,85 @@
 part of '../../screens/admin/admin_home_screen.dart';
 
-class _AdminHomeHero extends StatelessWidget {
-  final Map<String, dynamic> resumen;
-  final Map<String, dynamic> citas;
+class _AdminHomeCabecera extends StatelessWidget {
+  final String nombre;
+  final VoidCallback onPerfil;
+  final VoidCallback onSalir;
 
-  const _AdminHomeHero({required this.resumen, required this.citas});
+  const _AdminHomeCabecera({
+    required this.nombre,
+    required this.onPerfil,
+    required this.onSalir,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      gradient: AppColors.heroGradient,
-      borderColor: AppColors.primary.withValues(alpha: .35),
-      padding: const EdgeInsets.all(22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 46,
-                height: 46,
-                decoration: BoxDecoration(
-                  gradient: AppColors.goldGradient,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: const Icon(
-                  Icons.admin_panel_settings_outlined,
-                  color: AppColors.black,
-                ),
-              ),
-              const SizedBox(width: 13),
-              const Expanded(
-                child: Text(
-                  'Panel de administración',
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Administra usuarios, barberos, servicios y citas desde un solo lugar.',
-            style: TextStyle(
-              color: AppColors.subtitle,
-              fontSize: 13,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              _heroStat('${resumen['totalResenas'] ?? 0}', 'Reseñas'),
-              const SizedBox(width: 26),
-              _heroStat('${citas['pendientes'] ?? 0}', 'Pendientes'),
-              const SizedBox(width: 26),
-              _heroStat('${citas['completadas'] ?? 0}', 'Completadas'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+    final fecha = AppFormat.dateLong(DateTime.now());
 
-  Widget _heroStat(String value, String label) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          value,
-          style: const TextStyle(
-            color: AppColors.primary,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 7,
+                    height: 7,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.success,
+                    ),
+                  ),
+                  const SizedBox(width: 7),
+                  const Text(
+                    'PANEL DE CONTROL',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.6,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 9),
+              Text(
+                'Hola, $nombre',
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.6,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${fecha[0].toUpperCase()}${fecha.substring(1)} · Administrador',
+                style: const TextStyle(
+                  color: AppColors.subtitle,
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ),
         ),
-        Text(
-          label,
-          style: const TextStyle(color: AppColors.subtitle, fontSize: 11.5),
+        IconButton(
+          tooltip: 'Mi perfil',
+          onPressed: onPerfil,
+          icon: const Icon(
+            Icons.person_outline_rounded,
+            color: AppColors.primary,
+          ),
+        ),
+        IconButton(
+          tooltip: 'Cerrar sesión',
+          onPressed: onSalir,
+          icon: const Icon(
+            Icons.logout_outlined,
+            color: AppColors.primary,
+          ),
         ),
       ],
     );

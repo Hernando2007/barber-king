@@ -5,6 +5,7 @@ import {
     eliminarCita
 } from "../models/citasModel.js";
 import { obtenerBarberoPorUsuario } from "../models/barberosModel.js";
+import { httpError } from "../utils/httpError.js";
 
 export const obtenerTodasLasCitas = async () => {
     const { data, error } = await listarCitas();
@@ -19,8 +20,12 @@ export const obtenerTodasLasCitas = async () => {
 export const obtenerUnaCita = async (id) => {
     const { data, error } = await obtenerCitaPorId(id);
 
-    if (error || !data) {
-        throw new Error("Cita no encontrada.");
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    if (!data) {
+        throw httpError(404, "Cita no encontrada.");
     }
 
     return data;
@@ -61,7 +66,7 @@ const validarAccesoCita = async (cita, usuario) => {
 
     if (usuario.rol === "Cliente") {
         if (Number(cita.cliente_id) !== Number(usuario.id)) {
-            throw new Error("No tienes acceso a esta cita.");
+            throw httpError(403, "No tienes acceso a esta cita.");
         }
         return;
     }
@@ -72,12 +77,12 @@ const validarAccesoCita = async (cita, usuario) => {
         );
 
         if (!barbero || Number(cita.barbero_id) !== Number(barbero.id)) {
-            throw new Error("No tienes acceso a esta cita.");
+            throw httpError(403, "No tienes acceso a esta cita.");
         }
         return;
     }
 
-    throw new Error("Rol no autorizado.");
+    throw httpError(403, "Rol no autorizado.");
 };
 
 export const editarCita = async (id, datos, usuario) => {
@@ -106,7 +111,8 @@ export const editarCita = async (id, datos, usuario) => {
     }
 
     if (Object.keys(permitidos).length === 0) {
-        throw new Error(
+        throw httpError(
+            403,
             "No tienes campos permitidos para modificar esta cita."
         );
     }
@@ -138,7 +144,8 @@ export const borrarCita = async (id, usuario) => {
     }
 
     if (usuario.rol !== "Administrador") {
-        throw new Error(
+        throw httpError(
+            403,
             "El barbero debe gestionar la cita mediante su estado."
         );
     }

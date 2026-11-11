@@ -3,7 +3,6 @@ part of '../../screens/citas/citas_screen.dart';
 class _CitasScreenAcciones extends StatelessWidget {
   final Map<String, dynamic> cita;
   final String estado;
-  final bool esBarbero;
   final bool esAdmin;
   final bool puedeCancelar;
   final void Function(Map<String, dynamic>, String) onCambiarEstado;
@@ -13,7 +12,6 @@ class _CitasScreenAcciones extends StatelessWidget {
   const _CitasScreenAcciones({
     required this.cita,
     required this.estado,
-    required this.esBarbero,
     required this.esAdmin,
     required this.puedeCancelar,
     required this.onCambiarEstado,
@@ -27,12 +25,12 @@ class _CitasScreenAcciones extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        if (esBarbero || esAdmin)
+        if (esAdmin)
           ElevatedButton(
             onPressed: () => onCambiarEstado(cita, 'Completada'),
             child: const Text('Completar'),
           ),
-        if (!esBarbero && !esAdmin && estado.toLowerCase() != 'cancelada')
+        if (!esAdmin && estado.toLowerCase() != 'cancelada')
           TextButton.icon(
             onPressed: () => onReprogramar(cita),
             icon: const Icon(Icons.update_rounded, size: 17),

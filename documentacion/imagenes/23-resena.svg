@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="390" height="844" viewBox="0 0 390 844">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0C1220"/><stop offset="100%" stop-color="#070A12"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F4DA9A"/><stop offset="50%" stop-color="#D6B25E"/><stop offset="100%" stop-color="#A9832F"/></linearGradient><linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#182338"/><stop offset="100%" stop-color="#111824"/></linearGradient><linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2C2412"/><stop offset="50%" stop-color="#141B2A"/><stop offset="100%" stop-color="#0E1420"/></linearGradient></defs><rect width="390" height="844" fill="url(#bg)"/>
+
+<g>
+  <text x="24" y="28" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">9:41</text>
+  <rect x="300" y="27" width="3" height="4" rx="1" fill="#F8FAFC"/><rect x="305" y="24.5" width="3" height="6.5" rx="1" fill="#F8FAFC"/><rect x="310" y="22" width="3" height="9" rx="1" fill="#F8FAFC"/><rect x="315" y="19.5" width="3" height="11.5" rx="1" fill="#F8FAFC"/>
+  <path d="M324 24.5a12 12 0 0 1 15 0M327 28a8 8 0 0 1 9 0M330 31.2a4 4 0 0 1 3 0" fill="none" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="345" y="19" width="23" height="11" rx="3" fill="none" stroke="#F8FAFC" stroke-width="1.3" opacity="0.7"/>
+  <rect x="348" y="22" width="15" height="5" rx="1.2" fill="#F8FAFC"/>
+  <path d="M370 22.5v4" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</g>
+
+<g>
+  
+  <text x="24" y="80" font-family="Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="-0.2">Mis citas</text>
+  
+  
+</g>
+<rect x="20" y="112" width="350" height="168" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<g transform="translate(36 132) scale(0.9166666666666666)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+<text x="70" y="149" font-family="Poppins, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Corte de cabello + barba</text>
+<text x="70" y="168" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez · hoy, 3:00 p.m.</text>
+<text x="70" y="196" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="600" fill="#4ADE80" text-anchor="start" opacity="1" letter-spacing="0">Completada</text>
+<g><rect x="36" y="214" width="132" height="40" rx="12" fill="#D6B25E" opacity="0.13"/><rect x="36" y="214" width="132" height="40" rx="12" fill="none" stroke="#D6B25E" opacity="0.35"/><g transform="translate(53.765 225)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g></g><text x="79.765" y="239" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Calificar</text></g>
+<rect x="0" y="0" width="390" height="844" fill="#090C12" opacity="0.62"/>
+<rect x="0" y="332" width="390" height="512" rx="26" fill="#111824" stroke="#354563" stroke-opacity="1" stroke-width="1" opacity="1"/>
+<rect x="177" y="350" width="36" height="4" rx="2" fill="#354563"/>
+<text x="24" y="392" font-family="Poppins, Arial, sans-serif" font-size="17" font-weight="700" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Deja tu reseña</text>
+<text x="24" y="414" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">¿Cómo te fue con Andrés Ramírez?</text>
+<g transform="translate(30 446) scale(1.8333333333333333)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(104 446) scale(1.8333333333333333)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(178 446) scale(1.8333333333333333)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(252 446) scale(1.8333333333333333)" fill="none" stroke="#D6B25E" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g><g transform="translate(326 446) scale(1.8333333333333333)" fill="none" stroke="#354563" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" color="#354563"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g>
+<text x="195" y="524" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">¡Bien!</text>
+<g>
+    <text x="22" y="551" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Comentario (opcional)</text>
+    <rect x="20" y="560" width="350" height="128" rx="14" fill="#172033" stroke="#26324A"/>
+    <text x="36" y="586" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">El fade quedó exactamente como lo quería, muy</text>
+<text x="36" y="605" font-family="Poppins, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">puntual.</text>
+  </g>
+<text x="370" y="706" font-family="Poppins, Arial, sans-serif" font-size="10" font-weight="400" fill="#64748B" text-anchor="end" opacity="1" letter-spacing="0">56/300</text>
+<g><rect x="20" y="730" width="350" height="52" rx="14" fill="url(#gold)"/><g transform="translate(123.275 747)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="m20 6-11 11-5-5"/></g></g><text x="149.275" y="761" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Publicar reseña</text></g>
+<text x="195" y="808" font-family="Poppins, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Solo tú y el barbero verán esta reseña</text>
+<g>
+  
+  <circle cx="366" cy="468" r="16.5" fill="#070A12" opacity="0.9"/>
+  <circle cx="366" cy="468" r="13" fill="url(#gold)" stroke="#070A12" stroke-width="1.2"/>
+  <text x="366" y="472.7" font-family="Poppins, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">1</text>
+</g><g>
+  
+  <circle cx="366" cy="600" r="16.5" fill="#070A12" opacity="0.9"/>
+  <circle cx="366" cy="600" r="13" fill="url(#gold)" stroke="#070A12" stroke-width="1.2"/>
+  <text x="366" y="604.7" font-family="Poppins, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">2</text>
+</g><g>
+  
+  <circle cx="366" cy="756" r="16.5" fill="#070A12" opacity="0.9"/>
+  <circle cx="366" cy="756" r="13" fill="url(#gold)" stroke="#070A12" stroke-width="1.2"/>
+  <text x="366" y="760.7" font-family="Poppins, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#090C12" text-anchor="middle" opacity="1" letter-spacing="0">3</text>
+</g></svg>

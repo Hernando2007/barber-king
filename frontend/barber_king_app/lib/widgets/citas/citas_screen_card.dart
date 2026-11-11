@@ -2,7 +2,6 @@ part of '../../screens/citas/citas_screen.dart';
 
 class _CitasScreenCard extends StatelessWidget {
   final Map<String, dynamic> cita;
-  final bool esBarbero;
   final bool esAdmin;
   final Map<int, String> nombresBarberos;
   final Set<int> citasCalificadas;
@@ -13,7 +12,6 @@ class _CitasScreenCard extends StatelessWidget {
 
   const _CitasScreenCard({
     required this.cita,
-    required this.esBarbero,
     required this.esAdmin,
     required this.nombresBarberos,
     required this.citasCalificadas,
@@ -32,7 +30,7 @@ class _CitasScreenCard extends StatelessWidget {
     final color = AppFormat.statusColor(estado);
     final barberoId = barbero is Map ? int.tryParse('${barbero['id']}') : null;
 
-    final titulo = esBarbero || esAdmin
+    final titulo = esAdmin
         ? cliente is Map
               ? '${cliente['nombres'] ?? ''} ${cliente['apellidos'] ?? ''}'
                     .trim()
@@ -46,17 +44,16 @@ class _CitasScreenCard extends StatelessWidget {
         : 'Servicio';
 
     final puedeCancelar =
-        !esBarbero &&
+        !esAdmin &&
         estado.toLowerCase() != 'cancelada' &&
         estado.toLowerCase() != 'completada';
 
     final puedeGestionar =
-        (esBarbero || esAdmin) &&
+        esAdmin &&
         estado.toLowerCase() != 'cancelada' &&
         estado.toLowerCase() != 'completada';
 
     final puedeCalificar =
-        !esBarbero &&
         !esAdmin &&
         estado.toLowerCase() == 'completada' &&
         !citasCalificadas.contains(int.tryParse('${cita['id']}'));
@@ -146,7 +143,6 @@ class _CitasScreenCard extends StatelessWidget {
             _CitasScreenAcciones(
               cita: cita,
               estado: estado,
-              esBarbero: esBarbero,
               esAdmin: esAdmin,
               puedeCancelar: puedeCancelar,
               onCambiarEstado: onCambiarEstado,

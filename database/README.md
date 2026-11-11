@@ -23,6 +23,9 @@ Ejecuta los archivos en el editor SQL de Supabase, uno por uno y en este orden:
 15. `15_revision_verificaciones.sql` (trazabilidad de la revisión de barberos)
 16. `16_solicitudes_cliente.sql` (solicitudes de un toque y bandeja de avisos)
 17. `17_eliminar_solicitudes.sql` (elimina las solicitudes; conserva los avisos)
+18. `18_barberos_compatibilidad.sql` (columnas de perfil y ubicación en bases antiguas)
+19. `19_horarios_por_defecto.sql` (horario semanal para barberos sin franjas)
+20. `20_usuarios_auth_compatibilidad.sql` (columnas de autenticación en bases antiguas)
 
 Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecutarse sobre una base con información que quieras conservar.
 
@@ -30,7 +33,7 @@ Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecu
 
 `12_resenas_por_cita.sql` también es incremental: agrega `resenas.cita_id` si falta y lo marca único, de modo que cada cita completada admite una sola reseña.
 
-Los scripts `13` a `16` también son incrementales y se pueden volver a ejecutar
+Los scripts `13` a `20` también son incrementales y se pueden volver a ejecutar
 sin dañar datos: crean sus tablas con `IF NOT EXISTS` y agregan columnas con
 `ADD COLUMN IF NOT EXISTS`.
 
@@ -51,6 +54,17 @@ sin dañar datos: crean sus tablas con `IF NOT EXISTS` y agregan columnas con
 - `17_eliminar_solicitudes.sql` elimina `solicitudes_cliente` y los avisos viejos
   de solicitudes: la cita ya se confirma al reservar. `avisos_usuario` se
   conserva porque es el buzón que notifica las citas nuevas.
+- `18_barberos_compatibilidad.sql` agrega a `barberos` las columnas de perfil
+  (`direccion`, `portafolio`, `disponible`) y de ubicación (`ciudad`, `zona`,
+  `latitud`, `longitud`, `ubicacion_actualizada`) en bases creadas con un esquema
+  anterior. El esquema completo de `03_barberos.sql` ya las incluye.
+- `19_horarios_por_defecto.sql` completa el horario semanal de los barberos que
+  no tengan ninguna franja, sin tocar las que ya existan.
+- `20_usuarios_auth_compatibilidad.sql` agrega a `usuarios` las columnas de
+  autenticación (`google_id`, `avatar`, `email_verificado`, tokens de
+  recuperación, `ultimo_login` y `vip`), permite `password` nulo para las cuentas
+  de Google y renombra la variante camelCase de `google_id` si ya existía,
+  conservando los datos.
 
 Si vas a aplicar solo algunos, respeta el orden: `16` depende de `citas` y de los
 barberos, y `13` debe ir antes de cualquier reserva nueva porque `citas.precio`

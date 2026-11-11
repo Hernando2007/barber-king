@@ -67,7 +67,7 @@ export const obtenerUsuarioPorCorreo = async (correo) => {
             foto,
             fecha_nacimiento,
             estado,
-            googleId,
+            google_id,
             avatar,
             password
         `)
@@ -142,7 +142,7 @@ export const crearUsuarioGoogle = async ({
             password: null,
             estado: true,
             email_verificado: true,
-            googleId,
+            google_id: googleId,
             avatar
         })
         .select("id")

@@ -14,8 +14,6 @@ export const obtenerBarberos = async ({ servicioId = null } = {}) => {
                 id,
                 nombres,
                 apellidos,
-                correo,
-                telefono,
                 foto
             )
         `
@@ -25,8 +23,6 @@ export const obtenerBarberos = async ({ servicioId = null } = {}) => {
                 id,
                 nombres,
                 apellidos,
-                correo,
-                telefono,
                 foto
             )
         `;
@@ -55,8 +51,6 @@ export const obtenerBarberoPorId = async (id) => {
                 id,
                 nombres,
                 apellidos,
-                correo,
-                telefono,
                 foto
             )
         `)

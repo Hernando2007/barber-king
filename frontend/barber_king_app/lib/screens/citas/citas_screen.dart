@@ -37,7 +37,6 @@ class _CitasScreenState extends State<CitasScreen> {
   bool _cargando = true;
 
   bool get _esAdmin => _rol == 1;
-  bool get _esBarbero => _rol == 2;
 
   @override
   void initState() {
@@ -119,13 +118,7 @@ class _CitasScreenState extends State<CitasScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(
-          _esBarbero
-              ? 'Agenda profesional'
-              : _esAdmin
-              ? 'Todas las citas'
-              : 'Mis citas',
-        ),
+        title: Text(_esAdmin ? 'Todas las citas' : 'Mis citas'),
         actions: [
           IconButton(
             tooltip: 'Actualizar',
@@ -134,13 +127,11 @@ class _CitasScreenState extends State<CitasScreen> {
           ),
         ],
       ),
-      floatingActionButton: _esBarbero
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: _nuevaCita,
-              icon: const Icon(Icons.add_rounded),
-              label: const Text('Nueva cita'),
-            ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _nuevaCita,
+        icon: const Icon(Icons.add_rounded),
+        label: const Text('Nueva cita'),
+      ),
       body: SafeArea(
         child: _cargando
             ? const LoadingView(message: 'Cargando citas...')
@@ -156,15 +147,11 @@ class _CitasScreenState extends State<CitasScreen> {
                     ),
                     const SizedBox(height: 16),
                     if (filtradas.isEmpty)
-                      _CitasScreenEmpty(
-                        esBarbero: _esBarbero,
-                        onNuevaCita: _nuevaCita,
-                      )
+                      _CitasScreenEmpty(onNuevaCita: _nuevaCita)
                     else
                       ...filtradas.map(
                         (cita) => _CitasScreenCard(
                           cita: cita,
-                          esBarbero: _esBarbero,
                           esAdmin: _esAdmin,
                           nombresBarberos: _nombresBarberos,
                           citasCalificadas: _citasCalificadas,

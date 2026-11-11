@@ -39,105 +39,126 @@
   </g>
 
 <g>
-  <rect x="20" y="158" width="350" height="184" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <rect x="20" y="140" width="350" height="184" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
   <g>
-    <rect x="36" y="174" width="44" height="44" rx="13" fill="#4ADE80" opacity="0.13"/>
-    <g transform="translate(48 186) scale(0.8333333333333334)" fill="none" stroke="#4ADE80" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#4ADE80"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <rect x="36" y="156" width="44" height="44" rx="13" fill="#4ADE80" opacity="0.13"/>
+    <g transform="translate(48 168) scale(0.8333333333333334)" fill="none" stroke="#4ADE80" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#4ADE80"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
   </g>
-  <text x="94" y="192" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez</text>
-  <text x="94" y="211" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Corte + Barba</text>
+  <text x="94" y="174" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Andrés Ramírez</text>
+  <text x="94" y="193" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Corte + Barba</text>
   <g>
-    <rect x="274" y="176" width="71.30000000000001" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
-    <text x="309.65" y="189.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Confirmada</text>
+    <rect x="274" y="158" width="71.30000000000001" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
+    <text x="309.65" y="171.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Confirmada</text>
   </g>
   
 <g>
-  <rect x="36" y="226" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="47" y="244" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
-  <text x="47" y="264" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">23 oct 2026</text>
+  <rect x="36" y="208" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="47" y="226" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
+  <text x="47" y="246" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">23 oct 2026</text>
 </g>
   
 <g>
-  <rect x="134" y="226" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="145" y="244" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora</text>
-  <text x="145" y="264" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">15:30</text>
+  <rect x="134" y="208" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="145" y="226" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora</text>
+  <text x="145" y="246" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">15:30</text>
 </g>
   
 <g>
-  <rect x="232" y="226" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="243" y="244" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Precio</text>
-  <text x="243" y="264" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">$ 40.000</text>
+  <rect x="232" y="208" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="243" y="226" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Precio</text>
+  <text x="243" y="246" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">$ 40.000</text>
 </g>
-  <g><rect x="36" y="288" width="152" height="40" rx="14" fill="none" stroke="#354563"/><g transform="translate(71.595 299)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.6 8.6 0 0 1-4-1L3 21l1.9-5.2a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 12.4 3 8.5 8.5 0 0 1 21 11.5z"/></g></g><text x="97.595" y="313" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Barbero</text></g>
-  <g><rect x="202" y="288" width="152" height="40" rx="14" fill="#F87171" opacity="0.13"/><rect x="202" y="288" width="152" height="40" rx="14" fill="none" stroke="#F87171" opacity="0.35"/><text x="278" y="313" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F87171" text-anchor="middle" opacity="1" letter-spacing="0">Cancelar</text></g>
+  <g><rect x="36" y="270" width="152" height="40" rx="14" fill="none" stroke="#354563"/><g transform="translate(55.934999999999995 281)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g></g><text x="81.935" y="295" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Reprogramar</text></g>
+  <g><rect x="202" y="270" width="152" height="40" rx="14" fill="#F87171" opacity="0.13"/><rect x="202" y="270" width="152" height="40" rx="14" fill="none" stroke="#F87171" opacity="0.35"/><text x="278" y="295" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F87171" text-anchor="middle" opacity="1" letter-spacing="0">Cancelar</text></g>
 </g>
 
 <g>
-  <rect x="20" y="356" width="350" height="184" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <rect x="20" y="332" width="350" height="184" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
   <g>
-    <rect x="36" y="372" width="44" height="44" rx="13" fill="#FBBF24" opacity="0.13"/>
-    <g transform="translate(48 384) scale(0.8333333333333334)" fill="none" stroke="#FBBF24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#FBBF24"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <rect x="36" y="348" width="44" height="44" rx="13" fill="#FBBF24" opacity="0.13"/>
+    <g transform="translate(48 360) scale(0.8333333333333334)" fill="none" stroke="#FBBF24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#FBBF24"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
   </g>
-  <text x="94" y="390" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Sebastián Torres</text>
-  <text x="94" y="409" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Fade</text>
+  <text x="94" y="366" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Sebastián Torres</text>
+  <text x="94" y="385" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Fade</text>
   <g>
-    <rect x="274" y="374" width="66.17" height="20" rx="10" fill="#FBBF24" opacity="0.14"/>
-    <text x="307.085" y="387.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#FBBF24" text-anchor="middle" opacity="1" letter-spacing="0">Pendiente</text>
+    <rect x="274" y="350" width="66.17" height="20" rx="10" fill="#FBBF24" opacity="0.14"/>
+    <text x="307.085" y="363.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#FBBF24" text-anchor="middle" opacity="1" letter-spacing="0">Pendiente</text>
   </g>
   
 <g>
-  <rect x="36" y="424" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="47" y="442" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
-  <text x="47" y="462" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">24 oct 2026</text>
+  <rect x="36" y="400" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="47" y="418" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
+  <text x="47" y="438" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">24 oct 2026</text>
 </g>
   
 <g>
-  <rect x="134" y="424" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="145" y="442" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora</text>
-  <text x="145" y="462" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">10:00</text>
+  <rect x="134" y="400" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="145" y="418" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora</text>
+  <text x="145" y="438" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">10:00</text>
 </g>
   
 <g>
-  <rect x="232" y="424" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="243" y="442" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Precio</text>
-  <text x="243" y="462" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">$ 30.000</text>
+  <rect x="232" y="400" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="243" y="418" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Precio</text>
+  <text x="243" y="438" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">$ 30.000</text>
 </g>
-  <g><rect x="36" y="486" width="152" height="40" rx="14" fill="none" stroke="#354563"/><g transform="translate(71.595 497)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.6 8.6 0 0 1-4-1L3 21l1.9-5.2a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 12.4 3 8.5 8.5 0 0 1 21 11.5z"/></g></g><text x="97.595" y="511" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Barbero</text></g>
-  <g><rect x="202" y="486" width="152" height="40" rx="14" fill="#F87171" opacity="0.13"/><rect x="202" y="486" width="152" height="40" rx="14" fill="none" stroke="#F87171" opacity="0.35"/><text x="278" y="511" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F87171" text-anchor="middle" opacity="1" letter-spacing="0">Cancelar</text></g>
+  <g><rect x="36" y="462" width="152" height="40" rx="14" fill="none" stroke="#354563"/><g transform="translate(55.934999999999995 473)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g></g><text x="81.935" y="487" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Reprogramar</text></g>
+  <g><rect x="202" y="462" width="152" height="40" rx="14" fill="#F87171" opacity="0.13"/><rect x="202" y="462" width="152" height="40" rx="14" fill="none" stroke="#F87171" opacity="0.35"/><text x="278" y="487" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F87171" text-anchor="middle" opacity="1" letter-spacing="0">Cancelar</text></g>
 </g>
 
 <g>
-  <rect x="20" y="554" width="350" height="184" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <rect x="20" y="524" width="350" height="184" rx="20" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
   <g>
-    <rect x="36" y="570" width="44" height="44" rx="13" fill="#60A5FA" opacity="0.13"/>
-    <g transform="translate(48 582) scale(0.8333333333333334)" fill="none" stroke="#60A5FA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#60A5FA"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <rect x="36" y="540" width="44" height="44" rx="13" fill="#60A5FA" opacity="0.13"/>
+    <g transform="translate(48 552) scale(0.8333333333333334)" fill="none" stroke="#60A5FA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#60A5FA"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
   </g>
-  <text x="94" y="588" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Mateo Herrera</text>
-  <text x="94" y="607" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Corte Clásico</text>
+  <text x="94" y="558" font-family="Poppins, Arial, sans-serif" font-size="15" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Mateo Herrera</text>
+  <text x="94" y="577" font-family="Poppins, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8" text-anchor="start" opacity="1" letter-spacing="0">Corte Clásico</text>
   <g>
-    <rect x="274" y="572" width="71.30000000000001" height="20" rx="10" fill="#94A3B8" opacity="0.14"/>
-    <text x="309.65" y="585.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Completada</text>
+    <rect x="274" y="542" width="71.30000000000001" height="20" rx="10" fill="#94A3B8" opacity="0.14"/>
+    <text x="309.65" y="555.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">Completada</text>
   </g>
   
 <g>
-  <rect x="36" y="622" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="47" y="640" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
-  <text x="47" y="660" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">18 oct 2026</text>
+  <rect x="36" y="592" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="47" y="610" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Fecha</text>
+  <text x="47" y="630" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">18 oct 2026</text>
 </g>
   
 <g>
-  <rect x="134" y="622" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="145" y="640" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora</text>
-  <text x="145" y="660" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">09:00</text>
+  <rect x="134" y="592" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="145" y="610" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Hora</text>
+  <text x="145" y="630" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">09:00</text>
 </g>
   
 <g>
-  <rect x="232" y="622" width="98" height="50" rx="11" fill="#172033"/>
-  <text x="243" y="640" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Precio</text>
-  <text x="243" y="660" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">$ 20.000</text>
+  <rect x="232" y="592" width="98" height="50" rx="11" fill="#172033"/>
+  <text x="243" y="610" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#64748B" text-anchor="start" opacity="1" letter-spacing="0">Precio</text>
+  <text x="243" y="630" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">$ 20.000</text>
 </g>
-  <g><rect x="36" y="684" width="152" height="40" rx="14" fill="none" stroke="#354563"/><g transform="translate(71.595 695)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.6 8.6 0 0 1-4-1L3 21l1.9-5.2a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 12.4 3 8.5 8.5 0 0 1 21 11.5z"/></g></g><text x="97.595" y="709" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Barbero</text></g>
-  <g><rect x="202" y="684" width="152" height="40" rx="14" fill="#D6B25E" opacity="0.13"/><rect x="202" y="684" width="152" height="40" rx="14" fill="none" stroke="#D6B25E" opacity="0.35"/><g transform="translate(229.765 695)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g></g><text x="255.765" y="709" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Calificar</text></g>
+  <g><rect x="36" y="654" width="152" height="40" rx="14" fill="none" stroke="#354563"/><g transform="translate(55.934999999999995 665)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#F8FAFC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#F8FAFC"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></g></g><text x="81.935" y="679" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Reprogramar</text></g>
+  <g><rect x="202" y="654" width="152" height="40" rx="14" fill="#D6B25E" opacity="0.13"/><rect x="202" y="654" width="152" height="40" rx="14" fill="none" stroke="#D6B25E" opacity="0.35"/><g transform="translate(229.765 665)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4l-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/></g></g><text x="255.765" y="679" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#D6B25E" text-anchor="start" opacity="1" letter-spacing="0">Calificar</text></g>
 </g>
-<g><rect x="217.7" y="764" width="152.3" height="54" rx="16" fill="url(#gold)"/><g transform="translate(241.7 782)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M12 5v14M5 12h14"/></g></g><text x="267.7" y="796" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Nueva cita</text></g>
+<g><rect x="217.7" y="700" width="152.3" height="54" rx="16" fill="url(#gold)"/><g transform="translate(241.7 718)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M12 5v14M5 12h14"/></g></g><text x="267.7" y="732" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Nueva cita</text></g>
+
+<g>
+  <rect x="0" y="764" width="390" height="80" fill="#0B101C" opacity="0.98"/>
+  <rect x="0" y="764" width="390" height="1" fill="#26324A"/>
+  <g>
+    
+    <g transform="translate(53 776) scale(1)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></g>
+    <text x="65" y="830" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Inicio</text>
+    
+  </g><g>
+    <rect x="163" y="770" width="64" height="36" rx="18" fill="#D6B25E" opacity="0.14"/>
+    <g transform="translate(183 776) scale(1)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <text x="195" y="830" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Citas</text>
+    
+  </g><g>
+    
+    <g transform="translate(313 776) scale(1)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.3 15.7M14.5 14.5 20 20M8.3 8.3 12 12"/></g>
+    <text x="325" y="830" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Barberos</text>
+    
+  </g>
+</g>
 </svg>

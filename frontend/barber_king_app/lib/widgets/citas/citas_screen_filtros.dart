@@ -44,21 +44,18 @@ class _CitasScreenFiltros extends StatelessWidget {
 }
 
 class _CitasScreenEmpty extends StatelessWidget {
-  final bool esBarbero;
   final VoidCallback? onNuevaCita;
 
-  const _CitasScreenEmpty({required this.esBarbero, this.onNuevaCita});
+  const _CitasScreenEmpty({this.onNuevaCita});
 
   @override
   Widget build(BuildContext context) {
     return EmptyState(
       icon: Icons.event_busy_outlined,
       title: 'Sin citas',
-      message: esBarbero
-          ? 'Aún no tienes reservas registradas.'
-          : 'No hay citas que coincidan con este filtro.',
-      actionLabel: esBarbero ? null : 'Reservar ahora',
-      onAction: esBarbero ? null : onNuevaCita,
+      message: 'No hay citas que coincidan con este filtro.',
+      actionLabel: 'Reservar ahora',
+      onAction: onNuevaCita,
     );
   }
 }

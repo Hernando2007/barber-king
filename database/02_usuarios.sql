@@ -21,9 +21,26 @@ CREATE TABLE usuarios (
 
     telefono VARCHAR(20),
 
-    password TEXT NOT NULL,
+    -- NULL en las cuentas creadas con Google: no usan contraseña local.
+    password TEXT,
 
     foto TEXT,
+
+    -- Foto que devuelve Google; foto es la que el usuario sube a mano.
+    avatar TEXT,
+
+    -- Identificador de la cuenta de Google.
+    google_id TEXT,
+
+    email_verificado BOOLEAN NOT NULL DEFAULT FALSE,
+
+    token_recuperacion VARCHAR(10),
+
+    token_expiracion TIMESTAMP WITH TIME ZONE,
+
+    ultimo_login TIMESTAMP WITH TIME ZONE,
+
+    vip BOOLEAN NOT NULL DEFAULT FALSE,
 
     fecha_nacimiento DATE,
 
@@ -40,7 +57,10 @@ CREATE TABLE usuarios (
     CONSTRAINT chk_correo
         CHECK (
             correo ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
-        )
+        ),
+
+    CONSTRAINT uq_usuarios_google_id
+        UNIQUE (google_id)
 );
 
 CREATE INDEX idx_usuario_correo

@@ -91,20 +91,26 @@
   </g>
   <g transform="translate(342 608) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
 </g>
+<g><rect x="178.55" y="700" width="191.45" height="54" rx="16" fill="url(#gold)"/><g transform="translate(202.55 718)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M12 5v14M5 12h14"/></g></g><text x="228.55" y="732" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Agregar jornada</text></g>
+
 <g>
-  <rect x="20" y="660" width="350" height="66" rx="18" fill="#111824" stroke="#26324A" stroke-opacity="1" stroke-width="1" opacity="1"/>
+  <rect x="0" y="764" width="390" height="80" fill="#0B101C" opacity="0.98"/>
+  <rect x="0" y="764" width="390" height="1" fill="#26324A"/>
   <g>
-    <rect x="34" y="676" width="34" height="34" rx="10" fill="#1D2940" opacity="1" stroke="#26324A"/>
-    <text x="51" y="698" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle" opacity="1" letter-spacing="0">VI</text>
+    
+    <g transform="translate(53 776) scale(1)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></g>
+    <text x="65" y="830" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Inicio</text>
+    
+  </g><g>
+    
+    <g transform="translate(183 776) scale(1)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></g>
+    <text x="195" y="830" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="500" fill="#64748B" text-anchor="middle" opacity="1" letter-spacing="0">Agenda</text>
+    
+  </g><g>
+    <rect x="293" y="770" width="64" height="36" rx="18" fill="#D6B25E" opacity="0.14"/>
+    <g transform="translate(313 776) scale(1)" fill="none" stroke="#D6B25E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#D6B25E"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></g>
+    <text x="325" y="830" font-family="Poppins, Arial, sans-serif" font-size="11" font-weight="600" fill="#D6B25E" text-anchor="middle" opacity="1" letter-spacing="0">Horarios</text>
+    
   </g>
-  <text x="80" y="687" font-family="Poppins, Arial, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">Viernes</text>
-  
-  <text x="80" y="709" font-family="Poppins, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#F8FAFC" text-anchor="start" opacity="1" letter-spacing="0">08:00 - 12:00</text>
-  <g>
-    <rect x="268" y="673" width="50.78" height="20" rx="10" fill="#4ADE80" opacity="0.14"/>
-    <text x="293.39" y="686.5" font-family="Poppins, Arial, sans-serif" font-size="9.5" font-weight="600" fill="#4ADE80" text-anchor="middle" opacity="1" letter-spacing="0">Activo</text>
-  </g>
-  <g transform="translate(342 682) scale(0.75)" fill="none" stroke="#64748B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#64748B"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></g>
 </g>
-<g><rect x="178.55" y="764" width="191.45" height="54" rx="16" fill="url(#gold)"/><g transform="translate(202.55 782)"><g transform="translate(0 0) scale(0.75)" fill="none" stroke="#090C12" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" color="#090C12"><path d="M12 5v14M5 12h14"/></g></g><text x="228.55" y="796" font-family="Poppins, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#090C12" text-anchor="start" opacity="1" letter-spacing="0">Agregar jornada</text></g>
 </svg>

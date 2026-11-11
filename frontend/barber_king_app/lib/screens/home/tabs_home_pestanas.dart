@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../routes/app_routes.dart';
+import '../barbero/agenda_screen.dart';
 import '../barbero/barbero_home_screen.dart';
 import '../barberos/barberos_screen.dart';
 import '../citas/citas_screen.dart';
@@ -62,10 +63,10 @@ List<Pestana> pestanasBarbero(Map<String, dynamic> usuario) => [
   ),
   const Pestana(
     etiqueta: 'Agenda',
-    ruta: AppRoutes.citas,
-    icono: Icons.event_available_outlined,
-    iconoActivo: Icons.event_available,
-    construir: _conCitas,
+    ruta: AppRoutes.agenda,
+    icono: Icons.calendar_month_outlined,
+    iconoActivo: Icons.calendar_month,
+    construir: _conAgenda,
   ),
   const Pestana(
     etiqueta: 'Horarios',
@@ -77,5 +78,6 @@ List<Pestana> pestanasBarbero(Map<String, dynamic> usuario) => [
 ];
 
 Widget _conCitas(_) => const CitasScreen();
+Widget _conAgenda(_) => const AgendaScreen();
 Widget _conBarberos(_) => const BarberosScreen();
 Widget _conHorarios(_) => const HorariosScreen();
