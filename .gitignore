@@ -43,6 +43,9 @@ frontend/barber_king_app/macos/Flutter/ephemeral/
 frontend/barber_king_app/linux/flutter/ephemeral/
 frontend/barber_king_app/windows/flutter/ephemeral/
 
+# Perfil de navegador que Edge crea al generar las capturas de la documentación
+documentacion/_prueba/perfil/
+
 # Sistema operativo
 .DS_Store
 Thumbs.db
