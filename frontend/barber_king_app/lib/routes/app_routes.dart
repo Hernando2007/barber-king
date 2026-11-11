@@ -11,6 +11,7 @@ import '../screens/chat/chat_ia_screen.dart';
 import '../screens/citas/citas_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/horarios/horarios_screen.dart';
+import '../screens/legal/politica_privacidad_screen.dart';
 import '../screens/login/login_screen.dart';
 import '../screens/manual/manual_screen.dart';
 import '../screens/perfil/perfil_screen.dart';
@@ -36,6 +37,7 @@ class AppRoutes {
   static const forgotPassword = "/forgot-password";
   static const resetPassword = "/reset-password";
   static const manualUsuario = "/manual-usuario";
+  static const politicaPrivacidad = "/politica-privacidad";
 
   static Map<String, WidgetBuilder> routes = {
     splash: (context) => const SplashScreen(),
@@ -54,5 +56,6 @@ class AppRoutes {
     forgotPassword: (context) => const ForgotPasswordScreen(),
     resetPassword: (context) => const ResetPasswordScreen(),
     manualUsuario: (context) => const ManualScreen(),
+    politicaPrivacidad: (context) => const PoliticaPrivacidadScreen(),
   };
 }

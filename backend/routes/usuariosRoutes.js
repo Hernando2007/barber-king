@@ -6,6 +6,7 @@ import {
     putPerfilActual,
     putFotoPerfil,
     putDiploma,
+    eliminarMiCuenta,
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
@@ -32,6 +33,7 @@ router.put(
     subirDiploma,
     putDiploma
 );
+router.delete("/me", verificarToken, eliminarMiCuenta);
 
 router.get(
     "/obtener",

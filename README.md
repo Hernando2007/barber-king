@@ -20,6 +20,8 @@ El sistema cubre el flujo completo: registro e inicio de sesión, reserva de cit
 - Chat directo con barberos, con envío de imágenes.
 - Chat con IA y recomendación de cortes a partir de una foto.
 - Edición de perfil y foto.
+- Eliminación de la propia cuenta desde la app (Mi perfil → Eliminar cuenta),
+  con borrado de citas, reseñas, mensajes y demás datos asociados.
 
 ### Barbero
 
@@ -102,6 +104,14 @@ barber-king/
   interfaz señalizada, solución de problemas y FAQ):  
   [`documentacion/manual-usuario.html`](documentacion/manual-usuario.html) ·
   [`documentacion/pdf/manual-usuario.pdf`](documentacion/pdf/manual-usuario.pdf)
+- Guía de publicación en Google Play (firma, AAB, Data Safety, prueba cerrada):  
+  [`documentacion/play-store/guia-publicacion.md`](documentacion/play-store/guia-publicacion.md)
+- Textos para la ficha de Play Store y formulario de seguridad de datos:  
+  [`documentacion/play-store/textos-listing.md`](documentacion/play-store/textos-listing.md)
+- Política de privacidad pública:  
+  <https://barber-king.onrender.com/public/politica-privacidad.html>
+- Cómo eliminar la cuenta y los datos:  
+  <https://barber-king.onrender.com/public/eliminar-cuenta.html>
 
 ---
 
@@ -305,6 +315,13 @@ está vieja.
 4. Reinstala el APK. Si cambias de keystore, registra la nueva huella SHA-1.
    Cambiar `GOOGLE_CLIENT_ID` no exige recompilar: la app lo vuelve a leer.
 
+Para la versión de Play Store hay que registrar **dos** huellas más en ese mismo
+cliente Android: la del keystore de release y la de **Play App Signing**. Google
+firma los APK descargados desde Play con su propia clave, así que sin esa huella
+el login con Google falla solo en las instalaciones de la tienda. Los comandos
+para leerlas están en
+[`documentacion/play-store/guia-publicacion.md`](documentacion/play-store/guia-publicacion.md#3-huellas-sha-1).
+
 Síntoma típico de faltar el paso 1 o 2: se abre el selector, eliges la cuenta y
 la app vuelve sin sesión (Google lo reporta como *cancelado*). El plugin
 `google_sign_in` 7.x no distingue el motivo en Android, así que un SHA-1 viejo o
@@ -336,6 +353,19 @@ storeFile=C:/keystores/barber-king-release.keystore
 Con ese archivo, el release se firma con tu keystore automáticamente. La huella
 SHA-1 cambia, así que regístrala en el cliente OAuth de Android. Un APK firmado
 con otra clave no actualiza al anterior: hay que desinstalar primero.
+
+Para Play Store compila un **AAB**, no un APK:
+
+```bash
+flutter build appbundle --release --obfuscate --split-debug-info=build/symbols
+```
+
+El resultado queda en `build/app/outputs/bundle/release/app-release.aab`.
+Verifica la firma con `jarsigner -verify -verbose -certs <aab>` y guarda
+`build/symbols` para poder leer los reportes de fallos. Con Play App Signing hay
+**dos** huellas SHA-1 que registrar en Google Cloud: la de tu upload key y la que
+genera Play (ver
+[`documentacion/play-store/guia-publicacion.md`](documentacion/play-store/guia-publicacion.md)).
 
 ### Notificaciones con la app cerrada
 
@@ -377,7 +407,7 @@ adb shell dumpsys jobscheduler | grep -i barber-king
 | Módulo | Endpoints |
 | --- | --- |
 | Autenticación | `POST /api/auth/registro`, `/login`, `/google`, `/forgot-password`, `/reset-password` |
-| Usuarios | `GET/PUT /api/usuarios/me`, `PUT /me/foto`, `PUT /me/diploma`, CRUD administrativo en `/api/usuarios` |
+| Usuarios | `GET/PUT/DELETE /api/usuarios/me` (el `DELETE` elimina la propia cuenta), `PUT /me/foto`, `PUT /me/diploma`, CRUD administrativo en `/api/usuarios` |
 | Servicios | `GET /api/servicios/obtener`, CRUD en `/api/servicios` |
 | Barberos | `GET /api/barberos/obtener`, detalle y gestión en `/api/barberos` |
 | Citas | `POST /api/citas/crear`, consulta y actualización en `/api/citas` |

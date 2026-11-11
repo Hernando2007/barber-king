@@ -12,6 +12,7 @@ import '../../services/usuario_service.dart';
 import '../../widgets/common/app_ui.dart';
 
 part '../../widgets/perfil/perfil_screen_acciones.dart';
+part '../../widgets/perfil/perfil_screen_cuenta.dart';
 part '../../widgets/perfil/perfil_screen_password.dart';
 part '../../widgets/perfil/perfil_screen_header.dart';
 part '../../widgets/perfil/perfil_screen_info.dart';
@@ -183,6 +184,19 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 ),
               ),
               OutlinedButton.icon(
+                onPressed: () =>
+                    Navigator.pushNamed(context, AppRoutes.politicaPrivacidad),
+                icon: const Icon(Icons.privacy_tip_outlined),
+                label: const Text('POLÍTICA DE PRIVACIDAD'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  side: BorderSide(
+                    color: AppColors.primary.withValues(alpha: .5),
+                  ),
+                  minimumSize: const Size(48, 52),
+                ),
+              ),
+              OutlinedButton.icon(
                 onPressed: _cerrarSesion,
                 icon: const Icon(Icons.logout_outlined),
                 label: const Text('CERRAR SESIÓN'),
@@ -192,6 +206,16 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     color: AppColors.error.withValues(alpha: .5),
                   ),
                   minimumSize: const Size(48, 52),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextButton.icon(
+                onPressed: _eliminarCuenta,
+                icon: const Icon(Icons.delete_forever_outlined),
+                label: const Text('ELIMINAR CUENTA'),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.error,
+                  minimumSize: const Size(48, 48),
                 ),
               ),
               const SizedBox(height: 25),

@@ -93,6 +93,29 @@ class UsuarioService {
     }
   }
 
+  Future<Map<String, dynamic>> eliminarCuenta({
+    String? password,
+    String? confirmacion,
+  }) async {
+    try {
+      final response = await _api.dio.delete(
+        '/usuarios/me',
+        data: {
+          if (password != null && password.isNotEmpty) 'password': password,
+          if (confirmacion != null && confirmacion.isNotEmpty)
+            'confirmacion': confirmacion,
+        },
+      );
+
+      return Map<String, dynamic>.from(response.data);
+    } on DioException catch (e) {
+      return {
+        'success': false,
+        'message': _mensaje(e) ?? 'No se pudo eliminar la cuenta.',
+      };
+    }
+  }
+
   String nombreCompleto(Map<String, dynamic> usuario) {
     return '${usuario['nombres'] ?? ''} '
             '${usuario['apellidos'] ?? ''}'

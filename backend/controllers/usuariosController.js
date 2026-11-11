@@ -13,6 +13,7 @@ import {
     guardarFotoPerfil,
 } from "../services/usuariosPerfilService.js";
 import { guardarDiplomaBarbero } from "../services/usuariosDiplomaService.js";
+import { eliminarMiCuenta as eliminarMiCuentaService } from "../services/usuariosCuentaService.js";
 
 export const getUsuarios = async (req, res, next) => {
     try {
@@ -90,6 +91,24 @@ export const putDiploma = async (req, res, next) => {
             success: true,
             message: "Diploma actualizado correctamente.",
             data,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const eliminarMiCuenta = async (req, res, next) => {
+    try {
+        const resultado = await eliminarMiCuentaService(
+            req.usuario,
+            req.body
+        );
+
+        return res.status(200).json({
+            success: true,
+            message:
+                "Tu cuenta y los datos asociados fueron eliminados.",
+            data: resultado,
         });
     } catch (error) {
         next(error);

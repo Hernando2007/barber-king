@@ -17,8 +17,9 @@ class ApiConfig {
 
   static const String _webUrl = 'http://localhost:3000';
   static const String _androidEmulatorUrl = 'http://10.0.2.2:3000';
-  static const String _deviceUrl =
-      'https://aowak-138-117-87-182.run.pinggy-free.link'; // IP de tu PC
+  // IP de tu PC en la red local. Cámbiala si tu red usa otro rango, o pasa
+  // --dart-define=API_URL=http://TU_IP:3000 al ejecutar en un celular físico.
+  static const String _deviceUrl = 'http://192.168.1.100:3000';
   static const String _override = String.fromEnvironment('API_URL');
 
   static String _cachedOrigin = '';
