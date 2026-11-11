@@ -9,7 +9,32 @@ import {
 import { httpError } from "../utils/httpError.js";
 import { enviarBienvenida } from "../services/emailService.js";
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const clienteGoogle = new OAuth2Client();
+
+const obtenerClientesPermitidos = () => {
+    const valores = [
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_IDS,
+    ]
+        .filter(Boolean)
+        .join(",")
+        .split(/[\s,]+/)
+        .map((valor) => valor.trim())
+        .filter(Boolean);
+
+    return [...new Set(valores)];
+};
+
+// Los tokens de Android/iOS del mismo proyecto de Google Cloud
+// pueden tener una audiencia distinta a la del cliente web.
+const mismoProyecto = (audiencia, clientes) => {
+    const proyecto = String(audiencia || "").split("-")[0];
+
+    return (
+        Boolean(proyecto) &&
+        clientes.some((cliente) => cliente.split("-")[0] === proyecto)
+    );
+};
 
 const nombreRol = (rolId) => {
     if (Number(rolId) === 1) {
@@ -43,24 +68,111 @@ export const autenticarConGoogle = async (req, res) => {
     try {
         const { idToken } = req.body || {};
 
-        if (!idToken) {
+        if (typeof idToken !== "string" || !idToken.trim()) {
             throw httpError(
                 400,
                 "El idToken de Google es requerido."
             );
         }
 
-        if (!process.env.GOOGLE_CLIENT_ID) {
+        const clientesPermitidos = obtenerClientesPermitidos();
+
+        if (!clientesPermitidos.length) {
             throw httpError(
                 500,
                 "El inicio de sesión con Google no está configurado."
             );
         }
 
-        const ticket = await client.verifyIdToken({
-            idToken,
-            audience: process.env.GOOGLE_CLIENT_ID,
+        const idTokenLimpio = idToken.trim();
+
+        let tokenDecodificado = null;
+
+        try {
+            tokenDecodificado = jwt.decode(idTokenLimpio);
+        } catch {
+            tokenDecodificado = null;
+        }
+
+        if (!tokenDecodificado || typeof tokenDecodificado !== "object") {
+            throw httpError(
+                401,
+                "El token de Google no tiene un formato válido. Inténtalo de nuevo."
+            );
+        }
+
+        const audiencia = String(tokenDecodificado.aud || "");
+        const emisor = String(tokenDecodificado.iss || "");
+        const expiracion = Number(tokenDecodificado.exp || 0);
+        const ahora = Math.floor(Date.now() / 1000);
+
+        console.log("Google auth:", {
+            aud: audiencia,
+            iss: emisor,
+            venceEnSegundos: expiracion ? expiracion - ahora : null,
         });
+
+        if (
+            emisor !== "accounts.google.com" &&
+            emisor !== "https://accounts.google.com"
+        ) {
+            throw httpError(
+                401,
+                "El token de Google no fue emitido por Google."
+            );
+        }
+
+        if (
+            !clientesPermitidos.includes(audiencia) &&
+            !mismoProyecto(audiencia, clientesPermitidos)
+        ) {
+            console.warn("Google auth: audiencia no configurada", {
+                audiencia,
+                clientesPermitidos,
+            });
+
+            throw httpError(
+                401,
+                "El token de Google pertenece a otra aplicación. " +
+                    "Revisa el cliente OAuth configurado en el servidor."
+            );
+        }
+
+        if (expiracion && expiracion < ahora - 60) {
+            throw httpError(
+                401,
+                "El token de Google expiró. Activa la fecha y hora " +
+                    "automáticas en el teléfono y vuelve a intentarlo."
+            );
+        }
+
+        let ticket;
+
+        try {
+            ticket = await clienteGoogle.verifyIdToken({
+                idToken: idTokenLimpio,
+                audience: audiencia,
+            });
+        } catch (error) {
+            console.error(
+                "Google auth: verifyIdToken falló:",
+                error.message
+            );
+
+            const expirado = /expir|Expiration Time/i.test(
+                error.message || ""
+            );
+
+            throw httpError(
+                401,
+                expirado
+                    ? "El token de Google expiró. Activa la fecha y " +
+                          "hora automáticas en el teléfono y vuelve a " +
+                          "intentarlo."
+                    : "No fue posible validar el token de Google. " +
+                          "Vuelve a intentarlo."
+            );
+        }
 
         const payload = ticket.getPayload();
 
@@ -75,9 +187,14 @@ export const autenticarConGoogle = async (req, res) => {
         const { sub: googleId, picture: avatar } = payload;
         const { nombres, apellidos } = separarNombre(payload);
 
-        const { data: existente } = await obtenerUsuarioPorCorreo(
-            correo
-        );
+        const { data: existente, error: errorConsulta } =
+            await obtenerUsuarioPorCorreo(correo);
+
+        if (errorConsulta) {
+            throw new Error(
+                `No fue posible consultar el usuario: ${errorConsulta.message}`
+            );
+        }
 
         let usuarioFinal = null;
         let mensaje = "Inicio de sesión exitoso con Google.";
@@ -107,7 +224,15 @@ export const autenticarConGoogle = async (req, res) => {
             }
 
             if (Object.keys(cambios).length) {
-                await actualizarUsuario(existente.id, cambios);
+                const { error: errorActualizacion } =
+                    await actualizarUsuario(existente.id, cambios);
+
+                if (errorActualizacion) {
+                    throw new Error(
+                        "No fue posible actualizar el usuario: " +
+                            errorActualizacion.message
+                    );
+                }
             }
         } else {
             const { data: nuevo, error } = await crearUsuarioGoogle({
@@ -173,14 +298,20 @@ export const autenticarConGoogle = async (req, res) => {
             },
         });
     } catch (error) {
-        console.error("Error en autenticación con Google:", error.message);
+        console.error("Error en autenticación con Google:", error);
 
-        return res.status(error.statusCode || 401).json({
+        if (error.statusCode) {
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.message,
+            });
+        }
+
+        return res.status(500).json({
             success: false,
             message:
-                error.statusCode
-                    ? error.message
-                    : "Token de Google inválido o expirado.",
+                "No fue posible completar el inicio de sesión con Google. " +
+                "Inténtalo de nuevo en unos minutos.",
         });
     }
 };

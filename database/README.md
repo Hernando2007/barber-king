@@ -64,7 +64,9 @@ sin dañar datos: crean sus tablas con `IF NOT EXISTS` y agregan columnas con
   autenticación (`google_id`, `avatar`, `email_verificado`, tokens de
   recuperación, `ultimo_login` y `vip`), permite `password` nulo para las cuentas
   de Google y renombra la variante camelCase de `google_id` si ya existía,
-  conservando los datos.
+  conservando los datos. El backend acepta ambos nombres (`google_id` y
+  `googleId`), así que el inicio de sesión con Google funciona aunque esta
+  migración todavía no se haya aplicado; aplicarla deja el esquema normalizado.
 
 Si vas a aplicar solo algunos, respeta el orden: `16` depende de `citas` y de los
 barberos, y `13` debe ir antes de cualquier reserva nueva porque `citas.precio`

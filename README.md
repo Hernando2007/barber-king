@@ -329,6 +329,12 @@ un paquete mal escrito también salen como "Se canceló el acceso con Google".
 `GET /api/auth/google/config` confirma el paso 3: si devuelve un `clientId`,
 Render sí lo tiene.
 
+Si en cambio la app muestra "El token de Google expiró" o "El token de Google
+pertenece a otra aplicación", el `idToken` sí llegó al backend y el problema está
+en la fecha del teléfono o en el `GOOGLE_CLIENT_ID`. Cuando el fallo es del
+servidor (base de datos, por ejemplo) la app muestra "No fue posible completar el
+inicio de sesión con Google"; en ese caso revisa los logs de Render.
+
 ### Firmar el APK de release con tu propio keystore
 
 Sin `android/key.properties`, `flutter build apk --release` firma con la clave de
