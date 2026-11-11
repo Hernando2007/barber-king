@@ -23,10 +23,12 @@ extension _CitasScreenLogic on _CitasScreenState {
   Future<void> _cancelar(Map<String, dynamic> cita) async {
     final confirmar = await showConfirmDialog(
       context,
-      title: 'Cancelar cita',
-      message:
-          '¿Deseas cancelar la cita de ${AppFormat.date(cita['fecha'])} '
-          'a las ${AppFormat.time(cita['hora'])}?',
+      title: _esCliente ? 'Cancelar reserva' : 'Cancelar cita',
+      message: _esCliente
+          ? '¿Deseas cancelar tu reserva de ${AppFormat.date(cita['fecha'])} '
+                'a las ${AppFormat.time(cita['hora'])}?'
+          : '¿Deseas cancelar la cita de ${AppFormat.date(cita['fecha'])} '
+                'a las ${AppFormat.time(cita['hora'])}?',
       confirmLabel: 'Sí, cancelar',
       destructive: true,
     );
@@ -85,7 +87,7 @@ extension _CitasScreenLogic on _CitasScreenState {
         respuesta['success'] == true
             ? 'Cita reprogramada: la anterior quedó cancelada.'
             : 'Nueva cita confirmada, pero la anterior no se pudo cancelar. '
-                  'Cancélala desde Mis citas.',
+                  'Cancélala desde Mis reservas.',
         error: respuesta['success'] != true,
       );
     } else {

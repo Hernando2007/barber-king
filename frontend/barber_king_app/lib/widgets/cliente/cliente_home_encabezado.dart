@@ -79,7 +79,7 @@ class _ClienteHomeStats extends StatelessWidget {
         Expanded(
           child: StatTile(
             icon: Icons.event_note_outlined,
-            label: 'Mis citas',
+            label: 'Mis reservas',
             value: '$totalCitas',
           ),
         ),

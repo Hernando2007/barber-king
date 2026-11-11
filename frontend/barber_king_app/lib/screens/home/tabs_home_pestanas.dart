@@ -38,7 +38,7 @@ List<Pestana> pestanasCliente(Map<String, dynamic> usuario) => [
     construir: (_) => ClienteHomeScreen(usuario: usuario),
   ),
   const Pestana(
-    etiqueta: 'Citas',
+    etiqueta: 'Reservas',
     ruta: AppRoutes.citas,
     icono: Icons.event_available_outlined,
     iconoActivo: Icons.event_available,

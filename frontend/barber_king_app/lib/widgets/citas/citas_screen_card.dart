@@ -26,7 +26,7 @@ class _CitasScreenCard extends StatelessWidget {
     final cliente = cita['usuarios'];
     final servicio = cita['servicios'];
     final barbero = cita['barberos'];
-    final estado = cita['estado']?.toString() ?? 'Pendiente';
+    final estado = cita['estado']?.toString() ?? 'Confirmada';
     final color = AppFormat.statusColor(estado);
     final barberoId = barbero is Map ? int.tryParse('${barbero['id']}') : null;
 

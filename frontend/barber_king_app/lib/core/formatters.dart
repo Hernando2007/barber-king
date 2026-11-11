@@ -87,6 +87,42 @@ class AppFormat {
     return value.toString().split(':').take(2).join(':');
   }
 
+  static String dayNumber(dynamic value) {
+    final parsed = toDate(value);
+
+    return parsed == null ? '--' : parsed.day.toString().padLeft(2, '0');
+  }
+
+  static String monthShort(dynamic value) {
+    final parsed = toDate(value);
+
+    return parsed == null ? '---' : _months[parsed.month - 1].toUpperCase();
+  }
+
+  /// "Hoy" o "Mañana" para las fechas cercanas; vacío en el resto.
+  static String relativeDay(dynamic value) {
+    final parsed = toDate(value);
+
+    if (parsed == null) {
+      return '';
+    }
+
+    final hoy = DateTime.now();
+    final inicio = DateTime(hoy.year, hoy.month, hoy.day);
+    final dia = DateTime(parsed.year, parsed.month, parsed.day);
+    final diferencia = dia.difference(inicio).inDays;
+
+    if (diferencia == 0) {
+      return 'Hoy';
+    }
+
+    if (diferencia == 1) {
+      return 'Mañana';
+    }
+
+    return '';
+  }
+
   static String money(dynamic value) {
     final number = num.tryParse('$value');
 

@@ -68,7 +68,7 @@ class _ClienteHomeHeroCita extends StatelessWidget {
     }
 
     final servicio = cita!['servicios'];
-    final estado = cita!['estado']?.toString() ?? 'Pendiente';
+    final estado = cita!['estado']?.toString() ?? 'Confirmada';
 
     return AppCard(
       gradient: AppColors.heroGradient,
@@ -87,7 +87,7 @@ class _ClienteHomeHeroCita extends StatelessWidget {
               const SizedBox(width: 7),
               const Expanded(
                 child: Text(
-                  'TU PRÓXIMA CITA',
+                  'TU PRÓXIMA RESERVA',
                   style: TextStyle(
                     color: AppColors.primary,
                     fontSize: 10.5,
@@ -120,7 +120,7 @@ class _ClienteHomeHeroCita extends StatelessWidget {
           OutlinedButton.icon(
             onPressed: onVerCitas,
             icon: const Icon(Icons.event_note_outlined, size: 17),
-            label: const Text('Ver mis citas'),
+            label: const Text('Ver mis reservas'),
           ),
         ],
       ),
