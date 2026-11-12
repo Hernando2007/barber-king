@@ -41,7 +41,7 @@ if (!process.argv.includes("--pdf")) {
   process.exit(process.exitCode || 0);
 }
 
-const manuales = ["manual-usuario", "manual-tecnico", "manual-instalacion"];
+const manuales = ["manual-usuario", "manual-tecnico", "manual-instalacion", "manual-despliegue"];
 for (const nombre of manuales) {
   const html = path.join(__dirname, `${nombre}.html`);
   if (!fs.existsSync(html)) {

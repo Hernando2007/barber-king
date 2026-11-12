@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Manual de despliegue | Barber King</title>
+<style>
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #dfe3e8; font-family: "Segoe UI", Arial, sans-serif; color: #182230; }
+.hoja { width: 210mm; height: 297mm; margin: 0 auto; background: #fff; padding: 12mm 16mm 14mm; position: relative; page-break-after: always; overflow: hidden; }
+.hoja:last-child { page-break-after: auto; }
+.cuerpo { height: 271mm; overflow: hidden; }
+.pie { position: absolute; left: 16mm; right: 16mm; bottom: 6mm; display: flex; justify-content: space-between; border-top: .35mm solid #d8dde5; padding-top: 2mm; font-size: 8pt; color: #7a8698; }
+.kicker { margin: 0 0 1.5mm; font-size: 8pt; font-weight: 700; letter-spacing: 1.1pt; text-transform: uppercase; color: #a07c2c; }
+h1 { margin: 0 0 4mm; font-size: 24pt; line-height: 1.1; color: #0d1529; }
+h2 { margin: 0 0 3mm; padding-bottom: 2mm; border-bottom: .8mm solid #d6b25e; font-size: 15pt; color: #0d1529; }
+h3 { margin: 4mm 0 2mm; font-size: 11pt; color: #0d1529; }
+p, li { font-size: 9.5pt; line-height: 1.45; }
+p { margin: 0 0 2.5mm; }
+table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 0 0 2mm; }
+th { padding: 2mm 2.5mm; background: #0d1529; color: #fff; text-align: left; font-size: 8.5pt; letter-spacing: .3pt; }
+td { padding: 2mm 2.5mm; border: .3mm solid #d8dde5; vertical-align: top; }
+tbody tr:nth-child(even) td { background: #f5f7fa; }
+.ruta { margin: 0 0 3mm; padding: 2mm 3mm; border-left: 1mm solid #d6b25e; background: #faf6ec; font-size: 9pt; }
+.ruta b { color: #7a5c17; }
+.fila { display: flex; gap: 6mm; }
+.fig { flex: none; width: 76mm; }
+.fig img { display: block; width: 76mm; }
+.fig .nota { margin: 1.5mm 0 0; font-size: 7.5pt; color: #7a8698; line-height: 1.35; }
+.pasos { flex: 1; margin: 0; padding: 0; list-style: none; counter-reset: p; }
+.pasos li { position: relative; margin: 0 0 2.6mm; padding-left: 8mm; font-size: 9.3pt; line-height: 1.4; }
+.pasos li::before { content: counter(p); counter-increment: p; position: absolute; left: 0; top: .2mm; display: flex; align-items: center; justify-content: center; width: 5.6mm; height: 5.6mm; border-radius: 50%; background: #d6b25e; color: #0b0e19; font-size: 8.5pt; font-weight: 700; }
+.resultado { margin-top: 3mm; padding: 2mm 3mm; border: .3mm solid #bfe3cb; background: #eef7f0; font-size: 9pt; }
+.resultado b { color: #1d6b3a; }
+.aviso { margin: 0 0 3mm; padding: 2mm 3mm; border: .3mm solid #f0d9a8; background: #fdf6e6; font-size: 9pt; }
+.indice { list-style: none; margin: 0; padding: 0; }
+.indice li { display: flex; align-items: baseline; gap: 2mm; margin: 0 0 1.6mm; font-size: 9.5pt; }
+.indice li.n2 { padding-left: 6mm; font-size: 9pt; color: #3c4a5e; }
+.indice li.n3 { padding-left: 12mm; font-size: 8.5pt; color: #5b6a80; }
+.indice .linea { flex: 1; border-bottom: .3mm dotted #b9c2cf; }
+.indice .pag { font-weight: 700; color: #0d1529; }
+.marca { display: inline-flex; align-items: center; justify-content: center; width: 5.6mm; height: 5.6mm; border-radius: 50%; background: #d6b25e; color: #0b0e19; font-size: 8.5pt; font-weight: 700; vertical-align: middle; }
+.firma { margin-top: 6mm; display: flex; gap: 10mm; }
+.firma div { flex: 1; border-top: .4mm solid #182230; padding-top: 2mm; font-size: 8.5pt; color: #3c4a5e; }
+.portada { margin: -12mm -16mm 6mm; padding: 10mm 16mm 8mm; background: #ffffff; color: #182230; }
+.portada .oro { color: #a9832f; font-size: 10pt; font-weight: 700; letter-spacing: 2pt; }
+.portada h1 { color: #0d1529; margin: 2mm 0 1mm; }
+.portada p { color: #5b6a80; margin: 0; }
+.logo-portada { display: block; margin: 0 auto 3mm; width: 30mm; height: auto; }
+.captura { margin: 0 0 2.5mm; border: .35mm solid #26324a; border-radius: 2.5mm; overflow: hidden; background: #f5f7fa; }
+.captura img { display: block; width: 100%; height: auto; }
+.captura .leyenda { padding: 1.2mm 2.5mm; font-size: 7.6pt; color: #5b6a80; background: #f5f7fa; border-top: .3mm solid #d8dde5; }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.codigo { margin: 0 0 2.5mm; padding: 2mm 3mm; background: #0d1529; color: #e9eef6; border-radius: 1.5mm; font-family: "Consolas", "Courier New", monospace; font-size: 8pt; line-height: 1.5; white-space: pre-wrap; }
+.compacta td, .compacta th { padding: 1.3mm 2mm; font-size: 8.4pt; }
+.check { list-style: none; margin: 0 0 2mm; padding: 0; }
+.check li { position: relative; padding-left: 6mm; margin-bottom: 1.7mm; font-size: 9pt; line-height: 1.35; }
+.check li::before { content: ""; position: absolute; left: 0; top: .9mm; width: 3mm; height: 3mm; border: .35mm solid #a07c2c; border-radius: .6mm; }
+.flujo { display: flex; align-items: stretch; gap: 1.5mm; margin: 0 0 3mm; }
+.flujo .caja { flex: 1; border: .35mm solid #d8dde5; border-top: 1mm solid #d6b25e; border-radius: 2mm; padding: 2mm; background: #fbfcfe; font-size: 8pt; line-height: 1.35; }
+.flujo .caja b { display: block; font-size: 8.6pt; color: #0d1529; margin-bottom: .8mm; }
+.flujo .flecha { align-self: center; color: #a07c2c; font-weight: 700; font-size: 12pt; }
+.tarjetas { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin: 0 0 4mm; }
+.tarjeta { border: .35mm solid #d8dde5; border-top: 1.2mm solid #d6b25e; border-radius: 2mm; padding: 3mm; background: #fbfcfe; }
+.tarjeta h3 { margin: 0 0 1.5mm; font-size: 10pt; }
+.tarjeta p, .tarjeta li { font-size: 8.8pt; line-height: 1.4; margin: 0 0 1.2mm; }
+.cierre { margin-top: 5mm; padding-top: 3mm; border-top: .35mm solid #d8dde5; font-size: 8.5pt; color: #5b6a80; }
+</style>
+</head>
+<body>
+
+<!-- Página 1: portada -->
+<div class="hoja">
+<div class="cuerpo">
+<div class="portada">
+  <img class="logo-portada" src="imagenes-despliegue/emblema-dorado.png" alt="Emblema de Barber King">
+  <div class="oro">BARBER KING</div>
+  <h1>Manual de despliegue</h1>
+  <p>Publicación en Google Play Console y despliegue del backend en Render</p>
+</div>
+
+<p class="kicker">Documento técnico | Versión 1.0</p>
+<p>Este manual reúne, en el orden en que se ejecutan, los pasos para publicar la aplicación Android de Barber King en Google Play y para desplegar la API del proyecto en Render. Está pensado para que otra persona del equipo pueda repetir el proceso sin depender de la memoria de quien lo hizo la primera vez.</p>
+
+<table class="compacta">
+<tbody>
+<tr><td style="width:34%">Proyecto</td><td>Barber King, aplicación de reservas y gestión para barbería.</td></tr>
+<tr><td>Documento</td><td>Manual de despliegue. Acompaña al manual de usuario y al manual técnico.</td></tr>
+<tr><td>Autores</td><td>Hernando Botello Vargas y Yonanderson Marroquin.</td></tr>
+<tr><td>Fecha</td><td>12 de noviembre de 2026.</td></tr>
+<tr><td>Repositorio</td><td>github.com/Hernando2007/barber-king, rama <b>main</b>.</td></tr>
+<tr><td>Alcance</td><td>Cuenta de Google Play, firma del AAB, ficha de la tienda, prueba cerrada, producción, servicio web en Render, variables de entorno y verificación del servicio.</td></tr>
+</tbody>
+</table>
+
+<div class="tarjetas" style="margin-top:5mm">
+  <div class="tarjeta">
+    <h3>Parte 1. Google Play Console</h3>
+    <p>Creación de la cuenta de desarrollador, verificación de identidad, pago único, firma del paquete, ficha de la tienda, seguridad de los datos y publicación.</p>
+    <p><b>Páginas 6 a 15.</b></p>
+  </div>
+  <div class="tarjeta">
+    <h3>Parte 2. Backend en Render</h3>
+    <p>Creación del servicio web, configuración del repositorio, variables de entorno, primer despliegue, verificación y operación diaria.</p>
+    <p><b>Páginas 16 a 21.</b></p>
+  </div>
+</div>
+
+<div class="aviso">
+<b>Documento interno.</b> Las capturas de Google Play Console incluyen datos personales del titular de la cuenta: nombre, dirección, teléfono y correo. No comparta este archivo fuera del equipo del proyecto ni lo publique en repositorios abiertos.
+</div>
+
+<div class="cierre">
+Barber King | Manual de despliegue | Versión 1.0 | Noviembre de 2026
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 1 de 24</span></div>
+</div>
+
+<!-- Página 2: hoja de control -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 0 | Control del documento</p>
+<h2>Hoja de control</h2>
+
+<table>
+<tbody>
+<tr><td style="width:38%">Nombre del sistema</td><td>Barber King, reservas y gestión de barbería. Aplicación Android con API en la nube.</td></tr>
+<tr><td>Cliente</td><td>Barber King, barbería. Proyecto formativo del programa de Análisis y Desarrollo de Software.</td></tr>
+<tr><td>Objetivo del documento</td><td>Describir el despliegue de la app en Google Play y de la API en Render, con las capturas del proceso real.</td></tr>
+<tr><td>Versión</td><td>1.0, oficial.</td></tr>
+<tr><td>Fecha de elaboración</td><td>12 de noviembre de 2026.</td></tr>
+<tr><td>Ficha del programa</td><td>____________________, se completa a mano al entregar.</td></tr>
+<tr><td>Ubicación</td><td><b>documentacion/manual-despliegue.html</b> y su versión PDF en <b>documentacion/pdf/</b>.</td></tr>
+<tr><td>Fuentes</td><td>Cuenta real de Google Play Console, panel de Render del proyecto y guía interna de publicación.</td></tr>
+</tbody>
+</table>
+
+<h3>Historial de versiones</h3>
+<table class="compacta">
+<thead><tr><th style="width:16%">Versión</th><th style="width:22%">Fecha</th><th>Cambio</th></tr></thead>
+<tbody>
+<tr><td>1.0</td><td>12 de noviembre de 2026</td><td>Primera versión. Incluye la creación de la cuenta de Play Console, la firma del AAB, la ficha de la tienda, el despliegue en Render y la solución del aviso de proxy.</td></tr>
+</tbody>
+</table>
+
+<h3>Responsabilidades</h3>
+<table class="compacta">
+<thead><tr><th style="width:32%">Actividad</th><th style="width:24%">Responsable</th><th>Entregable</th></tr></thead>
+<tbody>
+<tr><td>Cuenta de Play y ficha de la tienda</td><td>Hernando Botello Vargas</td><td>Cuenta verificada y app publicada.</td></tr>
+<tr><td>Firma y compilación del AAB</td><td>Yonanderson Marroquin</td><td>Paquete firmado y símbolos de ofuscación.</td></tr>
+<tr><td>Backend en Render</td><td>Hernando Botello Vargas</td><td>Servicio activo en HTTPS.</td></tr>
+<tr><td>Verificación final</td><td>Ambos autores</td><td>Lista de comprobación diligenciada.</td></tr>
+</tbody>
+</table>
+
+<h3>Aprobación del cliente</h3>
+<p>Con la firma se acepta que este manual describe el despliegue del sistema entregado en su versión 1.0 y que las cuentas, claves y servicios mencionados quedaron bajo custodia del cliente.</p>
+<div class="firma">
+  <div>Nombre y firma del cliente</div>
+  <div>Fecha</div>
+</div>
+
+<div class="aviso" style="margin-top:6mm">
+<b>Confidencialidad.</b> El documento menciona correos, teléfonos y la ubicación del keystore. Esas claves no se escriben aquí: viven fuera del repositorio, en el equipo del responsable de la firma.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 2 de 24</span></div>
+</div>
+
+<!-- Página 3: índice -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Contenido</p>
+<h2>Índice</h2>
+
+<ul class="indice">
+<li><span>1. Presentación y alcance</span><span class="linea"></span><span class="pag">4</span></li>
+<li class="n2"><span>1.1 Propósito</span><span class="linea"></span><span class="pag">4</span></li>
+<li class="n2"><span>1.2 Arquitectura del despliegue</span><span class="linea"></span><span class="pag">4</span></li>
+<li class="n2"><span>1.3 Requisitos y credenciales</span><span class="linea"></span><span class="pag">5</span></li>
+<li><span>2. Publicación en Google Play Console</span><span class="linea"></span><span class="pag">6</span></li>
+<li class="n2"><span>2.1 Crear la cuenta de desarrollador</span><span class="linea"></span><span class="pag">6</span></li>
+<li class="n2"><span>2.2 Requisitos de la cuenta</span><span class="linea"></span><span class="pag">7</span></li>
+<li class="n2"><span>2.3 Identidad y dirección</span><span class="linea"></span><span class="pag">8</span></li>
+<li class="n2"><span>2.4 Perfil público y perfil de pagos</span><span class="linea"></span><span class="pag">9</span></li>
+<li class="n2"><span>2.5 Experiencia y datos de contacto</span><span class="linea"></span><span class="pag">10</span></li>
+<li class="n2"><span>2.6 Planes, términos y pago</span><span class="linea"></span><span class="pag">11</span></li>
+<li class="n2"><span>2.7 Cuenta creada y pendientes</span><span class="linea"></span><span class="pag">12</span></li>
+<li class="n2"><span>2.8 Crear la app y firmar el AAB</span><span class="linea"></span><span class="pag">13</span></li>
+<li class="n2"><span>2.9 Ficha de Play y seguridad de los datos</span><span class="linea"></span><span class="pag">14</span></li>
+<li class="n2"><span>2.10 Prueba cerrada y producción</span><span class="linea"></span><span class="pag">15</span></li>
+<li><span>3. Despliegue del backend en Render</span><span class="linea"></span><span class="pag">16</span></li>
+<li class="n2"><span>3.1 Crear el servicio web</span><span class="linea"></span><span class="pag">16</span></li>
+<li class="n2"><span>3.2 Configurar el servicio</span><span class="linea"></span><span class="pag">17</span></li>
+<li class="n2"><span>3.3 Variables de entorno</span><span class="linea"></span><span class="pag">18</span></li>
+<li class="n2"><span>3.4 Primer despliegue</span><span class="linea"></span><span class="pag">19</span></li>
+<li class="n2"><span>3.5 Verificación y aviso de proxy</span><span class="linea"></span><span class="pag">20</span></li>
+<li class="n2"><span>3.6 Operación y mantenimiento</span><span class="linea"></span><span class="pag">21</span></li>
+<li><span>4. Lista de comprobación final</span><span class="linea"></span><span class="pag">22</span></li>
+<li><span>5. Problemas frecuentes</span><span class="linea"></span><span class="pag">23</span></li>
+<li><span>6. Glosario</span><span class="linea"></span><span class="pag">24</span></li>
+</ul>
+
+<div class="ruta" style="margin-top:8mm">
+<b>Cómo leer este manual.</b> Cada procedimiento trae la captura de la pantalla real, los pasos numerados y un recuadro de resultado. Las advertencias con fondo crema señalan un punto donde se pierde tiempo o se compromete la seguridad si se omite.
+</div>
+
+<h3>Convenciones</h3>
+<table class="compacta">
+<tbody>
+<tr><td style="width:26%"><b>Ruta</b></td><td>Ubicación de un menú o de una carpeta dentro del proyecto.</td></tr>
+<tr><td><b>Paso numerado</b></td><td>Acción que se ejecuta en el orden indicado.</td></tr>
+<tr><td><b>Resultado</b></td><td>Lo que debe verse al terminar el procedimiento.</td></tr>
+<tr><td><b>Advertencia</b></td><td>Riesgo de pérdida de datos, de dinero o de acceso a la cuenta.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 3 de 24</span></div>
+</div>
+
+<!-- Página 4: presentación -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 1</p>
+<h2>1. Presentación y alcance</h2>
+
+<h3>1.1 Propósito</h3>
+<p>Barber King tiene dos piezas que se despliegan por separado. La primera es la aplicación Android, que se distribuye por Google Play y que el usuario instala desde la tienda. La segunda es la API construida con Node.js y Express, que corre en Render y atiende las peticiones de la app por HTTPS. Este manual cubre las dos.</p>
+<p>El orden importa. Primero se deja el backend en línea, porque la app apunta a esa URL y sin ella no hay inicio de sesión ni reservas. Después se publica la app. Si se hace al revés, la versión que llega a los usuarios queda apuntando a un servicio que todavía no responde.</p>
+
+<div class="ruta">
+<b>Regla de oro.</b> Ningún AAB se sube a producción hasta que <b>https://barber-king.onrender.com/health</b> responda y el inicio de sesión funcione desde un teléfono con la URL remota.
+</div>
+
+<h3>1.2 Arquitectura del despliegue</h3>
+<p>La app no guarda datos en el teléfono. Todo pasa por la API. La siguiente ruta muestra el recorrido de una petición y los servicios externos que participan.</p>
+
+<div class="flujo">
+  <div class="caja"><b>App Android</b>AAB firmado, instalado desde Play Store. Cliente, barbero y administrador.</div>
+  <div class="flecha">→</div>
+  <div class="caja"><b>Render</b>API Express en Node.js 20, HTTPS, plan gratuito. Servicio <b>barber_king</b>.</div>
+  <div class="flecha">→</div>
+  <div class="caja"><b>Supabase</b>Base de datos, autenticación y almacenamiento de registros.</div>
+</div>
+<div class="flujo">
+  <div class="caja"><b>Cloudinary</b>Fotos de perfil, portafolio, diplomas e imágenes del chat. El disco de Render es efímero.</div>
+  <div class="flecha">+</div>
+  <div class="caja"><b>Groq</b>Asesor virtual y recomendación de cortes a partir de una foto.</div>
+  <div class="flecha">+</div>
+  <div class="caja"><b>SMTP y Google</b>Correos de recuperación e inicio de sesión con Google.</div>
+</div>
+
+<h3>Entornos del proyecto</h3>
+<table class="compacta">
+<thead><tr><th style="width:18%">Entorno</th><th style="width:38%">API</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td>Local</td><td>http://localhost:3000/api</td><td>Desarrollo en el equipo, con la base de datos de pruebas.</td></tr>
+<tr><td>Producción</td><td>https://barber-king.onrender.com/api</td><td>App publicada y pruebas cerradas de Play.</td></tr>
+</tbody>
+</table>
+
+<table class="compacta">
+<thead><tr><th style="width:32%">Dato del proyecto</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Identificador de la app</td><td>com.barberking.app</td></tr>
+<tr><td>Versión</td><td>1.0.0+1</td></tr>
+<tr><td>Rama de despliegue</td><td>main</td></tr>
+<tr><td>Carpeta del backend</td><td>backend/</td></tr>
+<tr><td>Servicio en Render</td><td>barber_king, región Ohio (US East)</td></tr>
+<tr><td>Documentos públicos</td><td>/public/politica-privacidad.html y /public/eliminar-cuenta.html</td></tr>
+</tbody>
+</table>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 4 de 24</span></div>
+</div>
+
+<!-- Página 5: requisitos -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 1.3</p>
+<h2>1.3 Requisitos y credenciales</h2>
+
+<p>Antes de abrir Play Console conviene tener todo a la mano. Cada cuenta tarda en verificarse y un dato faltante detiene el proceso a mitad de camino.</p>
+
+<h3>Cuentas y servicios</h3>
+<table class="compacta">
+<thead><tr><th style="width:30%">Recurso</th><th style="width:20%">Costo</th><th>Para qué se necesita</th></tr></thead>
+<tbody>
+<tr><td>Cuenta de Google Play Developer</td><td>25 USD, pago único</td><td>Publicar y firmar la app. Se paga al finalizar el registro.</td></tr>
+<tr><td>Cuenta de GitHub</td><td>Gratis</td><td>Repositorio que Render clona en cada despliegue.</td></tr>
+<tr><td>Cuenta de Render</td><td>Plan gratuito</td><td>Servicio web de la API. Se suspende por inactividad.</td></tr>
+<tr><td>Proyecto de Supabase</td><td>Plan gratuito</td><td>Base de datos, autenticación y tablas del sistema.</td></tr>
+<tr><td>Cuenta de Cloudinary</td><td>Plan gratuito</td><td>Almacenamiento de imágenes. Obligatorio en producción.</td></tr>
+<tr><td>Cuenta de Groq</td><td>Consumo por uso</td><td>Chat con inteligencia artificial y recomendación de cortes.</td></tr>
+<tr><td>Correo SMTP</td><td>Según el proveedor</td><td>Recuperación de contraseña y verificación de correo.</td></tr>
+<tr><td>Google Cloud Console</td><td>Gratis</td><td>Cliente OAuth de Android y registro de las huellas SHA-1.</td></tr>
+</tbody>
+</table>
+
+<h3>Herramientas en el equipo</h3>
+<table class="compacta">
+<thead><tr><th style="width:30%">Herramienta</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td>Flutter 3.47.1 o superior</td><td>Compilar el AAB de release. El proyecto usa targetSdk 36.</td></tr>
+<tr><td>Node.js 20 o superior</td><td>Ejecutar la API en local antes de desplegarla.</td></tr>
+<tr><td>JDK con keytool</td><td>Crear el keystore y verificar la firma del paquete.</td></tr>
+<tr><td>Microsoft Edge</td><td>Convertir este manual y el de usuario a PDF.</td></tr>
+<tr><td>Git</td><td>Subir los cambios a la rama main.</td></tr>
+</tbody>
+</table>
+
+<h3>Credenciales que deben existir antes de empezar</h3>
+<ul class="check">
+<li>Acceso al correo del titular de la cuenta de Play, con la contraseña a mano.</li>
+<li>Documento de identidad vigente, con nombre y dirección que coincidan con el perfil de pagos.</li>
+<li>Tarjeta de crédito o débito para la cuota única de 25 USD.</li>
+<li>Keystore de release creado y respaldado fuera del repositorio.</li>
+<li>Archivo android/key.properties con las contraseñas del keystore.</li>
+<li>Variables de entorno del backend completas, incluida la clave de Cloudinary.</li>
+<li>Cuentas demo de cliente, barbero y administrador creadas en producción.</li>
+</ul>
+
+<div class="aviso">
+<b>Nunca</b> suba al repositorio el keystore, el archivo key.properties ni el archivo .env. Si se filtran, hay que rotar las claves y, en el caso del keystore, solicitar el restablecimiento de la firma a Google.
+</div>
+
+<div class="resultado">
+<b>Punto de partida listo.</b> Con las cuentas creadas y las credenciales a la mano, el registro en Play Console se completa en una sola sesión de trabajo.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 5 de 24</span></div>
+</div>
+
+<!-- Página 6: 2.1 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2 | Google Play Console</p>
+<h2>2. Publicación en Google Play Console</h2>
+
+<p>La publicación tiene seis momentos: crear la cuenta de desarrollador, verificar la identidad, crear la ficha de la app, firmar el paquete, surtir la prueba cerrada y enviar a producción. Las capturas de esta sección corresponden al registro real de la cuenta del proyecto.</p>
+
+<h3>2.1 Crear la cuenta de desarrollador</h3>
+<div class="ruta"><b>Ruta:</b> play.google.com/console → Crear cuenta de desarrollador</div>
+
+<div class="captura"><img src="imagenes-despliegue/play-01-tipo-cuenta.png" alt="Elección del tipo de cuenta en Play Console"><div class="leyenda">Play Console pregunta si la cuenta es para una organización o para una persona. El proyecto se registró como cuenta personal.</div></div>
+
+<ol class="pasos">
+<li>Abra <b>play.google.com/console</b> e inicie sesión con la cuenta de Google que será propietaria. Esa cuenta no se puede cambiar después.</li>
+<li>Elija <b>Para ti</b>. La opción <b>Para una organización</b> exige verificar la empresa y no aplica a este proyecto.</li>
+<li>Confirme que el correo mostrado en la parte inferior es el correcto. Será el propietario de la cuenta de desarrollador.</li>
+<li>Pulse <b>Empezar</b> en la tarjeta <b>Para ti</b> y continúe con la lista de requisitos.</li>
+</ol>
+
+<div class="aviso">
+Los datos de esta cuenta son personales y quedan vinculados a la identidad del titular. No comparta el acceso con terceros ni use una cuenta de correo temporal.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Play Console abre el formulario de registro con el correo del titular fijado y muestra el primer paso de la lista: <b>Tipo de cuenta</b>.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 6 de 24</span></div>
+</div>
+
+<!-- Página 7: 2.2 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.2</p>
+<h2>2.2 Requisitos de la cuenta</h2>
+<div class="ruta"><b>Ruta:</b> Play Console → Crear cuenta de desarrollador → Qué vas a necesitar</div>
+
+<div class="captura"><img src="imagenes-despliegue/play-02-requisitos.png" alt="Requisitos para crear la cuenta de desarrollador"><div class="leyenda">Play enumera los cuatro requisitos: correo público, teléfono y correo de contacto, forma de pago y verificación de identidad.</div></div>
+
+<ol class="pasos">
+<li>Lea la lista completa y reúna los elementos antes de continuar. No se puede guardar el avance a medias.</li>
+<li>Tenga listo un <b>correo para el perfil público</b>. Se mostrará a los usuarios en la ficha del desarrollador y recibirá un código de verificación.</li>
+<li>Tenga a mano un <b>número de teléfono</b> y un correo de contacto para Google. No se publican, pero se verifican.</li>
+<li>Prepare la <b>forma de pago</b> para la cuota única de 25 USD.</li>
+<li>Revise que el documento de identidad esté vigente. La verificación es obligatoria para publicar.</li>
+<li>Pulse <b>Seguir</b> para iniciar el formulario.</li>
+</ol>
+
+<div class="aviso">
+El correo del perfil público es distinto del correo de contacto. El primero lo ven los usuarios; el segundo solo lo usa Google. Puede usar el mismo, pero conviene separarlos para no exponer el buzón principal.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Avanza a <b>Tipo de cuenta</b> y queda habilitado el formulario de datos personales.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 7 de 24</span></div>
+</div>
+
+<!-- Página 8: 2.3 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.3</p>
+<h2>2.3 Identidad y dirección</h2>
+<div class="ruta"><b>Ruta:</b> Play Console → Tipo de cuenta → Información sobre ti → Perfil de pagos</div>
+
+<p>Play pide el nombre legal y la dirección tal como aparecen en el documento de identidad. Cualquier diferencia obliga a repetir la verificación y puede retrasar la publicación varias semanas.</p>
+
+<div class="dos">
+  <div class="captura"><img src="imagenes-despliegue/play-03-datos-personales.png" alt="Formulario de datos personales"><div class="leyenda">Datos personales: país, nombre legal y dirección postal con apartamento, ciudad, departamento y código postal.</div></div>
+  <div class="captura"><img src="imagenes-despliegue/play-04-confirmar-direccion.png" alt="Confirmación de la dirección sugerida"><div class="leyenda">Google propone una dirección normalizada. Se confirma o se edita antes de guardar.</div></div>
+</div>
+
+<ol class="pasos">
+<li>Seleccione <b>Colombia</b> como país o territorio.</li>
+<li>Escriba el <b>nombre completo</b> exactamente como figura en el documento. No use apodos ni abreviaturas.</li>
+<li>Complete la <b>dirección postal</b>, el apartamento o suite, la ciudad, el departamento y el código postal.</li>
+<li>Pulse <b>Guardar</b>. Play verifica la dirección contra su base de datos y propone una versión normalizada.</li>
+<li>Revise la <b>dirección sugerida</b>. Si coincide, pulse <b>Confirmar</b>. Si no, use <b>Editar dirección</b>.</li>
+<li>Continúe con el perfil de pagos, que toma estos mismos datos.</li>
+</ol>
+
+<div class="aviso">
+La dirección del perfil de pagos debe coincidir con el extracto bancario del medio de pago. Si no coincide, Google rechaza el cobro y devuelve el formulario al inicio.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> La dirección queda confirmada y el registro pasa al <b>Perfil público</b>.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 8 de 24</span></div>
+</div>
+
+<!-- Página 9: 2.4 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.4</p>
+<h2>2.4 Perfil público y perfil de pagos</h2>
+
+<div class="captura" style="width:80%; margin-left:auto; margin-right:auto"><img src="imagenes-despliegue/play-05-perfil-publico.png" alt="Perfil público del desarrollador"><div class="leyenda">El perfil público muestra el nombre legal, el país y el correo de contacto que verán los usuarios.</div></div>
+
+<ol class="pasos">
+<li>Revise el <b>nombre legal</b> y el <b>país</b>. Se heredan de los datos anteriores.</li>
+<li>Escriba la <b>dirección de correo electrónico</b> que aparecerá en el perfil público y verifíquela con el código que llega al buzón.</li>
+<li>Confirme que desea usar esa dirección. Play advierte que será visible para cualquier usuario.</li>
+<li>Elija si desea obtener ingresos. Para esta app la respuesta es <b>no</b>.</li>
+</ol>
+
+<div class="captura" style="width:80%; margin-left:auto; margin-right:auto"><img src="imagenes-despliegue/play-06-perfil-pagos.png" alt="Vinculación del perfil de pagos"><div class="leyenda">El perfil de pagos aporta el nombre oficial y la dirección que Google usa para verificar la identidad.</div></div>
+
+<ol class="pasos">
+<li>Pulse <b>Vincular un perfil de pagos</b>. Si no existe, Play ofrece crearlo en el mismo flujo.</li>
+<li>Verifique que el nombre legal y la dirección sean los mismos del documento.</li>
+<li>Continúe. Google consulta el perfil y regresa al formulario de registro.</li>
+</ol>
+
+<div class="resultado">
+<b>Resultado.</b> El perfil público queda asociado y el perfil de pagos aparece vinculado en la parte superior del formulario.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 9 de 24</span></div>
+</div>
+
+<!-- Página 10: 2.5 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.5</p>
+<h2>2.5 Experiencia y datos de contacto</h2>
+<div class="ruta"><b>Ruta:</b> Play Console → Información sobre ti → Aplicaciones → Cómo se pone Google en contacto contigo</div>
+
+<div class="dos">
+  <div class="captura"><img src="imagenes-despliegue/play-07-experiencia.png" alt="Experiencia como desarrollador"><div class="leyenda">Preguntas sobre experiencia, sitio web, otras cuentas y aplicaciones publicadas.</div></div>
+  <div class="captura"><img src="imagenes-despliegue/play-08-contacto.png" alt="Correo y teléfono de contacto"><div class="leyenda">Idioma preferido, correo verificado y número de teléfono con código de país.</div></div>
+</div>
+
+<ol class="pasos">
+<li>Declare las <b>otras cuentas de Google</b> que se hayan usado para acceder a Play Console. Ocultarlas es motivo de suspensión.</li>
+<li>Describa la <b>experiencia como desarrollador de Android</b> en dos o tres líneas. Es informativa y no afecta la revisión.</li>
+<li>Agregue el <b>sitio web</b> si existe. Es opcional y no se muestra al público.</li>
+<li>Elija <b>Español (Latinoamérica)</b> como idioma de las comunicaciones.</li>
+<li>Confirme el correo de contacto y verifíquelo con el código que llega al buzón.</li>
+<li>Escriba el <b>teléfono con el signo + y el código de país</b>. Se verifica después de crear la cuenta.</li>
+</ol>
+
+<div class="aviso">
+El teléfono se verifica por SMS después del pago. Si no se verifica, la cuenta queda creada pero sin permiso para publicar aplicaciones.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Play guarda los datos de contacto y avanza a la declaración de planes y a los términos.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 10 de 24</span></div>
+</div>
+
+<!-- Página 11: 2.6 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.6</p>
+<h2>2.6 Planes, términos y pago</h2>
+
+<div class="dos">
+  <div class="captura"><img src="imagenes-despliegue/play-10-planes-apps.png" alt="Planes de desarrollo de aplicaciones"><div class="leyenda">Número de apps previstas, si habrá ingresos y categorías. Las respuestas no limitan la cuenta.</div></div>
+  <div class="captura"><img src="imagenes-despliegue/play-09-terminos-pago.png" alt="Términos y pago de la cuota"><div class="leyenda">Aceptación de los términos y cobro único de 25 USD con tarjeta de crédito o débito.</div></div>
+</div>
+
+<ol class="pasos">
+<li>Indique cuántas aplicaciones piensa publicar en los próximos doce meses. Para este proyecto: <b>2 a 5</b>.</li>
+<li>Responda si espera obtener ingresos. La respuesta se puede cambiar después y no afecta las funciones.</li>
+<li>Seleccione las <b>categorías</b> de las aplicaciones. Para Barber King: <b>Estilo de vida</b>.</li>
+<li>Lea y acepte los <b>Términos del Servicio</b> y el <b>Acuerdo de Distribución para Desarrolladores</b>.</li>
+<li>Pulse <b>Finaliza la compra</b> y pague los <b>25 USD</b> con una tarjeta habilitada para compras internacionales.</li>
+<li>Guarde el recibo. Play lo envía al correo del titular.</li>
+</ol>
+
+<div class="aviso">
+La cuota no se reembolsa si la verificación de identidad falla. Antes de pagar, revise que el nombre y la dirección coincidan con el documento y con el medio de pago.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Google confirma el pago y muestra la pantalla <b>Cuenta de desarrollador creada</b>.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 11 de 24</span></div>
+</div>
+
+<!-- Página 12: 2.7 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.7</p>
+<h2>2.7 Cuenta creada y pendientes</h2>
+
+<div class="dos">
+  <div class="captura"><img src="imagenes-despliegue/play-11-cuenta-creada.png" alt="Confirmación de cuenta creada"><div class="leyenda">Confirmación del registro y envío del recibo al correo del titular.</div></div>
+  <div class="captura"><img src="imagenes-despliegue/play-12-detalles-cuenta.png" alt="Detalles de la cuenta de desarrollador"><div class="leyenda">Play Console pide terminar la configuración: estado de operador, sitio web y verificación.</div></div>
+</div>
+
+<ol class="pasos">
+<li>Pulse <b>Ir a Play Console</b>. La cuenta queda creada, pero todavía no puede publicar.</li>
+<li>Abra <b>Información de la cuenta</b> y revise el <b>nombre legal y la dirección</b>. Provienen del perfil de pagos; si algo está mal, se corrige allí.</li>
+<li>Declare el <b>estado de operador</b>. Es obligatorio para distribuir en todo el mundo.</li>
+<li>Agregue el <b>sitio web</b> si lo tiene. Para este proyecto se usa la URL del backend o se marca que no hay sitio.</li>
+<li>Complete la <b>verificación de identidad</b> con el documento y una selfie, si Play la solicita.</li>
+<li>Verifique el <b>teléfono</b> por SMS desde la configuración de la cuenta.</li>
+</ol>
+
+<div class="aviso">
+Sin la verificación de identidad, Play Console muestra el aviso <b>Para publicar aplicaciones, termina de configurar tu cuenta de desarrollador</b> y bloquea el envío a revisión, aunque el AAB esté cargado.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> El panel de Play Console queda habilitado y aparece la opción <b>Crear app</b>.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 12 de 24</span></div>
+</div>
+
+<!-- Página 13: 2.8 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.8</p>
+<h2>2.8 Crear la app y firmar el AAB</h2>
+
+<h3>Crear la app en Play Console</h3>
+<table class="compacta">
+<thead><tr><th style="width:30%">Campo</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Nombre</td><td>Barber King</td></tr>
+<tr><td>Idioma predeterminado</td><td>Español (Latinoamérica)</td></tr>
+<tr><td>Tipo de aplicación</td><td>Aplicación</td></tr>
+<tr><td>Precio</td><td>Gratis</td></tr>
+<tr><td>Declaraciones</td><td>Cumple las políticas y las leyes de exportación de Estados Unidos.</td></tr>
+</tbody>
+</table>
+
+<h3>Generar el keystore de release</h3>
+<div class="codigo">keytool -genkeypair -v -storetype PKCS12 -alias barber-king ^
+  -keystore "$USERPROFILE\keystores\barber-king-release.keystore" ^
+  -keyalg RSA -keysize 2048 -validity 10000 ^
+  -dname "CN=Barber King, OU=Desarrollo, O=Barber King, L=Bogota, ST=Cundinamarca, C=CO"</div>
+
+<p>Ese comando crea la identidad criptográfica de la app. Guarde el archivo y las contraseñas fuera del repositorio. Si se pierden, no se pueden publicar actualizaciones con la misma firma.</p>
+
+<h3>Crear android/key.properties</h3>
+<div class="codigo">storePassword=TU_CONTRASEÑA
+keyPassword=TU_CONTRASEÑA
+keyAlias=barber-king
+storeFile=C:/Users/TU_USUARIO/keystores/barber-king-release.keystore</div>
+
+<h3>Compilar y verificar</h3>
+<div class="codigo">cd frontend/barber_king_app
+flutter clean
+flutter pub get
+flutter build appbundle --release --obfuscate --split-debug-info=build/symbols
+jarsigner -verify -verbose -certs build/app/outputs/bundle/release/app-release.aab</div>
+
+<p>El paquete queda en <b>build/app/outputs/bundle/release/app-release.aab</b>. La verificación debe responder <b>jar verified</b> y mostrar el alias <b>barber-king</b>. Si aparece androiddebugkey, el AAB se firmó con la clave de depuración y Play lo rechazará.</p>
+
+<div class="aviso">
+Conserve la carpeta <b>build/symbols</b> de cada versión. Permite leer los errores ofuscados que reportan los usuarios. No la suba al repositorio.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> AAB firmado, verificado y listo para cargar en la pista de prueba cerrada.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 13 de 24</span></div>
+</div>
+
+<!-- Página 14: 2.9 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.9</p>
+<h2>2.9 Ficha de Play y seguridad de los datos</h2>
+
+<h3>Ficha principal</h3>
+<table class="compacta">
+<thead><tr><th style="width:30%">Elemento</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Nombre</td><td>Barber King</td></tr>
+<tr><td>Categoría</td><td>Estilo de vida</td></tr>
+<tr><td>Descripción corta</td><td>Reserva cortes, encuentra barberos cerca y gestiona tus citas en un toque.</td></tr>
+<tr><td>Descripción completa</td><td>Tomada de documentacion/play-store/textos-listing.md, menos de 4000 caracteres.</td></tr>
+<tr><td>Icono</td><td>512 x 512 px, PNG sin transparencia.</td></tr>
+<tr><td>Gráfico destacado</td><td>1024 x 500 px, PNG o JPG.</td></tr>
+<tr><td>Capturas</td><td>Mínimo 2, máximo 8, formato vertical de teléfono.</td></tr>
+<tr><td>Correo de contacto</td><td>hernandobotellovargas2007@gmail.com</td></tr>
+<tr><td>Política de privacidad</td><td>https://barber-king.onrender.com/public/politica-privacidad.html</td></tr>
+</tbody>
+</table>
+
+<h3>Seguridad de los datos</h3>
+<table class="compacta">
+<thead><tr><th style="width:34%">Práctica</th><th>Respuesta</th></tr></thead>
+<tbody>
+<tr><td>Datos recogidos</td><td>Nombre, correo, teléfono, fecha de nacimiento, fotos, ubicación, citas, reseñas, chat y registros de errores.</td></tr>
+<tr><td>Datos compartidos con terceros</td><td>Sí: Supabase, Render, Cloudinary, Groq y Google.</td></tr>
+<tr><td>Cifrado en tránsito</td><td>Sí, mediante HTTPS.</td></tr>
+<tr><td>Eliminación de datos</td><td>Sí, desde Mi perfil y por solicitud web.</td></tr>
+<tr><td>Venta de datos</td><td>No.</td></tr>
+<tr><td>Publicidad</td><td>No se usan datos para publicidad.</td></tr>
+</tbody>
+</table>
+
+<h3>Acceso para revisores</h3>
+<p>La app exige iniciar sesión. En <b>Acceso a la app</b> se elige la opción de funciones restringidas y se cargan las cuentas demo de cliente, barbero y administrador con la contraseña <b>Demo1234*</b>. Esas cuentas deben existir en producción y probarse antes de enviar.</p>
+
+<h3>Clasificación de contenido</h3>
+<p>Categoría <b>Estilo de vida</b>, público <b>13+</b>, sin violencia, sin contenido sexual, sin drogas ni apuestas. Se declara interacción entre usuarios por el chat y uso de ubicación. Sin anuncios.</p>
+
+<div class="aviso">
+Si cambia alguna contraseña demo, actualice la sección <b>Acceso a la app</b> antes de reenviar a revisión. Un revisor que no puede entrar rechaza la entrega.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 14 de 24</span></div>
+</div>
+
+<!-- Página 15: 2.10 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 2.10</p>
+<h2>2.10 Prueba cerrada y producción</h2>
+
+<h3>Prueba cerrada obligatoria</h3>
+<p>Las cuentas personales nuevas deben surtir una prueba cerrada antes de habilitar producción. No es un trámite opcional: Play bloquea el paso hasta completar el periodo.</p>
+
+<table class="compacta">
+<thead><tr><th style="width:38%">Requisito</th><th>Detalle</th></tr></thead>
+<tbody>
+<tr><td>Testers</td><td>Mínimo 12, con correos de Google activos.</td></tr>
+<tr><td>Duración</td><td>14 días consecutivos con la app instalada.</td></tr>
+<tr><td>Pista</td><td>Prueba cerrada, no prueba interna.</td></tr>
+<tr><td>Versión</td><td>El mismo AAB que se piensa publicar en producción.</td></tr>
+<tr><td>Solicitud</td><td>Al terminar, se pide acceso a producción desde Play Console.</td></tr>
+</tbody>
+</table>
+
+<ol class="pasos">
+<li>Abra <b>Probar y publicar → Prueba cerrada → Crear pista</b>.</li>
+<li>Cargue el AAB firmado y escriba las notas de la versión.</li>
+<li>Agregue los correos de los 12 testers y envíe las invitaciones.</li>
+<li>Pida a cada tester que instale la app desde el enlace y que la abra al menos una vez al día.</li>
+<li>Reúna comentarios, corrija los bloqueos y cargue una versión nueva si hace falta.</li>
+<li>Cumplidos los 14 días, pulse <b>Solicitar acceso a producción</b>.</li>
+</ol>
+
+<h3>Publicación en producción</h3>
+<ol class="pasos">
+<li>Cree una pista de <b>Producción</b> y cargue el AAB aprobado.</li>
+<li>Revise el resumen: errores, advertencias y países de distribución.</li>
+<li>Envíe a revisión. La primera revisión puede tardar entre 3 y 7 días.</li>
+<li>Cuando se apruebe, publique el release o active la publicación gestionada.</li>
+</ol>
+
+<h3>Después de publicar</h3>
+<ul class="check">
+<li>Registre en Google Cloud la huella SHA-1 de Play App Signing, además de la del keystore.</li>
+<li>Instale la app desde Play Store y pruebe el inicio de sesión con Google.</li>
+<li>Pruebe la eliminación de cuenta con una cuenta real.</li>
+<li>Revise Android vitals y las reseñas durante la primera semana.</li>
+</ul>
+
+<div class="resultado">
+<b>Resultado.</b> La app aparece publicada en Play Store con la versión 1.0.0 y queda habilitado el canal de actualizaciones.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 15 de 24</span></div>
+</div>
+
+<!-- Página 16: 3.1 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 3 | Backend en Render</p>
+<h2>3. Despliegue del backend en Render</h2>
+
+<p>Render hospeda la API de Express y la publica por HTTPS. El servicio se llama <b>barber_king</b> y se alimenta de la rama <b>main</b> del repositorio. Cada envío a esa rama puede disparar un despliegue automático.</p>
+
+<h3>3.1 Crear el servicio web</h3>
+<div class="ruta"><b>Ruta:</b> dashboard.render.com → New → Web Service</div>
+
+<div class="captura"><img src="imagenes-despliegue/render-01-servicio.png" alt="Creación del servicio web en Render"><div class="leyenda">Formulario de creación: nombre, rama, región, carpeta raíz, comando de compilación y comando de arranque.</div></div>
+
+<ol class="pasos">
+<li>Inicie sesión en Render y pulse <b>New → Web Service</b>.</li>
+<li>Conecte la cuenta de GitHub y elija el repositorio <b>Hernando2007/barber-king</b>.</li>
+<li>Escriba el nombre <b>barber_king</b>. Render lo usa para formar la URL del servicio.</li>
+<li>Seleccione la rama <b>main</b>.</li>
+<li>Elija la región <b>Ohio (US East)</b>. Mantener una sola región evita latencia entre servicios.</li>
+<li>En <b>Root Directory</b> escriba <b>backend/</b>. Así Render ejecuta los comandos dentro de esa carpeta.</li>
+<li>Deje el runtime en <b>Node</b> y seleccione el plan gratuito para pruebas.</li>
+</ol>
+
+<div class="aviso">
+Si la carpeta raíz queda vacía, Render busca el package.json en la raíz del repositorio y el despliegue falla. Este proyecto no tiene package.json en la raíz: el backend vive en <b>backend/</b>.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Render muestra el resumen del servicio y habilita los campos de compilación y arranque.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 16 de 24</span></div>
+</div>
+
+<!-- Página 17: 3.2 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 3.2</p>
+<h2>3.2 Configurar el servicio</h2>
+<div class="ruta"><b>Ruta:</b> Render → barber_king → Settings</div>
+
+<div class="captura"><img src="imagenes-despliegue/render-02-configuracion.png" alt="Configuración del servicio en Render"><div class="leyenda">Configuración usada en el proyecto. La captura muestra yarn y la pista de --legacy-peer-deps.</div></div>
+
+<table class="compacta">
+<thead><tr><th style="width:30%">Campo</th><th style="width:32%">Valor del proyecto</th><th>Observación</th></tr></thead>
+<tbody>
+<tr><td>Name</td><td>barber_king</td><td>Define la URL barber-king.onrender.com.</td></tr>
+<tr><td>Branch</td><td>main</td><td>Única rama de despliegue acordada.</td></tr>
+<tr><td>Region</td><td>Ohio (US East)</td><td>No se cambia después de crear el servicio.</td></tr>
+<tr><td>Root Directory</td><td>backend/</td><td>Obligatorio por la estructura del repositorio.</td></tr>
+<tr><td>Build Command</td><td>npm install</td><td>El repositorio trae package-lock.json.</td></tr>
+<tr><td>Start Command</td><td>npm start</td><td>Ejecuta node index.js.</td></tr>
+<tr><td>Runtime</td><td>Node 20 o superior</td><td>Coincide con engines del package.json.</td></tr>
+</tbody>
+</table>
+
+<div class="aviso">
+En las capturas aparece <b>yarn</b> y una sugerencia con <b>--legacy-peer-deps</b>. Ese ajuste se usó durante una prueba, pero el repositorio no tiene yarn.lock. Para una instalación reproducible use <b>npm install</b> y <b>npm start</b>, que respetan package-lock.json.
+</div>
+
+<h3>Revisar el runtime</h3>
+<ol class="pasos">
+<li>Abra <b>Settings</b> y confirme que el runtime es Node.</li>
+<li>Verifique que <b>Auto-Deploy</b> esté en <b>Yes</b> para que main despliegue sin intervención.</li>
+<li>Revise que el health check apunte a <b>/health</b> si el plan lo permite.</li>
+<li>Guarde los cambios. Render advierte que se requiere un nuevo despliegue.</li>
+</ol>
+
+<div class="resultado">
+<b>Resultado.</b> El servicio queda configurado y muestra el botón <b>Manual Deploy</b>.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 17 de 24</span></div>
+</div>
+
+<!-- Página 18: 3.3 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 3.3</p>
+<h2>3.3 Variables de entorno</h2>
+<div class="ruta"><b>Ruta:</b> Render → barber_king → Environment → Add Environment Variable</div>
+
+<p>Las variables se cargan una por una o en bloque. Nunca se escriben en el repositorio. Al guardar, Render ofrece un despliegue inmediato para que el proceso las tome.</p>
+
+<table class="compacta">
+<thead><tr><th style="width:30%">Variable</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td>NODE_ENV</td><td>production. Activa el límite de peticiones estricto de la API.</td></tr>
+<tr><td>PORT</td><td>La asigna Render. No se escribe a mano en el panel.</td></tr>
+<tr><td>APP_NAME</td><td>Barber King. Nombre visible en correos y mensajes.</td></tr>
+<tr><td>FRONTEND_URL</td><td>Origen permitido por CORS. En producción, la URL pública de la app web.</td></tr>
+<tr><td>SUPABASE_URL</td><td>URL del proyecto de Supabase.</td></tr>
+<tr><td>SUPABASE_KEY</td><td>Clave de servicio. Permite leer y escribir en las tablas.</td></tr>
+<tr><td>JWT_SECRET</td><td>Secreto largo y aleatorio para firmar las sesiones.</td></tr>
+<tr><td>SMTP_HOST, SMTP_PORT, SMTP_SECURE</td><td>Servidor de correo saliente.</td></tr>
+<tr><td>EMAIL_USER, EMAIL_PASS</td><td>Credenciales del buzón que envía los correos.</td></tr>
+<tr><td>GROQ_API_KEY</td><td>Clave del asesor virtual y de la recomendación de cortes.</td></tr>
+<tr><td>GROQ_MODELO_TEXTO</td><td>Modelo de texto. Por omisión, openai/gpt-oss-20b.</td></tr>
+<tr><td>BARBERIA_ZONA_HORARIA</td><td>America/Bogota. Render corre en UTC y las citas dependen de la zona local.</td></tr>
+<tr><td>GOOGLE_CLIENT_ID</td><td>Cliente OAuth de Android para el inicio de sesión con Google.</td></tr>
+<tr><td>CLOUDINARY_CLOUD_NAME</td><td>Nombre de la cuenta de Cloudinary.</td></tr>
+<tr><td>CLOUDINARY_API_KEY</td><td>Clave de la API de imágenes.</td></tr>
+<tr><td>CLOUDINARY_API_SECRET</td><td>Secreto de la API de imágenes.</td></tr>
+</tbody>
+</table>
+
+<div class="aviso">
+Sin las tres variables de Cloudinary, cualquier subida responde 503. El disco de Render es efímero: una imagen guardada allí desaparece en el siguiente despliegue.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Render guarda las variables y muestra la lista enmascarada, sin revelar los valores.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 18 de 24</span></div>
+</div>
+
+<!-- Página 19: 3.4 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 3.4</p>
+<h2>3.4 Primer despliegue</h2>
+<div class="ruta"><b>Ruta:</b> Render → barber_king → Manual Deploy → Deploy latest commit</div>
+
+<div class="captura"><img src="imagenes-despliegue/render-03-deploy.png" alt="Despliegue exitoso en Render"><div class="leyenda">Despliegue exitoso del commit 9a49e91 en 37,5 segundos. La URL pública aparece en la parte superior.</div></div>
+
+<ol class="pasos">
+<li>Pulse <b>Manual Deploy</b> y elija <b>Deploy latest commit</b>.</li>
+<li>Abra la pestaña <b>Logs</b> y siga la instalación. Debe terminar con el mensaje del servidor y la URL pública.</li>
+<li>Espere el estado <b>Deploy succeeded</b>. La insignia <b>Live</b> confirma que el servicio responde.</li>
+<li>Copie la URL <b>https://barber-king.onrender.com</b> y ábrala con el sufijo <b>/health</b>.</li>
+<li>Verifique que la respuesta incluya proyecto, versión, estado Activo y uptime.</li>
+</ol>
+
+<div class="codigo">Invoke-RestMethod https://barber-king.onrender.com/health</div>
+
+<div class="aviso">
+El plan gratuito suspende la instancia por inactividad. La primera petición después de un rato puede tardar 50 segundos o más. Para la prueba cerrada conviene abrir la app unos minutos antes.
+</div>
+
+<h3>Qué revisar si el despliegue falla</h3>
+<table class="compacta">
+<thead><tr><th style="width:38%">Mensaje en el log</th><th>Causa probable</th></tr></thead>
+<tbody>
+<tr><td>Cannot find module</td><td>Root Directory incorrecta o dependencias sin instalar.</td></tr>
+<tr><td>Missing script: start</td><td>El comando se ejecuta fuera de backend/.</td></tr>
+<tr><td>Error: listen EADDRINUSE</td><td>El servidor fija un puerto distinto al que asigna Render.</td></tr>
+<tr><td>Variables undefined</td><td>Falta cargar el grupo de variables de entorno.</td></tr>
+</tbody>
+</table>
+
+<div class="resultado">
+<b>Resultado.</b> El servicio queda en línea y la app puede consumir la API desde la URL remota.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 19 de 24</span></div>
+</div>
+
+<!-- Página 20: 3.5 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 3.5</p>
+<h2>3.5 Verificación y aviso de proxy</h2>
+
+<h3>Verificación del servicio</h3>
+<ul class="check">
+<li><b>GET /health</b> responde 200 con estado Activo.</li>
+<li><b>GET /public/politica-privacidad.html</b> abre la política sin errores.</li>
+<li><b>GET /public/eliminar-cuenta.html</b> abre la página de eliminación.</li>
+<li>El inicio de sesión con una cuenta demo devuelve un token válido.</li>
+<li>La carga de una foto llega a Cloudinary y devuelve una URL pública.</li>
+<li>La app instalada en un teléfono abre la URL remota y no la local.</li>
+</ul>
+
+<h3>Problema conocido: X-Forwarded-For y trust proxy</h3>
+<p>En los registros de Render aparece el siguiente aviso cada vez que un cliente entra por el proxy del servicio:</p>
+
+<div class="codigo">ValidationError: The 'X-Forwarded-For' header is set but the
+Express 'trust proxy' setting is false (default).
+code: ERR_ERL_UNEXPECTED_X_FORWARDED_FOR</div>
+
+<p>Render termina el HTTPS y reenvía la petición con la cabecera <b>X-Forwarded-For</b>. Express viene con <b>trust proxy</b> en falso y el limitador de peticiones no puede identificar al cliente real. El aviso no tumba el servicio, pero contamina los logs y hace que el límite cuente a todos los usuarios como si fueran uno solo.</p>
+
+<h3>Corrección</h3>
+<p>En <b>backend/app.js</b>, antes de registrar el limitador de peticiones, agregue:</p>
+
+<div class="codigo">app.set("trust proxy", 1);</div>
+
+<ol class="pasos">
+<li>Abra backend/app.js y ubique la línea donde se crea la aplicación: <b>const app = express();</b>.</li>
+<li>Justo debajo, agregue <b>app.set("trust proxy", 1);</b>.</li>
+<li>Confirme que quede antes de <b>app.use(limiteGeneral)</b>.</li>
+<li>Guarde, suba el cambio a main y espere el nuevo despliegue.</li>
+<li>Abra la app, inicie sesión y revise los logs. El aviso debe desaparecer.</li>
+</ol>
+
+<div class="aviso">
+No use <b>true</b> en lugar de <b>1</b>. Con true, Express confía en cualquier proxy y un cliente podría falsificar su dirección. En Render hay exactamente un proxy delante del servicio.
+</div>
+
+<div class="resultado">
+<b>Resultado.</b> Los logs quedan limpios y el limitador cuenta las peticiones por usuario real.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 20 de 24</span></div>
+</div>
+
+<!-- Página 21: 3.6 -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 3.6</p>
+<h2>3.6 Operación y mantenimiento</h2>
+
+<h3>Tareas periódicas</h3>
+<table class="compacta">
+<thead><tr><th style="width:20%">Frecuencia</th><th style="width:38%">Tarea</th><th>Dónde</th></tr></thead>
+<tbody>
+<tr><td>Diaria</td><td>Revisar que el servicio responda y que no haya errores nuevos.</td><td>Render → Logs y /health</td></tr>
+<tr><td>Semanal</td><td>Revisar consumo de Supabase y Cloudinary.</td><td>Paneles de cada servicio</td></tr>
+<tr><td>Mensual</td><td>Revisar Android vitals y reseñas de Play.</td><td>Play Console</td></tr>
+<tr><td>Por versión</td><td>Subir versionCode, compilar AAB, guardar símbolos y desplegar.</td><td>Flutter y Play Console</td></tr>
+<tr><td>Por incidente</td><td>Rotar JWT_SECRET y contraseñas si hubo filtración.</td><td>Render → Environment</td></tr>
+</tbody>
+</table>
+
+<h3>Reiniciar y volver atrás</h3>
+<ol class="pasos">
+<li>Para reiniciar sin cambiar código, use <b>Manual Deploy → Restart service</b>.</li>
+<li>Para volver a una versión anterior, abra <b>Deploys</b>, elija el despliegue estable y pulse <b>Redeploy</b>.</li>
+<li>Después de cualquier cambio en variables, espere el nuevo despliegue antes de probar.</li>
+</ol>
+
+<h3>Mantener despierto el plan gratuito</h3>
+<p>La instancia se suspende por inactividad y tarda en responder la primera vez. Si se necesita disponibilidad continua, configure un monitor externo que consulte <b>/health</b> cada 10 o 15 minutos, o pase a un plan pago. El monitor debe apuntar a la URL pública, no a localhost.</p>
+
+<h3>Actualizaciones de la app</h3>
+<div class="codigo">version: 1.0.1+2</div>
+<p>El número después del signo más es el <b>versionCode</b> y debe crecer en cada envío. Play rechaza un AAB con un código repetido o menor. El AAB se firma siempre con el mismo keystore y los símbolos de cada versión se conservan.</p>
+
+<h3>Seguridad operativa</h3>
+<ul class="check">
+<li>Ningún secreto se escribe en el repositorio ni en capturas de pantalla.</li>
+<li>El acceso a Render y a Play Console usa verificación en dos pasos.</li>
+<li>Las cuentas demo de la revisión se eliminan o cambian después de publicar.</li>
+<li>El respaldo del keystore existe en dos lugares distintos, fuera del equipo de desarrollo.</li>
+</ul>
+
+<div class="resultado">
+<b>Resultado.</b> El servicio se mantiene estable y cualquier incidente tiene una ruta de reversa documentada.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 21 de 24</span></div>
+</div>
+
+<!-- Página 22: checklist -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 4</p>
+<h2>4. Lista de comprobación final</h2>
+
+<p>Marque cada casilla antes de considerar terminado el despliegue. Si alguna queda pendiente, el lanzamiento no está completo.</p>
+
+<h3>Google Play Console</h3>
+<ul class="check">
+<li>Cuenta de desarrollador creada y pago de 25 USD confirmado.</li>
+<li>Identidad y teléfono verificados.</li>
+<li>Estado de operador declarado.</li>
+<li>Keystore generado y respaldado fuera del repositorio.</li>
+<li>android/key.properties creado y no versionado.</li>
+<li>AAB firmado con el alias barber-king y verificado con jarsigner.</li>
+<li>Carpeta build/symbols guardada junto al AAB.</li>
+<li>Icono 512 x 512 y gráfico 1024 x 500 cargados.</li>
+<li>Al menos dos capturas de teléfono cargadas.</li>
+<li>Descripción corta y completa cargadas.</li>
+<li>Política de privacidad y página de eliminación accesibles por HTTPS.</li>
+<li>Seguridad de los datos completa y coherente con la app.</li>
+<li>Cuentas demo de acceso probadas en producción.</li>
+<li>Clasificación de contenido completada.</li>
+<li>Huellas SHA-1 registradas en Google Cloud.</li>
+<li>Prueba cerrada de 12 testers durante 14 días completada.</li>
+<li>AAB enviado a producción y aprobado.</li>
+</ul>
+
+<h3>Backend en Render</h3>
+<ul class="check">
+<li>Servicio barber_king creado en la región Ohio.</li>
+<li>Rama main y Root Directory backend/ configurados.</li>
+<li>Build Command y Start Command verificados.</li>
+<li>Variables de entorno completas, incluidas las de Cloudinary.</li>
+<li>BARBERIA_ZONA_HORARIA definida en America/Bogota.</li>
+<li>Despliegue en estado Live y /health respondiendo.</li>
+<li>Documentos públicos accesibles por HTTPS.</li>
+<li>Inicio de sesión y carga de imágenes probados.</li>
+<li>Aviso de trust proxy corregido en app.js.</li>
+<li>Monitoreo de inactividad configurado o plan pago activo.</li>
+</ul>
+
+<div class="resultado">
+<b>Cierre.</b> Con las dos listas completas, la app y la API quedan en producción, documentadas y con una ruta clara para la siguiente versión.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 22 de 24</span></div>
+</div>
+
+<!-- Página 23: problemas -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 5</p>
+<h2>5. Problemas frecuentes</h2>
+
+<table class="compacta">
+<thead><tr><th style="width:28%">Síntoma</th><th style="width:30%">Causa</th><th>Solución</th></tr></thead>
+<tbody>
+<tr><td>Play no deja enviar a revisión</td><td>Falta verificar identidad, teléfono o estado de operador.</td><td>Complete la configuración de la cuenta y espere la verificación.</td></tr>
+<tr><td>Play rechaza el AAB</td><td>versionCode repetido, menor al anterior o firma de depuración.</td><td>Suba el versionCode y firme con el keystore de release.</td></tr>
+<tr><td>El login con Google falla solo en Play</td><td>Falta la SHA-1 de Play App Signing en Google Cloud.</td><td>Registre la huella en el cliente OAuth de Android.</td></tr>
+<tr><td>La app no conecta en el teléfono</td><td>Sigue apuntando a localhost o a una IP local.</td><td>Active useRemote en api_config.dart y recompile.</td></tr>
+<tr><td>Render falla con Cannot find module</td><td>Root Directory vacía o dependencias sin instalar.</td><td>Configure backend/ y revise el Build Command.</td></tr>
+<tr><td>Error EADDRINUSE al arrancar</td><td>El puerto está fijo en el código.</td><td>Use process.env.PORT en index.js.</td></tr>
+<tr><td>Las fotos desaparecen</td><td>Se guardaron en el disco efímero de Render.</td><td>Configure Cloudinary y vuelva a subirlas.</td></tr>
+<tr><td>Aparece ERR_ERL_UNEXPECTED_X_FORWARDED_FOR</td><td>Express no confía en el proxy de Render.</td><td>Agregue app.set("trust proxy", 1) antes del limitador.</td></tr>
+<tr><td>La primera petición tarda casi un minuto</td><td>El plan gratuito suspendió la instancia.</td><td>Espere la reactivación o pase a un plan pago.</td></tr>
+<tr><td>Las citas se muestran con otra hora</td><td>El servidor corre en UTC y falta la zona de la barbería.</td><td>Defina BARBERIA_ZONA_HORARIA=America/Bogota.</td></tr>
+<tr><td>El correo de recuperación no llega</td><td>Credenciales SMTP incorrectas o remitente no verificado.</td><td>Revise SMTP_HOST, EMAIL_USER y EMAIL_PASS.</td></tr>
+<tr><td>La revisión de Play pide acceso</td><td>Las cuentas demo no existen o cambiaron de contraseña.</td><td>Actualice Acceso a la app con credenciales vigentes.</td></tr>
+</tbody>
+</table>
+
+<div class="aviso">
+Antes de abrir un tickets de soporte, revise los logs de Render y el estado del despliegue. La mayoría de los errores dejan un mensaje concreto en la pestaña Logs.
+</div>
+
+<div class="resultado">
+<b>Recomendación.</b> Cuando aparezca un error nuevo, anótelo en este manual con la causa y la solución. La siguiente persona ahorrará el tiempo que usted invirtió.
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 23 de 24</span></div>
+</div>
+
+<!-- Página 24: glosario -->
+<div class="hoja">
+<div class="cuerpo">
+<p class="kicker">Sección 6</p>
+<h2>6. Glosario</h2>
+
+<table class="compacta">
+<thead><tr><th style="width:26%">Término</th><th>Definición</th></tr></thead>
+<tbody>
+<tr><td>AAB</td><td>Android App Bundle. Formato de paquete que se sube a Play y que Google convierte en APK para cada dispositivo.</td></tr>
+<tr><td>APK</td><td>Paquete instalable de Android. Es lo que descarga el usuario final.</td></tr>
+<tr><td>applicationId</td><td>Identificador único de la app en el dispositivo y en Play. Para este proyecto: com.barberking.app.</td></tr>
+<tr><td>Build Command</td><td>Comando que Render ejecuta para instalar dependencias antes de arrancar.</td></tr>
+<tr><td>Cloudinary</td><td>Servicio externo donde se guardan las imágenes de la app.</td></tr>
+<tr><td>Cold start</td><td>Demora de la primera petición cuando la instancia gratuita estaba suspendida.</td></tr>
+<tr><td>Data Safety</td><td>Formulario de Play donde se declara qué datos recoge y comparte la app.</td></tr>
+<tr><td>Health check</td><td>Consulta a /health para confirmar que el servicio está activo.</td></tr>
+<tr><td>JWT</td><td>Token firmado que identifica al usuario después de iniciar sesión.</td></tr>
+<tr><td>Keystore</td><td>Archivo que contiene la clave privada con la que se firma la app.</td></tr>
+<tr><td>Play App Signing</td><td>Servicio de Google que firma los APK con su propia clave, distinta de la del desarrollador.</td></tr>
+<tr><td>Prueba cerrada</td><td>Pista de distribución limitada a testers invitados, obligatoria para cuentas personales nuevas.</td></tr>
+<tr><td>Root Directory</td><td>Carpeta del repositorio desde la que Render ejecuta los comandos.</td></tr>
+<tr><td>SHA-1</td><td>Huella del certificado de firma. Se registra en Google Cloud para el login con Google.</td></tr>
+<tr><td>Supabase</td><td>Servicio de base de datos y autenticación usado por la API.</td></tr>
+<tr><td>trust proxy</td><td>Configuración de Express que le indica que hay un proxy delante y que debe leer X-Forwarded-For.</td></tr>
+<tr><td>versionCode</td><td>Número entero que debe crecer en cada envío a Play. En pubspec.yaml aparece después del signo más.</td></tr>
+<tr><td>X-Forwarded-For</td><td>Cabecera que agrega el proxy con la dirección del cliente original.</td></tr>
+</tbody>
+</table>
+
+<div class="cierre" style="margin-top:8mm">
+<p><b>Fin del manual.</b> Este documento se actualiza cada vez que cambie una cuenta, una URL, una variable de entorno o el proceso de publicación. La versión vigente vive en <b>documentacion/manual-despliegue.html</b> y su PDF en <b>documentacion/pdf/manual-despliegue.pdf</b>.</p>
+<p>Barber King | Manual de despliegue | Versión 1.0 | Noviembre de 2026</p>
+</div>
+</div>
+<div class="pie"><span>Barber King | Manual de despliegue</span><span>Página 24 de 24</span></div>
+</div>
+
+<script>
+window.addEventListener("load", function () {
+  if (!location.search.includes("medir")) return;
+  var filas = [];
+  document.querySelectorAll(".hoja").forEach(function (hoja, i) {
+    var cuerpo = hoja.querySelector(".cuerpo");
+    var exceso = cuerpo.scrollHeight - cuerpo.clientHeight;
+    filas.push("Hoja " + (i + 1) + ": " + exceso + " px");
+  });
+  var pre = document.createElement("pre");
+  pre.id = "medicion";
+  pre.textContent = filas.join("\n");
+  document.body.appendChild(pre);
+});
+</script>
+</body>
+</html>
