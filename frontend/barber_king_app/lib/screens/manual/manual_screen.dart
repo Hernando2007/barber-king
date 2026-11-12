@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/colors.dart';
+import 'manual_visor.dart';
 
 class ManualScreen extends StatefulWidget {
   const ManualScreen({super.key});
@@ -11,16 +11,7 @@ class ManualScreen extends StatefulWidget {
 }
 
 class _ManualScreenState extends State<ManualScreen> {
-  late final WebViewController _controlador;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controlador = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadFlutterAsset('assets/manual/manual-usuario.html');
-  }
+  final GlobalKey<VisorManualEstado> _visor = GlobalKey<VisorManualEstado>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +22,12 @@ class _ManualScreenState extends State<ManualScreen> {
         actions: [
           IconButton(
             tooltip: 'Actualizar manual',
-            onPressed: () => _controlador.reload(),
+            onPressed: () => _visor.currentState?.recargar(),
             icon: const Icon(Icons.refresh_outlined),
           ),
         ],
       ),
-      body: SafeArea(child: WebViewWidget(controller: _controlador)),
+      body: SafeArea(child: VisorManual(key: _visor)),
     );
   }
 }

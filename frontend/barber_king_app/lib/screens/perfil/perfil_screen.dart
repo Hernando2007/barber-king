@@ -142,6 +142,8 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 nombre: _nombre,
                 fotoUrl: _usuario?['foto']?.toString(),
                 esBarbero: _esBarbero,
+                verificado: barbero['verificacion_estado'] == 'aprobado',
+                disponible: barbero['disponible'] != false,
                 rolLabel: AppFormat.role(_rolId),
                 especialidad: barbero['especialidad']?.toString(),
                 subiendoFoto: _subiendoFoto,
@@ -170,53 +172,13 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 _PerfilBloqueDiploma(barbero: barbero, onSubir: _subirDiploma),
               ],
               const SizedBox(height: 26),
-              OutlinedButton.icon(
-                onPressed: () =>
+              _PerfilAccionesCuenta(
+                onManual: () =>
                     Navigator.pushNamed(context, AppRoutes.manualUsuario),
-                icon: const Icon(Icons.menu_book_outlined),
-                label: const Text('MANUAL DE USUARIO'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  side: BorderSide(
-                    color: AppColors.primary.withValues(alpha: .5),
-                  ),
-                  minimumSize: const Size(48, 52),
-                ),
-              ),
-              OutlinedButton.icon(
-                onPressed: () =>
+                onPrivacidad: () =>
                     Navigator.pushNamed(context, AppRoutes.politicaPrivacidad),
-                icon: const Icon(Icons.privacy_tip_outlined),
-                label: const Text('POLÍTICA DE PRIVACIDAD'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  side: BorderSide(
-                    color: AppColors.primary.withValues(alpha: .5),
-                  ),
-                  minimumSize: const Size(48, 52),
-                ),
-              ),
-              OutlinedButton.icon(
-                onPressed: _cerrarSesion,
-                icon: const Icon(Icons.logout_outlined),
-                label: const Text('CERRAR SESIÓN'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.error,
-                  side: BorderSide(
-                    color: AppColors.error.withValues(alpha: .5),
-                  ),
-                  minimumSize: const Size(48, 52),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextButton.icon(
-                onPressed: _eliminarCuenta,
-                icon: const Icon(Icons.delete_forever_outlined),
-                label: const Text('ELIMINAR CUENTA'),
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.error,
-                  minimumSize: const Size(48, 48),
-                ),
+                onSalir: _cerrarSesion,
+                onEliminar: _eliminarCuenta,
               ),
               const SizedBox(height: 25),
             ],
