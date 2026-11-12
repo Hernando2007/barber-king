@@ -123,24 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 18),
-                        Align(
-                          alignment: Alignment.center,
-                          child: TextButton(
-                            onPressed: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.manualUsuario,
-                            ),
-                            child: const Text(
-                              'Manual de usuario',
-                              style: TextStyle(
-                                color: AppColors.subtitle,
-                                fontSize: 12.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 26),
                         const Text(
                           'CORTE  •  ESTILO  •  EXPERIENCIA',
                           style: TextStyle(
@@ -151,6 +134,32 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, right: 12),
+                  child: Material(
+                    color: AppColors.surface.withValues(alpha: .6),
+                    shape: const CircleBorder(
+                      side: BorderSide(color: AppColors.border),
+                    ),
+                    child: IconButton(
+                      tooltip: 'Manual de usuario',
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.manualUsuario,
+                      ),
+                      icon: const Icon(
+                        Icons.menu_book_outlined,
+                        color: AppColors.primary,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),

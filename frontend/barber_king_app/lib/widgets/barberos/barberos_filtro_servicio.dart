@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
 import '../../services/servicios_service.dart';
+import 'barberos_pildora.dart';
 
 /// Filtro por servicio de la lista de barberos, con el mismo lenguaje visual
 /// de las pestañas de Reservas: píldoras doradas sobre fondo oscuro.
@@ -93,14 +94,14 @@ class _BarberosFiltroServicioState extends State<BarberosFiltroServicio> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _Pildora(
+              BarberosPildora(
                 label: 'Todos',
                 seleccionado: _seleccionado == null,
                 onTap: () => _elegir(null),
               ),
               for (final servicio in servicios)
                 if (int.tryParse('${servicio['id']}') case final int id)
-                  _Pildora(
+                  BarberosPildora(
                     label: '${servicio['nombre']}',
                     seleccionado: _seleccionado == id,
                     onTap: () => _elegir(id),
@@ -109,53 +110,6 @@ class _BarberosFiltroServicioState extends State<BarberosFiltroServicio> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _Pildora extends StatelessWidget {
-  final String label;
-  final bool seleccionado;
-  final VoidCallback onTap;
-
-  const _Pildora({
-    required this.label,
-    required this.seleccionado,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(30),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            curve: Curves.easeOut,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-            decoration: BoxDecoration(
-              gradient: seleccionado ? AppColors.goldGradient : null,
-              color: seleccionado ? null : AppColors.surface,
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(
-                color: seleccionado ? Colors.transparent : AppColors.border,
-              ),
-            ),
-            child: Text(
-              label,
-              style: TextStyle(
-                color: seleccionado ? AppColors.black : AppColors.subtitle,
-                fontWeight: FontWeight.w700,
-                fontSize: 12,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -97,11 +97,50 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.auto_awesome, color: AppColors.primary, size: 20),
-            SizedBox(width: 8),
-            Text('Asistente Barber King'),
+            Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                gradient: AppColors.goldGradient,
+                borderRadius: BorderRadius.circular(11),
+              ),
+              child: const Icon(
+                Icons.auto_awesome,
+                color: AppColors.black,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Asistente Barber King',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 15.5,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  SizedBox(height: 1),
+                  Text(
+                    'Asesor de estilo con IA',
+                    style: TextStyle(
+                      color: AppColors.subtitle,
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
         actions: [
@@ -124,6 +163,7 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
               child: _items.isEmpty
                   ? _ChatIaWelcome(
                       disabled: _enviando,
+                      onAttach: () => _adjuntar(this),
                       onSuggestion: _enviarTexto,
                     )
                   : ListView.builder(
@@ -135,22 +175,39 @@ class _ChatIAScreenState extends State<ChatIAScreen> {
                     ),
             ),
             if (_enviando)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+                    const SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primary,
+                      ),
                     ),
-                    SizedBox(width: 9),
-                    Text(
-                      'El asistente está pensando...',
-                      style: TextStyle(
-                        color: AppColors.subtitle,
-                        fontSize: 11.5,
+                    const SizedBox(width: 9),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.card,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: .25),
+                        ),
+                      ),
+                      child: const Text(
+                        'El asistente está pensando...',
+                        style: TextStyle(
+                          color: AppColors.subtitle,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],

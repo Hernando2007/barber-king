@@ -16,7 +16,7 @@ class _ChatComposer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+      padding: const EdgeInsets.fromLTRB(14, 10, 14, 14),
       decoration: const BoxDecoration(
         color: AppColors.backgroundSoft,
         border: Border(top: BorderSide(color: AppColors.border)),
@@ -24,41 +24,91 @@ class _ChatComposer extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          IconButton(
-            onPressed: disabled ? null : onAttach,
-            icon: const Icon(
-              Icons.camera_alt_outlined,
-              color: AppColors.primary,
-            ),
-            tooltip: 'Analizar una foto',
-          ),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              minLines: 1,
-              maxLines: 4,
-              textCapitalization: TextCapitalization.sentences,
-              onSubmitted: (_) => onSend(),
-              decoration: const InputDecoration(
-                hintText: 'Pregunta o sube una foto...',
-                isDense: true,
+          Material(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(14),
+            child: InkWell(
+              onTap: disabled ? null : onAttach,
+              borderRadius: BorderRadius.circular(14),
+              child: Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: const Icon(
+                  Icons.camera_alt_outlined,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 8),
-          SizedBox(
-            width: 46,
-            height: 46,
-            child: Material(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(14),
-              child: InkWell(
-                onTap: disabled ? null : () => onSend(),
+          const SizedBox(width: 9),
+          Expanded(
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 46),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
+              decoration: BoxDecoration(
+                color: AppColors.card,
                 borderRadius: BorderRadius.circular(14),
-                child: const Icon(
-                  Icons.send_rounded,
-                  color: AppColors.black,
-                  size: 20,
+                border: Border.all(color: AppColors.border),
+              ),
+              child: TextField(
+                controller: controller,
+                minLines: 1,
+                maxLines: 4,
+                textCapitalization: TextCapitalization.sentences,
+                onSubmitted: (_) => onSend(),
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontSize: 13.5,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Pregunta o sube una foto...',
+                  hintStyle: TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 13,
+                  ),
+                  isDense: true,
+                  filled: false,
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 9),
+          Opacity(
+            opacity: disabled ? .55 : 1,
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(14),
+              child: Ink(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  gradient: AppColors.goldGradient,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: .22),
+                      blurRadius: 14,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: InkWell(
+                  onTap: disabled ? null : () => onSend(),
+                  borderRadius: BorderRadius.circular(14),
+                  child: const Icon(
+                    Icons.send_rounded,
+                    color: AppColors.black,
+                    size: 20,
+                  ),
                 ),
               ),
             ),

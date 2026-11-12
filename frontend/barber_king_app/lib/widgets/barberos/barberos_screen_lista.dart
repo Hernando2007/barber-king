@@ -7,6 +7,7 @@ class BarberosLista extends StatelessWidget {
   final List<Map<String, dynamic>> barberos;
   final bool puedeReservar;
   final bool cercaActiva;
+  final bool soloVerificados;
   final void Function(Map<String, dynamic>) onReservar;
   final void Function(Map<String, dynamic>) onAbrirPerfil;
 
@@ -17,17 +18,26 @@ class BarberosLista extends StatelessWidget {
     required this.cercaActiva,
     required this.onReservar,
     required this.onAbrirPerfil,
+    this.soloVerificados = false,
   });
 
   @override
   Widget build(BuildContext context) {
     if (barberos.isEmpty) {
       return EmptyState(
-        icon: cercaActiva
+        icon: soloVerificados
+            ? Icons.verified_outlined
+            : cercaActiva
             ? Icons.location_off_outlined
             : Icons.people_alt_outlined,
-        title: cercaActiva ? 'Sin barberos cerca' : 'Sin barberos disponibles',
-        message: cercaActiva
+        title: soloVerificados
+            ? 'Sin barberos verificados'
+            : cercaActiva
+            ? 'Sin barberos cerca'
+            : 'Sin barberos disponibles',
+        message: soloVerificados
+            ? 'Ningún barbero de esta selección tiene el sello de verificación. Prueba con otro filtro.'
+            : cercaActiva
             ? 'Ningún barbero ha compartido su ubicación en tu zona. Toca el botón para ver todo el equipo.'
             : 'El equipo se está actualizando. Vuelve a intentarlo pronto.',
       );

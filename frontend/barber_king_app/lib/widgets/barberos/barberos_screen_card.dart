@@ -32,6 +32,16 @@ class BarberosScreenCard extends StatelessWidget {
     return nombre.isEmpty ? 'Barbero profesional' : nombre;
   }
 
+  String _distancia(double? km) {
+    if (km == null) return '';
+
+    if (km < 1) {
+      return '${(km * 1000).round()} m';
+    }
+
+    return '${km.toStringAsFixed(1)} km';
+  }
+
   @override
   Widget build(BuildContext context) {
     final usuario = _usuario(barbero);
@@ -42,27 +52,47 @@ class BarberosScreenCard extends StatelessWidget {
     final descripcion = barbero['descripcion']?.toString().trim();
     final experiencia = int.tryParse('${barbero['experiencia'] ?? 0}') ?? 0;
     final disponible = barbero['disponible'] != false;
+    final verificado = barbero['verificacion_estado'] == 'aprobado';
     final promedio =
         (barbero['calificacion_promedio'] as num?)?.toDouble() ?? 0;
     final totalResenas = int.tryParse('${barbero['total_resenas'] ?? 0}') ?? 0;
     final distancia = double.tryParse('${barbero['distancia_km'] ?? ''}');
+    final lugar = [barbero['ciudad'], barbero['zona']]
+        .where((valor) => valor != null && valor.toString().trim().isNotEmpty)
+        .join(', ');
+    final km = _distancia(distancia);
 
     return AppCard(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       onTap: onAbrirPerfil,
+      borderColor: verificado
+          ? AppColors.primary.withValues(alpha: .28)
+          : AppColors.border,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
-                  AppAvatar(
-                    name: nombre,
-                    photoUrl: usuario['foto']?.toString(),
-                    radius: 29,
-                    fallbackIcon: Icons.content_cut_rounded,
+                  Container(
+                    padding: const EdgeInsets.all(2.5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: verificado ? AppColors.goldGradient : null,
+                      color: verificado ? null : AppColors.surface,
+                      border: verificado
+                          ? null
+                          : Border.all(color: AppColors.border),
+                    ),
+                    child: AppAvatar(
+                      name: nombre,
+                      photoUrl: usuario['foto']?.toString(),
+                      radius: 27,
+                      fallbackIcon: Icons.content_cut_rounded,
+                    ),
                   ),
                   Positioned(
                     right: 0,
@@ -79,7 +109,7 @@ class BarberosScreenCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: 13),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,14 +123,12 @@ class BarberosScreenCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: AppColors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 15.5,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                        SelloVerificado(
-                          visible: barbero['verificacion_estado'] == 'aprobado',
-                        ),
+                        SelloVerificado(visible: verificado),
                       ],
                     ),
                     const SizedBox(height: 3),
@@ -111,29 +139,15 @@ class BarberosScreenCard extends StatelessWidget {
                       style: const TextStyle(
                         color: AppColors.primary,
                         fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 5),
                     BarberosCalificacion(
                       promedio: promedio,
                       total: totalResenas,
                       compacto: true,
                     ),
-                    BarberosUbicacionLine(
-                      ciudad: barbero['ciudad']?.toString(),
-                      zona: barbero['zona']?.toString(),
-                      distanciaKm: distancia,
-                    ),
-                    if (experiencia > 0) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        '$experiencia año${experiencia == 1 ? '' : 's'} de experiencia',
-                        style: const TextStyle(
-                          color: AppColors.muted,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -142,6 +156,28 @@ class BarberosScreenCard extends StatelessWidget {
                 label: disponible ? 'Activo' : 'Inactivo',
                 color: disponible ? AppColors.success : AppColors.error,
               ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              if (lugar.isNotEmpty)
+                _BarberoDato(icon: Icons.place_outlined, texto: lugar),
+              if (km.isNotEmpty)
+                _BarberoDato(icon: Icons.near_me_outlined, texto: km),
+              if (experiencia > 0)
+                _BarberoDato(
+                  icon: Icons.workspace_premium_outlined,
+                  texto: '$experiencia año${experiencia == 1 ? '' : 's'}',
+                ),
+              if (verificado)
+                const _BarberoDato(
+                  icon: Icons.verified_rounded,
+                  texto: 'Verificado',
+                  color: AppColors.primary,
+                ),
             ],
           ),
           if (descripcion != null && descripcion.isNotEmpty) ...[
@@ -158,12 +194,52 @@ class BarberosScreenCard extends StatelessWidget {
             ),
           ],
           if (puedeReservar) ...[
-            const SizedBox(height: 14),
+            const SizedBox(height: 13),
+            const Divider(height: 1, color: AppColors.border),
+            const SizedBox(height: 9),
             BarberosScreenAcciones(
               disponible: disponible,
               onReservar: onReservar,
+              onVerPerfil: onAbrirPerfil,
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+class _BarberoDato extends StatelessWidget {
+  final IconData icon;
+  final String texto;
+  final Color? color;
+
+  const _BarberoDato({required this.icon, required this.texto, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    final tono = color ?? AppColors.subtitle;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.backgroundSoft,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.border.withValues(alpha: .7)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: tono, size: 12),
+          const SizedBox(width: 4),
+          Text(
+            texto,
+            style: TextStyle(
+              color: tono,
+              fontSize: 10.5,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );

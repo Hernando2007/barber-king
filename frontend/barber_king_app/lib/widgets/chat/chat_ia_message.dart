@@ -12,12 +12,13 @@ class _ChatMessageItem extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: Container(
           margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(2.5),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.primary, width: 1.5),
+            gradient: AppColors.goldGradient,
+            borderRadius: BorderRadius.circular(18),
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(15),
             child: Image.memory(
               item.bytes!,
               width: 200,
@@ -47,46 +48,75 @@ class _ChatMessageItem extends StatelessWidget {
     required bool esUsuario,
     bool error = false,
   }) {
+    final radio = BorderRadius.only(
+      topLeft: const Radius.circular(18),
+      topRight: const Radius.circular(18),
+      bottomLeft: Radius.circular(esUsuario ? 18 : 5),
+      bottomRight: Radius.circular(esUsuario ? 5 : 18),
+    );
+
+    final contenido = Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * .78,
+      ),
+      decoration: BoxDecoration(
+        gradient: esUsuario && !error ? AppColors.goldGradient : null,
+        color: esUsuario && !error
+            ? null
+            : error
+            ? AppColors.error.withValues(alpha: .12)
+            : AppColors.card,
+        borderRadius: radio,
+        border: esUsuario && !error
+            ? null
+            : Border.all(
+                color: error
+                    ? AppColors.error.withValues(alpha: .4)
+                    : AppColors.border,
+              ),
+      ),
+      child: Text(
+        texto,
+        style: TextStyle(
+          color: esUsuario && !error
+              ? AppColors.black
+              : error
+              ? AppColors.error
+              : AppColors.white,
+          fontSize: 13.5,
+          height: 1.45,
+          fontWeight: esUsuario && !error ? FontWeight.w500 : FontWeight.w400,
+        ),
+      ),
+    );
+
+    if (esUsuario) {
+      return Align(alignment: Alignment.centerRight, child: contenido);
+    }
+
     return Align(
-      alignment: esUsuario ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(13),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .8,
-        ),
-        decoration: BoxDecoration(
-          color: error
-              ? AppColors.error.withValues(alpha: .12)
-              : esUsuario
-              ? AppColors.primary
-              : AppColors.card,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16),
-            topRight: const Radius.circular(16),
-            bottomLeft: Radius.circular(esUsuario ? 16 : 4),
-            bottomRight: Radius.circular(esUsuario ? 4 : 16),
+      alignment: Alignment.centerLeft,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            width: 28,
+            height: 28,
+            margin: const EdgeInsets.only(right: 8, bottom: 10),
+            decoration: BoxDecoration(
+              gradient: AppColors.goldGradient,
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: const Icon(
+              Icons.auto_awesome,
+              color: AppColors.black,
+              size: 14,
+            ),
           ),
-          border: esUsuario
-              ? null
-              : Border.all(
-                  color: error
-                      ? AppColors.error.withValues(alpha: .4)
-                      : AppColors.border,
-                ),
-        ),
-        child: Text(
-          texto,
-          style: TextStyle(
-            color: esUsuario
-                ? AppColors.black
-                : error
-                ? AppColors.error
-                : AppColors.white,
-            fontSize: 13.5,
-            height: 1.45,
-          ),
-        ),
+          Flexible(child: contenido),
+        ],
       ),
     );
   }

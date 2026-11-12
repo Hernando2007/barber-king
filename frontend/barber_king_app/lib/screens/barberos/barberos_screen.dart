@@ -6,7 +6,9 @@ import '../../services/barbero_service.dart';
 import '../../widgets/barberos/barberos_acciones.dart';
 import '../../widgets/barberos/barberos_cerca_boton.dart';
 import '../../widgets/barberos/barberos_destacados_panel.dart';
+import '../../widgets/barberos/barberos_encabezado.dart';
 import '../../widgets/barberos/barberos_filtro_servicio.dart';
+import '../../widgets/barberos/barberos_filtro_verificados.dart';
 import '../../widgets/barberos/barberos_screen_lista.dart';
 import '../../widgets/common/app_ui.dart';
 
@@ -26,6 +28,7 @@ class _BarberosScreenState extends State<BarberosScreen> {
   int _rol = 3;
   bool _cargando = true;
   bool _cercaDeMi = false;
+  bool _soloVerificados = false;
 
   @override
   void initState() {
@@ -82,11 +85,20 @@ class _BarberosScreenState extends State<BarberosScreen> {
     });
   }
 
+  int get _verificados => _barberos
+      .where((barbero) => barbero['verificacion_estado'] == 'aprobado')
+      .length;
+
   List<Map<String, dynamic>> get _filtrados {
     final texto = _busqueda.text.trim().toLowerCase();
-    if (texto.isEmpty) return _barberos;
 
     return _barberos.where((barbero) {
+      if (_soloVerificados && barbero['verificacion_estado'] != 'aprobado') {
+        return false;
+      }
+
+      if (texto.isEmpty) return true;
+
       final usuario = barbero['usuarios'];
       final nombre = usuario is Map
           ? '${usuario['nombres'] ?? ''} ${usuario['apellidos'] ?? ''}'
@@ -103,6 +115,14 @@ class _BarberosScreenState extends State<BarberosScreen> {
   @override
   Widget build(BuildContext context) {
     final filtrados = _filtrados;
+    final lista = BarberosLista(
+      barberos: filtrados,
+      puedeReservar: _rol != 1,
+      cercaActiva: _cercaDeMi,
+      soloVerificados: _soloVerificados,
+      onReservar: (barbero) => BarberosAcciones.reservar(context, barbero),
+      onAbrirPerfil: (barbero) => BarberosAcciones.abrirPerfil(context, barbero),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -122,8 +142,13 @@ class _BarberosScreenState extends State<BarberosScreen> {
             : RefreshIndicator(
                 onRefresh: _cargar,
                 child: ListView(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 100),
                   children: [
+                    BarberosEncabezado(
+                      total: _barberos.length,
+                      verificados: _verificados,
+                    ),
+                    const SizedBox(height: 18),
                     BarberosDestacadosPanel(barberos: _destacados),
                     Row(
                       children: [
@@ -150,7 +175,15 @@ class _BarberosScreenState extends State<BarberosScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
+                    BarberosFiltroVerificados(
+                      soloVerificados: _soloVerificados,
+                      total: _barberos.length,
+                      verificados: _verificados,
+                      onCambiar: (valor) =>
+                          setState(() => _soloVerificados = valor),
+                    ),
+                    const SizedBox(height: 16),
                     BarberosFiltroServicio(
                       onSeleccionar: _filtrarPorServicio,
                     ),
@@ -165,15 +198,19 @@ class _BarberosScreenState extends State<BarberosScreen> {
                       ),
                     ],
                     const SizedBox(height: 18),
-                    BarberosLista(
-                      barberos: filtrados,
-                      puedeReservar: _rol != 1,
-                      cercaActiva: _cercaDeMi,
-                      onReservar: (barbero) =>
-                          BarberosAcciones.reservar(context, barbero),
-                      onAbrirPerfil: (barbero) =>
-                          BarberosAcciones.abrirPerfil(context, barbero),
-                    ),
+                    if (filtrados.isEmpty)
+                      lista
+                    else ...[
+                      SectionHeader(
+                        title: 'Equipo',
+                        subtitle: _soloVerificados
+                            ? '${filtrados.length} verificado${filtrados.length == 1 ? '' : 's'}'
+                            : '${filtrados.length} barbero${filtrados.length == 1 ? '' : 's'}',
+                        icon: Icons.people_alt_outlined,
+                      ),
+                      const SizedBox(height: 12),
+                      lista,
+                    ],
                   ],
                 ),
               ),
