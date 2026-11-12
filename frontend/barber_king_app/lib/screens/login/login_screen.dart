@@ -123,6 +123,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 18),
+                        Align(
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.manualUsuario,
+                            ),
+                            child: const Text(
+                              'Manual de usuario',
+                              style: TextStyle(
+                                color: AppColors.subtitle,
+                                fontSize: 12.5,
+                              ),
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 24),
                         const Text(
                           'CORTE  •  ESTILO  •  EXPERIENCIA',
@@ -156,3 +173,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+

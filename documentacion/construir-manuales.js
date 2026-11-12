@@ -178,10 +178,10 @@ const TAREAS = [
       "Escribe un nombre o una zona en el buscador para filtrar la lista.",
       "Cerca de mí filtra los barberos a menos de 15 km de tu ubicación actual.",
       "Toca la tarjeta del barbero para abrir su perfil con fotos y reseñas (tarea 6.8).",
-      "Reservar lleva directo a crear la cita con ese barbero; si está inactivo, el botón aparece desactivado.",
-      "La pestaña Barberos de la barra inferior te devuelve a esta lista cuando quieras.",
+      "Elige el servicio y toca Reservar: la app te lleva a la reserva con el barbero elegido; solo los que atienden ese servicio y están activos aparecen, y si está inactivo, el botón se desactiva.",
+      "La app te pide la fecha, la hora libre y la confirmación; al tocar CONFIRMAR RESERVA, la cita queda Confirmada (tarea 6.10).",
     ],
-    resultado: "Barbero elegido: puedes reservar de inmediato o revisar primero su perfil.",
+    resultado: "Con el barbero elegido, la reserva sigue el flujo de la tarea 6.10: elige servicio, fecha, hora y confirmación.",
   },
   {
     id: "22-perfil-barbero", titulo: "Perfil público del barbero", rol: "Cliente",

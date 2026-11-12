@@ -6,6 +6,7 @@ import '../../services/barbero_service.dart';
 import '../../widgets/barberos/barberos_acciones.dart';
 import '../../widgets/barberos/barberos_cerca_boton.dart';
 import '../../widgets/barberos/barberos_destacados_panel.dart';
+import '../../widgets/barberos/barberos_filtro_servicio.dart';
 import '../../widgets/barberos/barberos_screen_lista.dart';
 import '../../widgets/common/app_ui.dart';
 
@@ -62,6 +63,22 @@ class _BarberosScreenState extends State<BarberosScreen> {
       _destacados = _mapa(resultados[1]);
       _cercaDeMi = false;
       _cargando = false;
+    });
+  }
+
+  Future<void> _filtrarPorServicio(int? servicioId) async {
+    if (servicioId == null) {
+      await _cargar();
+      return;
+    }
+
+    final barberos = await _service.obtenerBarberos(servicioId: servicioId);
+
+    if (!mounted) return;
+
+    setState(() {
+      _barberos = _mapa(barberos);
+      _cercaDeMi = false;
     });
   }
 
@@ -132,6 +149,10 @@ class _BarberosScreenState extends State<BarberosScreen> {
                           onTodos: _cargar,
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 14),
+                    BarberosFiltroServicio(
+                      onSeleccionar: _filtrarPorServicio,
                     ),
                     if (_cercaDeMi) ...[
                       const SizedBox(height: 10),

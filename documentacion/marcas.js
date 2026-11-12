@@ -63,7 +63,7 @@ module.exports = {
     { n: 3, x: 344, y: 296, nota: "Botón Cerca de mí (el mapa)" },
     { n: 4, x: 366, y: 410, nota: "Tarjeta del barbero: abre su perfil" },
     { n: 5, x: 366, y: 642, nota: "Botón Reservar (se desactiva si el barbero está inactivo)" },
-    { n: 6, x: 130, y: 800, nota: "Barra inferior, pestaña Barberos activa" },
+    { n: 6, x: 130, y: 800, nota: "Confirmar reserva: la app deja la cita Confirmada" },
   ],
   "22-perfil-barbero": [
     { n: 1, x: 366, y: 140, nota: "Sello de verificado y disponibilidad" },
