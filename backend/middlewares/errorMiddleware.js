@@ -1,5 +1,7 @@
 import multer from "multer";
 
+import { capturarError } from "../config/sentry.js";
+
 export const errorHandler = (err, req, res, _next) => {
     console.error(err);
 
@@ -41,6 +43,16 @@ export const errorHandler = (err, req, res, _next) => {
         statusCode = 409;
         message =
             "No se puede completar la operación porque el registro tiene información relacionada.";
+    }
+
+    // Solo el 5xx es un fallo del servidor: los 4xx son respuestas
+    // deliberadas a datos del cliente y no merecen aparecer en Sentry.
+    if (statusCode >= 500) {
+        capturarError(err, {
+            ruta: req.originalUrl,
+            metodo: req.method,
+            statusCode,
+        });
     }
 
     return res.status(statusCode).json({

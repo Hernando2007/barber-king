@@ -2,6 +2,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import { iniciarSentry, capturarError, cerrarSentry } from "./config/sentry.js";
+
+iniciarSentry();
+
 import app from "./app.js";
 
 const PORT = process.env.PORT || 3000;
@@ -45,16 +49,19 @@ process.on(
             "❌ Promesa rechazada no controlada:"
         );
         console.error(error);
+        capturarError(error, { origen: "unhandledRejection" });
     }
 );
 
 process.on(
     "uncaughtException",
-    (error) => {
+    async (error) => {
         console.error(
             "❌ Excepción no controlada:"
         );
         console.error(error);
+        capturarError(error, { origen: "uncaughtException" });
+        await cerrarSentry();
         process.exit(1);
     }
 );

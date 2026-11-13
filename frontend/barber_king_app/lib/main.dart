@@ -2,6 +2,7 @@ import 'package:barber_king_app/core/config/api_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'core/sentry_config.dart';
 import 'core/theme.dart';
 import 'routes/app_routes.dart'; // Ajusta la ruta según la ubicación exacta de tu ApiConfig
 
@@ -12,7 +13,11 @@ void main() async {
   // Detecta si la app corre en dispositivo físico o emulador antes de cargar la interfaz
   await ApiConfig.initialize();
 
-  runApp(const BarberKingApp());
+  // Sentry toma los errores no capturados solo si se pegó un DSN; si no,
+  // arranca la app normal (ver core/sentry_config.dart).
+  await SentryConfig.iniciar(() async {
+    runApp(const BarberKingApp());
+  });
 }
 
 class BarberKingApp extends StatelessWidget {
