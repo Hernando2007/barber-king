@@ -314,6 +314,12 @@ está vieja.
      Si compilas en depuración y en release, registra **ambas** huellas en el
      mismo cliente Android. Si regeneras el `debug.keystore`, su huella cambia
      y hay que registrar la nueva.
+
+     En la consola nueva cada cliente de Android admite **una sola huella**, así
+     que si la app se firma con más de una clave hace falta un cliente por
+     huella (mismo paquete `com.barberking.app`, distinta huella). Huellas ya
+     registradas (nov-2026): `Barber King Android` (release) y
+     `Barber King Android (depuracion)` (depuración).
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
    llamado **backend**: `607283190256-1ilbmorioqnhv2f6fgjpsc23mf2h8if0.apps.googleusercontent.com`.
    El cliente de tipo Android no se pone en la app ni en el backend.
