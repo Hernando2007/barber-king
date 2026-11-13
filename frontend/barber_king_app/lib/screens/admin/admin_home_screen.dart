@@ -7,6 +7,7 @@ import '../../services/admin_revision_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/cita_service.dart';
 import '../../services/dashboard_service.dart';
+import '../../widgets/admin/admin_cajon.dart';
 import '../../widgets/common/app_ui.dart';
 import '../../widgets/common/filtros_pildora.dart';
 import '../../widgets/common/home_encabezado.dart';
@@ -179,6 +180,48 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     _cargar();
   }
 
+  /// Destinos del cajón, en el mismo orden de la lista "Gestión del negocio".
+  List<DestinoCajon> _destinosCajon() => [
+        DestinoCajon(
+          etiqueta: 'Panel de control',
+          detalle: 'Resumen y actividad de hoy',
+          icono: Icons.dashboard_outlined,
+          actual: true,
+          onTap: () {},
+        ),
+        DestinoCajon(
+          etiqueta: 'Usuarios',
+          detalle: 'Altas, bajas y roles',
+          icono: Icons.people_outline_rounded,
+          onTap: _abrirUsuarios,
+        ),
+        DestinoCajon(
+          etiqueta: 'Verificar barberos',
+          detalle: 'Pendientes de aprobación',
+          icono: Icons.verified_user_outlined,
+          contador: _revisionPendiente,
+          onTap: _abrirRevision,
+        ),
+        DestinoCajon(
+          etiqueta: 'Servicios',
+          detalle: 'Catálogo y precios',
+          icono: Icons.content_cut_rounded,
+          onTap: () => Navigator.pushNamed(context, AppRoutes.servicios),
+        ),
+        DestinoCajon(
+          etiqueta: 'Citas',
+          detalle: 'Agenda completa',
+          icono: Icons.event_note_outlined,
+          onTap: _abrirCitas,
+        ),
+        DestinoCajon(
+          etiqueta: 'Barberos',
+          detalle: 'Equipo y horarios',
+          icono: Icons.face_outlined,
+          onTap: () => Navigator.pushNamed(context, AppRoutes.barberos),
+        ),
+      ];
+
   @override
   Widget build(BuildContext context) {
     final nombre = widget.usuario['nombres']?.toString() ?? 'Administrador';
@@ -190,6 +233,39 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                gradient: AppColors.goldGradient,
+                borderRadius: BorderRadius.circular(11),
+              ),
+              child: const Icon(
+                Icons.workspace_premium_rounded,
+                color: AppColors.black,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Expanded(
+              child: Text(
+                'Barber King',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+      drawer: AdminCajon(
+        usuario: widget.usuario,
+        destinos: _destinosCajon(),
+        onPerfil: () => Navigator.pushNamed(context, AppRoutes.perfil),
+        onSalir: _salir,
+      ),
       body: SafeArea(
         child: _cargando
             ? const LoadingView(message: 'Cargando panel administrativo...')
