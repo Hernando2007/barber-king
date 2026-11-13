@@ -11,7 +11,10 @@ import {
 test("sentryActivo refleja exactamente si hay SENTRY_DSN", () => {
     // La invariante es la consistencia, no exigir el DSN vacío: cuando se
     // pegue uno, el backend empezará a enviar errores a propósito.
-    assert.equal(sentryActivo, Boolean(process.env.SENTRY_DSN));
+    // Debe ser función y no const, porque en ESM las importaciones corren
+    // antes que dotenv.config() (ver el comentario de config/sentry.js).
+    assert.equal(typeof sentryActivo, "function");
+    assert.equal(sentryActivo(), Boolean(process.env.SENTRY_DSN));
 });
 
 test("iniciarSentry con el DSN vacío no rompe ni pide red", () => {
