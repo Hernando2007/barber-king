@@ -489,21 +489,28 @@ con la misma versión de Flutter que se usa en desarrollo (3.47.1).
 
 El proyecto está cableado a [Sentry](https://sentry.io) para ver los errores
 de producción que hoy solo aparecen en los logs de Render o en el dispositivo.
-**Está deshabilitado hasta que se pegue un DSN**: sin esa variable, el código
-se comporta igual que antes, sin llamadas de red ni servicios externos.
+Está **apagado por defecto**: si una variable queda vacía, esa parte se
+comporta igual que antes, sin llamadas de red ni servicios externos.
 
 | Parte | Dónde se configura | Qué reporta |
 | --- | --- | --- |
 | Backend | `SENTRY_DSN` en `backend/.env` y en Render | Excepciones no controladas, promesas rechazadas y cualquier error que se responda como 500. Los 4xx no se envían: son respuestas deliberadas a datos del cliente. |
 | App Android | `dsn` en `frontend/barber_king_app/lib/core/sentry_config.dart` | Excepciones no capturadas (widgets, plataforma y zonas), más las capturas manuales de errores ya manejados. |
 
-Para encenderlo:
+Los proyectos en sentry.io ya están creados en la organización del equipo:
 
-1. Crear dos proyectos gratis en sentry.io: `barber-king-backend`
-   (plataforma **Node**) y `barber-king-app` (plataforma **Flutter**).
-2. Copiar el DSN de cada uno y pegarlo en la variable de la tabla anterior.
-3. Reiniciar el backend (`npm run dev` o redeploy en Render) y reconstruir la
-   app (`flutter build apk`).
+| Proyecto | Plataforma | DSN configurado en |
+| --- | --- | --- |
+| `node` (backend) | Node.js | `SENTRY_DSN` en `backend/.env` |
+| `flutter` (app) | Flutter | `dsn` en `frontend/barber_king_app/lib/core/sentry_config.dart` |
+
+Para mover cualquiera de los dos a otro proyecto: crearlo en sentry.io y
+reemplazar el DSN correspondiente. Para apagarlo, basta con dejar la variable
+vacía. En **Render** hace falta agregar `SENTRY_DSN` a mano en
+Environment → Variables (el valor es el mismo de `backend/.env`).
+
+La app solo empieza a enviar errores cuando se vuelve a compilar
+(`flutter build apk`), porque el DSN se fija en tiempo de compilación.
 
 El DSN no es un secreto: es un dato público que va embebido en el cliente y
 solo sirve para enviar eventos. Lo que sí se mantiene fuera del repositorio es

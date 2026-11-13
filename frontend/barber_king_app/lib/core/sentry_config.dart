@@ -3,11 +3,11 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// Errores de la app en Sentry.
 ///
-/// Cableado pero apagado: mientras [dsn] esté vacío, nada se envía y la app
-/// se comporta exactamente como antes. Para encenderlo:
+/// El DSN apunta al proyecto `flutter` de sentry.io; mientras esté vacío,
+/// nada se envía y la app se comporta como sin Sentry. Si se quiere apagar,
+/// basta con vaciar [dsn] y no hay que tocar nada más.
 ///
-///   1. Crear el proyecto "barber-king-app" (plataforma Flutter) en sentry.io.
-///   2. Pegar aquí el DSN que da ese proyecto (empieza con `https://`).
+/// Para moverlo a otro proyecto: crearlo en sentry.io y pegar aquí su DSN.
 ///
 /// El DSN no es un secreto: Sentry lo define como dato público, porque solo
 /// sirve para enviar eventos desde el cliente. No confundirlo con el Auth
@@ -15,7 +15,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 class SentryConfig {
   SentryConfig._();
 
-  static const String dsn = '';
+  static const String dsn =
+      'https://115cd4ccccc0f3706818ba8ee21f23ce@o4512426015391744.ingest.us.sentry.io/4512426219667456';
 
   /// ¿Ya pegaron el DSN? Si no, Sentry queda fuera del arranque.
   static bool get habilitado => dsn.isNotEmpty;
