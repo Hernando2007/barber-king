@@ -453,6 +453,28 @@ Los endpoints protegidos requieren el encabezado `Authorization: Bearer <token>`
 
 ---
 
+## Tests y CI
+
+Los tests usan las herramientas que ya vienen, sin dependencias nuevas:
+
+```bash
+# Backend (runner nativo de Node 20+)
+cd backend
+npm test
+
+# App Flutter
+cd frontend/barber_king_app
+flutter test
+dart analyze lib test
+```
+
+En cada push y en cada pull request, GitHub Actions
+(`.github/workflows/ci.yml`) revisa la sintaxis de todos los archivos del
+backend, corre sus tests y en la app ejecuta `dart analyze` y `flutter test`
+con la misma versión de Flutter que se usa en desarrollo (3.47.1).
+
+---
+
 ## Autores
 
 - Hernando Botello Vargas
