@@ -22,9 +22,10 @@ extension AuthServiceGoogle on AuthService {
         'success': false,
         'cancelado': true,
         'message':
-            'Se canceló el acceso con Google. Si elegiste tu cuenta y aun así '
-            'no entra, falta registrar esta app (nombre del paquete y huella '
-            'SHA-1) en Google Cloud.',
+            'Google no completó el acceso. Revisa en Google Cloud que el '
+            'cliente OAuth de Android tenga el paquete com.barberking.app con '
+            'la huella SHA-1 del APK instalado, y que tu correo esté en '
+            'Usuarios de prueba.',
       };
     } on _GoogleNoConfigurado catch (e) {
       return {'success': false, 'message': e.message};

@@ -293,10 +293,9 @@ está vieja.
    *Prueba* y la lista vacía, Google rechaza el acceso.
 2. **Credenciales → Crear credenciales → ID de cliente OAuth → tipo Android** con:
    - Nombre del paquete: `com.barberking.app`
-   - Huella SHA-1 **del keystore que firma el APK instalado**. El de depuración y,
-     mientras no configures el tuyo, también el de release salen del
-     `debug.keystore`. Léela siempre del APK real, porque el `debug.keystore` se
-     regenera si borras `%USERPROFILE%\.android` y la huella cambia:
+   - Huella SHA-1 **del keystore que firma el APK instalado**. Léela siempre del
+     APK real, porque el `debug.keystore` se regenera si borras
+     `%USERPROFILE%\.android` y la huella cambia:
      ```bash
      # la huella del APK que tienes instalado (la que Google exige registrar)
      ~/AppData/Local/Android/Sdk/build-tools/37.0.0/apksigner.bat \
@@ -307,8 +306,14 @@ está vieja.
        -storepass android -alias androiddebugkey
      ```
      En PowerShell la ruta se escribe `%USERPROFILE%\.android\debug.keystore`.
-     Ambos deben coincidir; en el `debug.keystore` actual (nov-2026) es
-     `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`.
+     Huellas actuales de este equipo (nov-2026):
+     - `debug.keystore`: `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
+     - keystore de release (firma el APK que se instala):
+       `5A:A0:1F:64:E1:21:44:AC:44:0E:80:99:C6:30:17:49:45:26:7B:B8`
+
+     Si compilas en depuración y en release, registra **ambas** huellas en el
+     mismo cliente Android. Si regeneras el `debug.keystore`, su huella cambia
+     y hay que registrar la nueva.
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
    llamado **backend**: `607283190256-1ilbmorioqnhv2f6fgjpsc23mf2h8if0.apps.googleusercontent.com`.
    El cliente de tipo Android no se pone en la app ni en el backend.
@@ -323,9 +328,11 @@ para leerlas están en
 [`documentacion/play-store/guia-publicacion.md`](documentacion/play-store/guia-publicacion.md#3-huellas-sha-1).
 
 Síntoma típico de faltar el paso 1 o 2: se abre el selector, eliges la cuenta y
-la app vuelve sin sesión (Google lo reporta como *cancelado*). El plugin
-`google_sign_in` 7.x no distingue el motivo en Android, así que un SHA-1 viejo o
-un paquete mal escrito también salen como "Se canceló el acceso con Google".
+la app vuelve sin sesión; Google lo reporta como *cancelado* y la app muestra
+"Google no completó el acceso". El plugin `google_sign_in` 7.x no distingue el
+motivo en Android, así que un SHA-1 viejo, un paquete mal escrito o un correo que
+no está en *Usuarios de prueba* producen el mismo resultado. Comprueba la huella
+del APK instalado con el comando de arriba y regístrala en el cliente Android;
 `GET /api/auth/google/config` confirma el paso 3: si devuelve un `clientId`,
 Render sí lo tiene.
 
