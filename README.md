@@ -450,6 +450,16 @@ Los endpoints protegidos requieren el encabezado `Authorization: Bearer <token>`
 - Validación de tipo y tamaño en las cargas de archivos.
 - Variables sensibles fuera del repositorio.
 - Eliminaciones masivas solo para administradores y con confirmación explícita.
+- Row Level Security (RLS) activada en todas las tablas de Supabase
+  (`database/21_rls.sql`): sin políticas, se deniega por defecto y solo la
+  clave **secreta** (`service_role`) tiene acceso.
+
+  **Orden obligatorio:** el backend debe usar la clave secreta de Supabase
+  (Project Settings → API keys → *Secret key*) como `SUPABASE_KEY` en
+  `backend/.env` y en Render **antes** de ejecutar `21_rls.sql`. Si se corre
+  primero, la clave publicable actual queda sin permisos y la app deja de
+  responder. Comprueba `/health` y el inicio de sesión y solo entonces aplica
+  el script. Detalles en `database/README.md`.
 
 ---
 

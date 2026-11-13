@@ -26,6 +26,7 @@ Ejecuta los archivos en el editor SQL de Supabase, uno por uno y en este orden:
 18. `18_barberos_compatibilidad.sql` (columnas de perfil y ubicación en bases antiguas)
 19. `19_horarios_por_defecto.sql` (horario semanal para barberos sin franjas)
 20. `20_usuarios_auth_compatibilidad.sql` (columnas de autenticación en bases antiguas)
+21. `21_rls.sql` (Row Level Security en todas las tablas)
 
 Los scripts eliminan y recrean las tablas que definen, por lo que no deben ejecutarse sobre una base con información que quieras conservar.
 
@@ -67,6 +68,19 @@ sin dañar datos: crean sus tablas con `IF NOT EXISTS` y agregan columnas con
   conservando los datos. El backend acepta ambos nombres (`google_id` y
   `googleId`), así que el inicio de sesión con Google funciona aunque esta
   migración todavía no se haya aplicado; aplicarla deja el esquema normalizado.
+- `21_rls.sql` activa Row Level Security en todas las tablas de `public` y
+  pone `vista_servicios_barbero` en `security_invoker`. Sin políticas, el RLS
+  deniega por defecto: solo la clave **secreta** de Supabase (rol
+  `service_role`, con `BYPASSRLS`) sigue con acceso total, y la clave
+  **publicable** (`sb_publishable_...`, rol `anon`) queda sin leer ni escribir
+  nada.
+
+  **Ojo:** el backend usa hoy la clave publicable. Este script deja la app sin
+  conexión si se corre antes de cambiar `SUPABASE_KEY` por la clave secreta en
+  `backend/.env` y en Render. El orden correcto es: cambiar la clave,
+  comprobar que `/health` y el login responden, y recién después ejecutar
+  `21_rls.sql`. El script es idempotente y hay que volver a correrlo cada vez
+  que se agregue una tabla nueva, porque Postgres no activa el RLS solo.
 
 Si vas a aplicar solo algunos, respeta el orden: `16` depende de `citas` y de los
 barberos, y `13` debe ir antes de cualquier reserva nueva porque `citas.precio`
