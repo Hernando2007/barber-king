@@ -9,14 +9,17 @@ const origenesPermitidos = [
 
 // Sin origin (curl, apps móviles, healthchecks) se deja pasar: la app Flutter
 // no manda cabecera Origin.
-const esOrigenLocal = (origen) => {
+// Exportado para poder probarlo sin montar un servidor.
+export const esOrigenLocal = (origen) => {
     if (!origen) {
         return true;
     }
 
     return (
         /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origen) ||
-        /^https?:\/\/(192\.168|10\.|172\.(1[6-9]|2\d|3[01]))\.\d+\.\d+(:\d+)?$/.test(
+        // Cada rango privado con su número de octetos: el 10.0.2.2 del
+        // emulador tiene cuatro, no tres.
+        /^https?:\/\/(192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$/.test(
             origen
         ) ||
         origenesPermitidos.includes(origen)
