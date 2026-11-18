@@ -295,6 +295,11 @@ class _PerfilAccionesCuenta extends StatelessWidget {
           child: Column(
             children: [
               for (var i = 0; i < items.length; i++) ...[
+                if (i == items.length - 1)
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(14, 12, 14, 4),
+                    child: _AvisoEliminarCuenta(),
+                  ),
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -369,6 +374,62 @@ class _PerfilAccionesCuenta extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Recuerda, justo antes del botón, que borrar la cuenta no se puede deshacer.
+class _AvisoEliminarCuenta extends StatelessWidget {
+  const _AvisoEliminarCuenta();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.error.withValues(alpha: .08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: AppColors.error.withValues(alpha: .35),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.error,
+            size: 18,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '¿Deseas eliminar tu cuenta permanentemente?',
+                  style: TextStyle(
+                    color: AppColors.error,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  'Se borran tu perfil y todos los datos asociados. '
+                  'No se puede deshacer.',
+                  style: TextStyle(
+                    color: AppColors.error.withValues(alpha: .85),
+                    fontSize: 11,
+                    height: 1.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
