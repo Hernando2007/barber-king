@@ -7,13 +7,45 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Si existe android/key.properties, el release se firma con tu propio keystore.
-// Sin ese archivo se usa la clave de depuración, como hasta ahora.
-val clavePropiedades = Properties()
+// La firma de release usa android/key.properties, que no se versiona.
+// Si el archivo falta o está incompleto, el build de release se detiene.
 val archivoClave = rootProject.file("key.properties")
+val clavePropiedades = Properties()
 val tieneKeystore = archivoClave.exists()
+
 if (tieneKeystore) {
     FileInputStream(archivoClave).use { flujo -> clavePropiedades.load(flujo) }
+
+    val requeridas = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+    val faltantes = requeridas.filter { clavePropiedades.getProperty(it).isNullOrBlank() }
+    if (faltantes.isNotEmpty()) {
+        throw GradleException(
+            "Faltan datos en android/key.properties: ${faltantes.joinToString(", ")}"
+        )
+    }
+}
+
+val archivoAlmacen = if (tieneKeystore) {
+    rootProject.file(requireNotNull(clavePropiedades.getProperty("storeFile")))
+} else {
+    null
+}
+
+if (archivoAlmacen != null && !archivoAlmacen.exists()) {
+    throw GradleException(
+        "No existe el keystore indicado en android/key.properties: ${archivoAlmacen.absolutePath}"
+    )
+}
+
+// Un release firmado con la clave de depuración lo rechaza Play.
+// El aviso solo aparece cuando se pide compilar el release, no en debug.
+gradle.taskGraph.whenReady {
+    val pideRelease = allTasks.any { it.name == "bundleRelease" || it.name == "assembleRelease" }
+    if (pideRelease && !tieneKeystore) {
+        throw GradleException(
+            "Falta android/key.properties. Sin la llave de subida no se puede firmar el release."
+        )
+    }
 }
 
 android {
@@ -36,12 +68,12 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            if (tieneKeystore) {
-                keyAlias = clavePropiedades["keyAlias"] as String
-                keyPassword = clavePropiedades["keyPassword"] as String
-                storeFile = file(clavePropiedades["storeFile"] as String)
-                storePassword = clavePropiedades["storePassword"] as String
+        if (tieneKeystore) {
+            create("release") {
+                storeFile = archivoAlmacen
+                storePassword = clavePropiedades.getProperty("storePassword")
+                keyAlias = clavePropiedades.getProperty("keyAlias")
+                keyPassword = clavePropiedades.getProperty("keyPassword")
             }
         }
     }

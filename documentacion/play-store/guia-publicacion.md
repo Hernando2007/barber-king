@@ -65,8 +65,9 @@ storeFile=C:/Users/TU_USUARIO/upload-keystore.jks
 ```
 
 `build.gradle.kts` lee ese archivo automáticamente y firma el release con él.
-Sin el archivo, el build usa la clave de depuración (válido para probar, **no**
-para Play). En el PC de desarrollo ya está creado, así que no hay que repetirlo.
+Si el archivo falta o no tiene todos los datos, el build de release se detiene
+con un mensaje claro. Tampoco se firma si el keystore indicado no existe. En el
+PC de desarrollo ya está creado, así que no hay que repetirlo.
 
 ---
 
