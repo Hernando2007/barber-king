@@ -306,10 +306,12 @@ está vieja.
        -storepass android -alias androiddebugkey
      ```
      En PowerShell la ruta se escribe `%USERPROFILE%\.android\debug.keystore`.
-     Huellas actuales de este equipo (nov-2026):
-     - `debug.keystore`: `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`
-     - keystore de release (firma el APK que se instala):
-       `5A:A0:1F:64:E1:21:44:AC:44:0E:80:99:C6:30:17:49:45:26:7B:B8`
+     Huellas verificadas en este equipo (nov-2026):
+     - `debug.keystore` de este PC:
+       `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`
+     - En este PC no existe `android/key.properties` ni un keystore de release,
+       así que **el APK de release también usa el `debug.keystore`** y tiene esa
+       misma huella. Compruébalo siempre en el APK real antes de registrarla.
 
      Si compilas en depuración y en release, registra **ambas** huellas en el
      mismo cliente Android. Si regeneras el `debug.keystore`, su huella cambia
@@ -317,9 +319,14 @@ está vieja.
 
      En la consola nueva cada cliente de Android admite **una sola huella**, así
      que si la app se firma con más de una clave hace falta un cliente por
-     huella (mismo paquete `com.barberking.app`, distinta huella). Huellas ya
-     registradas (nov-2026): `Barber King Android` (release) y
-     `Barber King Android (depuracion)` (depuración).
+     huella (mismo paquete `com.barberking.app`, distinta huella). Clientes
+     registrados (nov-2026):
+     - `Barber King Android`: release de otra máquina,
+       `5A:A0:1F:64:E1:21:44:AC:44:0E:80:99:C6:30:17:49:45:26:7B:B8`.
+     - `Barber King Android (depuracion)`: depuración de otra máquina,
+       `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`.
+     - `Barber King Android (depuracion SISTEMAS)`: este PC,
+       `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`.
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
    llamado **backend**: `607283190256-1ilbmorioqnhv2f6fgjpsc23mf2h8if0.apps.googleusercontent.com`.
    El cliente de tipo Android no se pone en la app ni en el backend.
