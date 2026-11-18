@@ -177,6 +177,8 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     Navigator.pushNamed(context, AppRoutes.manualUsuario),
                 onPrivacidad: () =>
                     Navigator.pushNamed(context, AppRoutes.politicaPrivacidad),
+                onTerminos: () =>
+                    Navigator.pushNamed(context, AppRoutes.terminosCondiciones),
                 onSalir: _cerrarSesion,
                 onEliminar: _eliminarCuenta,
               ),

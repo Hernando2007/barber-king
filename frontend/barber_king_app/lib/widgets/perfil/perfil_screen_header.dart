@@ -232,17 +232,19 @@ class _PerfilHeaderCard extends StatelessWidget {
   }
 }
 
-/// Manual, privacidad y cierre de sesión agrupados para que el final del
-/// perfil no parezca una lista de botones sueltos.
+/// Manual, documentos legales y cierre de sesión agrupados para que el final
+/// del perfil no parezca una lista de botones sueltos.
 class _PerfilAccionesCuenta extends StatelessWidget {
   final VoidCallback onManual;
   final VoidCallback onPrivacidad;
+  final VoidCallback onTerminos;
   final VoidCallback onSalir;
   final VoidCallback onEliminar;
 
   const _PerfilAccionesCuenta({
     required this.onManual,
     required this.onPrivacidad,
+    required this.onTerminos,
     required this.onSalir,
     required this.onEliminar,
   });
@@ -265,6 +267,13 @@ class _PerfilAccionesCuenta extends StatelessWidget {
         onPrivacidad,
       ),
       (
+        'Términos y condiciones',
+        'Reglas de uso de la app',
+        Icons.description_outlined,
+        AppColors.info,
+        onTerminos,
+      ),
+      (
         'Cerrar sesión',
         'Salir de tu cuenta en este equipo',
         Icons.logout_outlined,
@@ -285,7 +294,7 @@ class _PerfilAccionesCuenta extends StatelessWidget {
       children: [
         const SectionHeader(
           title: 'Cuenta y soporte',
-          subtitle: 'Ayuda, privacidad y sesión',
+          subtitle: 'Documentos legales y sesión',
           icon: Icons.manage_accounts_outlined,
         ),
         const SizedBox(height: 12),
