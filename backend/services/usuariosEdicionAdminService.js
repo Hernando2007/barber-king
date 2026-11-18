@@ -24,6 +24,7 @@ import { buscarUsuario } from "./usuariosLecturaService.js";
 import {
     contarDependencias,
     eliminarDependencias,
+    eliminarDependenciasDeBarbero,
 } from "./usuariosDependenciasService.js";
 
 /** Editar otro usuario desde el panel: incluye cambiar de rol y su perfil. */
@@ -107,6 +108,11 @@ export const actualizarUsuarioAdmin = async (admin, id, datos) => {
                 resumen
             );
         }
+
+        await eliminarDependenciasDeBarbero(
+            existente.id,
+            barberoExistente.id
+        );
 
         if (resumen.total > 0) {
             await eliminarDependencias(

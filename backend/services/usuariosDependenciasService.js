@@ -10,6 +10,13 @@ import {
     eliminarCitasDeUsuario,
     eliminarMensajesDeUsuario,
     eliminarHorariosDeBarbero,
+    eliminarAvisosDeUsuario,
+    eliminarSolicitudesDeCliente,
+    eliminarSolicitudesDeBarbero,
+    eliminarVerificacionesDeCuenta,
+    eliminarPortafolioDeBarbero,
+    eliminarServiciosDeBarbero,
+    desvincularRevisorDeVerificaciones,
 } from "../models/usuariosDependenciasModel.js";
 import { eliminarBarbero } from "../models/barberosModel.js";
 
@@ -124,4 +131,42 @@ export const eliminarDependencias = async (
     if (errorMensajes) {
         throw new Error(errorMensajes.message);
     }
+};
+
+/**
+ * Suelta todo lo que apunta al perfil profesional: fotos, servicios,
+ * solicitudes, verificaciones y horarios. Se usa antes de borrar el barbero
+ * o de bajarle el rol a cliente.
+ */
+export const eliminarDependenciasDeBarbero = async (
+    usuarioId,
+    barberoId
+) => {
+    await eliminarSolicitudesDeBarbero(barberoId);
+    await eliminarVerificacionesDeCuenta(usuarioId, barberoId);
+    await eliminarPortafolioDeBarbero(barberoId);
+    await eliminarServiciosDeBarbero(barberoId);
+    await eliminarHorariosDeBarbero(barberoId);
+};
+
+/**
+ * Borra todo lo que cuelga de una cuenta antes de eliminarla.
+ *
+ * No se guía por el conteo: limpia siempre, porque cualquier tabla puede
+ * bloquear el borrado con una llave foránea aunque no tenga citas ni reseñas.
+ */
+export const eliminarTodoElHistorial = async (
+    usuarioId,
+    barberoId = null
+) => {
+    if (barberoId) {
+        await eliminarDependenciasDeBarbero(usuarioId, barberoId);
+    } else {
+        await eliminarSolicitudesDeCliente(usuarioId);
+        await eliminarVerificacionesDeCuenta(usuarioId);
+    }
+
+    await eliminarAvisosDeUsuario(usuarioId);
+    await eliminarDependencias(usuarioId, barberoId);
+    await desvincularRevisorDeVerificaciones(usuarioId);
 };

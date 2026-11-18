@@ -12,14 +12,11 @@ import {
     eliminarUsuario,
     contarUsuariosPorRol,
 } from "../models/usuariosModel.js";
-import {
-    crearBarbero,
-    eliminarBarbero,
-} from "../models/barberosModel.js";
+import { crearBarbero } from "../models/barberosModel.js";
 import { buscarUsuario } from "./usuariosLecturaService.js";
 import {
     contarDependencias,
-    eliminarDependencias,
+    eliminarTodoElHistorial,
 } from "./usuariosDependenciasService.js";
 
 export const crearUsuarioAdmin = async (admin, datos) => {
@@ -113,15 +110,7 @@ export const eliminarUsuarioAdmin = async (admin, id, { forzar = false } = {}) =
         );
     }
 
-    if (resumen.total > 0) {
-        await eliminarDependencias(id, barberoId);
-    } else if (barberoId) {
-        const { error } = await eliminarBarbero(barberoId);
-
-        if (error) {
-            throw new Error(error.message);
-        }
-    }
+    await eliminarTodoElHistorial(id, barberoId);
 
     const { error } = await eliminarUsuario(id);
 

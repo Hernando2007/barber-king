@@ -6,11 +6,10 @@ import {
     eliminarUsuario,
     contarUsuariosPorRol,
 } from "../models/usuariosModel.js";
-import { eliminarBarbero } from "../models/barberosModel.js";
 import { buscarUsuario } from "./usuariosLecturaService.js";
 import {
     contarDependencias,
-    eliminarDependencias,
+    eliminarTodoElHistorial,
 } from "./usuariosDependenciasService.js";
 
 const CONFIRMACION_TEXTO = "ELIMINAR";
@@ -88,15 +87,7 @@ export const eliminarMiCuenta = async (
     const barberoId = existente.barbero?.id || null;
     const resumen = await contarDependencias(usuario.id, barberoId);
 
-    if (resumen.total > 0) {
-        await eliminarDependencias(usuario.id, barberoId);
-    } else if (barberoId) {
-        const { error } = await eliminarBarbero(barberoId);
-
-        if (error) {
-            throw new Error(error.message);
-        }
-    }
+    await eliminarTodoElHistorial(usuario.id, barberoId);
 
     const { error } = await eliminarUsuario(usuario.id);
 
