@@ -32,14 +32,25 @@ El keystore es la identidad criptográfica de la app: si se pierde, no se pueden
 publicar actualizaciones. Guárdalo fuera del repositorio y con copia de
 seguridad.
 
+Este proyecto ya tiene su llave de subida (nov-2026):
+
+- Archivo: `%USERPROFILE%\upload-keystore.jks` (fuera del repositorio)
+- Alias: `upload`
+- Formato: JKS
+- Credenciales: `%USERPROFILE%\upload-keystore-credenciales.txt`
+
+Si hay que recrearla en otro equipo, este es el comando:
+
 ```powershell
-keytool -genkeypair -v -storetype PKCS12 -alias barber-king `
-  -keystore "$USERPROFILE\keystores\barber-king-release.keystore" `
+keytool -genkeypair -v -storetype JKS -alias upload `
+  -keystore "$USERPROFILE\upload-keystore.jks" `
   -keyalg RSA -keysize 2048 -validity 10000 `
-  -dname "CN=Barber King, OU=Desarrollo, O=Barber King, L=Bogota, ST=Cundinamarca, C=CO"
+  -dname "CN=Hernando Botello Vargas, OU=Barber King, O=Barber King, L=Garzon, ST=Huila, C=CO"
 ```
 
 `keytool` pide la contraseña del almacén y la de la clave (pueden ser la misma).
+Avisa que recomienda PKCS12: ignóralo, la guía pide JKS y cambiar de formato no
+cambia la llave.
 
 > **Nunca** subas el `.keystore` ni `key.properties` al repositorio. Ambos ya
 > están cubiertos por `frontend/barber_king_app/android/.gitignore`.
@@ -49,13 +60,13 @@ keytool -genkeypair -v -storetype PKCS12 -alias barber-king `
 ```properties
 storePassword=TU_CONTRASEÑA
 keyPassword=TU_CONTRASEÑA
-keyAlias=barber-king
-storeFile=C:/Users/TU_USUARIO/keystores/barber-king-release.keystore
+keyAlias=upload
+storeFile=C:/Users/TU_USUARIO/upload-keystore.jks
 ```
 
 `build.gradle.kts` lee ese archivo automáticamente y firma el release con él.
 Sin el archivo, el build usa la clave de depuración (válido para probar, **no**
-para Play).
+para Play). En el PC de desarrollo ya está creado, así que no hay que repetirlo.
 
 ---
 
@@ -71,7 +82,7 @@ Con **Play App Signing** hay dos claves distintas:
 ### Huella de tu upload key
 
 ```powershell
-keytool -list -v -keystore "$USERPROFILE\keystores\barber-king-release.keystore" -alias barber-king
+keytool -list -v -keystore "$USERPROFILE\upload-keystore.jks" -alias upload
 ```
 
 Copia la línea `SHA1:`.
@@ -79,12 +90,15 @@ Copia la línea `SHA1:`.
 Huella del keystore creado para este proyecto (nov-2026):
 
 ```text
-5A:A0:1F:64:E1:21:44:AC:44:0E:80:99:C6:30:17:49:45:26:7B:B8
+9A:6C:C5:89:DE:75:35:19:5F:C9:1C:51:BE:43:36:3E:DA:58:F3:82
 ```
 
+Su SHA-256 es
+`CE:23:3A:90:42:8C:C2:53:CD:AE:69:84:27:CB:47:B1:83:F7:13:32:15:A5:C2:AB:15:6E:80:62:C8:81:18:F8`.
+
 Las contraseñas del keystore están en
-`%USERPROFILE%\keystores\barber-king-credentials.txt`, fuera del repositorio.
-Haz una copia de seguridad de ese archivo y del `.keystore`: sin ellos no se
+`%USERPROFILE%\upload-keystore-credenciales.txt`, fuera del repositorio.
+Haz una copia de seguridad de ese archivo y del `.jks`: sin ellos no se
 pueden publicar actualizaciones.
 
 ### Huella de Play App Signing
@@ -96,9 +110,18 @@ pueden publicar actualizaciones.
 ### Registrar ambas en Google Cloud
 
 En **Google Cloud Console → Google Auth Platform → Credenciales**, edita el
-cliente OAuth de tipo **Android** (`com.barberking.app`) y agrega las dos huellas
-SHA-1. Sin la huella de Play App Signing, el inicio de sesión con Google falla en
-las instalaciones descargadas desde Play.
+cliente OAuth de tipo **Android** (`com.barberking.app`) y agrega la huella
+SHA-1. La consola nueva admite **una sola huella por cliente**, así que cada
+huella necesita su propio cliente con el mismo paquete. Registrados para este
+proyecto:
+
+| Cliente | Huella | Uso |
+| --- | --- | --- |
+| `Barber King Android (depuracion SISTEMAS)` | `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5` | APK de depuración de este PC |
+| `Barber King Android (upload key)` | `9A:6C:C5:89:DE:75:35:19:5F:C9:1C:51:BE:43:36:3E:DA:58:F3:82` | AAB que subes a Play |
+
+Falta el cliente de Play App Signing. Sin esa huella, el inicio de sesión con
+Google falla en las instalaciones descargadas desde Play.
 
 ---
 
@@ -108,8 +131,11 @@ las instalaciones descargadas desde Play.
 cd frontend/barber_king_app
 flutter clean
 flutter pub get
-flutter build appbundle --release --obfuscate --split-debug-info=build/symbols
+flutter build appbundle --release
 ```
+
+Si quieres símbolos para leer reportes de fallos, agrega
+`--obfuscate --split-debug-info=build/symbols`.
 
 El archivo queda en:
 
@@ -123,8 +149,14 @@ frontend/barber_king_app/build/app/outputs/bundle/release/app-release.aab
 jarsigner -verify -verbose -certs build/app/outputs/bundle/release/app-release.aab
 ```
 
-Debe decir `jar verified` y mostrar el alias `barber-king`, no
-`androiddebugkey`.
+Debe decir `jar verified` y mostrar el certificado
+`CN=Hernando Botello Vargas, OU=Barber King`, con SHA-1
+`9A:6C:C5:89:DE:75:35:19:5F:C9:1C:51:BE:43:36:3E:DA:58:F3:82`. Ese es el alias
+`upload`, no `androiddebugkey`. También puedes confirmarlo con:
+
+```powershell
+keytool -printcert -jarfile build/app/outputs/bundle/release/app-release.aab
+```
 
 ### Guardar los símbolos de ofuscación
 
@@ -246,7 +278,7 @@ Usuario admin:    admin.demo@barberking.com    /  Demo1234*
 
 - [ ] Keystore generado y respaldado fuera del repositorio.
 - [ ] `android/key.properties` creado y **no** versionado.
-- [ ] AAB firmado con el alias `barber-king` y verificado con `jarsigner`.
+- [ ] AAB firmado con la llave de subida y verificado con `jarsigner`.
 - [ ] `build/symbols` guardado.
 - [ ] Icono 512×512 y gráfico 1024×500 listos.
 - [ ] Al menos 2 capturas de teléfono.

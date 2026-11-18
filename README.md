@@ -309,13 +309,14 @@ está vieja.
      Huellas verificadas en este equipo (nov-2026):
      - `debug.keystore` de este PC:
        `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`
-     - En este PC no existe `android/key.properties` ni un keystore de release,
-       así que **el APK de release también usa el `debug.keystore`** y tiene esa
-       misma huella. Compruébalo siempre en el APK real antes de registrarla.
+     - En este PC ya existe `android/key.properties` apuntando a la llave de
+       subida, así que **el AAB de release se firma con esa llave y no con la de
+       depuración**. Compruébalo siempre en el archivo real antes de registrarla.
 
-     Si compilas en depuración y en release, registra **ambas** huellas en el
-     mismo cliente Android. Si regeneras el `debug.keystore`, su huella cambia
-     y hay que registrar la nueva.
+     Si compilas en depuración y en release, registra las dos huellas. Cada
+     cliente de Android de la consola nueva admite una sola, así que van en
+     clientes separados con el mismo paquete. Si regeneras el `debug.keystore`,
+     su huella cambia y hay que registrar la nueva.
 
      En la consola nueva cada cliente de Android admite **una sola huella**, así
      que si la app se firma con más de una clave hace falta un cliente por
@@ -327,6 +328,8 @@ está vieja.
        `F0:06:96:71:69:5A:DA:9A:08:EF:A1:2F:08:06:1B:12:E5:82:C4:B2`.
      - `Barber King Android (depuracion SISTEMAS)`: este PC,
        `7C:8D:9A:B0:71:55:48:E3:4F:19:16:E4:92:EC:DB:3E:5F:33:B1:E5`.
+     - `Barber King Android (upload key)`: llave de subida de este PC,
+       `9A:6C:C5:89:DE:75:35:19:5F:C9:1C:51:BE:43:36:3E:DA:58:F3:82`.
 3. Deja en Render la variable `GOOGLE_CLIENT_ID` con el cliente de tipo **Web**
    llamado **backend**: `607283190256-1ilbmorioqnhv2f6fgjpsc23mf2h8if0.apps.googleusercontent.com`.
    El cliente de tipo Android no se pone en la app ni en el backend.
@@ -355,42 +358,65 @@ en la fecha del teléfono o en el `GOOGLE_CLIENT_ID`. Cuando el fallo es del
 servidor (base de datos, por ejemplo) la app muestra "No fue posible completar el
 inicio de sesión con Google"; en ese caso revisa los logs de Render.
 
-### Firmar el APK de release con tu propio keystore
+### Firmar el release con tu propia llave de subida
 
-Sin `android/key.properties`, `flutter build apk --release` firma con la clave de
-depuración: sirve para probar, pero Google Play la rechaza y la huella SHA-1 solo
-existe en tu PC. Para firmar de verdad:
+La llave de subida de este proyecto ya está creada (nov-2026). Vive **fuera** del
+repositorio, en `%USERPROFILE%\upload-keystore.jks`, con alias `upload` y formato
+JKS. `android/key.properties` ya existe en este PC y está ignorado por Git, así
+que `flutter build appbundle --release` firma con esa llave sin tocar nada más.
+Las contraseñas están en `%USERPROFILE%\upload-keystore-credenciales.txt`. Haz
+copia del `.jks` y de ese archivo en dos lugares seguros: sin ellos no se pueden
+publicar actualizaciones.
+
+Si necesitas recrear la llave en otro equipo, usa los mismos datos:
 
 ```bash
-keytool -genkeypair -v -storetype PKCS12 -alias barber-king \
-  -keystore barber-king-release.keystore -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkeypair -v -storetype JKS -alias upload \
+  -keystore "$USERPROFILE/upload-keystore.jks" \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -dname "CN=Hernando Botello Vargas, OU=Barber King, O=Barber King, L=Garzon, ST=Huila, C=CO"
 ```
 
-Guarda el `.keystore` fuera del repositorio y crea `android/key.properties`
-(tampoco se sube, ya está en `.gitignore`):
+El formato JKS es el que pide la guía del SENA. `keytool` recomienda PKCS12, pero
+cambiar de formato cambia el archivo, no la llave, y aquí no hace falta.
+
+Luego crea `android/key.properties` (tampoco se sube, ya está en `.gitignore`):
 
 ```properties
 storePassword=LA_CONTRASEÑA
 keyPassword=LA_CONTRASEÑA
-keyAlias=barber-king
-storeFile=C:/keystores/barber-king-release.keystore
+keyAlias=upload
+storeFile=C:/Users/TU_USUARIO/upload-keystore.jks
 ```
 
-Con ese archivo, el release se firma con tu keystore automáticamente. La huella
-SHA-1 cambia, así que regístrala en el cliente OAuth de Android. Un APK firmado
-con otra clave no actualiza al anterior: hay que desinstalar primero.
+Huellas de esta llave de subida:
+
+```text
+SHA-1:   9A:6C:C5:89:DE:75:35:19:5F:C9:1C:51:BE:43:36:3E:DA:58:F3:82
+SHA-256: CE:23:3A:90:42:8C:C2:53:CD:AE:69:84:27:CB:47:B1:83:F7:13:32:15:A5:C2:AB:15:6E:80:62:C8:81:18:F8
+```
+
+Registra la SHA-1 en el cliente OAuth de Android. Un APK firmado con otra clave no
+actualiza al anterior: hay que desinstalar primero. Eso no aplica a Google Play,
+donde la actualización la firma Play App Signing.
 
 Para Play Store compila un **AAB**, no un APK:
 
 ```bash
-flutter build appbundle --release --obfuscate --split-debug-info=build/symbols
+flutter build appbundle --release
 ```
 
 El resultado queda en `build/app/outputs/bundle/release/app-release.aab`.
-Verifica la firma con `jarsigner -verify -verbose -certs <aab>` y guarda
-`build/symbols` para poder leer los reportes de fallos. Con Play App Signing hay
-**dos** huellas SHA-1 que registrar en Google Cloud: la de tu upload key y la que
-genera Play (ver
+Verifícalo con `jarsigner -verify -verbose -certs <aab>`: debe decir `jar
+verified` y mostrar el alias `upload`, nunca `androiddebugkey`. Si además quieres
+símbolos para leer reportes de fallos, agrega
+`--obfuscate --split-debug-info=build/symbols` y guarda esa carpeta junto al AAB.
+
+Con Play App Signing hay **dos** huellas SHA-1: la de tu upload key, que ya
+tienes, y la que genera Google, que solo aparece después de subir el primer AAB a
+Play Console, en **Integridad de la app → Firma de la app**. Registra también esa
+segunda huella en Google Cloud, o el login con Google fallará en las
+instalaciones descargadas desde Play (ver
 [`documentacion/play-store/guia-publicacion.md`](documentacion/play-store/guia-publicacion.md)).
 
 ### Notificaciones con la app cerrada
