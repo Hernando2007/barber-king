@@ -112,6 +112,8 @@ barber-king/
   <https://barber-king.onrender.com/public/politica-privacidad.html>
 - Cómo eliminar la cuenta y los datos:  
   <https://barber-king.onrender.com/public/eliminar-cuenta.html>
+- El enlace de la política aparece dentro de la app en el login, el registro y
+  Mi perfil.
 
 ---
 

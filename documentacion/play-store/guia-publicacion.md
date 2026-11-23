@@ -199,12 +199,16 @@ Declara exactamente lo que recoge la app. Tabla lista para copiar en
 [`textos-listing.md`](textos-listing.md#seguridad-de-los-datos-data-safety). Puntos clave:
 
 - Datos recogidos: información personal, fotos, ubicación aproximada y precisa,
-  actividad en la app.
+  actividad en la app y datos técnicos del dispositivo.
 - Datos compartidos con terceros: **sí** (Supabase, Render, Cloudinary, Groq,
-  Google).
+  Google, Sentry, Resend, Brevo o SMTP y OpenStreetMap).
 - Cifrado en tránsito: **sí**.
 - Eliminación de datos: **sí**, desde la app y por solicitud web.
 - No se venden datos ni se usan para publicidad.
+
+La URL de la política va en la tabla anterior y también debe pegarse en
+**Política y programas → Política de privacidad** de Play Console. La app abre
+esa misma URL desde el login, el registro y Mi perfil.
 
 ### 5.4 Acceso a la app (App access)
 

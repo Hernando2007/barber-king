@@ -91,7 +91,7 @@
   <header>
     <img src="logo-blanco.png" alt="Barber King">
     <h1>Política de privacidad de Barber King</h1>
-    <p class="fecha">Última actualización: 11 de noviembre de 2026</p>
+    <p class="fecha">Última actualización: 23 de noviembre de 2026</p>
   </header>
 
   <p>
@@ -99,6 +99,12 @@
     <strong>Barber King</strong> (paquete <code>com.barberking.app</code>), para
     qué se usan, con quién se comparten y cómo puedes eliminarlos. Al usar la
     aplicación aceptas las prácticas aquí descritas.
+  </p>
+
+  <p>
+    No pedimos documentos de identidad, datos financieros, información biométrica
+    ni datos de salud. Las fotos que subes son contenido que tú decides compartir
+    y se usan solo para las funciones descritas en esta política.
   </p>
 
   <div class="aviso">
@@ -112,28 +118,28 @@
     <tr><th>Categoría</th><th>Datos</th><th>Cuándo se recogen</th></tr>
     <tr>
       <td>Identificación y contacto</td>
-      <td>Nombres, apellidos, correo electrónico, teléfono y fecha de nacimiento.</td>
+      <td>Nombres, apellidos, correo electrónico, teléfono, dirección y fecha de nacimiento.</td>
       <td>Al registrarte o editar tu perfil. Si entras con Google, recibimos tu nombre, correo y foto de perfil de Google.</td>
     </tr>
     <tr>
       <td>Fotografías</td>
-      <td>Foto de perfil, fotos de portafolio (barberos), diploma o certificado (barberos) y fotos que envíes al asesor con IA.</td>
+      <td>Foto de perfil, fotos de portafolio (barberos), diploma o certificado (barberos) y fotos que envíes al asesor con IA. El diploma puede revisarse con IA para extraer titular, institución y tipo de documento.</td>
       <td>Cuando subes o tomas una foto desde la app.</td>
     </tr>
     <tr>
       <td>Ubicación</td>
       <td>Ubicación aproximada o precisa.</td>
-      <td>Los barberos al compartir su ubicación para aparecer en el mapa; los clientes al abrir el mapa o compartir su punto. Solo se usa mientras usas la función.</td>
+      <td>Los barberos al compartir su ubicación para aparecer en el mapa; los clientes al abrir el mapa o compartir su punto. Solo se usa mientras usas la función y no pedimos ubicación en segundo plano.</td>
     </tr>
     <tr>
       <td>Actividad en la app</td>
-      <td>Citas, horarios, reseñas, mensajes de chat y consultas al asistente de IA.</td>
+      <td>Citas y sus observaciones, horarios, reseñas y comentarios, solicitudes y notas, mensajes de chat e imágenes compartidas, y consultas al asistente de IA.</td>
       <td>Al usar las funciones correspondientes.</td>
     </tr>
     <tr>
       <td>Datos técnicos</td>
-      <td>Token de sesión, identificador del dispositivo y registros de errores del servidor.</td>
-      <td>Al iniciar sesión y usar la app.</td>
+      <td>Token de sesión, versión de la app, sistema operativo, modelo del dispositivo, identificador de instalación, dirección IP, idioma, zona horaria y registros de errores.</td>
+      <td>Al iniciar sesión y usar la app. Los errores se envían a Sentry cuando el reporte está activo.</td>
     </tr>
   </table>
 
@@ -176,12 +182,27 @@
     <tr>
       <td>Groq</td>
       <td>Asistente de IA de texto y recomendación de cortes con visión artificial.</td>
-      <td>El texto de tus consultas y las fotos que envíes al asesor de IA.</td>
+      <td>El texto de tus consultas, el historial de la conversación, las fotos que envíes al asesor y los diplomas enviados a verificación. De estos últimos se extraen titular, institución y tipo de documento.</td>
     </tr>
     <tr>
       <td>Google</td>
       <td>Inicio de sesión con Google.</td>
       <td>Nombre, correo y foto de perfil de tu cuenta de Google.</td>
+    </tr>
+    <tr>
+      <td>Sentry</td>
+      <td>Detección y análisis de fallos de la app y del servidor.</td>
+      <td>Mensaje de error, traza técnica, versión de la app, sistema operativo, modelo, dirección IP y datos de la petición. El cliente ofusca datos personales antes de enviarlos.</td>
+    </tr>
+    <tr>
+      <td>Resend, Brevo o el servidor SMTP configurado</td>
+      <td>Envío de correos de bienvenida, recuperación, cambio de contraseña y avisos.</td>
+      <td>Correo electrónico, nombre y contenido del mensaje, incluido el código de recuperación de seis dígitos. Nunca incluimos tu contraseña.</td>
+    </tr>
+    <tr>
+      <td>OpenStreetMap</td>
+      <td>Visualización del mapa de barberos cercanos.</td>
+      <td>Dirección IP y área del mapa solicitada cuando abres esa pantalla. No enviamos tu ubicación como dato independiente.</td>
     </tr>
   </table>
   <p>
@@ -193,6 +214,7 @@
   <h2>4. Seguridad</h2>
   <ul>
     <li>Todas las comunicaciones con la API viajan cifradas mediante HTTPS.</li>
+    <li>El token de sesión y el perfil se guardan en el almacenamiento seguro del dispositivo.</li>
     <li>Las contraseñas se guardan cifradas con bcrypt; nunca en texto plano.</li>
     <li>El acceso a las funciones protegidas usa tokens JWT y verificación de roles.</li>
     <li>Los archivos subidos se validan por tipo y tamaño.</li>
@@ -223,8 +245,9 @@
     Puedes solicitar el acceso, la corrección o la eliminación de tus datos, así
     como oponerte a su tratamiento, escribiendo a
     <a href="mailto:hernandobotellovargas2007@gmail.com">hernandobotellovargas2007@gmail.com</a>.
-    Responderemos en un plazo razonable y, como máximo, el que exija la
-    normativa aplicable.
+    Estos derechos se ejercen conforme a la Ley 1581 de 2012 y sus normas
+    reglamentarias. Responderemos en un plazo razonable y, como máximo, el que
+    exija la normativa aplicable.
   </p>
 
   <h2>8. Menores de edad</h2>

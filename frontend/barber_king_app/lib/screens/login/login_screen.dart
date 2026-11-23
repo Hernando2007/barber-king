@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/colors.dart';
+import '../../core/urls.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/common/app_ui.dart';
@@ -63,6 +64,17 @@ class _LoginScreenState extends State<LoginScreen> {
   void _togglePassword() =>
       setState(() => _ocultarPassword = !_ocultarPassword);
 
+  Future<void> _abrirPrivacidad() async {
+    final abierto = await Urls.abrir(Urls.politicaPrivacidad);
+    if (!abierto && mounted) {
+      showAppSnack(
+        context,
+        'No se pudo abrir la política de privacidad.',
+        error: true,
+      );
+    }
+  }
+
   void _onGoogleExito() {
     Navigator.pushReplacementNamed(context, AppRoutes.home);
   }
@@ -123,7 +135,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 26),
+                        const SizedBox(height: 8),
+                        TextButton(
+                          onPressed: _abrirPrivacidad,
+                          child: const Text(
+                            'Política de privacidad',
+                            style: TextStyle(
+                              color: AppColors.subtitle,
+                              fontSize: 12,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 18),
                         const Text(
                           'CORTE  •  ESTILO  •  EXPERIENCIA',
                           style: TextStyle(
@@ -151,10 +175,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: IconButton(
                       tooltip: 'Manual de usuario',
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        AppRoutes.manualUsuario,
-                      ),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, AppRoutes.manualUsuario),
                       icon: const Icon(
                         Icons.menu_book_outlined,
                         color: AppColors.primary,
@@ -182,4 +204,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

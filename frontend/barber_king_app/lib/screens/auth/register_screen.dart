@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/colors.dart';
+import '../../core/urls.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/auth/register_account_type.dart';
@@ -63,6 +64,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  Future<void> _abrirPrivacidad() async {
+    final abierto = await Urls.abrir(Urls.politicaPrivacidad);
+    if (!abierto && mounted) {
+      showAppSnack(
+        context,
+        'No se pudo abrir la política de privacidad.',
+        error: true,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +131,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             cargando: _cargando,
                             onRegister: _registrar,
                             onCancel: () => Navigator.pop(context),
+                          ),
+                          const SizedBox(height: 12),
+                          TextButton(
+                            onPressed: _abrirPrivacidad,
+                            child: const Text(
+                              'Política de privacidad',
+                              style: TextStyle(
+                                color: AppColors.subtitle,
+                                fontSize: 12,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
                           ),
                         ],
                       ),

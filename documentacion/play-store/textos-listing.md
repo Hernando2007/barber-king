@@ -3,6 +3,19 @@
 Copia estos textos en **Play Console → Presencia en Play Store → Ficha principal**.
 Están en español (Latinoamérica) y respetan los límites de caracteres de Google.
 
+## Política de privacidad en Play Console
+
+En **Play Console → tu app → Política y programas → Política de privacidad** pega
+esta URL exacta:
+
+```text
+https://barber-king.onrender.com/public/politica-privacidad.html
+```
+
+La página responde por HTTPS, es pública y es HTML normal. La app abre esa misma
+URL desde el login, el registro y Mi perfil, así que el vínculo existe también
+dentro de la app.
+
 ---
 
 ## Identidad
