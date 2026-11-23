@@ -192,6 +192,7 @@ Usa los textos de [`textos-listing.md`](textos-listing.md). Necesitas:
 | Descripción completa | Máximo 4000 caracteres | `textos-listing.md` |
 | Correo de contacto | Obligatorio | `hernandobotellovargas2007@gmail.com` |
 | Política de privacidad | URL pública | `https://barber-king.onrender.com/public/politica-privacidad.html` |
+| Eliminación de datos | URL pública | `https://barber-king.onrender.com/public/eliminar-datos.html` |
 
 ### 5.3 Seguridad de los datos (Data Safety)
 

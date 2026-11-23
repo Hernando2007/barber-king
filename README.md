@@ -110,8 +110,10 @@ barber-king/
   [`documentacion/play-store/textos-listing.md`](documentacion/play-store/textos-listing.md)
 - Política de privacidad pública:  
   <https://barber-king.onrender.com/public/politica-privacidad.html>
-- Cómo eliminar la cuenta y los datos:  
+- Cómo eliminar la cuenta:  
   <https://barber-king.onrender.com/public/eliminar-cuenta.html>
+- Cómo solicitar la eliminación de datos:  
+  <https://barber-king.onrender.com/public/eliminar-datos.html>
 - El enlace de la política aparece dentro de la app en el login, el registro y
   Mi perfil.
 

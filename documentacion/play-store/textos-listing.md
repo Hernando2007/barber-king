@@ -28,6 +28,7 @@ dentro de la app.
 | Sitio web | `https://barber-king.onrender.com` |
 | Política de privacidad | `https://barber-king.onrender.com/public/politica-privacidad.html` |
 | Eliminación de cuenta | `https://barber-king.onrender.com/public/eliminar-cuenta.html` |
+| Eliminación de datos | `https://barber-king.onrender.com/public/eliminar-datos.html` |
 | Gratis | Sí |
 | Anuncios | No |
 
