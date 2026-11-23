@@ -149,7 +149,15 @@ app.use(
         ),
         {
             maxAge: "30d",
-            etag: true
+            etag: true,
+            setHeaders(res, filePath) {
+                if (filePath.endsWith(".html")) {
+                    res.setHeader(
+                        "Cache-Control",
+                        "no-cache, must-revalidate"
+                    );
+                }
+            }
         }
     )
 );
