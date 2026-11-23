@@ -37,17 +37,17 @@ dentro de la app.
 ## Descripción corta (máx. 80 caracteres)
 
 ```text
-Reserva cortes, encuentra barberos cerca y gestiona tus citas en un toque.
+Reserva tu corte y encuentra barberos cerca, todo en una sola app.
 ```
 
-> 74 caracteres.
+> 66 caracteres.
 
 ---
 
 ## Descripción completa (máx. 4000 caracteres)
 
 ```text
-Barber King es la app de barbería que conecta clientes y barberos en un solo lugar. Encuentra profesionales cerca de ti, reserva tu cita, gestiona tu agenda y conversa directamente con tu barbero, todo desde el teléfono.
+Barber King es la app de barbería que conecta clientes y barberos en un solo lugar. Encuentra profesionales cerca de ti, reserva tu cita y gestiona tu agenda, todo desde el teléfono.
 
 ¿QUÉ PUEDES HACER?
 
@@ -57,7 +57,6 @@ Para clientes
 • Reserva tu cita según la disponibilidad real y los horarios de atención.
 • Consulta el historial y el estado de tus citas.
 • Califica y deja reseñas de los barberos.
-• Chatea directamente con tu barbero, incluso enviando fotos.
 • Recibe recordatorios de tus próximas citas.
 • Edita tu perfil y tu foto cuando quieras.
 
@@ -67,7 +66,6 @@ Para barberos
 • Publica los servicios que ofreces y su precio.
 • Muestra tu portafolio de trabajos y tu diploma o certificado.
 • Comparte tu ubicación para que los clientes te encuentren.
-• Responde a tus clientes por el chat de la app.
 
 Para administradores
 • Panel con métricas generales del negocio.
@@ -82,7 +80,7 @@ TU CUENTA, TUS DATOS
 • Todas las comunicaciones viajan cifradas mediante HTTPS.
 • No vendemos tus datos ni mostramos anuncios.
 
-Barber King está pensada para mayores de 13 años.
+Barber King está pensada para mayores de 16 años.
 
 ¿Dudas o sugerencias? Escríbenos a hernandobotellovargas2007@gmail.com.
 ```
@@ -133,7 +131,7 @@ Responde el formulario así:
 | Categoría | ¿Se recoge? | ¿Se comparte? | Finalidad | Obligatorio |
 | --- | --- | --- | --- | --- |
 | Nombre | Sí | Sí (Supabase, Render) | Funcionalidad de la app, gestión de cuentas | Sí |
-| Correo electrónico | Sí | Sí (Supabase, Render, Google) | Cuenta, inicio de sesión, comunicaciones | Sí |
+| Correo electrónico | Sí | Sí (Supabase, Render, proveedor de correo) | Cuenta, inicio de sesión, comunicaciones | Sí |
 | Número de teléfono | Sí | Sí (Supabase, Render) | Contacto y gestión de citas | No |
 | Fecha de nacimiento | Sí | Sí (Supabase, Render) | Perfil de usuario | No |
 | Fotos | Sí | Sí (Cloudinary, Groq) | Foto de perfil, portafolio, diploma, asesor IA | No |
@@ -142,8 +140,9 @@ Responde el formulario así:
 | Historial de citas | Sí | Sí (Supabase, Render) | Funcionalidad principal | Sí |
 | Reseñas | Sí | Sí (Supabase, Render) | Reputación de barberos | No |
 | Mensajes de chat | Sí | Sí (Supabase, Render, Groq) | Comunicación y asesor IA | No |
-| Identificadores del dispositivo | Sí | No | Sesión y notificaciones | Sí |
-| Registros de errores | Sí | Sí (Render) | Diagnóstico y seguridad | Sí |
+| Archivos y documentos | Sí | Sí (Cloudinary, Groq) | Diploma y certificado del barbero | No |
+| Identificadores del dispositivo | Sí | Sí (Sentry) | Sesión, notificaciones y diagnóstico | Sí |
+| Registros de errores | Sí | Sí (Sentry) | Diagnóstico y seguridad | Sí |
 
 ### Prácticas de seguridad
 
@@ -172,11 +171,11 @@ Responde el formulario así:
 | Lenguaje soez | No |
 | Drogas, alcohol o tabaco | No |
 | Apuestas | No |
-| Interacción entre usuarios | Sí (chat cliente-barbero) |
+| Interacción entre usuarios | Sí (reseñas y fotos) |
 | Compartir ubicación | Sí |
 | Compras dentro de la app | No |
 | Anuncios | No |
-| Público objetivo | 13+ |
+| Público objetivo | 16+ |
 
 ---
 
