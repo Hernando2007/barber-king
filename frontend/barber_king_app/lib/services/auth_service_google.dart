@@ -95,8 +95,11 @@ extension AuthServiceGoogle on AuthService {
     switch (error.code) {
       case GoogleSignInExceptionCode.clientConfigurationError:
         return conDetalle(
-          'Google no reconoció a esta app. Registra el paquete '
-          'com.barberking.app con su huella SHA-1 en Google Cloud.',
+          'Google no reconoció a esta app. En Google Cloud Console crea un '
+          'cliente OAuth de Android con el paquete com.barberking.app y la '
+          'huella SHA-1 con la que se firmó este APK. Si la instalaste desde '
+          'Play Store, esa huella es la del Certificado de firma de la app que '
+          'muestra Play Console en Integridad de la app.',
         );
       case GoogleSignInExceptionCode.providerConfigurationError:
         return conDetalle(
