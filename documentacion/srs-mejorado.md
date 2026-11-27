@@ -6,7 +6,6 @@
 **Versión:** 1.1 (mejorada)
 **Fecha:** 27 de noviembre de 2026
 **Autores:** Yonanderson Marroquín, Hernando Botello
-**Revisión:** Documento mejorado a partir del SRS original
 
 ---
 
