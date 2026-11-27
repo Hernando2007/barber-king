@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang='es'><head><meta charset='utf-8'><title>SRS Barber King</title><style>
+@page { size: A4; margin: 15mm; }
+body { font-family: "Segoe UI", Arial, sans-serif; color: #182230; font-size: 10.5pt; line-height: 1.4; }
+h1 { font-size: 20pt; color: #0d1529; border-bottom: 2mm solid #d6b25e; padding-bottom: 2mm; margin-top: 6mm; }
+h2 { font-size: 14pt; color: #0d1529; margin-top: 5mm; }
+h3 { font-size: 11.5pt; color: #0d1529; margin-top: 4mm; }
+p { margin: 0 0 3mm; }
+ul, ol { margin: 0 0 3mm; padding-left: 6mm; }
+li { margin: 0 0 1.5mm; }
+table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 3mm 0; }
+th { padding: 2mm 2.5mm; background: #0d1529; color: #fff; text-align: left; }
+td { padding: 2mm 2.5mm; border: .3mm solid #d8dde5; vertical-align: top; }
+tbody tr:nth-child(even) td { background: #f5f7fa; }
+code { font-family: Consolas, monospace; font-size: 8.5pt; background: #f5f7fa; padding: 0 1mm; }
+hr { border: none; border-top: .3mm solid #d8dde5; margin: 4mm 0; }
+img { max-width: 100%; height: auto; border: .3mm solid #d8dde5; border-radius: 2mm; margin: 3mm 0; }
+</style></head><body>
+<h1>Especificación de Requisitos de Software (SRS)</h1>
+<h2>Barber King</h2>
+<p><b>Proyecto:</b> Aplicación móvil para gestión de barbería</p>
+<p><b>Versión:</b> 1.1 (mejorada)</p>
+<p><b>Fecha:</b> 27 de noviembre de 2026</p>
+<p><b>Autores:</b> Yonanderson Marroquín, Hernando Botello</p>
+<hr>
+<h2>1. Introducción</h2>
+<h3>1.1 Propósito</h3>
+<p>Este documento especifica los requisitos de software de <b>Barber King</b>, una aplicación móvil multiplataforma que conecta clientes con barberos profesionales. Está dirigido a desarrolladores, analistas, testers y stakeholders del proyecto.</p>
+<h3>1.2 Ámbito del sistema</h3>
+<p>Barber King opera en barberías de Colombia (inicialmente municipios, con posibilidad de expansión nacional e internacional). Permite a clientes buscar barberos, consultar servicios y precios, reservar turnos, calificar y recibir recomendaciones de corte mediante inteligencia artificial. Los barberos gestionan su agenda, horarios, servicios, portafolio y ubicación.</p>
+<h3>1.3 Alcance</h3>
+<p>El sistema incluye:</p>
+<ul>
+<li>Aplicación móvil para Android (preparada para iOS y Web).</li>
+<li>API REST en Node.js para la lógica de negocio.</li>
+<li>Base de datos en Supabase (PostgreSQL).</li>
+<li>Almacenamiento de archivos en Cloudinary.</li>
+<li>Asesor de estilo con inteligencia artificial (Groq).</li>
+<li>Notificaciones y recordatorios de citas.</li>
+</ul>
+<p>No incluye pasarela de pagos ni chat directo entre usuarios; la comunicación se realiza a través del asesor de IA.</p>
+<h3>1.4 Justificación</h3>
+<p>Los clientes enfrentan dificultad para encontrar barberos calificados cerca de su ubicación, falta de información sobre precios y disponibilidad, e imposibilidad de reservar con anticipación. Los barberos tienen visibilidad limitada, gestión manual de turnos y pérdida de clientes potenciales. Barber King resuelve estas problemáticas digitalizando la relación cliente-barbero.</p>
+<h3>1.5 Personal involucrado</h3>
+<table><thead><tr><th>Nombre</th><th>Rol</th><th>Responsabilidades</th><th>Contacto</th></tr></thead><tbody>
+<tr><td>Yonanderson Marroquín</td><td>Analista de requisitos / Desarrollador</td><td>Levantamiento de requisitos, documentación técnica</td><td>yonandersonmarroquin13@gmail.com</td></tr>
+<tr><td>Hernando Botello</td><td>Desarrollador / Analista de requisitos</td><td>Diseño de diagramas, implementación</td><td>hernandobotellovargas2007@gmail.com</td></tr>
+</tbody></table>
+<h3>1.6 Definiciones, acrónimos y abreviaturas</h3>
+<ul>
+<li><b>Cliente:</b> persona que utiliza los servicios del barbero y reserva citas desde la app.</li>
+<li><b>Barbero:</b> profesional que ofrece servicios de corte, afeitado y cuidado personal.</li>
+<li><b>SRS:</b> Software Requirements Specification.</li>
+<li><b>API:</b> Application Programming Interface.</li>
+<li><b>BD:</b> Base de datos.</li>
+<li><b>UI/UX:</b> Interfaz de usuario / Experiencia de usuario.</li>
+<li><b>JWT:</b> JSON Web Token.</li>
+<li><b>RLS:</b> Row Level Security.</li>
+</ul>
+<h3>1.7 Referencias</h3>
+<ul>
+<li>Repositorio: github.com/Hernando2007/barber-king</li>
+<li>Backend: barber-king.onrender.com</li>
+<li>Documentación de Flutter: flutter.dev</li>
+<li>Documentación de Supabase: supabase.com/docs</li>
+</ul>
+<h3>1.8 Resumen</h3>
+<p>Este documento describe las características, funcionalidades y restricciones de Barber King. La Sección 1 presenta el propósito y alcance. La Sección 2 describe el sistema de forma general. La Sección 3 detalla los requisitos específicos, funcionales y no funcionales.</p>
+<hr>
+<h2>2. Descripción general</h2>
+<h3>2.1 Objetivo general</h3>
+<p>Dar a conocer el trabajo de diferentes barberos y generar una forma rápida para que las personas encuentren un barbero según sus gustos y ubicación.</p>
+<h3>2.2 Objetivos específicos</h3>
+<ul>
+<li>Implementar un sistema de registro y perfiles diferenciados para barberos y clientes.</li>
+<li>Desarrollar un motor de búsqueda con filtros por ubicación, precio, especialidad y calificación.</li>
+<li>Crear un sistema de reservas en tiempo real que sincronice la disponibilidad de los barberos.</li>
+<li>Integrar un sistema de calificaciones y reseñas verificadas.</li>
+<li>Ofrecer un asesor de estilo con inteligencia artificial que recomienda cortes a partir de una foto.</li>
+</ul>
+<h3>2.3 Perspectiva del producto</h3>
+<p>Barber King es una aplicación móvil gratuita que conecta la demanda de servicios de barbería con la oferta de profesionales. Elimina barreras como la búsqueda manual y las citas presenciales, ofreciendo una solución digital integral.</p>
+<h3>2.4 Características del usuario</h3>
+<ul>
+<li><b>Barberos:</b> digitalizan su agenda, amplían su visibilidad, gestionan reservas, muestran portafolio, precios y disponibilidad.</li>
+<li><b>Clientes:</b> exploran opciones por ubicación, presupuesto y reseñas, y reservan turnos.</li>
+<li><b>Administradores:</b> gestionan usuarios, servicios, barberos, citas y reseñas.</li>
+</ul>
+<h3>2.5 Restricciones generales</h3>
+<ul>
+<li>Depende de que los barberos mantengan actualizada su disponibilidad en tiempo real.</li>
+<li>La precisión de la IA depende de la calidad, iluminación y ángulo de la foto.</li>
+<li>Requiere conexión a internet.</li>
+<li>Los grupos etarios objetivo son 16-17 y mayores de 18 años.</li>
+</ul>
+<h3>2.6 Funciones del producto</h3>
+<ul>
+<li>Registro y gestión de perfiles (barberos y clientes).</li>
+<li>Búsqueda y filtrado de barberos.</li>
+<li>Reserva de turnos en tiempo real.</li>
+<li>Calificaciones y reseñas.</li>
+<li>Asesor de estilo con IA.</li>
+<li>Gestión de horarios y disponibilidad.</li>
+<li>Portafolio de trabajos y verificación de diplomas.</li>
+<li>Ubicación en tiempo real de barberos.</li>
+</ul>
+<p><img src="imagenes-srs/pagina-12-1.png" alt="Diagrama general del sistema"></p>
+<h3>2.7 Características de los usuarios</h3>
+<table><thead><tr><th>Rol</th><th>Descripción</th><th>Permisos principales</th></tr></thead><tbody>
+<tr><td>Cliente</td><td>Busca barberos y reserva citas</td><td>Buscar, reservar, calificar, editar perfil</td></tr>
+<tr><td>Barbero</td><td>Ofrece servicios y gestiona agenda</td><td>Gestionar horarios, servicios, portafolio, ubicación</td></tr>
+<tr><td>Administrador</td><td>Gestiona el negocio</td><td>Usuarios, servicios, barberos, citas, verificaciones</td></tr>
+</tbody></table>
+<h3>2.8 Suposiciones</h3>
+<ul>
+<li>Los barberos mantendrán sus perfiles actualizados con información veraz.</li>
+<li>Los clientes priorizarán a los barberos mejor calificados.</li>
+<li>Las reseñas honestas generarán confianza en la plataforma.</li>
+<li>La IA reducirá la indecisión de nuevos usuarios.</li>
+</ul>
+<hr>
+<h2>3. Requisitos específicos</h2>
+<h3>3.1 Requisitos funcionales</h3>
+<p>#### RF001 - Registrar barbero</p>
+<p><img src="imagenes-srs/pagina-14-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Registrar barbero</td></tr>
+<tr><td>Actor(es)</td><td>Barbero, sistema</td></tr>
+<tr><td>Descripción</td><td>Permite a un barbero crear su perfil profesional.</td></tr>
+<tr><td>Flujo principal</td><td>Seleccionar "Registrarse como Barbero" → completar datos personales, especialidad, experiencia, descripción, diploma y fotos → sistema valida → crea perfil → envía confirmación.</td></tr>
+<tr><td>Resultado esperado</td><td>Barbero registrado con perfil profesional activo o pendiente de verificación.</td></tr>
+</tbody></table>
+<p>#### RF002 - Registrar cliente</p>
+<p><img src="imagenes-srs/pagina-15-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Registrar cliente</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Permite crear una cuenta como cliente.</td></tr>
+<tr><td>Flujo principal</td><td>Seleccionar "Registrarse como Cliente" → completar datos básicos → sistema valida → crea cuenta → envía confirmación.</td></tr>
+<tr><td>Resultado esperado</td><td>Cliente registrado exitosamente.</td></tr>
+</tbody></table>
+<p>#### RF003 - Inicio de sesión (barbero)</p>
+<p><img src="imagenes-srs/pagina-16-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Inicio de sesión (barbero)</td></tr>
+<tr><td>Actor(es)</td><td>Barbero</td></tr>
+<tr><td>Descripción</td><td>Permite al barbero acceder a su panel profesional.</td></tr>
+<tr><td>Flujo principal</td><td>Ingresar correo y contraseña → sistema valida → acceso al panel.</td></tr>
+<tr><td>Resultado esperado</td><td>Inicio de sesión exitoso.</td></tr>
+</tbody></table>
+<p>#### RF004 - Inicio de sesión (cliente)</p>
+<p><img src="imagenes-srs/pagina-17-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Inicio de sesión (cliente)</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Permite al cliente acceder a la app.</td></tr>
+<tr><td>Flujo principal</td><td>Ingresar correo y contraseña (o Google) → sistema valida → acceso al panel.</td></tr>
+<tr><td>Resultado esperado</td><td>Inicio de sesión exitoso.</td></tr>
+</tbody></table>
+<p>#### RF005 - Recuperar contraseña</p>
+<p><img src="imagenes-srs/pagina-18-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Recuperar contraseña</td></tr>
+<tr><td>Actor(es)</td><td>Barbero, cliente</td></tr>
+<tr><td>Descripción</td><td>Permite restablecer la contraseña olvidada.</td></tr>
+<tr><td>Flujo principal</td><td>Ingresar correo → sistema envía código → ingresar código y nueva contraseña → confirmar.</td></tr>
+<tr><td>Resultado esperado</td><td>Contraseña restablecida exitosamente.</td></tr>
+</tbody></table>
+<p>#### RF006 - Perfil del barbero</p>
+<p><img src="imagenes-srs/pagina-19-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Perfil del barbero</td></tr>
+<tr><td>Actor(es)</td><td>Barbero</td></tr>
+<tr><td>Descripción</td><td>Permite gestionar horarios, datos personales y laborales.</td></tr>
+<tr><td>Flujo principal</td><td>Editar información personal, profesional, horarios, precios, servicios, ubicación, diploma.</td></tr>
+<tr><td>Resultado esperado</td><td>Datos actualizados exitosamente.</td></tr>
+</tbody></table>
+<p>#### RF007 - Perfil del cliente</p>
+<p><img src="imagenes-srs/pagina-20-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Perfil del cliente</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Permite organizar el perfil del cliente.</td></tr>
+<tr><td>Flujo principal</td><td>Editar información personal, preferencias de notificaciones.</td></tr>
+<tr><td>Resultado esperado</td><td>Datos actualizados exitosamente.</td></tr>
+</tbody></table>
+<p>#### RF008 - Buscar barbero</p>
+<p><img src="imagenes-srs/pagina-21-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Buscar barbero</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Permite encontrar barberos según criterios.</td></tr>
+<tr><td>Flujo principal</td><td>Seleccionar "Buscar Barberos" → aplicar filtros (ubicación, precio, especialidad, calificación) → sistema muestra lista → seleccionar barbero.</td></tr>
+<tr><td>Resultado esperado</td><td>Lista de barberos filtrados.</td></tr>
+</tbody></table>
+<p>#### RF009 - Reservar turno</p>
+<p><img src="imagenes-srs/pagina-22-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Reservar turno</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Permite reservar un turno con un barbero.</td></tr>
+<tr><td>Flujo principal</td><td>Seleccionar barbero → ver horarios disponibles → elegir fecha y hora → sistema verifica disponibilidad → confirmar reserva → sistema notifica a cliente y barbero.</td></tr>
+<tr><td>Resultado esperado</td><td>Turno reservado exitosamente.</td></tr>
+</tbody></table>
+<p>#### RF010 - Gestionar horarios</p>
+<p><img src="imagenes-srs/pagina-23-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Gestionar horarios</td></tr>
+<tr><td>Actor(es)</td><td>Barbero</td></tr>
+<tr><td>Descripción</td><td>Permite gestionar horarios de trabajo y disponibilidad.</td></tr>
+<tr><td>Flujo principal</td><td>Acceder a "Mis Horarios" → modificar horarios, bloques de tiempo o marcar días no laborales → sistema actualiza disponibilidad.</td></tr>
+<tr><td>Resultado esperado</td><td>Horarios actualizados correctamente.</td></tr>
+</tbody></table>
+<p>#### RF011 - Chat (asesor de IA)</p>
+<p><img src="imagenes-srs/pagina-24-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Chat (asesor de IA)</td></tr>
+<tr><td>Actor(es)</td><td>Cliente, barbero</td></tr>
+<tr><td>Descripción</td><td>Permite consultar al asesor de estilo con IA.</td></tr>
+<tr><td>Flujo principal</td><td>Escribir pregunta o subir foto → IA analiza y responde con recomendaciones basadas en el catálogo.</td></tr>
+<tr><td>Resultado esperado</td><td>Respuesta generada exitosamente.</td></tr>
+</tbody></table>
+<p>#### RF012 - Sistema de calificación</p>
+<p><img src="imagenes-srs/pagina-25-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Sistema de calificación</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Permite dejar calificación (1 a 5 estrellas) y reseña al barbero.</td></tr>
+<tr><td>Flujo principal</td><td>Calificar con estrellas → escribir comentario opcional → publicar.</td></tr>
+<tr><td>Resultado esperado</td><td>Comentario y calificación publicados.</td></tr>
+</tbody></table>
+<p>#### RF013 - Recomendación de corte por IA</p>
+<p><img src="imagenes-srs/pagina-26-1.png" alt="Diagrama de caso de uso"></p>
+<table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody>
+<tr><td>Nombre del caso de uso</td><td>Recomendación de corte por IA</td></tr>
+<tr><td>Actor(es)</td><td>Cliente</td></tr>
+<tr><td>Descripción</td><td>Ayuda a clientes indecisos a escoger un corte mediante análisis de una foto.</td></tr>
+<tr><td>Flujo principal</td><td>Subir foto → IA analiza el rostro → IA recomienda corte.</td></tr>
+<tr><td>Resultado esperado</td><td>Recomendación de corte generada.</td></tr>
+</tbody></table>
+<h3>3.2 Requisitos no funcionales</h3>
+<table><thead><tr><th>ID</th><th>Nombre</th><th>Propósito</th><th>Descripción</th><th>Prioridad</th></tr></thead><tbody>
+<tr><td>RNF001</td><td>Autenticación</td><td>Verificar identidad del usuario</td><td>Login con correo/contraseña y Google; tokens JWT</td><td>Alta</td></tr>
+<tr><td>RNF002</td><td>Seguridad</td><td>Proteger la información</td><td>Hash bcrypt, HTTPS, RLS en Supabase, rate limiting</td><td>Alta</td></tr>
+<tr><td>RNF003</td><td>Rendimiento</td><td>Respuesta rápida</td><td>Tiempo de respuesta &lt; 3 segundos en operaciones comunes</td><td>Media</td></tr>
+<tr><td>RNF004</td><td>Usabilidad</td><td>Facilidad de uso</td><td>Interfaz intuitiva, accesible, con feedback claro</td><td>Alta</td></tr>
+<tr><td>RNF005</td><td>Confiabilidad</td><td>Operación sin errores</td><td>Manejo de errores y reintentos; logs en Sentry</td><td>Media</td></tr>
+<tr><td>RNF006</td><td>Disponibilidad</td><td>Servicio disponible</td><td>Backend en Render con reinicio automático</td><td>Media</td></tr>
+<tr><td>RNF007</td><td>Mantenibilidad</td><td>Facilidad de cambio</td><td>Código modular, pruebas unitarias</td><td>Media</td></tr>
+<tr><td>RNF008</td><td>Privacidad</td><td>Protección de datos</td><td>Política de privacidad, eliminación de datos, cifrado en tránsito</td><td>Alta</td></tr>
+</tbody></table>
+<h3>3.3 Otros requisitos</h3>
+<ul>
+<li>Compatibilidad con Android 8.0 o superior.</li>
+<li>Soporte para modo oscuro/claro según el sistema.</li>
+<li>Cumplimiento con las políticas de Google Play (Data Safety, política de privacidad, eliminación de cuenta).</li>
+<li>Soporte para español (Colombia).</li>
+</ul>
+<hr>
+<h2>4. Anexos</h2>
+<h3>4.1 Tecnologías utilizadas</h3>
+<ul>
+<li><b>Frontend:</b> Flutter 3.47, Dart</li>
+<li><b>Backend:</b> Node.js 20, Express 5</li>
+<li><b>Base de datos:</b> Supabase (PostgreSQL)</li>
+<li><b>Archivos:</b> Cloudinary</li>
+<li><b>IA:</b> Groq (openai/gpt-oss-20b)</li>
+<li><b>Correo:</b> Nodemailer (SMTP/Brevo/Resend)</li>
+<li><b>Errores:</b> Sentry</li>
+<li><b>Autenticación:</b> JWT, Google Sign-In</li>
+</ul>
+<h3>4.2 Repositorio y enlaces</h3>
+<ul>
+<li>Repositorio: github.com/Hernando2007/barber-king</li>
+<li>Backend: barber-king.onrender.com</li>
+<li>Política de privacidad: barber-king.onrender.com/public/politica-privacidad.html</li>
+</ul>
+<hr>
+<p>*Documento mejorado. Versión 1.1.*</p>
+</body></html>
