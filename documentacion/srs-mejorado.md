@@ -110,6 +110,8 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 - Portafolio de trabajos y verificación de diplomas.
 - Ubicación en tiempo real de barberos.
 
+![Diagrama general del sistema](imagenes-srs/pagina-12-1.png)
+
 ### 2.7 Características de los usuarios
 
 | Rol | Descripción | Permisos principales |
@@ -133,12 +135,16 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF001 - Registrar barbero
 
+![Diagrama de caso de uso](imagenes-srs/pagina-14-1.png)
+
 - **Actor:** Barbero, sistema
 - **Descripción:** Permite a un barbero crear su perfil profesional.
 - **Flujo:** Seleccionar "Registrarse como Barbero" → completar datos personales, especialidad, experiencia, descripción, diploma y fotos → sistema valida → crea perfil → envía confirmación.
 - **Resultado:** Barbero registrado con perfil profesional activo o pendiente de verificación.
 
 #### RF002 - Registrar cliente
+
+![Diagrama de caso de uso](imagenes-srs/pagina-15-1.png)
 
 - **Actor:** Cliente
 - **Descripción:** Permite crear una cuenta como cliente.
@@ -147,12 +153,16 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF003 - Inicio de sesión (barbero)
 
+![Diagrama de caso de uso](imagenes-srs/pagina-16-1.png)
+
 - **Actor:** Barbero
 - **Descripción:** Permite al barbero acceder a su panel profesional.
 - **Flujo:** Ingresar correo y contraseña → sistema valida → acceso al panel.
 - **Resultado:** Inicio de sesión exitoso.
 
 #### RF004 - Inicio de sesión (cliente)
+
+![Diagrama de caso de uso](imagenes-srs/pagina-17-1.png)
 
 - **Actor:** Cliente
 - **Descripción:** Permite al cliente acceder a la app.
@@ -161,12 +171,16 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF005 - Recuperar contraseña
 
+![Diagrama de caso de uso](imagenes-srs/pagina-18-1.png)
+
 - **Actor:** Barbero, cliente
 - **Descripción:** Permite restablecer la contraseña olvidada.
 - **Flujo:** Ingresar correo → sistema envía código → ingresar código y nueva contraseña → confirmar.
 - **Resultado:** Contraseña restablecida exitosamente.
 
 #### RF006 - Perfil del barbero
+
+![Diagrama de caso de uso](imagenes-srs/pagina-19-1.png)
 
 - **Actor:** Barbero
 - **Descripción:** Permite gestionar horarios, datos personales y laborales.
@@ -175,12 +189,16 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF007 - Perfil del cliente
 
+![Diagrama de caso de uso](imagenes-srs/pagina-20-1.png)
+
 - **Actor:** Cliente
 - **Descripción:** Permite organizar el perfil del cliente.
 - **Flujo:** Editar información personal, preferencias de notificaciones.
 - **Resultado:** Datos actualizados exitosamente.
 
 #### RF008 - Buscar barbero
+
+![Diagrama de caso de uso](imagenes-srs/pagina-21-1.png)
 
 - **Actor:** Cliente
 - **Descripción:** Permite encontrar barberos según criterios.
@@ -189,12 +207,16 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF009 - Reservar turno
 
+![Diagrama de caso de uso](imagenes-srs/pagina-22-1.png)
+
 - **Actor:** Cliente
 - **Descripción:** Permite reservar un turno con un barbero.
 - **Flujo:** Seleccionar barbero → ver horarios disponibles → elegir fecha y hora → sistema verifica disponibilidad → confirmar reserva → sistema notifica a cliente y barbero.
 - **Resultado:** Turno reservado exitosamente.
 
 #### RF010 - Gestionar horarios
+
+![Diagrama de caso de uso](imagenes-srs/pagina-23-1.png)
 
 - **Actor:** Barbero
 - **Descripción:** Permite gestionar horarios de trabajo y disponibilidad.
@@ -203,6 +225,8 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF011 - Chat (asesor de IA)
 
+![Diagrama de caso de uso](imagenes-srs/pagina-24-1.png)
+
 - **Actor:** Cliente, barbero
 - **Descripción:** Permite consultar al asesor de estilo con IA.
 - **Flujo:** Escribir pregunta o subir foto → IA analiza y responde con recomendaciones basadas en el catálogo.
@@ -210,12 +234,16 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 #### RF012 - Sistema de calificación
 
+![Diagrama de caso de uso](imagenes-srs/pagina-25-1.png)
+
 - **Actor:** Cliente
 - **Descripción:** Permite dejar calificación (1 a 5 estrellas) y reseña al barbero.
 - **Flujo:** Calificar con estrellas → escribir comentario opcional → publicar.
 - **Resultado:** Comentario y calificación publicados.
 
 #### RF013 - Recomendación de corte por IA
+
+![Diagrama de caso de uso](imagenes-srs/pagina-26-1.png)
 
 - **Actor:** Cliente
 - **Descripción:** Ayuda a clientes indecisos a escoger un corte mediante análisis de una foto.
