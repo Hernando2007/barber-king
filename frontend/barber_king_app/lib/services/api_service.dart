@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/config/api_config.dart';
+import 'notificacion_segundo_plano.dart';
 
 class ApiService {
   late final Dio dio;
@@ -41,6 +43,9 @@ class ApiService {
           if (error.response?.statusCode == 401) {
             await storage.delete(key: "token");
             await storage.delete(key: "usuario");
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.remove(NotificacionSegundoPlano.claveToken);
+            await prefs.remove(NotificacionSegundoPlano.claveUsuarioId);
           }
 
           handler.next(error);

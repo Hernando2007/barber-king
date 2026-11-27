@@ -48,7 +48,7 @@ export const crearSesion = (usuario) => {
             rol: rol_nombre,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "8h" }
+        { expiresIn: "30d" }
     );
 
     return {

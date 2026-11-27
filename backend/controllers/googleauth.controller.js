@@ -274,7 +274,7 @@ export const autenticarConGoogle = async (req, res) => {
                 rol: rol_nombre,
             },
             process.env.JWT_SECRET,
-            { expiresIn: "8h" }
+            { expiresIn: "30d" }
         );
 
         if (esNuevo) {
