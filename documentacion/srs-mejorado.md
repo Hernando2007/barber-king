@@ -137,118 +137,183 @@ Barber King es una aplicación móvil gratuita que conecta la demanda de servici
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-14-1.png)
 
-- **Actor:** Barbero, sistema
-- **Descripción:** Permite a un barbero crear su perfil profesional.
-- **Flujo:** Seleccionar "Registrarse como Barbero" → completar datos personales, especialidad, experiencia, descripción, diploma y fotos → sistema valida → crea perfil → envía confirmación.
-- **Resultado:** Barbero registrado con perfil profesional activo o pendiente de verificación.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Registrar barbero |
+| Actor(es) | Barbero, sistema |
+| Descripción | Permite a un barbero crear su perfil profesional. |
+| Flujo principal | Seleccionar "Registrarse como Barbero" → completar datos personales, especialidad, experiencia, descripción, diploma y fotos → sistema valida → crea perfil → envía confirmación. |
+| Resultado esperado | Barbero registrado con perfil profesional activo o pendiente de verificación. |
+
 
 #### RF002 - Registrar cliente
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-15-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Permite crear una cuenta como cliente.
-- **Flujo:** Seleccionar "Registrarse como Cliente" → completar datos básicos → sistema valida → crea cuenta → envía confirmación.
-- **Resultado:** Cliente registrado exitosamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Registrar cliente |
+| Actor(es) | Cliente |
+| Descripción | Permite crear una cuenta como cliente. |
+| Flujo principal | Seleccionar "Registrarse como Cliente" → completar datos básicos → sistema valida → crea cuenta → envía confirmación. |
+| Resultado esperado | Cliente registrado exitosamente. |
+
 
 #### RF003 - Inicio de sesión (barbero)
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-16-1.png)
 
-- **Actor:** Barbero
-- **Descripción:** Permite al barbero acceder a su panel profesional.
-- **Flujo:** Ingresar correo y contraseña → sistema valida → acceso al panel.
-- **Resultado:** Inicio de sesión exitoso.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Inicio de sesión (barbero) |
+| Actor(es) | Barbero |
+| Descripción | Permite al barbero acceder a su panel profesional. |
+| Flujo principal | Ingresar correo y contraseña → sistema valida → acceso al panel. |
+| Resultado esperado | Inicio de sesión exitoso. |
+
 
 #### RF004 - Inicio de sesión (cliente)
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-17-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Permite al cliente acceder a la app.
-- **Flujo:** Ingresar correo y contraseña (o Google) → sistema valida → acceso al panel.
-- **Resultado:** Inicio de sesión exitoso.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Inicio de sesión (cliente) |
+| Actor(es) | Cliente |
+| Descripción | Permite al cliente acceder a la app. |
+| Flujo principal | Ingresar correo y contraseña (o Google) → sistema valida → acceso al panel. |
+| Resultado esperado | Inicio de sesión exitoso. |
+
 
 #### RF005 - Recuperar contraseña
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-18-1.png)
 
-- **Actor:** Barbero, cliente
-- **Descripción:** Permite restablecer la contraseña olvidada.
-- **Flujo:** Ingresar correo → sistema envía código → ingresar código y nueva contraseña → confirmar.
-- **Resultado:** Contraseña restablecida exitosamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Recuperar contraseña |
+| Actor(es) | Barbero, cliente |
+| Descripción | Permite restablecer la contraseña olvidada. |
+| Flujo principal | Ingresar correo → sistema envía código → ingresar código y nueva contraseña → confirmar. |
+| Resultado esperado | Contraseña restablecida exitosamente. |
+
 
 #### RF006 - Perfil del barbero
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-19-1.png)
 
-- **Actor:** Barbero
-- **Descripción:** Permite gestionar horarios, datos personales y laborales.
-- **Flujo:** Editar información personal, profesional, horarios, precios, servicios, ubicación, diploma.
-- **Resultado:** Datos actualizados exitosamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Perfil del barbero |
+| Actor(es) | Barbero |
+| Descripción | Permite gestionar horarios, datos personales y laborales. |
+| Flujo principal | Editar información personal, profesional, horarios, precios, servicios, ubicación, diploma. |
+| Resultado esperado | Datos actualizados exitosamente. |
+
 
 #### RF007 - Perfil del cliente
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-20-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Permite organizar el perfil del cliente.
-- **Flujo:** Editar información personal, preferencias de notificaciones.
-- **Resultado:** Datos actualizados exitosamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Perfil del cliente |
+| Actor(es) | Cliente |
+| Descripción | Permite organizar el perfil del cliente. |
+| Flujo principal | Editar información personal, preferencias de notificaciones. |
+| Resultado esperado | Datos actualizados exitosamente. |
+
 
 #### RF008 - Buscar barbero
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-21-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Permite encontrar barberos según criterios.
-- **Flujo:** Seleccionar "Buscar Barberos" → aplicar filtros (ubicación, precio, especialidad, calificación) → sistema muestra lista → seleccionar barbero.
-- **Resultado:** Lista de barberos filtrados.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Buscar barbero |
+| Actor(es) | Cliente |
+| Descripción | Permite encontrar barberos según criterios. |
+| Flujo principal | Seleccionar "Buscar Barberos" → aplicar filtros (ubicación, precio, especialidad, calificación) → sistema muestra lista → seleccionar barbero. |
+| Resultado esperado | Lista de barberos filtrados. |
+
 
 #### RF009 - Reservar turno
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-22-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Permite reservar un turno con un barbero.
-- **Flujo:** Seleccionar barbero → ver horarios disponibles → elegir fecha y hora → sistema verifica disponibilidad → confirmar reserva → sistema notifica a cliente y barbero.
-- **Resultado:** Turno reservado exitosamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Reservar turno |
+| Actor(es) | Cliente |
+| Descripción | Permite reservar un turno con un barbero. |
+| Flujo principal | Seleccionar barbero → ver horarios disponibles → elegir fecha y hora → sistema verifica disponibilidad → confirmar reserva → sistema notifica a cliente y barbero. |
+| Resultado esperado | Turno reservado exitosamente. |
+
 
 #### RF010 - Gestionar horarios
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-23-1.png)
 
-- **Actor:** Barbero
-- **Descripción:** Permite gestionar horarios de trabajo y disponibilidad.
-- **Flujo:** Acceder a "Mis Horarios" → modificar horarios, bloques de tiempo o marcar días no laborales → sistema actualiza disponibilidad.
-- **Resultado:** Horarios actualizados correctamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Gestionar horarios |
+| Actor(es) | Barbero |
+| Descripción | Permite gestionar horarios de trabajo y disponibilidad. |
+| Flujo principal | Acceder a "Mis Horarios" → modificar horarios, bloques de tiempo o marcar días no laborales → sistema actualiza disponibilidad. |
+| Resultado esperado | Horarios actualizados correctamente. |
+
 
 #### RF011 - Chat (asesor de IA)
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-24-1.png)
 
-- **Actor:** Cliente, barbero
-- **Descripción:** Permite consultar al asesor de estilo con IA.
-- **Flujo:** Escribir pregunta o subir foto → IA analiza y responde con recomendaciones basadas en el catálogo.
-- **Resultado:** Respuesta generada exitosamente.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Chat (asesor de IA) |
+| Actor(es) | Cliente, barbero |
+| Descripción | Permite consultar al asesor de estilo con IA. |
+| Flujo principal | Escribir pregunta o subir foto → IA analiza y responde con recomendaciones basadas en el catálogo. |
+| Resultado esperado | Respuesta generada exitosamente. |
+
 
 #### RF012 - Sistema de calificación
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-25-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Permite dejar calificación (1 a 5 estrellas) y reseña al barbero.
-- **Flujo:** Calificar con estrellas → escribir comentario opcional → publicar.
-- **Resultado:** Comentario y calificación publicados.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Sistema de calificación |
+| Actor(es) | Cliente |
+| Descripción | Permite dejar calificación (1 a 5 estrellas) y reseña al barbero. |
+| Flujo principal | Calificar con estrellas → escribir comentario opcional → publicar. |
+| Resultado esperado | Comentario y calificación publicados. |
+
 
 #### RF013 - Recomendación de corte por IA
 
 ![Diagrama de caso de uso](imagenes-srs/pagina-26-1.png)
 
-- **Actor:** Cliente
-- **Descripción:** Ayuda a clientes indecisos a escoger un corte mediante análisis de una foto.
-- **Flujo:** Subir foto → IA analiza el rostro → IA recomienda corte.
-- **Resultado:** Recomendación de corte generada.
+
+| Campo | Detalle |
+| --- | --- |
+| Nombre del caso de uso | Recomendación de corte por IA |
+| Actor(es) | Cliente |
+| Descripción | Ayuda a clientes indecisos a escoger un corte mediante análisis de una foto. |
+| Flujo principal | Subir foto → IA analiza el rostro → IA recomienda corte. |
+| Resultado esperado | Recomendación de corte generada. |
+
 
 ### 3.2 Requisitos no funcionales
 
