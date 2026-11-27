@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><title>Manual de implementación · Barber King</title>
+<style>
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #dfe3e8; font-family: "Segoe UI", Arial, sans-serif; color: #182230; }
+.hoja { width: 210mm; height: 297mm; margin: 0 auto; background: #fff; padding: 12mm 16mm 14mm; position: relative; page-break-after: always; overflow: hidden; }
+.hoja:last-child { page-break-after: auto; }
+.cuerpo { height: 271mm; overflow: hidden; }
+.pie { position: absolute; left: 16mm; right: 16mm; bottom: 6mm; display: flex; justify-content: space-between; border-top: .35mm solid #d8dde5; padding-top: 2mm; font-size: 8pt; color: #7a8698; }
+.kicker { margin: 0 0 1.5mm; font-size: 8pt; font-weight: 700; letter-spacing: 1.1pt; text-transform: uppercase; color: #a07c2c; }
+h1 { margin: 0 0 4mm; font-size: 24pt; line-height: 1.1; color: #0d1529; }
+h2 { margin: 0 0 3mm; padding-bottom: 2mm; border-bottom: .8mm solid #d6b25e; font-size: 15pt; color: #0d1529; }
+h3 { margin: 4mm 0 2mm; font-size: 11pt; color: #0d1529; }
+p, li { font-size: 9.5pt; line-height: 1.45; }
+p { margin: 0 0 2.5mm; }
+table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+th { padding: 2mm 2.5mm; background: #0d1529; color: #fff; text-align: left; font-size: 8.5pt; letter-spacing: .3pt; }
+td { padding: 2mm 2.5mm; border: .3mm solid #d8dde5; vertical-align: top; }
+tbody tr:nth-child(even) td { background: #f5f7fa; }
+.ruta { margin: 0 0 3mm; padding: 2mm 3mm; border-left: 1mm solid #d6b25e; background: #faf6ec; font-size: 9pt; }
+.ruta b { color: #7a5c17; }
+.aviso { margin: 0 0 3mm; padding: 2mm 3mm; border: .3mm solid #f0d9a8; background: #fdf6e6; font-size: 9pt; }
+.indice { list-style: none; margin: 0; padding: 0; }
+.indice li { display: flex; align-items: baseline; gap: 2mm; margin: 0 0 1.6mm; font-size: 9.5pt; }
+.indice li.n2 { padding-left: 6mm; font-size: 9pt; color: #3c4a5e; }
+.indice .linea { flex: 1; border-bottom: .3mm dotted #b9c2cf; }
+.indice .pag { font-weight: 700; color: #0d1529; }
+.portada { margin: -12mm -16mm 6mm; padding: 10mm 16mm 8mm; background: #ffffff; color: #182230; }
+.portada .oro { color: #a9832f; font-size: 10pt; font-weight: 700; letter-spacing: 2pt; }
+.portada h1 { color: #0d1529; margin: 2mm 0 1mm; }
+.portada p { color: #5b6a80; margin: 0; }
+.logo-portada { display: block; margin: 0 auto 3mm; width: 30mm; height: auto; }
+code { font-family: Consolas, monospace; font-size: 8.5pt; background: #f5f7fa; padding: 0 1mm; }
+</style></head><body>
+
+<!-- PORTADA -->
+<div class="hoja"><div class="cuerpo">
+<div class="portada">
+  <img class="logo-portada" src="../design/figma/marca/emblema-dorado.png" alt="Emblema Barber King">
+  <p class="oro">BARBER KING</p>
+  <h1>Manual de implementación</h1>
+  <p>Sistema de gestión de barbería · App móvil, API REST y servicios en la nube</p>
+</div>
+<h2>Hoja de control</h2>
+<table>
+  <tr><th>Campo</th><th>Valor</th></tr>
+  <tr><td>Sistema</td><td>Barber King</td></tr>
+  <tr><td>Cliente</td><td>Barber King (negocio de barbería)</td></tr>
+  <tr><td>Autores</td><td>Hernando Botello Vargas</td></tr>
+  <tr><td>Versión del documento</td><td>1.0</td></tr>
+  <tr><td>Fecha</td><td>27 de noviembre de 2026</td></tr>
+  <tr><td>Repositorio</td><td>github.com/Hernando2007/barber-king</td></tr>
+  <tr><td>Rama de trabajo</td><td>main</td></tr>
+</table>
+<h3>Historial de revisiones</h3>
+<table>
+  <tr><th>Versión</th><th>Fecha</th><th>Descripción</th></tr>
+  <tr><td>1.0</td><td>27/11/2026</td><td>Primera versión del manual de implementación.</td></tr>
+</table>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 1</span></div></div>
+
+<!-- INDICE -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">Índice</p>
+<h1>Contenido</h1>
+<ul class="indice">
+  <li><span>1. Introducción, objetivo y alcance</span><span class="linea"></span><span class="pag">3</span></li>
+  <li><span>2. Requisitos técnicos</span><span class="linea"></span><span class="pag">3</span></li>
+  <li><span>3. Arquitectura del sistema</span><span class="linea"></span><span class="pag">4</span></li>
+  <li><span>4. Tecnologías y dependencias</span><span class="linea"></span><span class="pag">4</span></li>
+  <li><span>5. Estructura del proyecto</span><span class="linea"></span><span class="pag">5</span></li>
+  <li><span>6. Modelo de datos</span><span class="linea"></span><span class="pag">5</span></li>
+  <li><span>7. Documentación de la API</span><span class="linea"></span><span class="pag">6</span></li>
+  <li><span>8. Seguridad</span><span class="linea"></span><span class="pag">7</span></li>
+  <li><span>9. Configuración y variables de entorno</span><span class="linea"></span><span class="pag">7</span></li>
+  <li><span>10. Instalación local y despliegue</span><span class="linea"></span><span class="pag">8</span></li>
+  <li><span>11. Mantenimiento</span><span class="linea"></span><span class="pag">9</span></li>
+  <li><span>12. Glosario y anexos</span><span class="linea"></span><span class="pag">9</span></li>
+</ul>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 2</span></div></div>
+
+<!-- 1. INTRODUCCION -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">1. Introducción, objetivo y alcance</p>
+<h2>1. Introducción, objetivo y alcance</h2>
+<p><b>Descripción corta del sistema.</b> Barber King es una aplicación móvil para Android (y preparada para iOS y Web) que conecta clientes con barberos. Permite reservar citas, consultar servicios y precios, ver el portafolio de los barberos, recibir recomendaciones de estilo con un asesor de inteligencia artificial y gestionar la agenda desde el teléfono.</p>
+<p><b>Para quién es este manual.</b> Desarrolladores, administradores técnicos y personas que deban instalar, desplegar o mantener el sistema. No es un manual de usuario final; para eso existe el manual de usuario.</p>
+<p><b>Qué partes documenta.</b> El backend (API REST en Node.js y Express), la app móvil (Flutter), la base de datos (Supabase/PostgreSQL), el almacenamiento de archivos (Cloudinary), el correo (SMTP/Brevo/Resend), el asesor de IA (Groq) y el despliegue en Render.</p>
+<p><b>Objetivo.</b> Dejar por escrito cómo está construido el sistema, cómo se instala en un equipo nuevo, cómo se despliega y cómo se mantiene, sin depender de la memoria de quien lo creó.</p>
+<p><b>Alcance.</b> Cubre la versión 1.0.0 del backend y de la app. No documenta el panel de administración de Supabase ni la consola de Render más allá de los pasos necesarios.</p>
+
+<p class="kicker">2. Requisitos técnicos</p>
+<h2>2. Requisitos técnicos</h2>
+<p><b>Software de desarrollo.</b></p>
+<table>
+  <tr><th>Herramienta</th><th>Versión</th><th>Uso</th></tr>
+  <tr><td>Node.js</td><td>20 o superior</td><td>Backend (Express)</td></tr>
+  <tr><td>Flutter</td><td>3.47.x (stable)</td><td>App móvil y web</td></tr>
+  <tr><td>Dart</td><td>incluido con Flutter</td><td>Lenguaje de la app</td></tr>
+  <tr><td>Android Studio</td><td>reciente</td><td>Emulador y firma del AAB</td></tr>
+  <tr><td>Java (JDK)</td><td>17</td><td>Compilación Android</td></tr>
+  <tr><td>Git</td><td>reciente</td><td>Control de versiones</td></tr>
+</table>
+<p><b>Servicios en la nube.</b></p>
+<table>
+  <tr><th>Servicio</th><th>Uso</th></tr>
+  <tr><td>Supabase (PostgreSQL)</td><td>Base de datos y autenticación de datos</td></tr>
+  <tr><td>Render</td><td>Hosting del backend (Node.js)</td></tr>
+  <tr><td>Cloudinary</td><td>Almacenamiento de fotos, diplomas e imágenes del chat</td></tr>
+  <tr><td>Brevo / Resend / SMTP</td><td>Envío de correos (bienvenida, recuperación)</td></tr>
+  <tr><td>Groq</td><td>Asesor de estilo con IA</td></tr>
+  <tr><td>Sentry</td><td>Reporte de errores (opcional)</td></tr>
+  <tr><td>Google Cloud</td><td>Inicio de sesión con Google (OAuth)</td></tr>
+</table>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 3</span></div></div>
+
+<!-- 3. ARQUITECTURA -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">3. Arquitectura del sistema</p>
+<h2>3. Arquitectura del sistema</h2>
+<p>La app Flutter se comunica con la API REST de Express desplegada en Render. La API consulta Supabase para los datos, Cloudinary para los archivos, Groq para el asesor de IA y el proveedor de correo para los mensajes.</p>
+<table>
+  <tr><th>Capa</th><th>Tecnología</th><th>Responsabilidad</th></tr>
+  <tr><td>Cliente</td><td>Flutter (Dart)</td><td>Interfaz móvil, lógica de presentación, almacenamiento local de sesión</td></tr>
+  <tr><td>API</td><td>Node.js + Express 5</td><td>Reglas de negocio, autenticación, validación, integración con servicios</td></tr>
+  <tr><td>Base de datos</td><td>Supabase (PostgreSQL)</td><td>Usuarios, barberos, servicios, citas, reseñas, horarios, portafolio</td></tr>
+  <tr><td>Archivos</td><td>Cloudinary</td><td>Fotos de perfil, portafolio, diplomas, imágenes del chat</td></tr>
+  <tr><td>IA</td><td>Groq (openai/gpt-oss-20b)</td><td>Asesor de estilo y análisis de diplomas</td></tr>
+  <tr><td>Correo</td><td>Nodemailer + SMTP/Brevo/Resend</td><td>Bienvenida, recuperación de contraseña</td></tr>
+  <tr><td>Errores</td><td>Sentry</td><td>Reporte de excepciones (opcional)</td></tr>
+</table>
+<p><b>Flujo de una reserva.</b> El cliente elige servicio y barbero en la app → la app llama a <code>/api/citas/crear</code> con el token JWT → la API valida el horario libre contra la jornada del barbero en Supabase → se guarda la cita con estado Confirmada → el barbero la ve en su agenda.</p>
+
+<p class="kicker">4. Tecnologías y dependencias</p>
+<h2>4. Tecnologías y dependencias</h2>
+<p><b>Backend (package.json).</b></p>
+<table>
+  <tr><th>Paquete</th><th>Versión</th><th>Para qué se usa</th></tr>
+  <tr><td>express</td><td>^5.3.0</td><td>Servidor HTTP y rutas</td></tr>
+  <tr><td>@supabase/supabase-js</td><td>^2.116.0</td><td>Cliente de Supabase</td></tr>
+  <tr><td>bcrypt</td><td>^6.0.0</td><td>Hash de contraseñas</td></tr>
+  <tr><td>jsonwebtoken</td><td>^9.0.3</td><td>Tokens de sesión (JWT)</td></tr>
+  <tr><td>cloudinary</td><td>^2.11.0</td><td>Subida de archivos</td></tr>
+  <tr><td>multer</td><td>^2.5.0</td><td>Recepción de archivos en memoria</td></tr>
+  <tr><td>groq-sdk</td><td>^1.6.0</td><td>Asesor de IA</td></tr>
+  <tr><td>nodemailer</td><td>^10.5.0</td><td>Envío de correo</td></tr>
+  <tr><td>google-auth-library</td><td>^11.0.2</td><td>Verificación de tokens de Google</td></tr>
+  <tr><td>helmet</td><td>^8.3.0</td><td>Cabeceras de seguridad</td></tr>
+  <tr><td>express-rate-limit</td><td>^8.7.4</td><td>Límite de peticiones</td></tr>
+  <tr><td>@sentry/node</td><td>^11.12.0</td><td>Reporte de errores (opcional)</td></tr>
+  <tr><td>cors</td><td>^2.8.6</td><td>Control de orígenes</td></tr>
+  <tr><td>morgan</td><td>^1.12.1</td><td>Registro de peticiones (desarrollo)</td></tr>
+  <tr><td>dotenv</td><td>^17.4.2</td><td>Variables de entorno</td></tr>
+</table>
+<p><b>App (pubspec.yaml).</b> Flutter 3.47.x, Dart con null safety, dependencias principales: provider o state management propio, dio (HTTP), google_sign_in, flutter_map, geolocator, sentry_flutter, url_launcher, image_picker, shared_preferences.</p>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 4</span></div></div>
+
+<!-- 5. ESTRUCTURA -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">5. Estructura del proyecto</p>
+<h2>5. Estructura del proyecto</h2>
+<p><b>Backend.</b></p>
+<table>
+  <tr><th>Carpeta / archivo</th><th>Contenido</th></tr>
+  <tr><td>app.js</td><td>Configuración de Express, middlewares, rutas y archivos estáticos</td></tr>
+  <tr><td>index.js</td><td>Punto de entrada: inicia el servidor</td></tr>
+  <tr><td>routes/</td><td>Definición de rutas por módulo (auth, usuarios, barberos, servicios, citas, etc.)</td></tr>
+  <tr><td>controllers/</td><td>Lógica de cada endpoint</td></tr>
+  <tr><td>services/</td><td>Servicios compartidos (correo, registro, chat con IA)</td></tr>
+  <tr><td>models/</td><td>Acceso a Supabase por entidad</td></tr>
+  <tr><td>middlewares/</td><td>Autenticación JWT, roles, carga de archivos, errores</td></tr>
+  <tr><td>config/</td><td>CORS, límites de peticiones, multer</td></tr>
+  <tr><td>public/</td><td>Páginas HTML públicas (política, eliminación de cuenta y datos)</td></tr>
+  <tr><td>tests/</td><td>Pruebas con node:test</td></tr>
+  <tr><td>.env / .env.example</td><td>Variables de entorno</td></tr>
+</table>
+<p><b>App Flutter.</b></p>
+<table>
+  <tr><th>Carpeta / archivo</th><th>Contenido</th></tr>
+  <tr><td>lib/core/</td><td>Configuración (API, URLs públicas, Sentry, tema)</td></tr>
+  <tr><td>lib/services/</td><td>Servicios de acceso a la API y a Google Sign-In</td></tr>
+  <tr><td>lib/screens/</td><td>Pantallas por rol (auth, cliente, barbero, admin, manual)</td></tr>
+  <tr><td>lib/widgets/</td><td>Componentes reutilizables por módulo</td></tr>
+  <tr><td>lib/models/</td><td>Modelos de datos</td></tr>
+  <tr><td>assets/</td><td>Imágenes, logo, manual de usuario embebido</td></tr>
+  <tr><td>android/</td><td>Configuración Android, firma de release</td></tr>
+  <tr><td>ios/, web/, windows/, macos/, linux/</td><td>Plataformas soportadas</td></tr>
+</table>
+
+<p class="kicker">6. Modelo de datos</p>
+<h2>6. Modelo de datos</h2>
+<p>La base de datos es PostgreSQL en Supabase. Las tablas principales son:</p>
+<table>
+  <tr><th>Tabla</th><th>Descripción</th></tr>
+  <tr><td>usuarios</td><td>Cuenta: nombres, apellidos, correo, teléfono, fecha de nacimiento, rol, estado, avatar, google_id, vip</td></tr>
+  <tr><td>roles</td><td>Administrador (1), Barbero (2), Cliente (3)</td></tr>
+  <tr><td>barberos</td><td>Perfil profesional: especialidad, experiencia, descripción, dirección, verificación, ubicación, calificación</td></tr>
+  <tr><td>servicios</td><td>Catálogo: nombre, descripción, precio, duración, imagen, estado</td></tr>
+  <tr><td>barbero_servicios</td><td>Qué servicios atiende cada barbero y con qué precio y duración propios</td></tr>
+  <tr><td>citas</td><td>Reserva: cliente, barbero, servicio, fecha, hora, estado, observaciones, precio</td></tr>
+  <tr><td>horarios</td><td>Jornadas de trabajo por barbero y día de la semana</td></tr>
+  <tr><td>disponibilidad</td><td>Horas libres calculadas para un barbero en una fecha</td></tr>
+  <tr><td>resenas</td><td>Calificación y comentario por cita completada</td></tr>
+  <tr><td>portafolio</td><td>Fotos de trabajos del barbero (hasta 24)</td></tr>
+  <tr><td>verificaciones</td><td>Estado de revisión del diploma del barbero</td></tr>
+  <tr><td>avisos</td><td>Notificaciones y novedades para los usuarios</td></tr>
+  <tr><td>mensajes_chat</td><td>Historial del chat con el asesor de IA (texto e imágenes)</td></tr>
+</table>
+<p>Las relaciones principales: un usuario tiene un rol; un barbero pertenece a un usuario; una cita vincula cliente, barbero y servicio; una reseña pertenece a una cita. Supabase aplica Row Level Security (RLS) para que cada usuario solo vea sus propios datos.</p>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 5</span></div></div>
+
+<!-- 7. API -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">7. Documentación de la API</p>
+<h2>7. Documentación de la API</h2>
+<p>Base URL: <code>https://barber-king.onrender.com/api</code>. Todas las rutas marcadas con token requieren el encabezado <code>Authorization: Bearer &lt;token&gt;</code>. El token se obtiene al iniciar sesión o registrarse.</p>
+<h3>Autenticación (/api/auth)</h3>
+<table>
+  <tr><th>Método</th><th>Ruta</th><th>Token</th><th>Descripción</th></tr>
+  <tr><td>POST</td><td>/auth/registro</td><td>No</td><td>Crear cuenta (cliente o barbero, multipart con diploma opcional)</td></tr>
+  <tr><td>POST</td><td>/auth/login</td><td>No</td><td>Iniciar sesión con correo y contraseña</td></tr>
+  <tr><td>POST</td><td>/auth/forgot-password</td><td>No</td><td>Solicitar código de recuperación</td></tr>
+  <tr><td>POST</td><td>/auth/reset-password</td><td>No</td><td>Cambiar contraseña con el código</td></tr>
+  <tr><td>GET</td><td>/auth/google/config</td><td>No</td><td>Devuelve el client ID web de Google</td></tr>
+  <tr><td>POST</td><td>/auth/google</td><td>No</td><td>Iniciar sesión o registrarse con Google (idToken)</td></tr>
+</table>
+<h3>Usuarios (/api/usuarios)</h3>
+<table>
+  <tr><th>Método</th><th>Ruta</th><th>Token</th><th>Descripción</th></tr>
+  <tr><td>GET</td><td>/usuarios/me</td><td>Sí</td><td>Perfil del usuario autenticado</td></tr>
+  <tr><td>PUT</td><td>/usuarios/me</td><td>Sí</td><td>Actualizar perfil</td></tr>
+  <tr><td>DELETE</td><td>/usuarios/me</td><td>Sí</td><td>Eliminar la cuenta y sus datos</td></tr>
+</table>
+<h3>Barberos (/api/barberos)</h3>
+<table>
+  <tr><th>Método</th><th>Ruta</th><th>Token</th><th>Descripción</th></tr>
+  <tr><td>GET</td><td>/barberos/obtener</td><td>No</td><td>Listar todos los barberos</td></tr>
+  <tr><td>GET</td><td>/barberos/obtener/:id</td><td>No</td><td>Detalle de un barbero</td></tr>
+  <tr><td>GET</td><td>/barberos/cercanos</td><td>Sí</td><td>Barberos a menos de 15 km de la ubicación</td></tr>
+  <tr><td>GET</td><td>/barberos/destacados</td><td>Sí</td><td>Barberos destacados</td></tr>
+  <tr><td>PUT</td><td>/barberos/servicios/mis</td><td>Sí (Barbero)</td><td>Guardar los servicios que atiende</td></tr>
+  <tr><td>GET</td><td>/barberos/portafolio/mis</td><td>Sí (Barbero)</td><td>Mis fotos del portafolio</td></tr>
+  <tr><td>POST</td><td>/barberos/portafolio/...</td><td>Sí (Barbero)</td><td>Subir fotos al portafolio</td></tr>
+  <tr><td>PUT</td><td>/barberos/ubicacion/...</td><td>Sí (Barbero)</td><td>Publicar ubicación en tiempo real</td></tr>
+</table>
+<h3>Servicios (/api/servicios)</h3>
+<table>
+  <tr><th>Método</th><th>Ruta</th><th>Token</th><th>Descripción</th></tr>
+  <tr><td>GET</td><td>/servicios/obtener</td><td>No</td><td>Catálogo de servicios</td></tr>
+  <tr><td>GET</td><td>/servicios/obtener/:id</td><td>No</td><td>Detalle de un servicio</td></tr>
+</table>
+<h3>Citas (/api/citas)</h3>
+<table>
+  <tr><th>Método</th><th>Ruta</th><th>Token</th><th>Descripción</th></tr>
+  <tr><td>POST</td><td>/citas/crear</td><td>Sí</td><td>Crear una cita</td></tr>
+  <tr><td>GET</td><td>/citas/obtenerTodas</td><td>Sí</td><td>Listar citas del usuario</td></tr>
+  <tr><td>GET</td><td>/citas/proximas</td><td>Sí</td><td>Próximas citas</td></tr>
+  <tr><td>GET</td><td>/citas/obtenerPorId/:id</td><td>Sí</td><td>Detalle de una cita</td></tr>
+  <tr><td>PUT</td><td>/citas/actualizar/:id</td><td>Sí</td><td>Actualizar estado u observaciones</td></tr>
+  <tr><td>DELETE</td><td>/citas/delete/:id</td><td>Sí</td><td>Cancelar o eliminar una cita</td></tr>
+</table>
+<h3>Otras rutas</h3>
+<table>
+  <tr><th>Prefijo</th><th>Descripción</th></tr>
+  <tr><td>/api/disponibilidad</td><td>Horas libres de un barbero en una fecha</td></tr>
+  <tr><td>/api/horarios</td><td>Jornadas de trabajo del barbero</td></tr>
+  <tr><td>/api/resenas</td><td>Calificaciones y comentarios</td></tr>
+  <tr><td>/api/chat</td><td>Chat con el asesor de IA (texto e imágenes)</td></tr>
+  <tr><td>/api/dashboard</td><td>Métricas para el administrador</td></tr>
+  <tr><td>/api/verificaciones</td><td>Revisión de diplomas por IA y administrador</td></tr>
+  <tr><td>/api/avisos</td><td>Novedades para los usuarios</td></tr>
+  <tr><td>/api/uploads</td><td>Subida de archivos a Cloudinary</td></tr>
+  <tr><td>/health</td><td>Estado del servicio (sin /api)</td></tr>
+</table>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 6</span></div></div>
+
+<!-- 8. SEGURIDAD -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">8. Seguridad</p>
+<h2>8. Seguridad</h2>
+<ul>
+  <li><b>Autenticación.</b> JWT firmado con <code>JWT_SECRET</code>, expiración de 8 horas. El token se envía en el encabezado <code>Authorization: Bearer</code>.</li>
+  <li><b>Contraseñas.</b> Hash con bcrypt (costo 10). Nunca se guardan en texto plano.</li>
+  <li><b>Google Sign-In.</b> El idToken se verifica con <code>google-auth-library</code> contra los clientes permitidos. La audiencia debe coincidir o ser del mismo proyecto.</li>
+  <li><b>Roles.</b> Middleware <code>verificarRol</code> restringe rutas por rol (Administrador, Barbero, Cliente).</li>
+  <li><b>Row Level Security.</b> Supabase aplica RLS para que cada usuario solo acceda a sus datos.</li>
+  <li><b>Cabeceras.</b> Helmet desactiva <code>x-powered-by</code> y configura CSP y CORS.</li>
+  <li><b>Límites.</b> Rate limiting general y específico en login, registro y recuperación de contraseña.</li>
+  <li><b>Llaves.</b> El keystore de subida (<code>upload-keystore.jks</code>) y <code>key.properties</code> no se versionan. Se guardan fuera del repositorio.</li>
+  <li><b>HTTPS.</b> Todas las comunicaciones entre la app y el backend van cifradas. Render provee el certificado.</li>
+</ul>
+
+<p class="kicker">9. Configuración y variables de entorno</p>
+<h2>9. Configuración y variables de entorno</h2>
+<p>El backend lee las variables desde <code>.env</code> (desarrollo) o desde el panel de Render (producción). El archivo <code>.env.example</code> lista todas las variables.</p>
+<table>
+  <tr><th>Variable</th><th>Para qué sirve</th><th>De dónde se obtiene</th></tr>
+  <tr><td>PORT</td><td>Puerto del servidor</td><td>Render o local (3000)</td></tr>
+  <tr><td>NODE_ENV</td><td>Entorno (development/production)</td><td>Render o local</td></tr>
+  <tr><td>SUPABASE_URL</td><td>URL del proyecto Supabase</td><td>Panel de Supabase</td></tr>
+  <tr><td>SUPABASE_KEY</td><td>Service role key de Supabase</td><td>Panel de Supabase</td></tr>
+  <tr><td>JWT_SECRET</td><td>Secreto para firmar los tokens</td><td>Generado por el desarrollador</td></tr>
+  <tr><td>SMTP_HOST / PORT / SECURE / USER / PASS</td><td>Correo saliente</td><td>Proveedor SMTP (Brevo, Resend, etc.)</td></tr>
+  <tr><td>GROQ_API_KEY</td><td>Clave del asesor de IA</td><td>Console de Groq</td></tr>
+  <tr><td>GROQ_MODELO_TEXTO</td><td>Modelo de texto (opcional)</td><td>Console de Groq</td></tr>
+  <tr><td>SENTRY_DSN</td><td>Reporte de errores (opcional)</td><td>Proyecto Sentry</td></tr>
+  <tr><td>BARBERIA_ZONA_HORARIA</td><td>Zona horaria del negocio</td><td>IANA (America/Bogota)</td></tr>
+  <tr><td>GOOGLE_CLIENT_ID</td><td>Client ID web de Google</td><td>Google Cloud Console</td></tr>
+  <tr><td>CLOUDINARY_CLOUD_NAME / API_KEY / API_SECRET</td><td>Almacenamiento de archivos</td><td>Panel de Cloudinary</td></tr>
+  <tr><td>FRONTEND_URL</td><td>URL del frontend (CORS)</td><td>Render o local</td></tr>
+</table>
+<p>En la app, la URL del backend se define en <code>lib/core/config/api_config.dart</code> (<code>useRemote = true</code> apunta a Render).</p>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 7</span></div></div>
+
+<!-- 10. INSTALACION -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">10. Instalación local y despliegue</p>
+<h2>10. Instalación local y despliegue</h2>
+<h3>Backend en local</h3>
+<ol>
+  <li>Clonar el repositorio y entrar a <code>backend/</code>.</li>
+  <li>Copiar <code>.env.example</code> a <code>.env</code> y completar las variables.</li>
+  <li>Ejecutar <code>npm install</code>.</li>
+  <li>Ejecutar <code>npm run dev</code> (nodemon) o <code>npm start</code>.</li>
+  <li>Verificar en <code>http://localhost:3000/health</code>.</li>
+</ol>
+<h3>Pruebas</h3>
+<p>Ejecutar <code>npm test</code> en <code>backend/</code>. Usa el runner nativo de Node (<code>node --test</code>).</p>
+<h3>App en local</h3>
+<ol>
+  <li>Entrar a <code>frontend/barber_king_app/</code>.</li>
+  <li>Ejecutar <code>flutter pub get</code>.</li>
+  <li>Ejecutar <code>flutter run</code> (emulador o dispositivo conectado).</li>
+  <li>Para usar el backend local, cambiar <code>useRemote</code> a <code>false</code> en <code>api_config.dart</code>.</li>
+</ol>
+<h3>Despliegue del backend en Render</h3>
+<ol>
+  <li>Conectar el repositorio en Render.</li>
+  <li>Configurar las variables de entorno del <code>.env.example</code> en el panel de Render.</li>
+  <li>Comando de inicio: <code>node index.js</code> (o <code>npm start</code>).</li>
+  <li>Render despliega automáticamente al hacer push a <code>main</code>.</li>
+  <li>Verificar en <code>https://barber-king.onrender.com/health</code>.</li>
+</ol>
+<h3>Compilación del AAB (Android)</h3>
+<ol>
+  <li>Verificar que exista <code>android/key.properties</code> con la llave de subida.</li>
+  <li>Ejecutar <code>flutter build appbundle --release</code>.</li>
+  <li>El AAB queda en <code>build/app/outputs/bundle/release/app-release.aab</code>.</li>
+  <li>Verificar la firma con <code>keytool -printcert -jarfile app-release.aab</code> (SHA-1: 9A:6C:C5:89:DE:75:35:19:5F:C9:1C:51:BE:43:36:3E:DA:58:F3:82).</li>
+  <li>Subir el AAB en Play Console.</li>
+</ol>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 8</span></div></div>
+
+<!-- 11. MANTENIMIENTO -->
+<div class="hoja"><div class="cuerpo">
+<p class="kicker">11. Mantenimiento</p>
+<h2>11. Mantenimiento</h2>
+<h3>Cómo agregar una función nueva</h3>
+<ol>
+  <li>Crear la ruta en <code>backend/routes/</code> y el controlador en <code>backend/controllers/</code>.</li>
+  <li>Agregar el modelo en <code>backend/models/</code> si necesita acceso a Supabase.</li>
+  <li>Registrar la ruta en <code>app.js</code>.</li>
+  <li>En la app, agregar el servicio en <code>lib/services/</code> y la pantalla en <code>lib/screens/</code>.</li>
+  <li>Ejecutar <code>npm test</code> y <code>flutter analyze</code> antes de subir.</li>
+  <li>Hacer commit y push a <code>main</code>; Render despliega automáticamente.</li>
+</ol>
+<h3>Errores conocidos</h3>
+<table>
+  <tr><th>Error</th><th>Causa</th><th>Solución</th></tr>
+  <tr><td>Google Sign-In falla en build de Play</td><td>Falta registrar la huella SHA-1 de Play App Signing en Google Cloud</td><td>Crear cliente OAuth Android con la huella del certificado de firma de la app</td></tr>
+  <tr><td>Subida de archivos responde 503</td><td>Faltan variables de Cloudinary</td><td>Configurar CLOUDINARY_CLOUD_NAME, API_KEY y API_SECRET</td></tr>
+  <tr><td>Correo no se envía</td><td>SMTP mal configurado</td><td>Verificar SMTP_HOST, PORT, USER y PASS</td></tr>
+  <tr><td>App no conecta al backend</td><td>useRemote en false o URL incorrecta</td><td>Poner useRemote en true en api_config.dart</td></tr>
+  <tr><td>Código de versión duplicado en Play</td><td>versionCode ya usado</td><td>Subir el número después del + en pubspec.yaml</td></tr>
+</table>
+<h3>Dónde ver los logs</h3>
+<ul>
+  <li><b>Backend:</b> panel de Render → Logs, o consola local con <code>npm run dev</code>.</li>
+  <li><b>App:</b> <code>flutter run</code> en consola, o Sentry si está configurado.</li>
+  <li><b>Base de datos:</b> panel de Supabase → Logs y Table Editor.</li>
+</ul>
+
+<p class="kicker">12. Glosario y anexos</p>
+<h2>12. Glosario y anexos</h2>
+<table>
+  <tr><th>Término</th><th>Significado</th></tr>
+  <tr><td>AAB</td><td>Android App Bundle: formato de publicación en Play Store</td></tr>
+  <tr><td>JWT</td><td>JSON Web Token: token de sesión firmado</td></tr>
+  <tr><td>RLS</td><td>Row Level Security: políticas de acceso por fila en Supabase</td></tr>
+  <tr><td>SHA-1</td><td>Huella digital del certificado de firma</td></tr>
+  <tr><td>Render</td><td>Plataforma de hosting del backend</td></tr>
+  <tr><td>Supabase</td><td>Base de datos PostgreSQL administrada</td></tr>
+  <tr><td>Cloudinary</td><td>Servicio de almacenamiento de archivos</td></tr>
+  <tr><td>Groq</td><td>Proveedor del modelo de IA</td></tr>
+  <tr><td>Play App Signing</td><td>Firma de la app por parte de Google en Play Store</td></tr>
+</table>
+<p><b>Enlaces.</b></p>
+<ul>
+  <li>Repositorio: github.com/Hernando2007/barber-king</li>
+  <li>Backend: barber-king.onrender.com</li>
+  <li>Política de privacidad: barber-king.onrender.com/public/politica-privacidad.html</li>
+  <li>Eliminar cuenta: barber-king.onrender.com/public/eliminar-cuenta.html</li>
+  <li>Eliminar datos: barber-king.onrender.com/public/eliminar-datos.html</li>
+  <li>Panel de Render: dashboard.render.com</li>
+  <li>Panel de Supabase: supabase.com/dashboard</li>
+</ul>
+</div>
+<div class="pie"><span>Barber King · Manual de implementación</span><span>Página 9</span></div></div>
+
+</body></html>
